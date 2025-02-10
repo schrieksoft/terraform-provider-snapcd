@@ -1,0 +1,24 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Launch a test",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${file}",
+            "args": [
+                "-test.v",
+                "-test.run",
+                "^${selectedText}$"
+            ],
+            "env": {
+                "TF_ACC": "1",
+                "AZURE_TENANT_ID": "a9fd45c7-32c9-4982-b684-49c050061b0c", 
+            },
+            "buildFlags": "-v -tags=all",
+            "showLog": true,
+            //"envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}
