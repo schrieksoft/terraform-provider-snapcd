@@ -13,7 +13,6 @@ import (
 	"terraform-provider-snapcd/internal/provider"
 )
 
-
 var (
 	// these will be set by the goreleaser configuration
 	// to appropriate values for the compiled binary.
@@ -30,7 +29,7 @@ func main() {
 	flag.Parse()
 
 	opts := providerserver.ServeOpts{
-		Address: "registry.terraform.io/schriek-software/argocd",
+		Address: "registry.terraform.io/schrieksoft/argocd",
 		Debug:   debug,
 	}
 
