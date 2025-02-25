@@ -108,10 +108,10 @@ func (r *moduleResource) Schema(ctx context.Context, req resource.SchemaRequest,
 				Required: true,
 			},
 			"target_repo_revision": schema.StringAttribute{
-				Required: true,
+				Optional: true,
 			},
 			"target_repo_url": schema.StringAttribute{
-				Required: true,
+				Optional: true,
 			},
 			"target_module_relative_path": schema.StringAttribute{
 				Required: true,
