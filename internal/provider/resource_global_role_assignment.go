@@ -86,7 +86,7 @@ func (r *globalRoleAssignmentResource) Schema(ctx context.Context, req resource.
 			"role_name": schema.StringAttribute{
 				Required: true,
 				Validators: []validator.String{
-					stringvalidator.OneOf("Administrator", "IdentityAccessAdministrator"),
+					stringvalidator.OneOf("Administrator", "IdentityAccessAdministrator", "Default", "Reader", "Runner"),
 				},
 			},
 		},
