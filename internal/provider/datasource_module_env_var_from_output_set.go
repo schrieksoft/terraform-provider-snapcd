@@ -78,7 +78,12 @@ func (d *moduleEnvVarFromOutputSetDataSource) Read(ctx context.Context, req data
 	}
 
 	result, httpError := d.client.Get(fmt.Sprintf("%s/%s/%s", moduleEnvVarFromOutputSetEndpoint, data.ModuleId.ValueString(), data.Name.ValueString()))
-	err := httpError.Error
+	var err error
+	if httpError != nil {
+		err = httpError.Error
+	} else {
+		err = nil
+	}
 
 	if err != nil {
 		resp.Diagnostics.AddError(moduleEnvVarFromOutputSetDefaultError, "Error creating calling GET, unexpected error: "+err.Error())

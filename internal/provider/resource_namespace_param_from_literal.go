@@ -124,7 +124,15 @@ func (r *namespaceParamFromLiteralResource) Create(ctx context.Context, req reso
 	}
 
 	result, httpError := r.client.Post(namespaceParamFromLiteralEndpoint, jsonMap)
-	err = httpError.Error
+	if httpError != nil && httpError.StatusCode == 442 {
+		resp.Diagnostics.AddError(globalRoleAssignmentDefaultError, "The resource you are trying to create already exists. To manage it with terraform you must import it")
+		return
+	}
+	if httpError != nil {
+		err = httpError.Error
+	} else {
+		err = nil
+	}
 	if err != nil {
 		resp.Diagnostics.AddError(namespaceParamFromLiteralDefaultError, "Error calling POST, unexpected error: "+err.Error())
 		return
@@ -153,7 +161,17 @@ func (r *namespaceParamFromLiteralResource) Read(ctx context.Context, req resour
 
 	// Read API call logic
 	result, httpError := r.client.Get(fmt.Sprintf("%s/%s", namespaceParamFromLiteralEndpoint, data.Id.ValueString()))
-	err := httpError.Error
+	if httpError != nil && httpError.StatusCode == 441 {
+		// Resource was not found, so remove it from state
+		resp.State.RemoveResource(ctx)
+		return
+	}
+	var err error
+	if httpError != nil {
+		err = httpError.Error
+	} else {
+		err = nil
+	}
 	if err != nil {
 		resp.Diagnostics.AddError(namespaceParamFromLiteralDefaultError, "Error calling GET, unexpected error: "+err.Error())
 		return
@@ -192,7 +210,11 @@ func (r *namespaceParamFromLiteralResource) Update(ctx context.Context, req reso
 	}
 
 	result, httpError := r.client.Put(fmt.Sprintf("%s/%s", namespaceParamFromLiteralEndpoint, state.Id.ValueString()), jsonMap)
-	err = httpError.Error
+	if httpError != nil {
+		err = httpError.Error
+	} else {
+		err = nil
+	}
 	if err != nil {
 		resp.Diagnostics.AddError(namespaceParamFromLiteralDefaultError, "Error calling PUT, unexpected error: "+err.Error())
 		return
@@ -220,7 +242,17 @@ func (r *namespaceParamFromLiteralResource) Delete(ctx context.Context, req reso
 
 	// Delete API call logic
 	_, httpError := r.client.Delete(fmt.Sprintf("%s/%s", namespaceParamFromLiteralEndpoint, data.Id.ValueString()))
-	err := httpError.Error
+	if httpError != nil && httpError.StatusCode == 441 {
+		// Resource was not found, so remove it from state
+		resp.State.RemoveResource(ctx)
+		return
+	}
+	var err error
+	if httpError != nil {
+		err = httpError.Error
+	} else {
+		err = nil
+	}
 	if err != nil {
 		resp.Diagnostics.AddError(namespaceParamFromLiteralDefaultError, "Error calling DELETE, unexpected error: "+err.Error())
 		return
@@ -231,7 +263,12 @@ func (r *namespaceParamFromLiteralResource) ImportState(ctx context.Context, req
 	var data namespaceParamFromLiteralModel
 
 	result, httpError := r.client.Get(fmt.Sprintf("%s/%s", namespaceParamFromLiteralEndpoint, req.ID))
-	err := httpError.Error
+	var err error
+	if httpError != nil {
+		err = httpError.Error
+	} else {
+		err = nil
+	}
 	if err != nil {
 		resp.Diagnostics.AddError(namespaceParamFromLiteralDefaultError, "Error calling GET, unexpected error: "+err.Error())
 		return

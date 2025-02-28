@@ -100,7 +100,15 @@ func (r *groupResource) Create(ctx context.Context, req resource.CreateRequest, 
 	}
 
 	result, httpError := r.client.Post(groupEndpoint, jsonMap)
-	err = httpError.Error
+	if httpError != nil && httpError.StatusCode == 442 {
+		resp.Diagnostics.AddError(globalRoleAssignmentDefaultError, "The resource you are trying to create already exists. To manage it with terraform you must import it")
+		return
+	}
+	if httpError != nil {
+		err = httpError.Error
+	} else {
+		err = nil
+	}
 	if err != nil {
 		resp.Diagnostics.AddError(groupDefaultError, "Error calling POST, unexpected error: "+err.Error())
 		return
@@ -129,7 +137,17 @@ func (r *groupResource) Read(ctx context.Context, req resource.ReadRequest, resp
 
 	// Read API call logic
 	result, httpError := r.client.Get(fmt.Sprintf("%s/%s", groupEndpoint, data.Id.ValueString()))
-	err := httpError.Error
+	if httpError != nil && httpError.StatusCode == 441 {
+		// Resource was not found, so remove it from state
+		resp.State.RemoveResource(ctx)
+		return
+	}
+	var err error
+	if httpError != nil {
+		err = httpError.Error
+	} else {
+		err = nil
+	}
 	if err != nil {
 		resp.Diagnostics.AddError(groupDefaultError, "Error calling GET, unexpected error: "+err.Error())
 		return
@@ -168,7 +186,11 @@ func (r *groupResource) Update(ctx context.Context, req resource.UpdateRequest, 
 	}
 
 	result, httpError := r.client.Put(fmt.Sprintf("%s/%s", groupEndpoint, state.Id.ValueString()), jsonMap)
-	err = httpError.Error
+	if httpError != nil {
+		err = httpError.Error
+	} else {
+		err = nil
+	}
 	if err != nil {
 		resp.Diagnostics.AddError(groupDefaultError, "Error calling PUT, unexpected error: "+err.Error())
 		return
@@ -196,7 +218,17 @@ func (r *groupResource) Delete(ctx context.Context, req resource.DeleteRequest, 
 
 	// Delete API call logic
 	_, httpError := r.client.Delete(fmt.Sprintf("%s/%s", groupEndpoint, data.Id.ValueString()))
-	err := httpError.Error
+	if httpError != nil && httpError.StatusCode == 441 {
+		// Resource was not found, so remove it from state
+		resp.State.RemoveResource(ctx)
+		return
+	}
+	var err error
+	if httpError != nil {
+		err = httpError.Error
+	} else {
+		err = nil
+	}
 	if err != nil {
 		resp.Diagnostics.AddError(groupDefaultError, "Error calling DELETE, unexpected error: "+err.Error())
 		return
@@ -207,7 +239,12 @@ func (r *groupResource) ImportState(ctx context.Context, req resource.ImportStat
 	var data groupModel
 
 	result, httpError := r.client.Get(fmt.Sprintf("%s/%s", groupEndpoint, req.ID))
-	err := httpError.Error
+	var err error
+	if httpError != nil {
+		err = httpError.Error
+	} else {
+		err = nil
+	}
 	if err != nil {
 		resp.Diagnostics.AddError(groupDefaultError, "Error calling GET, unexpected error: "+err.Error())
 		return

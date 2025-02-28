@@ -16,6 +16,11 @@ import (
 	"time"
 )
 
+
+const Status441EntityNotFound = 441
+const Status442EntityAlreadyExists = 441
+
+
 type HttpError struct {
 	StatusCode int
 	Error      error
@@ -201,6 +206,10 @@ Request:
 
 	if response.StatusCode == 441 {
 		return nil, &HttpError{StatusCode: 441, Error: errors.New("Status441EntityNotFound")}
+	}
+
+	if response.StatusCode == 442 {
+		return nil, &HttpError{StatusCode: 442, Error: errors.New("Status442EntityAlreadyExists")}
 	}
 
 	if response.StatusCode < 200 || response.StatusCode >= 300 {

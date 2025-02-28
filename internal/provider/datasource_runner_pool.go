@@ -69,7 +69,12 @@ func (d *runnerPoolDataSource) Read(ctx context.Context, req datasource.ReadRequ
 	}
 
 	result, httpError := d.client.Get(fmt.Sprintf("%s/ByName/%s", runnerPoolEndpoint, data.Name.ValueString()))
-	err := httpError.Error
+	var err error
+	if httpError != nil {
+		err = httpError.Error
+	} else {
+		err = nil
+	}
 
 	if err != nil {
 		resp.Diagnostics.AddError(runnerPoolDefaultError, "Error creating calling GET, unexpected error: "+err.Error())

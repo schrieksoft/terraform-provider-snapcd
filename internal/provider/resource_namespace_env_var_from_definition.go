@@ -116,7 +116,15 @@ func (r *namespaceEnvVarFromDefinitionResource) Create(ctx context.Context, req 
 	}
 
 	result, httpError := r.client.Post(namespaceEnvVarFromDefinitionEndpoint, jsonMap)
-	err = httpError.Error
+	if httpError != nil && httpError.StatusCode == 442 {
+		resp.Diagnostics.AddError(globalRoleAssignmentDefaultError, "The resource you are trying to create already exists. To manage it with terraform you must import it")
+		return
+	}
+	if httpError != nil {
+		err = httpError.Error
+	} else {
+		err = nil
+	}
 	if err != nil {
 		resp.Diagnostics.AddError(namespaceEnvVarFromDefinitionDefaultError, "Error calling POST, unexpected error: "+err.Error())
 		return
@@ -145,7 +153,17 @@ func (r *namespaceEnvVarFromDefinitionResource) Read(ctx context.Context, req re
 
 	// Read API call logic
 	result, httpError := r.client.Get(fmt.Sprintf("%s/%s", namespaceEnvVarFromDefinitionEndpoint, data.Id.ValueString()))
-	err := httpError.Error
+	if httpError != nil && httpError.StatusCode == 441 {
+		// Resource was not found, so remove it from state
+		resp.State.RemoveResource(ctx)
+		return
+	}
+	var err error
+	if httpError != nil {
+		err = httpError.Error
+	} else {
+		err = nil
+	}
 	if err != nil {
 		resp.Diagnostics.AddError(namespaceEnvVarFromDefinitionDefaultError, "Error calling GET, unexpected error: "+err.Error())
 		return
@@ -184,7 +202,11 @@ func (r *namespaceEnvVarFromDefinitionResource) Update(ctx context.Context, req 
 	}
 
 	result, httpError := r.client.Put(fmt.Sprintf("%s/%s", namespaceEnvVarFromDefinitionEndpoint, state.Id.ValueString()), jsonMap)
-	err = httpError.Error
+	if httpError != nil {
+		err = httpError.Error
+	} else {
+		err = nil
+	}
 	if err != nil {
 		resp.Diagnostics.AddError(namespaceEnvVarFromDefinitionDefaultError, "Error calling PUT, unexpected error: "+err.Error())
 		return
@@ -212,7 +234,17 @@ func (r *namespaceEnvVarFromDefinitionResource) Delete(ctx context.Context, req 
 
 	// Delete API call logic
 	_, httpError := r.client.Delete(fmt.Sprintf("%s/%s", namespaceEnvVarFromDefinitionEndpoint, data.Id.ValueString()))
-	err := httpError.Error
+	if httpError != nil && httpError.StatusCode == 441 {
+		// Resource was not found, so remove it from state
+		resp.State.RemoveResource(ctx)
+		return
+	}
+	var err error
+	if httpError != nil {
+		err = httpError.Error
+	} else {
+		err = nil
+	}
 	if err != nil {
 		resp.Diagnostics.AddError(namespaceEnvVarFromDefinitionDefaultError, "Error calling DELETE, unexpected error: "+err.Error())
 		return
@@ -223,7 +255,12 @@ func (r *namespaceEnvVarFromDefinitionResource) ImportState(ctx context.Context,
 	var data namespaceEnvVarFromDefinitionModel
 
 	result, httpError := r.client.Get(fmt.Sprintf("%s/%s", namespaceEnvVarFromDefinitionEndpoint, req.ID))
-	err := httpError.Error
+	var err error
+	if httpError != nil {
+		err = httpError.Error
+	} else {
+		err = nil
+	}
 	if err != nil {
 		resp.Diagnostics.AddError(namespaceEnvVarFromDefinitionDefaultError, "Error calling GET, unexpected error: "+err.Error())
 		return

@@ -14,10 +14,31 @@ resource "snapcd_service_principal" "this" {
   client_secret  = "veryverysecret"
 }`)
 
+
 func TestAccResourceServicePrincipal_Create(t *testing.T) {
 	resource.UnitTest(t, resource.TestCase{
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
+			{
+				Config: providerConfig + servicePrincipalCreateConfig,
+				Check: resource.ComposeTestCheckFunc(
+					resource.TestCheckResourceAttrSet("snapcd_service_principal.this", "id"),
+				),
+			},
+		},
+	})
+}
+
+func TestAccResourceServicePrincipal_Create_CreateAgain(t *testing.T) {
+	resource.UnitTest(t, resource.TestCase{
+		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
+		Steps: []resource.TestStep{
+			{
+				Config: providerConfig + servicePrincipalCreateConfig,
+				Check: resource.ComposeTestCheckFunc(
+					resource.TestCheckResourceAttrSet("snapcd_service_principal.this", "id"),
+				),
+			},
 			{
 				Config: providerConfig + servicePrincipalCreateConfig,
 				Check: resource.ComposeTestCheckFunc(

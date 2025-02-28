@@ -81,7 +81,12 @@ func (d *moduleParamFromOutputDataSource) Read(ctx context.Context, req datasour
 	}
 
 	result, httpError := d.client.Get(fmt.Sprintf("%s/%s/%s", moduleParamFromOutputEndpoint, data.ModuleId.ValueString(), data.Name.ValueString()))
-	err := httpError.Error
+	var err error
+	if httpError != nil {
+		err = httpError.Error
+	} else {
+		err = nil
+	}
 
 	if err != nil {
 		resp.Diagnostics.AddError(moduleParamFromOutputDefaultError, "Error creating calling GET, unexpected error: "+err.Error())

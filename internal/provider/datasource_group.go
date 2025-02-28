@@ -72,7 +72,12 @@ func (d *groupDataSource) Read(ctx context.Context, req datasource.ReadRequest, 
 	}
 
 	result, httpError := d.client.Get(fmt.Sprintf("%s/ByName/%s", groupEndpoint, data.Name.ValueString()))
-	err := httpError.Error
+	var err error
+	if httpError != nil {
+		err = httpError.Error
+	} else {
+		err = nil
+	}
 
 	if err != nil {
 		resp.Diagnostics.AddError(groupDefaultError, "Error creating calling GET, unexpected error: "+err.Error())

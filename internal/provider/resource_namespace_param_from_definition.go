@@ -116,7 +116,15 @@ func (r *namespaceParamFromDefinitionResource) Create(ctx context.Context, req r
 	}
 
 	result, httpError := r.client.Post(namespaceParamFromDefinitionEndpoint, jsonMap)
-	err = httpError.Error
+	if httpError != nil && httpError.StatusCode == 442 {
+		resp.Diagnostics.AddError(globalRoleAssignmentDefaultError, "The resource you are trying to create already exists. To manage it with terraform you must import it")
+		return
+	}
+	if httpError != nil {
+		err = httpError.Error
+	} else {
+		err = nil
+	}
 	if err != nil {
 		resp.Diagnostics.AddError(namespaceParamFromDefinitionDefaultError, "Error calling POST, unexpected error: "+err.Error())
 		return
@@ -145,7 +153,17 @@ func (r *namespaceParamFromDefinitionResource) Read(ctx context.Context, req res
 
 	// Read API call logic
 	result, httpError := r.client.Get(fmt.Sprintf("%s/%s", namespaceParamFromDefinitionEndpoint, data.Id.ValueString()))
-	err := httpError.Error
+	if httpError != nil && httpError.StatusCode == 441 {
+		// Resource was not found, so remove it from state
+		resp.State.RemoveResource(ctx)
+		return
+	}
+	var err error
+	if httpError != nil {
+		err = httpError.Error
+	} else {
+		err = nil
+	}
 	if err != nil {
 		resp.Diagnostics.AddError(namespaceParamFromDefinitionDefaultError, "Error calling GET, unexpected error: "+err.Error())
 		return
@@ -184,7 +202,11 @@ func (r *namespaceParamFromDefinitionResource) Update(ctx context.Context, req r
 	}
 
 	result, httpError := r.client.Put(fmt.Sprintf("%s/%s", namespaceParamFromDefinitionEndpoint, state.Id.ValueString()), jsonMap)
-	err = httpError.Error
+	if httpError != nil {
+		err = httpError.Error
+	} else {
+		err = nil
+	}
 	if err != nil {
 		resp.Diagnostics.AddError(namespaceParamFromDefinitionDefaultError, "Error calling PUT, unexpected error: "+err.Error())
 		return
@@ -212,7 +234,17 @@ func (r *namespaceParamFromDefinitionResource) Delete(ctx context.Context, req r
 
 	// Delete API call logic
 	_, httpError := r.client.Delete(fmt.Sprintf("%s/%s", namespaceParamFromDefinitionEndpoint, data.Id.ValueString()))
-	err := httpError.Error
+	if httpError != nil && httpError.StatusCode == 441 {
+		// Resource was not found, so remove it from state
+		resp.State.RemoveResource(ctx)
+		return
+	}
+	var err error
+	if httpError != nil {
+		err = httpError.Error
+	} else {
+		err = nil
+	}
 	if err != nil {
 		resp.Diagnostics.AddError(namespaceParamFromDefinitionDefaultError, "Error calling DELETE, unexpected error: "+err.Error())
 		return
@@ -223,7 +255,12 @@ func (r *namespaceParamFromDefinitionResource) ImportState(ctx context.Context, 
 	var data namespaceParamFromDefinitionModel
 
 	result, httpError := r.client.Get(fmt.Sprintf("%s/%s", namespaceParamFromDefinitionEndpoint, req.ID))
-	err := httpError.Error
+	var err error
+	if httpError != nil {
+		err = httpError.Error
+	} else {
+		err = nil
+	}
 	if err != nil {
 		resp.Diagnostics.AddError(namespaceParamFromDefinitionDefaultError, "Error calling GET, unexpected error: "+err.Error())
 		return
