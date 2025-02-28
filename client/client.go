@@ -211,7 +211,7 @@ Request:
 	}
 
 	if response.StatusCode < 200 || response.StatusCode >= 300 {
-		return nil, &HttpError{StatusCode: Status441EntityNotFound, Error: fmt.Errorf("unexpected status code: %d (%s). Response body: %s", response.StatusCode, http.StatusText(response.StatusCode), string(responseBody))}
+		return nil, &HttpError{StatusCode: response.StatusCode, Error: fmt.Errorf("unexpected status code: %d (%s). Response body: %s", response.StatusCode, http.StatusText(response.StatusCode), string(responseBody))}
 	}
 
 	var result map[string]interface{}
