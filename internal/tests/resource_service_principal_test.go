@@ -13,8 +13,6 @@ var servicePrincipalCreateConfig = appendRandomString(`
 resource "snapcd_service_principal" "this" { 
   client_id  	 = "somevalue%s"
   client_secret  = "veryverysecret"
-  scopes    	 = ["foo","bar","baz"]
-  display_name   = "foo"
 }`)
 
 func TestAccResourceServicePrincipal_Create(t *testing.T) {
@@ -47,8 +45,6 @@ func TestAccResourceServicePrincipal_CreateUpdate(t *testing.T) {
 resource "snapcd_service_principal" "this" { 
   client_id  	 = "someNEWvalue%s"
   client_secret  = "veryverysecret"
-  scopes    	 = ["foo","bar","ban", "baz"]
-  display_name   = "foo"
 }`),
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_service_principal.this", "id"),
@@ -75,8 +71,6 @@ func TestAccResourceServicePrincipal_CreateUpdateNewSecret(t *testing.T) {
 resource "snapcd_service_principal" "this" { 
   client_id  	 = "someNEWvalue%s"
   client_secret  = "veryveryNEWsecret"
-  scopes    	 = ["foo","bar","ban", "baz"]
-  display_name   = "foo"
 }`),
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_service_principal.this", "id"),

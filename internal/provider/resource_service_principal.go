@@ -22,6 +22,7 @@ var servicePrincipalDefaultError = fmt.Sprintf("snapcd_service_principal error")
 
 var servicePrincipalEndpoint = "/api/Identity/ServicePrincipal"
 
+
 var _ resource.Resource = (*servicePrincipalResource)(nil)
 
 func ServicePrincipalResource() resource.Resource {
@@ -60,8 +61,6 @@ type servicePrincipalModel struct {
 	Id               types.String `tfsdk:"id"`
 	ClientId         types.String `tfsdk:"client_id"`
 	ClientSecret     types.String `tfsdk:"client_secret"`
-	DisplayName      types.String `tfsdk:"display_name"`
-	Scopes           types.List   `tfsdk:"scopes"`
 }
 
 func (r *servicePrincipalResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
@@ -77,17 +76,10 @@ func (r *servicePrincipalResource) Schema(ctx context.Context, req resource.Sche
 				Required: true,
 			},
 			"client_secret": schema.StringAttribute{
-				Optional: true,
-				PlanModifiers: []planmodifier.String{
-					stringplanmodifier.UseStateForUnknown(),
-				},
-			},
-			"display_name": schema.StringAttribute{
-				Optional: true,
-			},
-			"scopes": schema.ListAttribute{
-				ElementType: types.StringType,
-				Optional:    true,
+				Required: true,
+				// PlanModifiers: []planmodifier.String{
+				// 	stringplanmodifier.UseStateForUnknown(),
+				// },
 			},
 		},
 	}
@@ -141,7 +133,9 @@ func (r *servicePrincipalResource) Read(ctx context.Context, req resource.ReadRe
 	}
 
 	// Read API call logic
-	result, err := r.client.Get(fmt.Sprintf("%s/%s", servicePrincipalEndpoint, data.Id.ValueString()))
+	endpoint := fmt.Sprintf("%s/%s/%s", servicePrincipalEndpoint+"/WithVerifySecret", data.Id.ValueString(), data.ClientSecret.ValueString())
+
+	result, err := r.client.Get(endpoint)
 	if err != nil {
 		resp.Diagnostics.AddError(servicePrincipalDefaultError, "Error calling GET, unexpected error: "+err.Error())
 		return
@@ -157,6 +151,7 @@ func (r *servicePrincipalResource) Read(ctx context.Context, req resource.ReadRe
 	// Save updated data into Terraform state
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
+
 
 func (r *servicePrincipalResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
 	var data servicePrincipalModel
