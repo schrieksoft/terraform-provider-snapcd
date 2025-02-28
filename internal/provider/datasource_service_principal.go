@@ -11,7 +11,6 @@ import (
 	utils "terraform-provider-snapcd/utils"
 
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
-	"github.com/hashicorp/terraform-plugin-framework/types"
 
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
 )
@@ -57,16 +56,6 @@ func (d *servicePrincipalDataSource) Schema(ctx context.Context, req datasource.
 			},
 			"client_id": schema.StringAttribute{
 				Required: true,
-			},
-			"client_secret": schema.StringAttribute{
-				Computed: true,
-			},
-			"display_name": schema.StringAttribute{
-				Computed: true,
-			},
-			"scopes": schema.ListAttribute{
-				ElementType: types.StringType,
-				Computed:    true,
 			},
 		},
 	}

@@ -133,7 +133,12 @@ func (r *servicePrincipalResource) Read(ctx context.Context, req resource.ReadRe
 	}
 
 	// Read API call logic
-	endpoint := fmt.Sprintf("%s/%s/%s", servicePrincipalEndpoint+"/WithVerifySecret", data.Id.ValueString(), data.ClientSecret.ValueString())
+	endpoint := fmt.Sprintf("%s/WithVerifySecret/%s", servicePrincipalEndpoint, data.Id.ValueString())
+
+	// Append the query parameter only if ClientSecret is not empty
+	if data.ClientSecret.ValueString() != "" {
+		endpoint = fmt.Sprintf("%s?secret=%s", endpoint, data.ClientSecret.ValueString())
+	}
 
 	result, err := r.client.Get(endpoint)
 	if err != nil {
