@@ -1,5 +1,3 @@
-// Copyright (c) HashiCorp, Inc.
-
 package client
 
 import (
@@ -17,6 +15,11 @@ import (
 	"sync"
 	"time"
 )
+
+type HttpError struct {
+	StatusCode int
+	Error      error
+}
 
 type Client struct {
 	// AccessTokenScope           string
@@ -68,7 +71,7 @@ type TokenResponse struct {
 	ExpiresIn   int    `json:"expires_in"`
 }
 
-func getAccessToken(serverUrl string, clientId string, clientSecret string) (*TokenResponse, error) {
+func getAccessToken(serverUrl string, clientId string, clientSecret string) (*TokenResponse, *HttpError) {
 	tokenURL := fmt.Sprintf("%s/connect/token", serverUrl)
 
 	// Prepare form data
@@ -84,7 +87,7 @@ func getAccessToken(serverUrl string, clientId string, clientSecret string) (*To
 	// Create a new request with form-encoded data
 	req, err := http.NewRequest("POST", tokenURL, bytes.NewBufferString(data.Encode()))
 	if err != nil {
-		return nil, err
+		return nil, &HttpError{StatusCode: 0, Error: err}
 	}
 
 	// Set headers
@@ -96,25 +99,25 @@ func getAccessToken(serverUrl string, clientId string, clientSecret string) (*To
 
 	resp, err := client.Do(req.WithContext(ctx))
 	if err != nil {
-		return nil, err
+		return nil, &HttpError{StatusCode: 0, Error: err}
 	}
 	defer resp.Body.Close()
 
 	// Ensure success status code
 	if resp.StatusCode != http.StatusOK {
-		return nil, fmt.Errorf("unexpected status code: %d", resp.StatusCode)
+		return nil, &HttpError{StatusCode: 0, Error: fmt.Errorf("unexpected status code: %d", resp.StatusCode)}
 	}
 
 	// Read response body
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		return nil, err
+		return nil, &HttpError{StatusCode: 0, Error: err}
 	}
 
 	// Parse JSON response
 	var tokenResp TokenResponse
 	if err := json.Unmarshal(body, &tokenResp); err != nil {
-		return nil, err
+		return nil, &HttpError{StatusCode: 0, Error: err}
 	}
 
 	return &tokenResp, nil
@@ -142,7 +145,7 @@ func getAccessToken(serverUrl string, clientId string, clientSecret string) (*To
 // 	}, nil
 // }
 
-func (client *Client) makeRequest(method string, path string, body []byte) (map[string]interface{}, error) {
+func (client *Client) makeRequest(method string, path string, body []byte) (map[string]interface{}, *HttpError) {
 	ticker := time.Tick(1 * time.Second)
 
 	// if IsHealthy, immediately go to request
@@ -164,7 +167,7 @@ func (client *Client) makeRequest(method string, path string, body []byte) (map[
 			}
 			if IsTimedOut {
 				mu.Unlock()
-				return nil, errors.New("Health check timed out after " + strconv.Itoa(client.HealthCheckTimeoutSeconds) + " seconds. Service is not healthy.")
+				return nil, &HttpError{StatusCode: 0, Error: errors.New("Health check timed out after " + strconv.Itoa(client.HealthCheckTimeoutSeconds) + " seconds. Service is not healthy.")}
 			}
 			mu.Unlock()
 		}
@@ -173,7 +176,7 @@ func (client *Client) makeRequest(method string, path string, body []byte) (map[
 Request:
 	req, err := http.NewRequest(method, client.Url+path, bytes.NewBuffer(body))
 	if err != nil {
-		return nil, err
+		return nil, &HttpError{StatusCode: 441, Error: errors.New("Status441EntityNotFound")}
 	}
 
 	req.Header.Set("Authorization", "Bearer "+client.AccessToken)
@@ -186,20 +189,22 @@ Request:
 
 	response, err := httpClient.Do(req)
 	if err != nil {
-		return nil, err
+		return nil, &HttpError{StatusCode: 0, Error: err}
 	}
 
 	defer response.Body.Close()
 
 	responseBody, err := io.ReadAll(response.Body)
 	if err != nil {
-		return nil, err
+		return nil, &HttpError{StatusCode: 0, Error: err}
 	}
 
-	// Check the HTTP response status code
-	// TODO deal with "already exists" error on create
+	if response.StatusCode == 441 {
+		return nil, &HttpError{StatusCode: 441, Error: errors.New("Status441EntityNotFound")}
+	}
+
 	if response.StatusCode < 200 || response.StatusCode >= 300 {
-		return nil, fmt.Errorf("unexpected status code: %d (%s). Response body: %s", response.StatusCode, http.StatusText(response.StatusCode), string(responseBody))
+		return nil, &HttpError{StatusCode: 441, Error: fmt.Errorf("unexpected status code: %d (%s). Response body: %s", response.StatusCode, http.StatusText(response.StatusCode), string(responseBody))}
 	}
 
 	var result map[string]interface{}
@@ -207,36 +212,36 @@ Request:
 	if len(responseBody) != 0 {
 		err = json.Unmarshal(responseBody, &result)
 		if err != nil {
-			return nil, err
+			return nil, &HttpError{StatusCode: 0, Error: err}
 		}
 	}
 
 	return result, nil
 }
 
-func (client *Client) Post(path string, data interface{}) (map[string]interface{}, error) {
+func (client *Client) Post(path string, data interface{}) (map[string]interface{}, *HttpError) {
 	body, err := json.Marshal(data)
 	if err != nil {
-		return nil, err
+		return nil, &HttpError{StatusCode: 0, Error: err}
 	}
 
 	return client.makeRequest(http.MethodPost, path, body)
 }
 
-func (client *Client) Get(path string) (map[string]interface{}, error) {
+func (client *Client) Get(path string) (map[string]interface{}, *HttpError) {
 	return client.makeRequest(http.MethodGet, path, nil)
 }
 
-func (client *Client) Put(path string, data interface{}) (map[string]interface{}, error) {
+func (client *Client) Put(path string, data interface{}) (map[string]interface{}, *HttpError) {
 	body, err := json.Marshal(data)
 	if err != nil {
-		return nil, err
+		return nil, &HttpError{StatusCode: 0, Error: err}
 	}
 
 	return client.makeRequest(http.MethodPut, path, body)
 }
 
-func (client *Client) Delete(path string) (map[string]interface{}, error) {
+func (client *Client) Delete(path string) (map[string]interface{}, *HttpError) {
 	return client.makeRequest(http.MethodDelete, path, nil)
 }
 

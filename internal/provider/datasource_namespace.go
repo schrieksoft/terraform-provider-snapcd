@@ -1,5 +1,3 @@
-// Copyright (c) HashiCorp, Inc.
-
 package provider
 
 import (
@@ -144,7 +142,8 @@ func (d *namespaceDataSource) Read(ctx context.Context, req datasource.ReadReque
 		return
 	}
 
-	result, err := d.client.Get(fmt.Sprintf("%s/%s/%s", namespaceEndpoint, data.StackId.ValueString(), data.Name.ValueString()))
+	result, httpError := d.client.Get(fmt.Sprintf("%s/%s/%s", namespaceEndpoint, data.StackId.ValueString(), data.Name.ValueString()))
+	err := httpError.Error
 
 	if err != nil {
 		resp.Diagnostics.AddError(namespaceDefaultError, "Error creating calling GET, unexpected error: "+err.Error())

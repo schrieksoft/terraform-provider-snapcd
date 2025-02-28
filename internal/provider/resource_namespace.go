@@ -1,5 +1,3 @@
-// Copyright (c) HashiCorp, Inc.
-
 package provider
 
 import (
@@ -205,7 +203,8 @@ func (r *namespaceResource) Create(ctx context.Context, req resource.CreateReque
 		return
 	}
 
-	result, err := r.client.Post(namespaceEndpoint, jsonMap)
+	result, httpError := r.client.Post(namespaceEndpoint, jsonMap)
+	err = httpError.Error
 	if err != nil {
 		resp.Diagnostics.AddError(namespaceDefaultError, "Error calling POST, unexpected error: "+err.Error())
 		return
@@ -233,7 +232,8 @@ func (r *namespaceResource) Read(ctx context.Context, req resource.ReadRequest, 
 	}
 
 	// Read API call logic
-	result, err := r.client.Get(fmt.Sprintf("%s/%s", namespaceEndpoint, data.Id.ValueString()))
+	result, httpError := r.client.Get(fmt.Sprintf("%s/%s", namespaceEndpoint, data.Id.ValueString()))
+	err := httpError.Error
 	if err != nil {
 		resp.Diagnostics.AddError(namespaceDefaultError, "Error calling GET, unexpected error: "+err.Error())
 		return
@@ -271,7 +271,8 @@ func (r *namespaceResource) Update(ctx context.Context, req resource.UpdateReque
 		resp.Diagnostics.AddError(namespaceDefaultError, "Failed to convert json to plan: "+err.Error())
 	}
 
-	result, err := r.client.Put(fmt.Sprintf("%s/%s", namespaceEndpoint, state.Id.ValueString()), jsonMap)
+	result, httpError := r.client.Put(fmt.Sprintf("%s/%s", namespaceEndpoint, state.Id.ValueString()), jsonMap)
+	err = httpError.Error
 	if err != nil {
 		resp.Diagnostics.AddError(namespaceDefaultError, "Error calling PUT, unexpected error: "+err.Error())
 		return
@@ -298,7 +299,8 @@ func (r *namespaceResource) Delete(ctx context.Context, req resource.DeleteReque
 	}
 
 	// Delete API call logic
-	_, err := r.client.Delete(fmt.Sprintf("%s/%s", namespaceEndpoint, data.Id.ValueString()))
+	_, httpError := r.client.Delete(fmt.Sprintf("%s/%s", namespaceEndpoint, data.Id.ValueString()))
+	err := httpError.Error
 	if err != nil {
 		resp.Diagnostics.AddError(namespaceDefaultError, "Error calling DELETE, unexpected error: "+err.Error())
 		return
@@ -308,7 +310,8 @@ func (r *namespaceResource) Delete(ctx context.Context, req resource.DeleteReque
 func (r *namespaceResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
 	var data namespaceModel
 
-	result, err := r.client.Get(fmt.Sprintf("%s/%s", namespaceEndpoint, req.ID))
+	result, httpError := r.client.Get(fmt.Sprintf("%s/%s", namespaceEndpoint, req.ID))
+	err := httpError.Error
 	if err != nil {
 		resp.Diagnostics.AddError(namespaceDefaultError, "Error calling GET, unexpected error: "+err.Error())
 		return

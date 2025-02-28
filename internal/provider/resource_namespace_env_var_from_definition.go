@@ -1,5 +1,3 @@
-// Copyright (c) HashiCorp, Inc.
-
 package provider
 
 import (
@@ -117,7 +115,8 @@ func (r *namespaceEnvVarFromDefinitionResource) Create(ctx context.Context, req 
 		return
 	}
 
-	result, err := r.client.Post(namespaceEnvVarFromDefinitionEndpoint, jsonMap)
+	result, httpError := r.client.Post(namespaceEnvVarFromDefinitionEndpoint, jsonMap)
+	err = httpError.Error
 	if err != nil {
 		resp.Diagnostics.AddError(namespaceEnvVarFromDefinitionDefaultError, "Error calling POST, unexpected error: "+err.Error())
 		return
@@ -145,7 +144,8 @@ func (r *namespaceEnvVarFromDefinitionResource) Read(ctx context.Context, req re
 	}
 
 	// Read API call logic
-	result, err := r.client.Get(fmt.Sprintf("%s/%s", namespaceEnvVarFromDefinitionEndpoint, data.Id.ValueString()))
+	result, httpError := r.client.Get(fmt.Sprintf("%s/%s", namespaceEnvVarFromDefinitionEndpoint, data.Id.ValueString()))
+	err := httpError.Error
 	if err != nil {
 		resp.Diagnostics.AddError(namespaceEnvVarFromDefinitionDefaultError, "Error calling GET, unexpected error: "+err.Error())
 		return
@@ -183,7 +183,8 @@ func (r *namespaceEnvVarFromDefinitionResource) Update(ctx context.Context, req 
 		resp.Diagnostics.AddError(namespaceEnvVarFromDefinitionDefaultError, "Failed to convert json to plan: "+err.Error())
 	}
 
-	result, err := r.client.Put(fmt.Sprintf("%s/%s", namespaceEnvVarFromDefinitionEndpoint, state.Id.ValueString()), jsonMap)
+	result, httpError := r.client.Put(fmt.Sprintf("%s/%s", namespaceEnvVarFromDefinitionEndpoint, state.Id.ValueString()), jsonMap)
+	err = httpError.Error
 	if err != nil {
 		resp.Diagnostics.AddError(namespaceEnvVarFromDefinitionDefaultError, "Error calling PUT, unexpected error: "+err.Error())
 		return
@@ -210,7 +211,8 @@ func (r *namespaceEnvVarFromDefinitionResource) Delete(ctx context.Context, req 
 	}
 
 	// Delete API call logic
-	_, err := r.client.Delete(fmt.Sprintf("%s/%s", namespaceEnvVarFromDefinitionEndpoint, data.Id.ValueString()))
+	_, httpError := r.client.Delete(fmt.Sprintf("%s/%s", namespaceEnvVarFromDefinitionEndpoint, data.Id.ValueString()))
+	err := httpError.Error
 	if err != nil {
 		resp.Diagnostics.AddError(namespaceEnvVarFromDefinitionDefaultError, "Error calling DELETE, unexpected error: "+err.Error())
 		return
@@ -220,7 +222,8 @@ func (r *namespaceEnvVarFromDefinitionResource) Delete(ctx context.Context, req 
 func (r *namespaceEnvVarFromDefinitionResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
 	var data namespaceEnvVarFromDefinitionModel
 
-	result, err := r.client.Get(fmt.Sprintf("%s/%s", namespaceEnvVarFromDefinitionEndpoint, req.ID))
+	result, httpError := r.client.Get(fmt.Sprintf("%s/%s", namespaceEnvVarFromDefinitionEndpoint, req.ID))
+	err := httpError.Error
 	if err != nil {
 		resp.Diagnostics.AddError(namespaceEnvVarFromDefinitionDefaultError, "Error calling GET, unexpected error: "+err.Error())
 		return

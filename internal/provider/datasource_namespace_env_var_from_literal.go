@@ -1,5 +1,3 @@
-// Copyright (c) HashiCorp, Inc.
-
 package provider
 
 import (
@@ -82,7 +80,8 @@ func (d *namespaceEnvVarFromLiteralDataSource) Read(ctx context.Context, req dat
 		return
 	}
 
-	result, err := d.client.Get(fmt.Sprintf("%s/%s/%s", namespaceEnvVarFromLiteralEndpoint, data.NamespaceId.ValueString(), data.Name.ValueString()))
+	result, httpError := d.client.Get(fmt.Sprintf("%s/%s/%s", namespaceEnvVarFromLiteralEndpoint, data.NamespaceId.ValueString(), data.Name.ValueString()))
+	err := httpError.Error
 
 	if err != nil {
 		resp.Diagnostics.AddError(namespaceEnvVarFromLiteralDefaultError, "Error creating calling GET, unexpected error: "+err.Error())

@@ -1,4 +1,3 @@
-// Copyright (c) HashiCorp, Inc.
 // SPDX-License-Identifier: MPL-2.0
 
 package tests
@@ -43,7 +42,7 @@ func TestAccResourceTypeRoleAssignment_CreateUpdate(t *testing.T) {
 				),
 			},
 			{
-				Config: providerConfig +  servicePrincipalCreateConfig + `
+				Config: providerConfig + servicePrincipalCreateConfig + `
 
 resource "snapcd_type_role_assignment" "this" { 
   principal_id   		  = snapcd_service_principal.this.id

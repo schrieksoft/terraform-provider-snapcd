@@ -1,4 +1,3 @@
-// Copyright (c) HashiCorp, Inc.
 // SPDX-License-Identifier: MPL-2.0
 
 package tests
@@ -72,7 +71,6 @@ func TestAccResourceGroupMember_Import(t *testing.T) {
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_group_member.this", "id"),
 				),
-
 			},
 			{
 				ResourceName:      "snapcd_group_member.this",

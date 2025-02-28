@@ -1,5 +1,3 @@
-// Copyright (c) HashiCorp, Inc.
-
 package provider
 
 import (
@@ -110,7 +108,8 @@ func (r *groupMemberResource) Create(ctx context.Context, req resource.CreateReq
 		return
 	}
 
-	result, err := r.client.Post(groupMemberEndpoint, jsonMap)
+	result, httpError := r.client.Post(groupMemberEndpoint, jsonMap)
+	err = httpError.Error
 	if err != nil {
 		resp.Diagnostics.AddError(groupMemberDefaultError, "Error calling POST, unexpected error: "+err.Error())
 		return
@@ -138,7 +137,8 @@ func (r *groupMemberResource) Read(ctx context.Context, req resource.ReadRequest
 	}
 
 	// Read API call logic
-	result, err := r.client.Get(fmt.Sprintf("%s/%s", groupMemberEndpoint, data.Id.ValueString()))
+	result, httpError := r.client.Get(fmt.Sprintf("%s/%s", groupMemberEndpoint, data.Id.ValueString()))
+	err := httpError.Error
 	if err != nil {
 		resp.Diagnostics.AddError(groupMemberDefaultError, "Error calling GET, unexpected error: "+err.Error())
 		return
@@ -176,7 +176,8 @@ func (r *groupMemberResource) Update(ctx context.Context, req resource.UpdateReq
 		resp.Diagnostics.AddError(groupMemberDefaultError, "Failed to convert json to plan: "+err.Error())
 	}
 
-	result, err := r.client.Put(fmt.Sprintf("%s/%s", groupMemberEndpoint, state.Id.ValueString()), jsonMap)
+	result, httpError := r.client.Put(fmt.Sprintf("%s/%s", groupMemberEndpoint, state.Id.ValueString()), jsonMap)
+	err = httpError.Error
 	if err != nil {
 		resp.Diagnostics.AddError(groupMemberDefaultError, "Error calling PUT, unexpected error: "+err.Error())
 		return
@@ -203,7 +204,8 @@ func (r *groupMemberResource) Delete(ctx context.Context, req resource.DeleteReq
 	}
 
 	// Delete API call logic
-	_, err := r.client.Delete(fmt.Sprintf("%s/%s", groupMemberEndpoint, data.Id.ValueString()))
+	_, httpError := r.client.Delete(fmt.Sprintf("%s/%s", groupMemberEndpoint, data.Id.ValueString()))
+	err := httpError.Error
 	if err != nil {
 		resp.Diagnostics.AddError(groupMemberDefaultError, "Error calling DELETE, unexpected error: "+err.Error())
 		return
@@ -213,7 +215,8 @@ func (r *groupMemberResource) Delete(ctx context.Context, req resource.DeleteReq
 func (r *groupMemberResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
 	var data groupMemberModel
 
-	result, err := r.client.Get(fmt.Sprintf("%s/%s", groupMemberEndpoint, req.ID))
+	result, httpError := r.client.Get(fmt.Sprintf("%s/%s", groupMemberEndpoint, req.ID))
+	err := httpError.Error
 	if err != nil {
 		resp.Diagnostics.AddError(groupMemberDefaultError, "Error calling GET, unexpected error: "+err.Error())
 		return

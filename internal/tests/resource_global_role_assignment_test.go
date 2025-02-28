@@ -1,4 +1,3 @@
-// Copyright (c) HashiCorp, Inc.
 // SPDX-License-Identifier: MPL-2.0
 
 package tests
@@ -35,14 +34,14 @@ func TestAccResourceGlobalRoleAssignment_CreateUpdate(t *testing.T) {
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerConfig +  servicePrincipalCreateConfig + globalRoleAssignmentCreateConfig,
+				Config: providerConfig + servicePrincipalCreateConfig + globalRoleAssignmentCreateConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_global_role_assignment.this", "id"),
 					resource.TestCheckResourceAttr("snapcd_global_role_assignment.this", "role_name", "Administrator"),
 				),
 			},
 			{
-				Config: providerConfig +  servicePrincipalCreateConfig + `
+				Config: providerConfig + servicePrincipalCreateConfig + `
 
 resource "snapcd_global_role_assignment" "this" {
   principal_id   		  = snapcd_service_principal.this.id

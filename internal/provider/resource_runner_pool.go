@@ -1,5 +1,3 @@
-// Copyright (c) HashiCorp, Inc.
-
 package provider
 
 import (
@@ -97,7 +95,8 @@ func (r *runnerPoolResource) Create(ctx context.Context, req resource.CreateRequ
 		return
 	}
 
-	result, err := r.client.Post(runnerPoolEndpoint, jsonMap)
+	result, httpError := r.client.Post(runnerPoolEndpoint, jsonMap)
+	err = httpError.Error
 	if err != nil {
 		resp.Diagnostics.AddError(runnerPoolDefaultError, "Error calling POST, unexpected error: "+err.Error())
 		return
@@ -125,7 +124,8 @@ func (r *runnerPoolResource) Read(ctx context.Context, req resource.ReadRequest,
 	}
 
 	// Read API call logic
-	result, err := r.client.Get(fmt.Sprintf("%s/%s", runnerPoolEndpoint, data.Id.ValueString()))
+	result, httpError := r.client.Get(fmt.Sprintf("%s/%s", runnerPoolEndpoint, data.Id.ValueString()))
+	err := httpError.Error
 	if err != nil {
 		resp.Diagnostics.AddError(runnerPoolDefaultError, "Error calling GET, unexpected error: "+err.Error())
 		return
@@ -163,7 +163,8 @@ func (r *runnerPoolResource) Update(ctx context.Context, req resource.UpdateRequ
 		resp.Diagnostics.AddError(runnerPoolDefaultError, "Failed to convert json to plan: "+err.Error())
 	}
 
-	result, err := r.client.Put(fmt.Sprintf("%s/%s", runnerPoolEndpoint, state.Id.ValueString()), jsonMap)
+	result, httpError := r.client.Put(fmt.Sprintf("%s/%s", runnerPoolEndpoint, state.Id.ValueString()), jsonMap)
+	err = httpError.Error
 	if err != nil {
 		resp.Diagnostics.AddError(runnerPoolDefaultError, "Error calling PUT, unexpected error: "+err.Error())
 		return
@@ -190,7 +191,8 @@ func (r *runnerPoolResource) Delete(ctx context.Context, req resource.DeleteRequ
 	}
 
 	// Delete API call logic
-	_, err := r.client.Delete(fmt.Sprintf("%s/%s", runnerPoolEndpoint, data.Id.ValueString()))
+	_, httpError := r.client.Delete(fmt.Sprintf("%s/%s", runnerPoolEndpoint, data.Id.ValueString()))
+	err := httpError.Error
 	if err != nil {
 		resp.Diagnostics.AddError(runnerPoolDefaultError, "Error calling DELETE, unexpected error: "+err.Error())
 		return
@@ -200,7 +202,8 @@ func (r *runnerPoolResource) Delete(ctx context.Context, req resource.DeleteRequ
 func (r *runnerPoolResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
 	var data runnerPoolModel
 
-	result, err := r.client.Get(fmt.Sprintf("%s/%s", runnerPoolEndpoint, req.ID))
+	result, httpError := r.client.Get(fmt.Sprintf("%s/%s", runnerPoolEndpoint, req.ID))
+	err := httpError.Error
 	if err != nil {
 		resp.Diagnostics.AddError(runnerPoolDefaultError, "Error calling GET, unexpected error: "+err.Error())
 		return

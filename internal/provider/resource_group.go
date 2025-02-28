@@ -1,5 +1,3 @@
-// Copyright (c) HashiCorp, Inc.
-
 package provider
 
 import (
@@ -101,7 +99,8 @@ func (r *groupResource) Create(ctx context.Context, req resource.CreateRequest, 
 		return
 	}
 
-	result, err := r.client.Post(groupEndpoint, jsonMap)
+	result, httpError := r.client.Post(groupEndpoint, jsonMap)
+	err = httpError.Error
 	if err != nil {
 		resp.Diagnostics.AddError(groupDefaultError, "Error calling POST, unexpected error: "+err.Error())
 		return
@@ -129,7 +128,8 @@ func (r *groupResource) Read(ctx context.Context, req resource.ReadRequest, resp
 	}
 
 	// Read API call logic
-	result, err := r.client.Get(fmt.Sprintf("%s/%s", groupEndpoint, data.Id.ValueString()))
+	result, httpError := r.client.Get(fmt.Sprintf("%s/%s", groupEndpoint, data.Id.ValueString()))
+	err := httpError.Error
 	if err != nil {
 		resp.Diagnostics.AddError(groupDefaultError, "Error calling GET, unexpected error: "+err.Error())
 		return
@@ -167,7 +167,8 @@ func (r *groupResource) Update(ctx context.Context, req resource.UpdateRequest, 
 		resp.Diagnostics.AddError(groupDefaultError, "Failed to convert json to plan: "+err.Error())
 	}
 
-	result, err := r.client.Put(fmt.Sprintf("%s/%s", groupEndpoint, state.Id.ValueString()), jsonMap)
+	result, httpError := r.client.Put(fmt.Sprintf("%s/%s", groupEndpoint, state.Id.ValueString()), jsonMap)
+	err = httpError.Error
 	if err != nil {
 		resp.Diagnostics.AddError(groupDefaultError, "Error calling PUT, unexpected error: "+err.Error())
 		return
@@ -194,7 +195,8 @@ func (r *groupResource) Delete(ctx context.Context, req resource.DeleteRequest, 
 	}
 
 	// Delete API call logic
-	_, err := r.client.Delete(fmt.Sprintf("%s/%s", groupEndpoint, data.Id.ValueString()))
+	_, httpError := r.client.Delete(fmt.Sprintf("%s/%s", groupEndpoint, data.Id.ValueString()))
+	err := httpError.Error
 	if err != nil {
 		resp.Diagnostics.AddError(groupDefaultError, "Error calling DELETE, unexpected error: "+err.Error())
 		return
@@ -204,7 +206,8 @@ func (r *groupResource) Delete(ctx context.Context, req resource.DeleteRequest, 
 func (r *groupResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
 	var data groupModel
 
-	result, err := r.client.Get(fmt.Sprintf("%s/%s", groupEndpoint, req.ID))
+	result, httpError := r.client.Get(fmt.Sprintf("%s/%s", groupEndpoint, req.ID))
+	err := httpError.Error
 	if err != nil {
 		resp.Diagnostics.AddError(groupDefaultError, "Error calling GET, unexpected error: "+err.Error())
 		return

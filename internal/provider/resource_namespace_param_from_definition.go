@@ -1,5 +1,3 @@
-// Copyright (c) HashiCorp, Inc.
-
 package provider
 
 import (
@@ -117,7 +115,8 @@ func (r *namespaceParamFromDefinitionResource) Create(ctx context.Context, req r
 		return
 	}
 
-	result, err := r.client.Post(namespaceParamFromDefinitionEndpoint, jsonMap)
+	result, httpError := r.client.Post(namespaceParamFromDefinitionEndpoint, jsonMap)
+	err = httpError.Error
 	if err != nil {
 		resp.Diagnostics.AddError(namespaceParamFromDefinitionDefaultError, "Error calling POST, unexpected error: "+err.Error())
 		return
@@ -145,7 +144,8 @@ func (r *namespaceParamFromDefinitionResource) Read(ctx context.Context, req res
 	}
 
 	// Read API call logic
-	result, err := r.client.Get(fmt.Sprintf("%s/%s", namespaceParamFromDefinitionEndpoint, data.Id.ValueString()))
+	result, httpError := r.client.Get(fmt.Sprintf("%s/%s", namespaceParamFromDefinitionEndpoint, data.Id.ValueString()))
+	err := httpError.Error
 	if err != nil {
 		resp.Diagnostics.AddError(namespaceParamFromDefinitionDefaultError, "Error calling GET, unexpected error: "+err.Error())
 		return
@@ -183,7 +183,8 @@ func (r *namespaceParamFromDefinitionResource) Update(ctx context.Context, req r
 		resp.Diagnostics.AddError(namespaceParamFromDefinitionDefaultError, "Failed to convert json to plan: "+err.Error())
 	}
 
-	result, err := r.client.Put(fmt.Sprintf("%s/%s", namespaceParamFromDefinitionEndpoint, state.Id.ValueString()), jsonMap)
+	result, httpError := r.client.Put(fmt.Sprintf("%s/%s", namespaceParamFromDefinitionEndpoint, state.Id.ValueString()), jsonMap)
+	err = httpError.Error
 	if err != nil {
 		resp.Diagnostics.AddError(namespaceParamFromDefinitionDefaultError, "Error calling PUT, unexpected error: "+err.Error())
 		return
@@ -210,7 +211,8 @@ func (r *namespaceParamFromDefinitionResource) Delete(ctx context.Context, req r
 	}
 
 	// Delete API call logic
-	_, err := r.client.Delete(fmt.Sprintf("%s/%s", namespaceParamFromDefinitionEndpoint, data.Id.ValueString()))
+	_, httpError := r.client.Delete(fmt.Sprintf("%s/%s", namespaceParamFromDefinitionEndpoint, data.Id.ValueString()))
+	err := httpError.Error
 	if err != nil {
 		resp.Diagnostics.AddError(namespaceParamFromDefinitionDefaultError, "Error calling DELETE, unexpected error: "+err.Error())
 		return
@@ -220,7 +222,8 @@ func (r *namespaceParamFromDefinitionResource) Delete(ctx context.Context, req r
 func (r *namespaceParamFromDefinitionResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
 	var data namespaceParamFromDefinitionModel
 
-	result, err := r.client.Get(fmt.Sprintf("%s/%s", namespaceParamFromDefinitionEndpoint, req.ID))
+	result, httpError := r.client.Get(fmt.Sprintf("%s/%s", namespaceParamFromDefinitionEndpoint, req.ID))
+	err := httpError.Error
 	if err != nil {
 		resp.Diagnostics.AddError(namespaceParamFromDefinitionDefaultError, "Error calling GET, unexpected error: "+err.Error())
 		return

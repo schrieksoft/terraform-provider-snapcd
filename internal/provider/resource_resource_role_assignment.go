@@ -1,5 +1,3 @@
-// Copyright (c) HashiCorp, Inc.
-
 package provider
 
 import (
@@ -124,7 +122,8 @@ func (r *resourceRoleAssignmentResource) Create(ctx context.Context, req resourc
 		return
 	}
 
-	result, err := r.client.Post(resourceRoleAssignmentEndpoint, jsonMap)
+	result, httpError := r.client.Post(resourceRoleAssignmentEndpoint, jsonMap)
+	err = httpError.Error
 	if err != nil {
 		resp.Diagnostics.AddError(resourceRoleAssignmentDefaultError, "Error calling POST, unexpected error: "+err.Error())
 		return
@@ -152,7 +151,8 @@ func (r *resourceRoleAssignmentResource) Read(ctx context.Context, req resource.
 	}
 
 	// Read API call logic
-	result, err := r.client.Get(fmt.Sprintf("%s/%s", resourceRoleAssignmentEndpoint, data.Id.ValueString()))
+	result, httpError := r.client.Get(fmt.Sprintf("%s/%s", resourceRoleAssignmentEndpoint, data.Id.ValueString()))
+	err := httpError.Error
 	if err != nil {
 		resp.Diagnostics.AddError(resourceRoleAssignmentDefaultError, "Error calling GET, unexpected error: "+err.Error())
 		return
@@ -190,7 +190,8 @@ func (r *resourceRoleAssignmentResource) Update(ctx context.Context, req resourc
 		resp.Diagnostics.AddError(resourceRoleAssignmentDefaultError, "Failed to convert json to plan: "+err.Error())
 	}
 
-	result, err := r.client.Put(fmt.Sprintf("%s/%s", resourceRoleAssignmentEndpoint, state.Id.ValueString()), jsonMap)
+	result, httpError := r.client.Put(fmt.Sprintf("%s/%s", resourceRoleAssignmentEndpoint, state.Id.ValueString()), jsonMap)
+	err = httpError.Error
 	if err != nil {
 		resp.Diagnostics.AddError(resourceRoleAssignmentDefaultError, "Error calling PUT, unexpected error: "+err.Error())
 		return
@@ -217,7 +218,8 @@ func (r *resourceRoleAssignmentResource) Delete(ctx context.Context, req resourc
 	}
 
 	// Delete API call logic
-	_, err := r.client.Delete(fmt.Sprintf("%s/%s", resourceRoleAssignmentEndpoint, data.Id.ValueString()))
+	_, httpError := r.client.Delete(fmt.Sprintf("%s/%s", resourceRoleAssignmentEndpoint, data.Id.ValueString()))
+	err := httpError.Error
 	if err != nil {
 		resp.Diagnostics.AddError(resourceRoleAssignmentDefaultError, "Error calling DELETE, unexpected error: "+err.Error())
 		return
@@ -227,7 +229,8 @@ func (r *resourceRoleAssignmentResource) Delete(ctx context.Context, req resourc
 func (r *resourceRoleAssignmentResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
 	var data resourceRoleAssignmentModel
 
-	result, err := r.client.Get(fmt.Sprintf("%s/%s", resourceRoleAssignmentEndpoint, req.ID))
+	result, httpError := r.client.Get(fmt.Sprintf("%s/%s", resourceRoleAssignmentEndpoint, req.ID))
+	err := httpError.Error
 	if err != nil {
 		resp.Diagnostics.AddError(resourceRoleAssignmentDefaultError, "Error calling GET, unexpected error: "+err.Error())
 		return

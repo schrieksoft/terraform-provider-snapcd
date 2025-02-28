@@ -1,5 +1,3 @@
-// Copyright (c) HashiCorp, Inc.
-
 package provider
 
 import (
@@ -70,7 +68,8 @@ func (d *runnerPoolDataSource) Read(ctx context.Context, req datasource.ReadRequ
 		return
 	}
 
-	result, err := d.client.Get(fmt.Sprintf("%s/ByName/%s", runnerPoolEndpoint, data.Name.ValueString()))
+	result, httpError := d.client.Get(fmt.Sprintf("%s/ByName/%s", runnerPoolEndpoint, data.Name.ValueString()))
+	err := httpError.Error
 
 	if err != nil {
 		resp.Diagnostics.AddError(runnerPoolDefaultError, "Error creating calling GET, unexpected error: "+err.Error())

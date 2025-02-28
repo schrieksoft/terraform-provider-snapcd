@@ -1,4 +1,3 @@
-// Copyright (c) HashiCorp, Inc.
 // SPDX-License-Identifier: MPL-2.0
 
 package tests
@@ -36,7 +35,6 @@ resource "snapcd_namespace" "this" {
 
 `)
 
-
 func TestAccResourceNamespace_Create(t *testing.T) {
 	resource.UnitTest(t, resource.TestCase{
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
@@ -72,7 +70,6 @@ func TestAccResourceNamespace_CreateUpdate(t *testing.T) {
 		},
 	})
 }
-
 
 func TestAccResourceNamespace_Import(t *testing.T) {
 	resource.UnitTest(t, resource.TestCase{

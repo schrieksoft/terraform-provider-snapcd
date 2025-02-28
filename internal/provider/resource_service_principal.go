@@ -1,5 +1,3 @@
-// Copyright (c) HashiCorp, Inc.
-
 package provider
 
 import (
@@ -21,7 +19,6 @@ import (
 var servicePrincipalDefaultError = fmt.Sprintf("snapcd_service_principal error")
 
 var servicePrincipalEndpoint = "/api/Identity/ServicePrincipal"
-
 
 var _ resource.Resource = (*servicePrincipalResource)(nil)
 
@@ -58,9 +55,9 @@ func (r *servicePrincipalResource) Metadata(ctx context.Context, req resource.Me
 }
 
 type servicePrincipalModel struct {
-	Id               types.String `tfsdk:"id"`
-	ClientId         types.String `tfsdk:"client_id"`
-	ClientSecret     types.String `tfsdk:"client_secret"`
+	Id           types.String `tfsdk:"id"`
+	ClientId     types.String `tfsdk:"client_id"`
+	ClientSecret types.String `tfsdk:"client_secret"`
 }
 
 func (r *servicePrincipalResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
@@ -105,7 +102,8 @@ func (r *servicePrincipalResource) Create(ctx context.Context, req resource.Crea
 		return
 	}
 
-	result, err := r.client.Post(servicePrincipalEndpoint, jsonMap)
+	result, httpError := r.client.Post(servicePrincipalEndpoint, jsonMap)
+	err = httpError.Error
 	if err != nil {
 		resp.Diagnostics.AddError(servicePrincipalDefaultError, "Error calling POST, unexpected error: "+err.Error())
 		return
@@ -140,7 +138,8 @@ func (r *servicePrincipalResource) Read(ctx context.Context, req resource.ReadRe
 		endpoint = fmt.Sprintf("%s?secret=%s", endpoint, data.ClientSecret.ValueString())
 	}
 
-	result, err := r.client.Get(endpoint)
+	result, httpError := r.client.Get(endpoint)
+	err := httpError.Error
 	if err != nil {
 		resp.Diagnostics.AddError(servicePrincipalDefaultError, "Error calling GET, unexpected error: "+err.Error())
 		return
@@ -156,7 +155,6 @@ func (r *servicePrincipalResource) Read(ctx context.Context, req resource.ReadRe
 	// Save updated data into Terraform state
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
-
 
 func (r *servicePrincipalResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
 	var data servicePrincipalModel
@@ -179,7 +177,8 @@ func (r *servicePrincipalResource) Update(ctx context.Context, req resource.Upda
 		resp.Diagnostics.AddError(servicePrincipalDefaultError, "Failed to convert json to plan: "+err.Error())
 	}
 
-	result, err := r.client.Put(fmt.Sprintf("%s/%s", servicePrincipalEndpoint, state.Id.ValueString()), jsonMap)
+	result, httpError := r.client.Put(fmt.Sprintf("%s/%s", servicePrincipalEndpoint, state.Id.ValueString()), jsonMap)
+	err = httpError.Error
 	if err != nil {
 		resp.Diagnostics.AddError(servicePrincipalDefaultError, "Error calling PUT, unexpected error: "+err.Error())
 		return
@@ -206,7 +205,8 @@ func (r *servicePrincipalResource) Delete(ctx context.Context, req resource.Dele
 	}
 
 	// Delete API call logic
-	_, err := r.client.Delete(fmt.Sprintf("%s/%s", servicePrincipalEndpoint, data.Id.ValueString()))
+	_, httpError := r.client.Delete(fmt.Sprintf("%s/%s", servicePrincipalEndpoint, data.Id.ValueString()))
+	err := httpError.Error
 	if err != nil {
 		resp.Diagnostics.AddError(servicePrincipalDefaultError, "Error calling DELETE, unexpected error: "+err.Error())
 		return
@@ -216,7 +216,8 @@ func (r *servicePrincipalResource) Delete(ctx context.Context, req resource.Dele
 func (r *servicePrincipalResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
 	var data servicePrincipalModel
 
-	result, err := r.client.Get(fmt.Sprintf("%s/%s", servicePrincipalEndpoint, req.ID))
+	result, httpError := r.client.Get(fmt.Sprintf("%s/%s", servicePrincipalEndpoint, req.ID))
+	err := httpError.Error
 	if err != nil {
 		resp.Diagnostics.AddError(servicePrincipalDefaultError, "Error calling GET, unexpected error: "+err.Error())
 		return

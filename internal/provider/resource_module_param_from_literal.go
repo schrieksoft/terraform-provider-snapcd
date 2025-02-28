@@ -1,5 +1,3 @@
-// Copyright (c) HashiCorp, Inc.
-
 package provider
 
 import (
@@ -116,7 +114,8 @@ func (r *moduleParamFromLiteralResource) Create(ctx context.Context, req resourc
 		return
 	}
 
-	result, err := r.client.Post(moduleParamFromLiteralEndpoint, jsonMap)
+	result, httpError := r.client.Post(moduleParamFromLiteralEndpoint, jsonMap)
+	err = httpError.Error
 	if err != nil {
 		resp.Diagnostics.AddError(moduleParamFromLiteralDefaultError, "Error calling POST, unexpected error: "+err.Error())
 		return
@@ -144,7 +143,8 @@ func (r *moduleParamFromLiteralResource) Read(ctx context.Context, req resource.
 	}
 
 	// Read API call logic
-	result, err := r.client.Get(fmt.Sprintf("%s/%s", moduleParamFromLiteralEndpoint, data.Id.ValueString()))
+	result, httpError := r.client.Get(fmt.Sprintf("%s/%s", moduleParamFromLiteralEndpoint, data.Id.ValueString()))
+	err := httpError.Error
 	if err != nil {
 		resp.Diagnostics.AddError(moduleParamFromLiteralDefaultError, "Error calling GET, unexpected error: "+err.Error())
 		return
@@ -182,7 +182,8 @@ func (r *moduleParamFromLiteralResource) Update(ctx context.Context, req resourc
 		resp.Diagnostics.AddError(moduleParamFromLiteralDefaultError, "Failed to convert json to plan: "+err.Error())
 	}
 
-	result, err := r.client.Put(fmt.Sprintf("%s/%s", moduleParamFromLiteralEndpoint, state.Id.ValueString()), jsonMap)
+	result, httpError := r.client.Put(fmt.Sprintf("%s/%s", moduleParamFromLiteralEndpoint, state.Id.ValueString()), jsonMap)
+	err = httpError.Error
 	if err != nil {
 		resp.Diagnostics.AddError(moduleParamFromLiteralDefaultError, "Error calling PUT, unexpected error: "+err.Error())
 		return
@@ -209,7 +210,8 @@ func (r *moduleParamFromLiteralResource) Delete(ctx context.Context, req resourc
 	}
 
 	// Delete API call logic
-	_, err := r.client.Delete(fmt.Sprintf("%s/%s", moduleParamFromLiteralEndpoint, data.Id.ValueString()))
+	_, httpError := r.client.Delete(fmt.Sprintf("%s/%s", moduleParamFromLiteralEndpoint, data.Id.ValueString()))
+	err := httpError.Error
 	if err != nil {
 		resp.Diagnostics.AddError(moduleParamFromLiteralDefaultError, "Error calling DELETE, unexpected error: "+err.Error())
 		return
@@ -219,7 +221,8 @@ func (r *moduleParamFromLiteralResource) Delete(ctx context.Context, req resourc
 func (r *moduleParamFromLiteralResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
 	var data moduleParamFromLiteralModel
 
-	result, err := r.client.Get(fmt.Sprintf("%s/%s", moduleParamFromLiteralEndpoint, req.ID))
+	result, httpError := r.client.Get(fmt.Sprintf("%s/%s", moduleParamFromLiteralEndpoint, req.ID))
+	err := httpError.Error
 	if err != nil {
 		resp.Diagnostics.AddError(moduleParamFromLiteralDefaultError, "Error calling GET, unexpected error: "+err.Error())
 		return

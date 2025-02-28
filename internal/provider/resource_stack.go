@@ -1,5 +1,3 @@
-// Copyright (c) HashiCorp, Inc.
-
 package provider
 
 import (
@@ -97,7 +95,8 @@ func (r *stackResource) Create(ctx context.Context, req resource.CreateRequest, 
 		return
 	}
 
-	result, err := r.client.Post(stackEndpoint, jsonMap)
+	result, httpError := r.client.Post(stackEndpoint, jsonMap)
+	err = httpError.Error
 	if err != nil {
 		resp.Diagnostics.AddError(stackDefaultError, "Error calling POST, unexpected error: "+err.Error())
 		return
@@ -125,7 +124,8 @@ func (r *stackResource) Read(ctx context.Context, req resource.ReadRequest, resp
 	}
 
 	// Read API call logic
-	result, err := r.client.Get(fmt.Sprintf("%s/%s", stackEndpoint, data.Id.ValueString()))
+	result, httpError := r.client.Get(fmt.Sprintf("%s/%s", stackEndpoint, data.Id.ValueString()))
+	err := httpError.Error
 	if err != nil {
 		resp.Diagnostics.AddError(stackDefaultError, "Error calling GET, unexpected error: "+err.Error())
 		return
@@ -163,7 +163,8 @@ func (r *stackResource) Update(ctx context.Context, req resource.UpdateRequest, 
 		resp.Diagnostics.AddError(stackDefaultError, "Failed to convert json to plan: "+err.Error())
 	}
 
-	result, err := r.client.Put(fmt.Sprintf("%s/%s", stackEndpoint, state.Id.ValueString()), jsonMap)
+	result, httpError := r.client.Put(fmt.Sprintf("%s/%s", stackEndpoint, state.Id.ValueString()), jsonMap)
+	err = httpError.Error
 	if err != nil {
 		resp.Diagnostics.AddError(stackDefaultError, "Error calling PUT, unexpected error: "+err.Error())
 		return
@@ -190,7 +191,8 @@ func (r *stackResource) Delete(ctx context.Context, req resource.DeleteRequest, 
 	}
 
 	// Delete API call logic
-	_, err := r.client.Delete(fmt.Sprintf("%s/%s", stackEndpoint, data.Id.ValueString()))
+	_, httpError := r.client.Delete(fmt.Sprintf("%s/%s", stackEndpoint, data.Id.ValueString()))
+	err := httpError.Error
 	if err != nil {
 		resp.Diagnostics.AddError(stackDefaultError, "Error calling DELETE, unexpected error: "+err.Error())
 		return
@@ -200,7 +202,8 @@ func (r *stackResource) Delete(ctx context.Context, req resource.DeleteRequest, 
 func (r *stackResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
 	var data stackModel
 
-	result, err := r.client.Get(fmt.Sprintf("%s/%s", stackEndpoint, req.ID))
+	result, httpError := r.client.Get(fmt.Sprintf("%s/%s", stackEndpoint, req.ID))
+	err := httpError.Error
 	if err != nil {
 		resp.Diagnostics.AddError(stackDefaultError, "Error calling GET, unexpected error: "+err.Error())
 		return

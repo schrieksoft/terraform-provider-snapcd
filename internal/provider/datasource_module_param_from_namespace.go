@@ -1,5 +1,3 @@
-// Copyright (c) HashiCorp, Inc.
-
 package provider
 
 import (
@@ -76,7 +74,8 @@ func (d *moduleParamFromNamespaceDataSource) Read(ctx context.Context, req datas
 		return
 	}
 
-	result, err := d.client.Get(fmt.Sprintf("%s/%s/%s", moduleParamFromNamespaceEndpoint, data.ModuleId.ValueString(), data.Name.ValueString()))
+	result, httpError := d.client.Get(fmt.Sprintf("%s/%s/%s", moduleParamFromNamespaceEndpoint, data.ModuleId.ValueString(), data.Name.ValueString()))
+	err := httpError.Error
 
 	if err != nil {
 		resp.Diagnostics.AddError(moduleParamFromNamespaceDefaultError, "Error creating calling GET, unexpected error: "+err.Error())

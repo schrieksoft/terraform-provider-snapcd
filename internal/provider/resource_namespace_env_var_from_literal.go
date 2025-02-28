@@ -1,5 +1,3 @@
-// Copyright (c) HashiCorp, Inc.
-
 package provider
 
 import (
@@ -125,7 +123,8 @@ func (r *namespaceEnvVarFromLiteralResource) Create(ctx context.Context, req res
 		return
 	}
 
-	result, err := r.client.Post(namespaceEnvVarFromLiteralEndpoint, jsonMap)
+	result, httpError := r.client.Post(namespaceEnvVarFromLiteralEndpoint, jsonMap)
+	err = httpError.Error
 	if err != nil {
 		resp.Diagnostics.AddError(namespaceEnvVarFromLiteralDefaultError, "Error calling POST, unexpected error: "+err.Error())
 		return
@@ -153,7 +152,8 @@ func (r *namespaceEnvVarFromLiteralResource) Read(ctx context.Context, req resou
 	}
 
 	// Read API call logic
-	result, err := r.client.Get(fmt.Sprintf("%s/%s", namespaceEnvVarFromLiteralEndpoint, data.Id.ValueString()))
+	result, httpError := r.client.Get(fmt.Sprintf("%s/%s", namespaceEnvVarFromLiteralEndpoint, data.Id.ValueString()))
+	err := httpError.Error
 	if err != nil {
 		resp.Diagnostics.AddError(namespaceEnvVarFromLiteralDefaultError, "Error calling GET, unexpected error: "+err.Error())
 		return
@@ -191,7 +191,8 @@ func (r *namespaceEnvVarFromLiteralResource) Update(ctx context.Context, req res
 		resp.Diagnostics.AddError(namespaceEnvVarFromLiteralDefaultError, "Failed to convert json to plan: "+err.Error())
 	}
 
-	result, err := r.client.Put(fmt.Sprintf("%s/%s", namespaceEnvVarFromLiteralEndpoint, state.Id.ValueString()), jsonMap)
+	result, httpError := r.client.Put(fmt.Sprintf("%s/%s", namespaceEnvVarFromLiteralEndpoint, state.Id.ValueString()), jsonMap)
+	err = httpError.Error
 	if err != nil {
 		resp.Diagnostics.AddError(namespaceEnvVarFromLiteralDefaultError, "Error calling PUT, unexpected error: "+err.Error())
 		return
@@ -218,7 +219,8 @@ func (r *namespaceEnvVarFromLiteralResource) Delete(ctx context.Context, req res
 	}
 
 	// Delete API call logic
-	_, err := r.client.Delete(fmt.Sprintf("%s/%s", namespaceEnvVarFromLiteralEndpoint, data.Id.ValueString()))
+	_, httpError := r.client.Delete(fmt.Sprintf("%s/%s", namespaceEnvVarFromLiteralEndpoint, data.Id.ValueString()))
+	err := httpError.Error
 	if err != nil {
 		resp.Diagnostics.AddError(namespaceEnvVarFromLiteralDefaultError, "Error calling DELETE, unexpected error: "+err.Error())
 		return
@@ -228,7 +230,8 @@ func (r *namespaceEnvVarFromLiteralResource) Delete(ctx context.Context, req res
 func (r *namespaceEnvVarFromLiteralResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
 	var data namespaceEnvVarFromLiteralModel
 
-	result, err := r.client.Get(fmt.Sprintf("%s/%s", namespaceEnvVarFromLiteralEndpoint, req.ID))
+	result, httpError := r.client.Get(fmt.Sprintf("%s/%s", namespaceEnvVarFromLiteralEndpoint, req.ID))
+	err := httpError.Error
 	if err != nil {
 		resp.Diagnostics.AddError(namespaceEnvVarFromLiteralDefaultError, "Error calling GET, unexpected error: "+err.Error())
 		return

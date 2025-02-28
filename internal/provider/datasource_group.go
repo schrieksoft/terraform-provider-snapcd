@@ -1,5 +1,3 @@
-// Copyright (c) HashiCorp, Inc.
-
 package provider
 
 import (
@@ -73,7 +71,8 @@ func (d *groupDataSource) Read(ctx context.Context, req datasource.ReadRequest, 
 		return
 	}
 
-	result, err := d.client.Get(fmt.Sprintf("%s/ByName/%s", groupEndpoint, data.Name.ValueString()))
+	result, httpError := d.client.Get(fmt.Sprintf("%s/ByName/%s", groupEndpoint, data.Name.ValueString()))
+	err := httpError.Error
 
 	if err != nil {
 		resp.Diagnostics.AddError(groupDefaultError, "Error creating calling GET, unexpected error: "+err.Error())

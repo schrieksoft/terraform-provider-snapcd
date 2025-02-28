@@ -1,5 +1,3 @@
-// Copyright (c) HashiCorp, Inc.
-
 package provider
 
 import (
@@ -99,7 +97,7 @@ func (d *moduleDataSource) Schema(ctx context.Context, req datasource.SchemaRequ
 			},
 			"selected_consumer_id": schema.StringAttribute{
 				Computed: true,
-			},			
+			},
 			"init_before_hook": schema.StringAttribute{
 				Computed: true,
 			},
@@ -155,7 +153,8 @@ func (d *moduleDataSource) Read(ctx context.Context, req datasource.ReadRequest,
 		return
 	}
 
-	result, err := d.client.Get(fmt.Sprintf("%s/%s/%s", moduleEndpoint, data.NamespaceId.ValueString(), data.Name.ValueString()))
+	result, httpError := d.client.Get(fmt.Sprintf("%s/%s/%s", moduleEndpoint, data.NamespaceId.ValueString(), data.Name.ValueString()))
+	err := httpError.Error
 
 	if err != nil {
 		resp.Diagnostics.AddError(moduleDefaultError, "Error creating calling GET, unexpected error: "+err.Error())

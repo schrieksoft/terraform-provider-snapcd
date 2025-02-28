@@ -1,5 +1,3 @@
-// Copyright (c) HashiCorp, Inc.
-
 package provider
 
 import (
@@ -70,7 +68,8 @@ func (d *servicePrincipalDataSource) Read(ctx context.Context, req datasource.Re
 		return
 	}
 
-	result, err := d.client.Get(fmt.Sprintf("%s/ByClientId/%s", servicePrincipalEndpoint, data.ClientId.ValueString()))
+	result, httpError := d.client.Get(fmt.Sprintf("%s/ByClientId/%s", servicePrincipalEndpoint, data.ClientId.ValueString()))
+	err := httpError.Error
 
 	if err != nil {
 		resp.Diagnostics.AddError(servicePrincipalDefaultError, "Error creating calling GET, unexpected error: "+err.Error())

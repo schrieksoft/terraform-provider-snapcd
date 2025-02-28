@@ -1,5 +1,3 @@
-// Copyright (c) HashiCorp, Inc.
-
 package provider
 
 import (
@@ -79,7 +77,8 @@ func (d *moduleParamFromOutputSetDataSource) Read(ctx context.Context, req datas
 		return
 	}
 
-	result, err := d.client.Get(fmt.Sprintf("%s/%s/%s", moduleParamFromOutputSetEndpoint, data.ModuleId.ValueString(), data.Name.ValueString()))
+	result, httpError := d.client.Get(fmt.Sprintf("%s/%s/%s", moduleParamFromOutputSetEndpoint, data.ModuleId.ValueString(), data.Name.ValueString()))
+	err := httpError.Error
 
 	if err != nil {
 		resp.Diagnostics.AddError(moduleParamFromOutputSetDefaultError, "Error creating calling GET, unexpected error: "+err.Error())

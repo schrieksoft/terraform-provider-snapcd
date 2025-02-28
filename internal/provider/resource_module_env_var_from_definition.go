@@ -1,5 +1,3 @@
-// Copyright (c) HashiCorp, Inc.
-
 package provider
 
 import (
@@ -81,7 +79,7 @@ func (r *moduleEnvVarFromDefinitionResource) Schema(ctx context.Context, req res
 				Required: true,
 				Validators: []validator.String{
 					stringvalidator.OneOf("ModuleId", "NamespaceId", "StackId", "ModuleName", "NamespaceName", "StackName", "TargetRepoUrl", "TargetRepoRevision", "TargetModuleRelativePath"),
-				},				
+				},
 			},
 			"module_id": schema.StringAttribute{
 				Required: true,
@@ -110,7 +108,8 @@ func (r *moduleEnvVarFromDefinitionResource) Create(ctx context.Context, req res
 		return
 	}
 
-	result, err := r.client.Post(moduleEnvVarFromDefinitionEndpoint, jsonMap)
+	result, httpError := r.client.Post(moduleEnvVarFromDefinitionEndpoint, jsonMap)
+	err = httpError.Error
 	if err != nil {
 		resp.Diagnostics.AddError(moduleEnvVarFromDefinitionDefaultError, "Error calling POST, unexpected error: "+err.Error())
 		return
@@ -138,7 +137,8 @@ func (r *moduleEnvVarFromDefinitionResource) Read(ctx context.Context, req resou
 	}
 
 	// Read API call logic
-	result, err := r.client.Get(fmt.Sprintf("%s/%s", moduleEnvVarFromDefinitionEndpoint, data.Id.ValueString()))
+	result, httpError := r.client.Get(fmt.Sprintf("%s/%s", moduleEnvVarFromDefinitionEndpoint, data.Id.ValueString()))
+	err := httpError.Error
 	if err != nil {
 		resp.Diagnostics.AddError(moduleEnvVarFromDefinitionDefaultError, "Error calling GET, unexpected error: "+err.Error())
 		return
@@ -176,7 +176,8 @@ func (r *moduleEnvVarFromDefinitionResource) Update(ctx context.Context, req res
 		resp.Diagnostics.AddError(moduleEnvVarFromDefinitionDefaultError, "Failed to convert json to plan: "+err.Error())
 	}
 
-	result, err := r.client.Put(fmt.Sprintf("%s/%s", moduleEnvVarFromDefinitionEndpoint, state.Id.ValueString()), jsonMap)
+	result, httpError := r.client.Put(fmt.Sprintf("%s/%s", moduleEnvVarFromDefinitionEndpoint, state.Id.ValueString()), jsonMap)
+	err = httpError.Error
 	if err != nil {
 		resp.Diagnostics.AddError(moduleEnvVarFromDefinitionDefaultError, "Error calling PUT, unexpected error: "+err.Error())
 		return
@@ -203,7 +204,8 @@ func (r *moduleEnvVarFromDefinitionResource) Delete(ctx context.Context, req res
 	}
 
 	// Delete API call logic
-	_, err := r.client.Delete(fmt.Sprintf("%s/%s", moduleEnvVarFromDefinitionEndpoint, data.Id.ValueString()))
+	_, httpError := r.client.Delete(fmt.Sprintf("%s/%s", moduleEnvVarFromDefinitionEndpoint, data.Id.ValueString()))
+	err := httpError.Error
 	if err != nil {
 		resp.Diagnostics.AddError(moduleEnvVarFromDefinitionDefaultError, "Error calling DELETE, unexpected error: "+err.Error())
 		return
@@ -213,7 +215,8 @@ func (r *moduleEnvVarFromDefinitionResource) Delete(ctx context.Context, req res
 func (r *moduleEnvVarFromDefinitionResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
 	var data moduleEnvVarFromDefinitionModel
 
-	result, err := r.client.Get(fmt.Sprintf("%s/%s", moduleEnvVarFromDefinitionEndpoint, req.ID))
+	result, httpError := r.client.Get(fmt.Sprintf("%s/%s", moduleEnvVarFromDefinitionEndpoint, req.ID))
+	err := httpError.Error
 	if err != nil {
 		resp.Diagnostics.AddError(moduleEnvVarFromDefinitionDefaultError, "Error calling GET, unexpected error: "+err.Error())
 		return
