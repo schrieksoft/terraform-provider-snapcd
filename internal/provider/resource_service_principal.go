@@ -74,6 +74,7 @@ func (r *servicePrincipalResource) Schema(ctx context.Context, req resource.Sche
 			},
 			"client_secret": schema.StringAttribute{
 				Required: true,
+				Sensitive: true,
 				// PlanModifiers: []planmodifier.String{
 				// 	stringplanmodifier.UseStateForUnknown(),
 				// },
