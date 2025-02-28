@@ -16,10 +16,8 @@ import (
 	"time"
 )
 
-
 const Status441EntityNotFound = 441
-const Status442EntityAlreadyExists = 441
-
+const Status442EntityAlreadyExists = 442
 
 type HttpError struct {
 	StatusCode int
@@ -181,7 +179,7 @@ func (client *Client) makeRequest(method string, path string, body []byte) (map[
 Request:
 	req, err := http.NewRequest(method, client.Url+path, bytes.NewBuffer(body))
 	if err != nil {
-		return nil, &HttpError{StatusCode: 441, Error: errors.New("Status441EntityNotFound")}
+		return nil, &HttpError{StatusCode: Status441EntityNotFound, Error: errors.New("Status441EntityNotFound")}
 	}
 
 	req.Header.Set("Authorization", "Bearer "+client.AccessToken)
@@ -204,16 +202,16 @@ Request:
 		return nil, &HttpError{StatusCode: 0, Error: err}
 	}
 
-	if response.StatusCode == 441 {
-		return nil, &HttpError{StatusCode: 441, Error: errors.New("Status441EntityNotFound")}
+	if response.StatusCode == Status441EntityNotFound {
+		return nil, &HttpError{StatusCode: Status441EntityNotFound, Error: errors.New("Status441EntityNotFound")}
 	}
 
-	if response.StatusCode == 442 {
-		return nil, &HttpError{StatusCode: 442, Error: errors.New("Status442EntityAlreadyExists")}
+	if response.StatusCode == Status442EntityAlreadyExists {
+		return nil, &HttpError{StatusCode: Status442EntityAlreadyExists, Error: errors.New("Status442EntityAlreadyExists")}
 	}
 
 	if response.StatusCode < 200 || response.StatusCode >= 300 {
-		return nil, &HttpError{StatusCode: 441, Error: fmt.Errorf("unexpected status code: %d (%s). Response body: %s", response.StatusCode, http.StatusText(response.StatusCode), string(responseBody))}
+		return nil, &HttpError{StatusCode: Status441EntityNotFound, Error: fmt.Errorf("unexpected status code: %d (%s). Response body: %s", response.StatusCode, http.StatusText(response.StatusCode), string(responseBody))}
 	}
 
 	var result map[string]interface{}

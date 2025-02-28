@@ -116,7 +116,7 @@ func (r *moduleEnvVarFromLiteralResource) Create(ctx context.Context, req resour
 	}
 
 	result, httpError := r.client.Post(moduleEnvVarFromLiteralEndpoint, jsonMap)
-	if httpError != nil && httpError.StatusCode == 442 {
+	if httpError != nil && httpError.StatusCode == snapcd.Status442EntityAlreadyExists {
 		resp.Diagnostics.AddError(globalRoleAssignmentDefaultError, "The resource you are trying to create already exists. To manage it with terraform you must import it")
 		return
 	}
@@ -153,7 +153,7 @@ func (r *moduleEnvVarFromLiteralResource) Read(ctx context.Context, req resource
 
 	// Read API call logic
 	result, httpError := r.client.Get(fmt.Sprintf("%s/%s", moduleEnvVarFromLiteralEndpoint, data.Id.ValueString()))
-	if httpError != nil && httpError.StatusCode == 441 {
+	if httpError != nil && httpError.StatusCode == snapcd.Status441EntityNotFound {
 		// Resource was not found, so remove it from state
 		resp.State.RemoveResource(ctx)
 		return
@@ -234,7 +234,7 @@ func (r *moduleEnvVarFromLiteralResource) Delete(ctx context.Context, req resour
 
 	// Delete API call logic
 	_, httpError := r.client.Delete(fmt.Sprintf("%s/%s", moduleEnvVarFromLiteralEndpoint, data.Id.ValueString()))
-	if httpError != nil && httpError.StatusCode == 441 {
+	if httpError != nil && httpError.StatusCode == snapcd.Status441EntityNotFound {
 		// Resource was not found, so remove it from state
 		resp.State.RemoveResource(ctx)
 		return

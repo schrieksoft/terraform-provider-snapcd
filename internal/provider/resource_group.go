@@ -100,7 +100,7 @@ func (r *groupResource) Create(ctx context.Context, req resource.CreateRequest, 
 	}
 
 	result, httpError := r.client.Post(groupEndpoint, jsonMap)
-	if httpError != nil && httpError.StatusCode == 442 {
+	if httpError != nil && httpError.StatusCode == snapcd.Status442EntityAlreadyExists {
 		resp.Diagnostics.AddError(globalRoleAssignmentDefaultError, "The resource you are trying to create already exists. To manage it with terraform you must import it")
 		return
 	}
@@ -137,7 +137,7 @@ func (r *groupResource) Read(ctx context.Context, req resource.ReadRequest, resp
 
 	// Read API call logic
 	result, httpError := r.client.Get(fmt.Sprintf("%s/%s", groupEndpoint, data.Id.ValueString()))
-	if httpError != nil && httpError.StatusCode == 441 {
+	if httpError != nil && httpError.StatusCode == snapcd.Status441EntityNotFound {
 		// Resource was not found, so remove it from state
 		resp.State.RemoveResource(ctx)
 		return
@@ -218,7 +218,7 @@ func (r *groupResource) Delete(ctx context.Context, req resource.DeleteRequest, 
 
 	// Delete API call logic
 	_, httpError := r.client.Delete(fmt.Sprintf("%s/%s", groupEndpoint, data.Id.ValueString()))
-	if httpError != nil && httpError.StatusCode == 441 {
+	if httpError != nil && httpError.StatusCode == snapcd.Status441EntityNotFound {
 		// Resource was not found, so remove it from state
 		resp.State.RemoveResource(ctx)
 		return
