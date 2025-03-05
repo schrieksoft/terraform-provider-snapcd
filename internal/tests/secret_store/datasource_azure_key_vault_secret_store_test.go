@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 
-package tests
+package secret_store
 
 import (
 	"terraform-provider-snapcd/internal/tests/providerconfig"

@@ -8,16 +8,16 @@ import (
 	"strconv"
 
 	snapcd "terraform-provider-snapcd/client"
-	utils "terraform-provider-snapcd/utils"
-	secret_store "terraform-provider-snapcd/internal/provider/secret_store"
+	core "terraform-provider-snapcd/internal/provider/core"
+	identity "terraform-provider-snapcd/internal/provider/identity"
 	module_env_var "terraform-provider-snapcd/internal/provider/module_env_var"
 	module_param "terraform-provider-snapcd/internal/provider/module_param"
 	namespace_env_var "terraform-provider-snapcd/internal/provider/namespace_env_var"
 	namespace_param "terraform-provider-snapcd/internal/provider/namespace_param"
 	role_assignment "terraform-provider-snapcd/internal/provider/role_assignment"
 	secret "terraform-provider-snapcd/internal/provider/secret"
-	identity "terraform-provider-snapcd/internal/provider/identity"
-	core "terraform-provider-snapcd/internal/provider/core"
+	secret_store "terraform-provider-snapcd/internal/provider/secret_store"
+	utils "terraform-provider-snapcd/utils"
 
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 	"github.com/hashicorp/terraform-plugin-framework/path"
@@ -379,10 +379,9 @@ func (p *snapcdProvider) DataSources(_ context.Context) []func() datasource.Data
 
 		secret_store.AzureKeyVaultSecretStoreDataSource,
 
-		secret.NamespaceAzureKeyVaultSecretDataSource,
+		secret.AzureKeyVaultSecretScopedToNamespaceDataSource,
 	}
 }
-
 
 // Resources defines the resources implemented in the provider.
 func (p *snapcdProvider) Resources(_ context.Context) []func() resource.Resource {
@@ -395,7 +394,7 @@ func (p *snapcdProvider) Resources(_ context.Context) []func() resource.Resource
 
 		identity.ServicePrincipalResource,
 		identity.GroupResource,
-		identity.GroupMemberResource,		
+		identity.GroupMemberResource,
 
 		module_env_var.ModuleEnvVarFromLiteralResource,
 		module_env_var.ModuleEnvVarFromDefinitionResource,
@@ -423,6 +422,6 @@ func (p *snapcdProvider) Resources(_ context.Context) []func() resource.Resource
 
 		secret_store.AzureKeyVaultSecretStoreResource,
 
-		secret.NamespaceAzureKeyVaultSecretResource,
+		secret.AzureKeyVaultSecretScopedToNamespaceResource,
 	}
 }

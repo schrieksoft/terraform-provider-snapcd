@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 
-package tests
+package secret_store
 
 import (
 	"terraform-provider-snapcd/internal/tests/providerconfig"
@@ -9,11 +9,6 @@ import (
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 )
 
-var AzureKeyVaultSecretStoreCreateConfig = providerconfig.AppendRandomString(`
-resource "snapcd_azure_key_vault_secret_store" "this" { 
-  name  = "somevalue%s"
-  key_vault_url = "https://snapcdlocaltesting.vault.azure.net/"
-}`)
 
 func TestAccResourceAzureKeyVaultSecretStore_Create(t *testing.T) {
 	resource.UnitTest(t, resource.TestCase{
