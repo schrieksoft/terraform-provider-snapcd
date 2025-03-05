@@ -9,6 +9,15 @@ import (
 
 	snapcd "terraform-provider-snapcd/client"
 	utils "terraform-provider-snapcd/utils"
+	secret_store "terraform-provider-snapcd/internal/provider/secret_store"
+	module_env_var "terraform-provider-snapcd/internal/provider/module_env_var"
+	module_param "terraform-provider-snapcd/internal/provider/module_param"
+	namespace_env_var "terraform-provider-snapcd/internal/provider/namespace_env_var"
+	namespace_param "terraform-provider-snapcd/internal/provider/namespace_param"
+	role_assignment "terraform-provider-snapcd/internal/provider/role_assignment"
+	secret "terraform-provider-snapcd/internal/provider/secret"
+	identity "terraform-provider-snapcd/internal/provider/identity"
+	core "terraform-provider-snapcd/internal/provider/core"
 
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 	"github.com/hashicorp/terraform-plugin-framework/path"
@@ -339,64 +348,81 @@ func (p *snapcdProvider) Configure(ctx context.Context, req provider.ConfigureRe
 // DataSources defines the data sources implemented in the provider.
 func (p *snapcdProvider) DataSources(_ context.Context) []func() datasource.DataSource {
 	return []func() datasource.DataSource{
-		NamespaceDataSource,
-		ModuleDataSource,
-		StackDataSource,
-		RunnerPoolDataSource,
-		ModuleParamFromLiteralDataSource,
-		ModuleEnvVarFromLiteralDataSource,
-		ModuleParamFromDefinitionDataSource,
-		ModuleEnvVarFromDefinitionDataSource,
-		ModuleParamFromNamespaceDataSource,
-		ModuleEnvVarFromNamespaceDataSource,
-		ModuleParamFromOutputDataSource,
-		ModuleEnvVarFromOutputDataSource,
-		ModuleParamFromOutputSetDataSource,
-		ModuleEnvVarFromOutputSetDataSource,
-		NamespaceParamFromLiteralDataSource,
-		NamespaceEnvVarFromLiteralDataSource,
-		NamespaceParamFromDefinitionDataSource,
-		NamespaceEnvVarFromDefinitionDataSource,
-		ServicePrincipalDataSource,
-		GroupDataSource,
-		AzureKeyVaultSecretStoreDataSource,
-		NamespaceAzureKeyVaultSecretDataSource,
-		NamespaceParamFromSecretDataSource,
-		NamespaceEnvVarFromSecretDataSource,
+
+		core.NamespaceDataSource,
+		core.ModuleDataSource,
+		core.StackDataSource,
+		core.RunnerPoolDataSource,
+
+		identity.ServicePrincipalDataSource,
+		identity.GroupDataSource,
+
+		module_env_var.ModuleEnvVarFromLiteralDataSource,
+		module_env_var.ModuleEnvVarFromDefinitionDataSource,
+		module_env_var.ModuleEnvVarFromNamespaceDataSource,
+		module_env_var.ModuleEnvVarFromOutputDataSource,
+		module_env_var.ModuleEnvVarFromOutputSetDataSource,
+
+		module_param.ModuleParamFromLiteralDataSource,
+		module_param.ModuleParamFromDefinitionDataSource,
+		module_param.ModuleParamFromNamespaceDataSource,
+		module_param.ModuleParamFromOutputDataSource,
+		module_param.ModuleParamFromOutputSetDataSource,
+
+		namespace_env_var.NamespaceEnvVarFromLiteralDataSource,
+		namespace_env_var.NamespaceEnvVarFromDefinitionDataSource,
+		namespace_env_var.NamespaceEnvVarFromSecretDataSource,
+
+		namespace_param.NamespaceParamFromLiteralDataSource,
+		namespace_param.NamespaceParamFromDefinitionDataSource,
+		namespace_param.NamespaceParamFromSecretDataSource,
+
+		secret_store.AzureKeyVaultSecretStoreDataSource,
+
+		secret.NamespaceAzureKeyVaultSecretDataSource,
 	}
 }
+
 
 // Resources defines the resources implemented in the provider.
 func (p *snapcdProvider) Resources(_ context.Context) []func() resource.Resource {
 	return []func() resource.Resource{
-		NamespaceResource,
-		ModuleResource,
-		StackResource,
-		RunnerPoolResource,
-		ModuleParamFromLiteralResource,
-		ModuleEnvVarFromLiteralResource,
-		ModuleParamFromDefinitionResource,
-		ModuleEnvVarFromDefinitionResource,
-		ModuleParamFromNamespaceResource,
-		ModuleEnvVarFromNamespaceResource,
-		ModuleParamFromOutputResource,
-		ModuleEnvVarFromOutputResource,
-		ModuleParamFromOutputSetResource,
-		ModuleEnvVarFromOutputSetResource,
-		NamespaceParamFromLiteralResource,
-		NamespaceEnvVarFromLiteralResource,
-		NamespaceParamFromDefinitionResource,
-		NamespaceEnvVarFromDefinitionResource,
-		ServicePrincipalResource,
-		GroupResource,
-		GroupMemberResource,
-		ResourceRoleAssignmentResource,
-		TypeRoleAssignmentResource,
-		GlobalRoleAssignmentResource,
-		AzureKeyVaultSecretStoreResource,
-		NamespaceAzureKeyVaultSecretResource,
-		NamespaceParamFromSecretResource,
-		NamespaceEnvVarFromSecretResource,
 
+		core.NamespaceResource,
+		core.ModuleResource,
+		core.StackResource,
+		core.RunnerPoolResource,
+
+		identity.ServicePrincipalResource,
+		identity.GroupResource,
+		identity.GroupMemberResource,		
+
+		module_env_var.ModuleEnvVarFromLiteralResource,
+		module_env_var.ModuleEnvVarFromDefinitionResource,
+		module_env_var.ModuleEnvVarFromNamespaceResource,
+		module_env_var.ModuleEnvVarFromOutputResource,
+		module_env_var.ModuleEnvVarFromOutputSetResource,
+
+		module_param.ModuleParamFromLiteralResource,
+		module_param.ModuleParamFromDefinitionResource,
+		module_param.ModuleParamFromNamespaceResource,
+		module_param.ModuleParamFromOutputResource,
+		module_param.ModuleParamFromOutputSetResource,
+
+		namespace_env_var.NamespaceEnvVarFromLiteralResource,
+		namespace_env_var.NamespaceEnvVarFromDefinitionResource,
+		namespace_env_var.NamespaceEnvVarFromSecretResource,
+
+		namespace_param.NamespaceParamFromLiteralResource,
+		namespace_param.NamespaceParamFromDefinitionResource,
+		namespace_param.NamespaceParamFromSecretResource,
+
+		role_assignment.ResourceRoleAssignmentResource,
+		role_assignment.TypeRoleAssignmentResource,
+		role_assignment.GlobalRoleAssignmentResource,
+
+		secret_store.AzureKeyVaultSecretStoreResource,
+
+		secret.NamespaceAzureKeyVaultSecretResource,
 	}
 }
