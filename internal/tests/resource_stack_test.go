@@ -19,18 +19,6 @@ resource "snapcd_stack" "this" {
   name  = "default"
 }`
 
-func TestAccResourceStack_CreateShouldFail(t *testing.T) {
-	resource.UnitTest(t, resource.TestCase{
-		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
-		Steps: []resource.TestStep{
-			{
-				// Test for any error (catch-all)
-				Config:      providerConfig + prexistingStack,
-				ExpectError: regexp.MustCompile(`.*`), // Matches any error
-			},
-		},
-	})
-}
 
 func TestAccResourceStack_Create(t *testing.T) {
 	resource.UnitTest(t, resource.TestCase{
@@ -85,6 +73,21 @@ func TestAccResourceStack_Import(t *testing.T) {
 				ResourceName:      "snapcd_stack.this",
 				ImportState:       true,
 				ImportStateVerify: true,
+			},
+		},
+	})
+}
+
+
+
+func TestAccResourceStack_CreateShouldFail(t *testing.T) {
+	resource.UnitTest(t, resource.TestCase{
+		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
+		Steps: []resource.TestStep{
+			{
+				// Test for any error (catch-all)
+				Config:      providerConfig + prexistingStack,
+				ExpectError: regexp.MustCompile(`.*`), // Matches any error
 			},
 		},
 	})

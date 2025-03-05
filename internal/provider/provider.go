@@ -359,6 +359,10 @@ func (p *snapcdProvider) DataSources(_ context.Context) []func() datasource.Data
 		NamespaceEnvVarFromDefinitionDataSource,
 		ServicePrincipalDataSource,
 		GroupDataSource,
+		AzureKeyVaultSecretStoreDataSource,
+		NamespaceAzureKeyVaultSecretDataSource,
+		NamespaceParamFromSecretDataSource,
+		NamespaceEnvVarFromSecretDataSource,
 	}
 }
 
@@ -389,5 +393,10 @@ func (p *snapcdProvider) Resources(_ context.Context) []func() resource.Resource
 		ResourceRoleAssignmentResource,
 		TypeRoleAssignmentResource,
 		GlobalRoleAssignmentResource,
+		AzureKeyVaultSecretStoreResource,
+		NamespaceAzureKeyVaultSecretResource,
+		NamespaceParamFromSecretResource,
+		NamespaceEnvVarFromSecretResource,
+
 	}
 }
