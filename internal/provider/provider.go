@@ -17,6 +17,7 @@ import (
 	role_assignment "terraform-provider-snapcd/internal/provider/role_assignment"
 	secret "terraform-provider-snapcd/internal/provider/secret"
 	secret_store "terraform-provider-snapcd/internal/provider/secret_store"
+	"terraform-provider-snapcd/internal/provider/secret_store_assignment"
 	utils "terraform-provider-snapcd/utils"
 
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
@@ -379,7 +380,10 @@ func (p *snapcdProvider) DataSources(_ context.Context) []func() datasource.Data
 
 		secret_store.AzureKeyVaultSecretStoreDataSource,
 
+		secret.AzureKeyVaultSecretScopedToStackDataSource,
 		secret.AzureKeyVaultSecretScopedToNamespaceDataSource,
+		secret.AzureKeyVaultSecretScopedToModuleDataSource,
+		secret.AzureKeyVaultSecretDataSource,
 	}
 }
 
@@ -422,6 +426,13 @@ func (p *snapcdProvider) Resources(_ context.Context) []func() resource.Resource
 
 		secret_store.AzureKeyVaultSecretStoreResource,
 
+		secret.AzureKeyVaultSecretScopedToStackResource,
 		secret.AzureKeyVaultSecretScopedToNamespaceResource,
+		secret.AzureKeyVaultSecretScopedToModuleResource,
+		secret.AzureKeyVaultSecretResource,
+
+		secret_store_assignment.SecretStoreStackAssignmentResource,
+		secret_store_assignment.SecretStoreNamespaceAssignmentResource,
+		secret_store_assignment.SecretStoreModuleAssignmentResource,
 	}
 }
