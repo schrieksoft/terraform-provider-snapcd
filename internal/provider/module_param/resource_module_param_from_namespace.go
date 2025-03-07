@@ -16,7 +16,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 )
 
-var moduleParamFromNamespaceDefaultError = fmt.Sprintf("snapcd_moduleParamFromNamespace error")
+var moduleParamFromNamespaceDefaultError = fmt.Sprintf("snapcd_module_param_from_namespace error")
 
 var moduleParamFromNamespaceEndpoint = "/api/Definition/ModuleParamFromNamespace"
 

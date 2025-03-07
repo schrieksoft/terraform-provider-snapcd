@@ -15,7 +15,7 @@ resource "snapcd_namespace_env_var_from_secret" "this" {
   namespace_id = snapcd_namespace.this.id
   name  	   = "somevalue%s"
   secret_name  = snapcd_azure_key_vault_secret_scoped_to_namespace.this.name
-  scope        = "Namespace"
+  secret_scope        = "Namespace"
 }
   
 `)

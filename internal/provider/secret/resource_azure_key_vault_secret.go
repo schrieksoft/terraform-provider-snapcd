@@ -16,7 +16,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 )
 
-var azureKeyVaultSecretDefaultError = fmt.Sprintf("snapcd_azureKeyVaultSecret error")
+var azureKeyVaultSecretDefaultError = fmt.Sprintf("snapcd_azure_key_vault_secret error")
 
 var azureKeyVaultSecretEndpoint = "/api/Definition/AzureKeyVaultSecret"
 

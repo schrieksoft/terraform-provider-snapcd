@@ -16,7 +16,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 )
 
-var moduleParamFromOutputDefaultError = fmt.Sprintf("snapcd_moduleParamFromOutput error")
+var moduleParamFromOutputDefaultError = fmt.Sprintf("snapcd_module_param_from_output error")
 
 var moduleParamFromOutputEndpoint = "/api/Definition/ModuleParamFromOutput"
 

@@ -67,7 +67,7 @@ func (d *namespaceEnvVarFromSecretDataSource) Schema(ctx context.Context, req da
 			"namespace_id": schema.StringAttribute{
 				Required: true,
 			},
-			"scope": schema.StringAttribute{
+			"secret_scope": schema.StringAttribute{
 				Computed: true,
 			},
 		},

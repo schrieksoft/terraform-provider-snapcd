@@ -19,7 +19,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 )
 
-var namespaceEnvVarFromSecretDefaultError = fmt.Sprintf("snapcd_namespaceEnvVarFromSecret error")
+var namespaceEnvVarFromSecretDefaultError = fmt.Sprintf("snapcd_namespace_env_var_from_secret error")
 
 var namespaceEnvVarFromSecretEndpoint = "/api/Definition/NamespaceEnvVarFromSecret"
 
@@ -62,7 +62,7 @@ type namespaceEnvVarFromSecretModel struct {
 	Id          types.String `tfsdk:"id"`
 	Type        types.String `tfsdk:"type"`
 	SecretName  types.String `tfsdk:"secret_name"`
-	Scope       types.String `tfsdk:"scope"`
+	SecretScope types.String `tfsdk:"secret_scope"`
 	UsageMode   types.String `tfsdk:"usage_mode"`
 	NamespaceId types.String `tfsdk:"namespace_id"`
 }
@@ -100,10 +100,10 @@ func (r *namespaceEnvVarFromSecretResource) Schema(ctx context.Context, req reso
 			"namespace_id": schema.StringAttribute{
 				Required: true,
 			},
-			"scope": schema.StringAttribute{
+			"secret_scope": schema.StringAttribute{
 				Required: true,
 				Validators: []validator.String{
-					stringvalidator.OneOf("Global", "Stack", "Namespace", "Module"),
+					stringvalidator.OneOf("Stack", "Namespace"),
 				},
 			},
 		},

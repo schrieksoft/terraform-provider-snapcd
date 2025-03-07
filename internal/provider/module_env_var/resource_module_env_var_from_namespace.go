@@ -1,4 +1,4 @@
-package provider
+package module_env_var
 
 import (
 	"fmt"
@@ -16,7 +16,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 )
 
-var moduleEnvVarFromNamespaceDefaultError = fmt.Sprintf("snapcd_moduleEnvVarFromNamespace error")
+var moduleEnvVarFromNamespaceDefaultError = fmt.Sprintf("snapcd_module_env_var_from_namespace error")
 
 var moduleEnvVarFromNamespaceEndpoint = "/api/Definition/ModuleEnvVarFromNamespace"
 

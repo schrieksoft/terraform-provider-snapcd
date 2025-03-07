@@ -16,7 +16,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 )
 
-var azureKeyVaultSecretScopedToNamespaceDefaultError = fmt.Sprintf("snapcd_azureKeyVaultSecretScopedToNamespace error")
+var azureKeyVaultSecretScopedToNamespaceDefaultError = fmt.Sprintf("snapcd_azure_key_vault_secret_scoped_to_namespace error")
 
 var azureKeyVaultSecretScopedToNamespaceEndpoint = "/api/Definition/AzureKeyVaultSecretScopedToNamespace"
 

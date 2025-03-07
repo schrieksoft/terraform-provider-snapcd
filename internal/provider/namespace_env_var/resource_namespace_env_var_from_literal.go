@@ -19,7 +19,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 )
 
-var namespaceEnvVarFromLiteralDefaultError = fmt.Sprintf("snapcd_namespaceEnvVarFromLiteral error")
+var namespaceEnvVarFromLiteralDefaultError = fmt.Sprintf("snapcd_namespace_env_var_from_literal error")
 
 var namespaceEnvVarFromLiteralEndpoint = "/api/Definition/NamespaceEnvVarFromLiteral"
 

@@ -1,4 +1,4 @@
-package namespace_param
+package module_env_var
 
 import (
 	"fmt"
@@ -19,22 +19,22 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 )
 
-var namespaceParamFromSecretDefaultError = fmt.Sprintf("snapcd_namespace_param_from_secret error")
+var moduleEnvVarFromSecretDefaultError = fmt.Sprintf("snapcd_module_env_var_from_secret error")
 
-var namespaceParamFromSecretEndpoint = "/api/Definition/NamespaceParamFromSecret"
+var moduleEnvVarFromSecretEndpoint = "/api/Definition/ModuleEnvVarFromSecret"
 
-var _ resource.Resource = (*namespaceParamFromSecretResource)(nil)
+var _ resource.Resource = (*moduleEnvVarFromSecretResource)(nil)
 
-func NamespaceParamFromSecretResource() resource.Resource {
-	return &namespaceParamFromSecretResource{}
+func ModuleEnvVarFromSecretResource() resource.Resource {
+	return &moduleEnvVarFromSecretResource{}
 }
 
-type namespaceParamFromSecretResource struct {
+type moduleEnvVarFromSecretResource struct {
 	client *snapcd.Client
 }
 
 // Configure adds the provider configured client to the resource.
-func (r *namespaceParamFromSecretResource) Configure(_ context.Context, req resource.ConfigureRequest, resp *resource.ConfigureResponse) {
+func (r *moduleEnvVarFromSecretResource) Configure(_ context.Context, req resource.ConfigureRequest, resp *resource.ConfigureResponse) {
 	if req.ProviderData == nil {
 		return
 	}
@@ -53,21 +53,20 @@ func (r *namespaceParamFromSecretResource) Configure(_ context.Context, req reso
 	r.client = client
 }
 
-func (r *namespaceParamFromSecretResource) Metadata(ctx context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
-	resp.TypeName = req.ProviderTypeName + "_namespace_param_from_secret"
+func (r *moduleEnvVarFromSecretResource) Metadata(ctx context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
+	resp.TypeName = req.ProviderTypeName + "_module_env_var_from_secret"
 }
 
-type namespaceParamFromSecretModel struct {
+type moduleEnvVarFromSecretModel struct {
 	Name        types.String `tfsdk:"name"`
 	Id          types.String `tfsdk:"id"`
+	ModuleId    types.String `tfsdk:"module_id"`
 	Type        types.String `tfsdk:"type"`
 	SecretName  types.String `tfsdk:"secret_name"`
 	SecretScope types.String `tfsdk:"secret_scope"`
-	UsageMode   types.String `tfsdk:"usage_mode"`
-	NamespaceId types.String `tfsdk:"namespace_id"`
 }
 
-func (r *namespaceParamFromSecretResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
+func (r *moduleEnvVarFromSecretResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
@@ -79,6 +78,9 @@ func (r *namespaceParamFromSecretResource) Schema(ctx context.Context, req resou
 			"name": schema.StringAttribute{
 				Required: true,
 			},
+			"secret_name": schema.StringAttribute{
+				Required: true,
+			},
 			"type": schema.StringAttribute{
 				Optional: true,
 				Computed: true,
@@ -86,32 +88,21 @@ func (r *namespaceParamFromSecretResource) Schema(ctx context.Context, req resou
 					stringvalidator.OneOf("String", "NotString", "Number", "Bool", "Tuple", "Object")},
 				Default: stringdefault.StaticString("String"),
 			},
-			"secret_name": schema.StringAttribute{
-				Required: true,
-			},
-			"usage_mode": schema.StringAttribute{
-				Optional: true,
-				Computed: true,
-				Validators: []validator.String{
-					stringvalidator.OneOf("UseIfSelected", "UseByDefault"),
-				},
-				Default: stringdefault.StaticString("UseIfSelected"),
-			},
-			"namespace_id": schema.StringAttribute{
+			"module_id": schema.StringAttribute{
 				Required: true,
 			},
 			"secret_scope": schema.StringAttribute{
 				Required: true,
 				Validators: []validator.String{
-					stringvalidator.OneOf("Stack", "Namespace"),
+					stringvalidator.OneOf("Stack", "Namespace", "Module"),
 				},
 			},
 		},
 	}
 }
 
-func (r *namespaceParamFromSecretResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
-	var data namespaceParamFromSecretModel
+func (r *moduleEnvVarFromSecretResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
+	var data moduleEnvVarFromSecretModel
 
 	// Read Terraform plan data into the model
 	resp.Diagnostics.Append(req.Plan.Get(ctx, &data)...)
@@ -122,17 +113,17 @@ func (r *namespaceParamFromSecretResource) Create(ctx context.Context, req resou
 
 	jsonMap, err := utils.PlanToJson(data, []string{"id"})
 	if err != nil {
-		resp.Diagnostics.AddError(namespaceParamFromSecretDefaultError, "Failed to convert json to plan: "+err.Error())
+		resp.Diagnostics.AddError(moduleEnvVarFromSecretDefaultError, "Failed to convert json to plan: "+err.Error())
 	}
 
 	if err != nil {
-		resp.Diagnostics.AddError(namespaceParamFromSecretDefaultError, "Failed to convert plan to json: "+err.Error())
+		resp.Diagnostics.AddError(moduleEnvVarFromSecretDefaultError, "Failed to convert plan to json: "+err.Error())
 		return
 	}
 
-	result, httpError := r.client.Post(namespaceParamFromSecretEndpoint, jsonMap)
+	result, httpError := r.client.Post(moduleEnvVarFromSecretEndpoint, jsonMap)
 	if httpError != nil && httpError.StatusCode == snapcd.Status442EntityAlreadyExists {
-		resp.Diagnostics.AddError(namespaceParamFromSecretDefaultError, "The resource you are trying to create already exists. To manage it with terraform you must import it")
+		resp.Diagnostics.AddError(moduleEnvVarFromSecretDefaultError, "The resource you are trying to create already exists. To manage it with terraform you must import it")
 		return
 	}
 	if httpError != nil {
@@ -141,14 +132,14 @@ func (r *namespaceParamFromSecretResource) Create(ctx context.Context, req resou
 		err = nil
 	}
 	if err != nil {
-		resp.Diagnostics.AddError(namespaceParamFromSecretDefaultError, "Error calling POST, unexpected error: "+err.Error())
+		resp.Diagnostics.AddError(moduleEnvVarFromSecretDefaultError, "Error calling POST, unexpected error: "+err.Error())
 		return
 	}
 
 	err = utils.JsonToPlan(result, &data)
 
 	if err != nil {
-		resp.Diagnostics.AddError(namespaceParamFromSecretDefaultError, "Failed to convert json to plan: "+err.Error())
+		resp.Diagnostics.AddError(moduleEnvVarFromSecretDefaultError, "Failed to convert json to plan: "+err.Error())
 		return
 	}
 
@@ -156,8 +147,8 @@ func (r *namespaceParamFromSecretResource) Create(ctx context.Context, req resou
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
 
-func (r *namespaceParamFromSecretResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
-	var data namespaceParamFromSecretModel
+func (r *moduleEnvVarFromSecretResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
+	var data moduleEnvVarFromSecretModel
 
 	// Read Terraform prior state data into the model
 	resp.Diagnostics.Append(req.State.Get(ctx, &data)...)
@@ -167,7 +158,7 @@ func (r *namespaceParamFromSecretResource) Read(ctx context.Context, req resourc
 	}
 
 	// Read API call logic
-	result, httpError := r.client.Get(fmt.Sprintf("%s/%s", namespaceParamFromSecretEndpoint, data.Id.ValueString()))
+	result, httpError := r.client.Get(fmt.Sprintf("%s/%s", moduleEnvVarFromSecretEndpoint, data.Id.ValueString()))
 	if httpError != nil && httpError.StatusCode == snapcd.Status441EntityNotFound {
 		// Resource was not found, so remove it from state
 		resp.State.RemoveResource(ctx)
@@ -180,14 +171,14 @@ func (r *namespaceParamFromSecretResource) Read(ctx context.Context, req resourc
 		err = nil
 	}
 	if err != nil {
-		resp.Diagnostics.AddError(namespaceParamFromSecretDefaultError, "Error calling GET, unexpected error: "+err.Error())
+		resp.Diagnostics.AddError(moduleEnvVarFromSecretDefaultError, "Error calling GET, unexpected error: "+err.Error())
 		return
 	}
 
 	err = utils.JsonToPlan(result, &data)
 
 	if err != nil {
-		resp.Diagnostics.AddError(namespaceParamFromSecretDefaultError, "Failed to convert json to plan: "+err.Error())
+		resp.Diagnostics.AddError(moduleEnvVarFromSecretDefaultError, "Failed to convert json to plan: "+err.Error())
 		return
 	}
 
@@ -195,9 +186,9 @@ func (r *namespaceParamFromSecretResource) Read(ctx context.Context, req resourc
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
 
-func (r *namespaceParamFromSecretResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
-	var data namespaceParamFromSecretModel
-	var state namespaceParamFromSecretModel
+func (r *moduleEnvVarFromSecretResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
+	var data moduleEnvVarFromSecretModel
+	var state moduleEnvVarFromSecretModel
 
 	// Read Terraform prior state data into the model
 	resp.Diagnostics.Append(req.State.Get(ctx, &state)...)
@@ -213,23 +204,23 @@ func (r *namespaceParamFromSecretResource) Update(ctx context.Context, req resou
 
 	jsonMap, err := utils.PlanToJson(data)
 	if err != nil {
-		resp.Diagnostics.AddError(namespaceParamFromSecretDefaultError, "Failed to convert json to plan: "+err.Error())
+		resp.Diagnostics.AddError(moduleEnvVarFromSecretDefaultError, "Failed to convert json to plan: "+err.Error())
 	}
 
-	result, httpError := r.client.Put(fmt.Sprintf("%s/%s", namespaceParamFromSecretEndpoint, state.Id.ValueString()), jsonMap)
+	result, httpError := r.client.Put(fmt.Sprintf("%s/%s", moduleEnvVarFromSecretEndpoint, state.Id.ValueString()), jsonMap)
 	if httpError != nil {
 		err = httpError.Error
 	} else {
 		err = nil
 	}
 	if err != nil {
-		resp.Diagnostics.AddError(namespaceParamFromSecretDefaultError, "Error calling PUT, unexpected error: "+err.Error())
+		resp.Diagnostics.AddError(moduleEnvVarFromSecretDefaultError, "Error calling PUT, unexpected error: "+err.Error())
 		return
 	}
 
 	err = utils.JsonToPlan(result, &data)
 	if err != nil {
-		resp.Diagnostics.AddError(namespaceParamFromSecretDefaultError, "Failed to convert json to plan: "+err.Error())
+		resp.Diagnostics.AddError(moduleEnvVarFromSecretDefaultError, "Failed to convert json to plan: "+err.Error())
 		return
 	}
 
@@ -237,8 +228,8 @@ func (r *namespaceParamFromSecretResource) Update(ctx context.Context, req resou
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
 
-func (r *namespaceParamFromSecretResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
-	var data namespaceParamFromSecretModel
+func (r *moduleEnvVarFromSecretResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
+	var data moduleEnvVarFromSecretModel
 
 	// Read Terraform prior state data into the model
 	resp.Diagnostics.Append(req.State.Get(ctx, &data)...)
@@ -248,7 +239,7 @@ func (r *namespaceParamFromSecretResource) Delete(ctx context.Context, req resou
 	}
 
 	// Delete API call logic
-	_, httpError := r.client.Delete(fmt.Sprintf("%s/%s", namespaceParamFromSecretEndpoint, data.Id.ValueString()))
+	_, httpError := r.client.Delete(fmt.Sprintf("%s/%s", moduleEnvVarFromSecretEndpoint, data.Id.ValueString()))
 	if httpError != nil && httpError.StatusCode == snapcd.Status441EntityNotFound {
 		// Resource was not found, so remove it from state
 		resp.State.RemoveResource(ctx)
@@ -261,15 +252,15 @@ func (r *namespaceParamFromSecretResource) Delete(ctx context.Context, req resou
 		err = nil
 	}
 	if err != nil {
-		resp.Diagnostics.AddError(namespaceParamFromSecretDefaultError, "Error calling DELETE, unexpected error: "+err.Error())
+		resp.Diagnostics.AddError(moduleEnvVarFromSecretDefaultError, "Error calling DELETE, unexpected error: "+err.Error())
 		return
 	}
 }
 
-func (r *namespaceParamFromSecretResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
-	var data namespaceParamFromSecretModel
+func (r *moduleEnvVarFromSecretResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
+	var data moduleEnvVarFromSecretModel
 
-	result, httpError := r.client.Get(fmt.Sprintf("%s/%s", namespaceParamFromSecretEndpoint, req.ID))
+	result, httpError := r.client.Get(fmt.Sprintf("%s/%s", moduleEnvVarFromSecretEndpoint, req.ID))
 	var err error
 	if httpError != nil {
 		err = httpError.Error
@@ -277,13 +268,13 @@ func (r *namespaceParamFromSecretResource) ImportState(ctx context.Context, req 
 		err = nil
 	}
 	if err != nil {
-		resp.Diagnostics.AddError(namespaceParamFromSecretDefaultError, "Error calling GET, unexpected error: "+err.Error())
+		resp.Diagnostics.AddError(moduleEnvVarFromSecretDefaultError, "Error calling GET, unexpected error: "+err.Error())
 		return
 	}
 
 	err = utils.JsonToPlan(result, &data)
 	if err != nil {
-		resp.Diagnostics.AddError(namespaceParamFromSecretDefaultError, "Failed to convert json to plan: "+err.Error())
+		resp.Diagnostics.AddError(moduleEnvVarFromSecretDefaultError, "Failed to convert json to plan: "+err.Error())
 		return
 	}
 

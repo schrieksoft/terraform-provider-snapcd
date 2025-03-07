@@ -16,7 +16,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 )
 
-var azureKeyVaultSecretScopedToStackDefaultError = fmt.Sprintf("snapcd_azureKeyVaultSecretScopedToStack error")
+var azureKeyVaultSecretScopedToStackDefaultError = fmt.Sprintf("snapcd_azure_key_vault_secret_scoped_to_stack error")
 
 var azureKeyVaultSecretScopedToStackEndpoint = "/api/Definition/AzureKeyVaultSecretScopedToStack"
 

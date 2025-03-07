@@ -1,4 +1,4 @@
-package provider
+package module_env_var
 
 import (
 	"fmt"

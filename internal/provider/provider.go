@@ -8,17 +8,17 @@ import (
 	"strconv"
 
 	snapcd "terraform-provider-snapcd/client"
-	core "terraform-provider-snapcd/internal/provider/core"
-	identity "terraform-provider-snapcd/internal/provider/identity"
-	module_env_var "terraform-provider-snapcd/internal/provider/module_env_var"
-	module_param "terraform-provider-snapcd/internal/provider/module_param"
-	namespace_env_var "terraform-provider-snapcd/internal/provider/namespace_env_var"
-	namespace_param "terraform-provider-snapcd/internal/provider/namespace_param"
+	"terraform-provider-snapcd/internal/provider/core"
+	"terraform-provider-snapcd/internal/provider/identity"
+	"terraform-provider-snapcd/internal/provider/module_env_var"
+	"terraform-provider-snapcd/internal/provider/module_param"
+	"terraform-provider-snapcd/internal/provider/namespace_env_var"
+	"terraform-provider-snapcd/internal/provider/namespace_param"
 	role_assignment "terraform-provider-snapcd/internal/provider/role_assignment"
-	secret "terraform-provider-snapcd/internal/provider/secret"
-	secret_store "terraform-provider-snapcd/internal/provider/secret_store"
+	"terraform-provider-snapcd/internal/provider/secret"
+	"terraform-provider-snapcd/internal/provider/secret_store"
 	"terraform-provider-snapcd/internal/provider/secret_store_assignment"
-	utils "terraform-provider-snapcd/utils"
+	"terraform-provider-snapcd/utils"
 
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 	"github.com/hashicorp/terraform-plugin-framework/path"
@@ -363,12 +363,14 @@ func (p *snapcdProvider) DataSources(_ context.Context) []func() datasource.Data
 		module_env_var.ModuleEnvVarFromNamespaceDataSource,
 		module_env_var.ModuleEnvVarFromOutputDataSource,
 		module_env_var.ModuleEnvVarFromOutputSetDataSource,
+		module_env_var.ModuleEnvVarFromSecretDataSource,
 
 		module_param.ModuleParamFromLiteralDataSource,
 		module_param.ModuleParamFromDefinitionDataSource,
 		module_param.ModuleParamFromNamespaceDataSource,
 		module_param.ModuleParamFromOutputDataSource,
 		module_param.ModuleParamFromOutputSetDataSource,
+		module_param.ModuleParamFromSecretDataSource,
 
 		namespace_env_var.NamespaceEnvVarFromLiteralDataSource,
 		namespace_env_var.NamespaceEnvVarFromDefinitionDataSource,
@@ -405,12 +407,14 @@ func (p *snapcdProvider) Resources(_ context.Context) []func() resource.Resource
 		module_env_var.ModuleEnvVarFromNamespaceResource,
 		module_env_var.ModuleEnvVarFromOutputResource,
 		module_env_var.ModuleEnvVarFromOutputSetResource,
+		module_env_var.ModuleEnvVarFromSecretResource,
 
 		module_param.ModuleParamFromLiteralResource,
 		module_param.ModuleParamFromDefinitionResource,
 		module_param.ModuleParamFromNamespaceResource,
 		module_param.ModuleParamFromOutputResource,
 		module_param.ModuleParamFromOutputSetResource,
+		module_param.ModuleParamFromSecretResource,
 
 		namespace_env_var.NamespaceEnvVarFromLiteralResource,
 		namespace_env_var.NamespaceEnvVarFromDefinitionResource,

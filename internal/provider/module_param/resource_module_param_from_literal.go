@@ -19,7 +19,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 )
 
-var moduleParamFromLiteralDefaultError = fmt.Sprintf("snapcd_moduleParamFromLiteral error")
+var moduleParamFromLiteralDefaultError = fmt.Sprintf("snapcd_module_param_from_literal error")
 
 var moduleParamFromLiteralEndpoint = "/api/Definition/ModuleParamFromLiteral"
 
