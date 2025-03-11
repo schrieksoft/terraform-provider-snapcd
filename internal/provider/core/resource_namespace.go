@@ -76,6 +76,7 @@ type namespaceModel struct {
 	DefaultModuleCacheEnabled    types.Bool   `tfsdk:"default_module_cache_enabled"`
 	DefaultSelectOn              types.String `tfsdk:"default_select_on"`
 	DefaultSelectStrategy        types.String `tfsdk:"default_select_strategy"`
+	DefaultOutputSecretStoreId   types.String `tfsdk:"default_output_secret_store_id"`
 }
 
 func (r *namespaceResource) Metadata(ctx context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
@@ -178,6 +179,9 @@ func (r *namespaceResource) Schema(ctx context.Context, req resource.SchemaReque
 				Validators: []validator.String{
 					stringvalidator.OneOf("FirstOf", "AnyOf"),
 				},
+			},
+			"default_output_secret_store_id": schema.StringAttribute{
+				Optional: true,
 			},
 		},
 	}

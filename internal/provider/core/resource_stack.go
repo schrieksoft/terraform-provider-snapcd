@@ -55,8 +55,9 @@ func (r *stackResource) Metadata(ctx context.Context, req resource.MetadataReque
 }
 
 type stackModel struct {
-	Name types.String `tfsdk:"name"`
-	Id   types.String `tfsdk:"id"`
+	Name                       types.String `tfsdk:"name"`
+	Id                         types.String `tfsdk:"id"`
+	DefaultOutputSecretStoreId types.String `tfsdk:"default_output_secret_store_id"`
 }
 
 func (r *stackResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
@@ -70,6 +71,9 @@ func (r *stackResource) Schema(ctx context.Context, req resource.SchemaRequest, 
 			},
 			"name": schema.StringAttribute{
 				Required: true,
+			},
+			"default_output_secret_store_id": schema.StringAttribute{
+				Optional: true,
 			},
 		},
 	}

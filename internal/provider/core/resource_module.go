@@ -87,6 +87,7 @@ type moduleModel struct {
 	OutputBeforeHook         types.String `tfsdk:"output_before_hook"`
 	OutputAfterHook          types.String `tfsdk:"output_after_hook"`
 	Engine                   types.String `tfsdk:"engine"`
+	OutputSecretStoreId		 types.String `tfsdk:"output_secret_store_id"`
 }
 
 func (r *moduleResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
@@ -192,6 +193,9 @@ func (r *moduleResource) Schema(ctx context.Context, req resource.SchemaRequest,
 					stringvalidator.OneOf("OpenTofu", "Terraform"),
 				},
 			},
+			"output_secret_store_id": schema.StringAttribute{
+				Optional: true,
+			},			
 		},
 	}
 }

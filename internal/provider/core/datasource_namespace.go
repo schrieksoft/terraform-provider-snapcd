@@ -129,6 +129,9 @@ func (d *namespaceDataSource) Schema(ctx context.Context, req datasource.SchemaR
 					stringvalidator.OneOf("FirstOf", "AnyOf"),
 				},
 			},
+			"default_output_secret_store_id": schema.StringAttribute{
+				Computed: true,
+			},
 		},
 	}
 }

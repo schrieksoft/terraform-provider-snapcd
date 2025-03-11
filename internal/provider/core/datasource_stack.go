@@ -55,6 +55,9 @@ func (d *stackDataSource) Schema(ctx context.Context, req datasource.SchemaReque
 			"name": schema.StringAttribute{
 				Required: true,
 			},
+			"default_output_secret_store_id": schema.StringAttribute{
+				Computed: true,
+			},
 		},
 	}
 }

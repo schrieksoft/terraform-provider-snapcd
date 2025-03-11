@@ -140,6 +140,9 @@ func (d *moduleDataSource) Schema(ctx context.Context, req datasource.SchemaRequ
 			"engine": schema.StringAttribute{
 				Computed: true,
 			},
+			"output_secret_store_id": schema.StringAttribute{
+				Computed: true,
+			},
 		},
 	}
 }
