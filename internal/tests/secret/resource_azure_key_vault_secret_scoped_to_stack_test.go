@@ -3,6 +3,7 @@
 package secret
 
 import (
+	"strings"
 	"terraform-provider-snapcd/internal/tests/providerconfig"
 	"testing"
 
@@ -35,13 +36,7 @@ func TestAccResourceAzureKeyVaultSecretScopedToStack_CreateUpdate(t *testing.T) 
 				),
 			},
 			{
-				Config: providerconfig.ProviderConfig + providerconfig.AppendRandomString(`
-resource "snapcd_azure_key_vault_secret_scoped_to_stack" "this" { 
-  name  		         = "someNEWvalue%s"
-  remote_secret_name = "name-in-remote-%s"
-  secret_store_id    = snapcd_azure_key_vault_secret_store.this.id
-  stack_id 	         = snapcd_stack.this.id
-}`),
+				Config: providerconfig.ProviderConfig + strings.ReplaceAll(AzureKeyVaultSecretScopedToStackCreateConfig, "somevalue", "someNEWvalue"),
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_azure_key_vault_secret_scoped_to_stack.this", "id"),
 					resource.TestCheckResourceAttr("snapcd_azure_key_vault_secret_scoped_to_stack.this", "name", providerconfig.AppendRandomString("someNEWvalue%s")),

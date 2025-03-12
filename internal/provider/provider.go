@@ -381,11 +381,17 @@ func (p *snapcdProvider) DataSources(_ context.Context) []func() datasource.Data
 		namespace_param.NamespaceParamFromSecretDataSource,
 
 		secret_store.AzureKeyVaultSecretStoreDataSource,
+		secret_store.SimpleSecretStoreDataSource,
 
 		secret.AzureKeyVaultSecretScopedToStackDataSource,
 		secret.AzureKeyVaultSecretScopedToNamespaceDataSource,
 		secret.AzureKeyVaultSecretScopedToModuleDataSource,
 		secret.AzureKeyVaultSecretDataSource,
+
+		secret.SimpleSecretScopedToStackDataSource,
+		secret.SimpleSecretScopedToNamespaceDataSource,
+		secret.SimpleSecretScopedToModuleDataSource,
+		secret.SimpleSecretDataSource,
 	}
 }
 
@@ -429,11 +435,17 @@ func (p *snapcdProvider) Resources(_ context.Context) []func() resource.Resource
 		role_assignment.GlobalRoleAssignmentResource,
 
 		secret_store.AzureKeyVaultSecretStoreResource,
+		secret_store.SimpleSecretStoreResource,
 
 		secret.AzureKeyVaultSecretScopedToStackResource,
 		secret.AzureKeyVaultSecretScopedToNamespaceResource,
 		secret.AzureKeyVaultSecretScopedToModuleResource,
 		secret.AzureKeyVaultSecretResource,
+
+		secret.SimpleSecretScopedToStackResource,
+		secret.SimpleSecretScopedToNamespaceResource,
+		secret.SimpleSecretScopedToModuleResource,
+		secret.SimpleSecretResource,
 
 		secret_store_assignment.SecretStoreStackAssignmentResource,
 		secret_store_assignment.SecretStoreNamespaceAssignmentResource,
