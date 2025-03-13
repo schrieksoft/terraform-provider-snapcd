@@ -15,8 +15,36 @@ permissions:
 
 jobs:
   goreleaser:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Required for GitVersion to analyze history
+
+      - name: Install GitVersion
+        uses: gittools/actions/gitversion/setup@v3.1.11
+        with:
+          versionSpec: 5.x
+
+      - name: Determine Version
+        uses: gittools/actions/gitversion/execute@v3.1.11
+        id: gitversion
+
+      - name: Display GitVersion outputs
+        run: |
+          echo "Version: ${{ steps.gitversion.outputs.SemVer }}"
+          echo "CommitsSinceVersionSource: ${{ steps.gitversion.outputs.CommitsSinceVersionSource }}"
+
+      - name: Create and Push Tag
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          TAG="v${{ steps.gitversion.outputs.SemVer }}"
+          git tag $TAG
+          git push origin $TAG
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
         with:
           # Allow goreleaser to access older tag information.
