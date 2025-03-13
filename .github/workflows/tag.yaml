@@ -1,0 +1,41 @@
+name: Tag
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+
+jobs:
+  tag-version:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Required for GitVersion to analyze history
+
+      - name: Install GitVersion
+        uses: gittools/actions/gitversion/setup@v3.1.11
+        with:
+          versionSpec: 5.x
+
+      - name: Determine Version
+        uses: gittools/actions/gitversion/execute@v3.1.11
+        id: gitversion
+
+      - name: Display GitVersion outputs
+        run: |
+          echo "Version: ${{ steps.gitversion.outputs.SemVer }}"
+          echo "CommitsSinceVersionSource: ${{ steps.gitversion.outputs.CommitsSinceVersionSource }}"
+
+      - name: Create and Push Tag
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          TAG="v${{ steps.gitversion.outputs.SemVer }}"
+          git tag $TAG
+          git push origin $TAG
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
