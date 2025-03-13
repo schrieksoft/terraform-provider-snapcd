@@ -21,7 +21,7 @@ import (
 
 var namespaceParamFromDefinitionDefaultError = fmt.Sprintf("snapcd_namespace_param_from_definition error")
 
-var namespaceParamFromDefinitionEndpoint = "/api/Definition/NamespaceParamFromDefinition"
+var namespaceParamFromDefinitionEndpoint = "/api/NamespaceParamFromDefinition"
 
 var _ resource.Resource = (*namespaceParamFromDefinitionResource)(nil)
 

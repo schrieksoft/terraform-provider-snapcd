@@ -20,7 +20,7 @@ import (
 
 var globalRoleAssignmentDefaultError = fmt.Sprintf("snapcd_global_role_assignment error")
 
-var globalRoleAssignmentEndpoint = "/api/Identity/GlobalRoleAssignment"
+var globalRoleAssignmentEndpoint = "/api/GlobalRoleAssignment"
 
 var _ resource.Resource = (*globalRoleAssignmentResource)(nil)
 

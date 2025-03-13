@@ -18,7 +18,7 @@ import (
 
 var moduleEnvVarFromOutputSetDefaultError = fmt.Sprintf("snapcd_module_env_var_from_output_set error")
 
-var moduleEnvVarFromOutputSetEndpoint = "/api/Definition/ModuleEnvVarFromOutputSet"
+var moduleEnvVarFromOutputSetEndpoint = "/api/ModuleEnvVarFromOutputSet"
 
 var _ resource.Resource = (*moduleEnvVarFromOutputSetResource)(nil)
 

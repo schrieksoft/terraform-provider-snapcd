@@ -18,7 +18,7 @@ import (
 
 var azureKeyVaultSecretScopedToNamespaceDefaultError = fmt.Sprintf("snapcd_azure_key_vault_secret_scoped_to_namespace error")
 
-var azureKeyVaultSecretScopedToNamespaceEndpoint = "/api/Definition/AzureKeyVaultSecretScopedToNamespace"
+var azureKeyVaultSecretScopedToNamespaceEndpoint = "/api/AzureKeyVaultSecretScopedToNamespace"
 
 var _ resource.Resource = (*azureKeyVaultSecretScopedToNamespaceResource)(nil)
 

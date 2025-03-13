@@ -21,7 +21,7 @@ import (
 
 var moduleEnvVarFromSecretDefaultError = fmt.Sprintf("snapcd_module_env_var_from_secret error")
 
-var moduleEnvVarFromSecretEndpoint = "/api/Definition/ModuleEnvVarFromSecret"
+var moduleEnvVarFromSecretEndpoint = "/api/ModuleEnvVarFromSecret"
 
 var _ resource.Resource = (*moduleEnvVarFromSecretResource)(nil)
 

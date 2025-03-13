@@ -18,7 +18,7 @@ import (
 
 var simpleSecretScopedToNamespaceDefaultError = fmt.Sprintf("snapcd_simple_secret_scoped_to_namespace error")
 
-var simpleSecretScopedToNamespaceEndpoint = "/api/Definition/SimpleSecretScopedToNamespace"
+var simpleSecretScopedToNamespaceEndpoint = "/api/SimpleSecretScopedToNamespace"
 
 var _ resource.Resource = (*simpleSecretScopedToNamespaceResource)(nil)
 
@@ -55,11 +55,11 @@ func (r *simpleSecretScopedToNamespaceResource) Metadata(ctx context.Context, re
 }
 
 type simpleSecretScopedToNamespaceModel struct {
-	Name             types.String `tfsdk:"name"`
-	Id               types.String `tfsdk:"id"`
-	SecretStoreId    types.String `tfsdk:"secret_store_id"`
-	NamespaceId      types.String `tfsdk:"namespace_id"`
-	Value types.String `tfsdk:"value"`
+	Name          types.String `tfsdk:"name"`
+	Id            types.String `tfsdk:"id"`
+	SecretStoreId types.String `tfsdk:"secret_store_id"`
+	NamespaceId   types.String `tfsdk:"namespace_id"`
+	Value         types.String `tfsdk:"value"`
 }
 
 func (r *simpleSecretScopedToNamespaceResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
@@ -75,7 +75,7 @@ func (r *simpleSecretScopedToNamespaceResource) Schema(ctx context.Context, req 
 				Required: true,
 			},
 			"value": schema.StringAttribute{
-				Required: true,
+				Required:  true,
 				Sensitive: true,
 			},
 			"namespace_id": schema.StringAttribute{

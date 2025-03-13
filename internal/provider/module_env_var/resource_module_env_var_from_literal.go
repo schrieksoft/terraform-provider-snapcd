@@ -21,7 +21,7 @@ import (
 
 var moduleEnvVarFromLiteralDefaultError = fmt.Sprintf("snapcd_module_env_var_from_literal error")
 
-var moduleEnvVarFromLiteralEndpoint = "/api/Definition/ModuleEnvVarFromLiteral"
+var moduleEnvVarFromLiteralEndpoint = "/api/ModuleEnvVarFromLiteral"
 
 var _ resource.Resource = (*moduleEnvVarFromLiteralResource)(nil)
 

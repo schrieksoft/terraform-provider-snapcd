@@ -18,7 +18,7 @@ import (
 
 var simpleSecretDefaultError = fmt.Sprintf("snapcd_simple_secret error")
 
-var simpleSecretEndpoint = "/api/Definition/SimpleSecret"
+var simpleSecretEndpoint = "/api/SimpleSecret"
 
 var _ resource.Resource = (*simpleSecretResource)(nil)
 
@@ -74,7 +74,7 @@ func (r *simpleSecretResource) Schema(ctx context.Context, req resource.SchemaRe
 				Required: true,
 			},
 			"value": schema.StringAttribute{
-				Required: true,
+				Required:  true,
 				Sensitive: true,
 			},
 			"secret_store_id": schema.StringAttribute{

@@ -18,7 +18,7 @@ import (
 
 var simpleSecretScopedToStackDefaultError = fmt.Sprintf("snapcd_simple_secret_scoped_to_stack error")
 
-var simpleSecretScopedToStackEndpoint = "/api/Definition/SimpleSecretScopedToStack"
+var simpleSecretScopedToStackEndpoint = "/api/SimpleSecretScopedToStack"
 
 var _ resource.Resource = (*simpleSecretScopedToStackResource)(nil)
 
@@ -55,11 +55,11 @@ func (r *simpleSecretScopedToStackResource) Metadata(ctx context.Context, req re
 }
 
 type simpleSecretScopedToStackModel struct {
-	Name             types.String `tfsdk:"name"`
-	Id               types.String `tfsdk:"id"`
-	SecretStoreId    types.String `tfsdk:"secret_store_id"`
-	StackId      types.String `tfsdk:"stack_id"`
-	Value types.String `tfsdk:"value"`
+	Name          types.String `tfsdk:"name"`
+	Id            types.String `tfsdk:"id"`
+	SecretStoreId types.String `tfsdk:"secret_store_id"`
+	StackId       types.String `tfsdk:"stack_id"`
+	Value         types.String `tfsdk:"value"`
 }
 
 func (r *simpleSecretScopedToStackResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
@@ -75,7 +75,7 @@ func (r *simpleSecretScopedToStackResource) Schema(ctx context.Context, req reso
 				Required: true,
 			},
 			"value": schema.StringAttribute{
-				Required: true,
+				Required:  true,
 				Sensitive: true,
 			},
 			"stack_id": schema.StringAttribute{

@@ -18,7 +18,7 @@ import (
 
 var moduleParamFromOutputDefaultError = fmt.Sprintf("snapcd_module_param_from_output error")
 
-var moduleParamFromOutputEndpoint = "/api/Definition/ModuleParamFromOutput"
+var moduleParamFromOutputEndpoint = "/api/ModuleParamFromOutput"
 
 var _ resource.Resource = (*moduleParamFromOutputResource)(nil)
 

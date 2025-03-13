@@ -21,7 +21,7 @@ import (
 
 var namespaceParamFromLiteralDefaultError = fmt.Sprintf("snapcd_namespace_param_from_literal error")
 
-var namespaceParamFromLiteralEndpoint = "/api/Definition/NamespaceParamFromLiteral"
+var namespaceParamFromLiteralEndpoint = "/api/NamespaceParamFromLiteral"
 
 var _ resource.Resource = (*namespaceParamFromLiteralResource)(nil)
 

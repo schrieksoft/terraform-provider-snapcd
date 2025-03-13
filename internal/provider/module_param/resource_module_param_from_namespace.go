@@ -18,7 +18,7 @@ import (
 
 var moduleParamFromNamespaceDefaultError = fmt.Sprintf("snapcd_module_param_from_namespace error")
 
-var moduleParamFromNamespaceEndpoint = "/api/Definition/ModuleParamFromNamespace"
+var moduleParamFromNamespaceEndpoint = "/api/ModuleParamFromNamespace"
 
 var _ resource.Resource = (*moduleParamFromNamespaceResource)(nil)
 

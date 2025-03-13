@@ -18,7 +18,7 @@ import (
 
 var azureKeyVaultSecretScopedToModuleDefaultError = fmt.Sprintf("snapcd_azure_key_vault_secret_scoped_to_module error")
 
-var azureKeyVaultSecretScopedToModuleEndpoint = "/api/Definition/AzureKeyVaultSecretScopedToModule"
+var azureKeyVaultSecretScopedToModuleEndpoint = "/api/AzureKeyVaultSecretScopedToModule"
 
 var _ resource.Resource = (*azureKeyVaultSecretScopedToModuleResource)(nil)
 
@@ -58,7 +58,7 @@ type azureKeyVaultSecretScopedToModuleModel struct {
 	Name             types.String `tfsdk:"name"`
 	Id               types.String `tfsdk:"id"`
 	SecretStoreId    types.String `tfsdk:"secret_store_id"`
-	ModuleId      types.String `tfsdk:"module_id"`
+	ModuleId         types.String `tfsdk:"module_id"`
 	RemoteSecretName types.String `tfsdk:"remote_secret_name"`
 }
 

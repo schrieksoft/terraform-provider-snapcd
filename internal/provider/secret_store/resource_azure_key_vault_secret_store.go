@@ -18,7 +18,7 @@ import (
 
 var azureKeyVaultSecretStoreDefaultError = fmt.Sprintf("snapcd_azure_key_vault_secret_store error")
 
-var azureKeyVaultSecretStoreEndpoint = "/api/Definition/AzureKeyVaultSecretStore"
+var azureKeyVaultSecretStoreEndpoint = "/api/AzureKeyVaultSecretStore"
 
 var _ resource.Resource = (*azureKeyVaultSecretStoreResource)(nil)
 

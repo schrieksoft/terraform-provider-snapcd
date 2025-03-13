@@ -18,7 +18,7 @@ import (
 
 var azureKeyVaultSecretScopedToStackDefaultError = fmt.Sprintf("snapcd_azure_key_vault_secret_scoped_to_stack error")
 
-var azureKeyVaultSecretScopedToStackEndpoint = "/api/Definition/AzureKeyVaultSecretScopedToStack"
+var azureKeyVaultSecretScopedToStackEndpoint = "/api/AzureKeyVaultSecretScopedToStack"
 
 var _ resource.Resource = (*azureKeyVaultSecretScopedToStackResource)(nil)
 
@@ -58,7 +58,7 @@ type azureKeyVaultSecretScopedToStackModel struct {
 	Name             types.String `tfsdk:"name"`
 	Id               types.String `tfsdk:"id"`
 	SecretStoreId    types.String `tfsdk:"secret_store_id"`
-	StackId      types.String `tfsdk:"stack_id"`
+	StackId          types.String `tfsdk:"stack_id"`
 	RemoteSecretName types.String `tfsdk:"remote_secret_name"`
 }
 

@@ -23,7 +23,7 @@ import (
 
 var moduleDefaultError = fmt.Sprintf("snapcd_module error")
 
-var moduleEndpoint = "/api/Definition/Module"
+var moduleEndpoint = "/api/Module"
 
 var _ resource.Resource = (*moduleResource)(nil)
 
@@ -87,7 +87,7 @@ type moduleModel struct {
 	OutputBeforeHook         types.String `tfsdk:"output_before_hook"`
 	OutputAfterHook          types.String `tfsdk:"output_after_hook"`
 	Engine                   types.String `tfsdk:"engine"`
-	OutputSecretStoreId		 types.String `tfsdk:"output_secret_store_id"`
+	OutputSecretStoreId      types.String `tfsdk:"output_secret_store_id"`
 }
 
 func (r *moduleResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
@@ -195,7 +195,7 @@ func (r *moduleResource) Schema(ctx context.Context, req resource.SchemaRequest,
 			},
 			"output_secret_store_id": schema.StringAttribute{
 				Optional: true,
-			},			
+			},
 		},
 	}
 }

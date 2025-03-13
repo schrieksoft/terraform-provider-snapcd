@@ -18,7 +18,7 @@ import (
 
 var groupDefaultError = fmt.Sprintf("snapcd_group error")
 
-var groupEndpoint = "/api/Identity/Group"
+var groupEndpoint = "/api/Group"
 
 var _ resource.Resource = (*groupResource)(nil)
 

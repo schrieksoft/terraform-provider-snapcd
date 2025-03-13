@@ -18,7 +18,7 @@ import (
 
 var servicePrincipalDefaultError = fmt.Sprintf("snapcd_service_principal error")
 
-var servicePrincipalEndpoint = "/api/Identity/ServicePrincipal"
+var servicePrincipalEndpoint = "/api/ServicePrincipal"
 
 var _ resource.Resource = (*servicePrincipalResource)(nil)
 
@@ -73,7 +73,7 @@ func (r *servicePrincipalResource) Schema(ctx context.Context, req resource.Sche
 				Required: true,
 			},
 			"client_secret": schema.StringAttribute{
-				Required: true,
+				Required:  true,
 				Sensitive: true,
 				// PlanModifiers: []planmodifier.String{
 				// 	stringplanmodifier.UseStateForUnknown(),

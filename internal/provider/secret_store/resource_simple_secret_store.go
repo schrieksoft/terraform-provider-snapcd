@@ -18,7 +18,7 @@ import (
 
 var simpleSecretStoreDefaultError = fmt.Sprintf("snapcd_simple_secret_store error")
 
-var simpleSecretStoreEndpoint = "/api/Definition/SimpleSecretStore"
+var simpleSecretStoreEndpoint = "/api/SimpleSecretStore"
 
 var _ resource.Resource = (*simpleSecretStoreResource)(nil)
 
@@ -55,8 +55,8 @@ func (r *simpleSecretStoreResource) Metadata(ctx context.Context, req resource.M
 }
 
 type simpleSecretStoreModel struct {
-	Name        types.String `tfsdk:"name"`
-	Id          types.String `tfsdk:"id"`
+	Name types.String `tfsdk:"name"`
+	Id   types.String `tfsdk:"id"`
 }
 
 func (r *simpleSecretStoreResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {

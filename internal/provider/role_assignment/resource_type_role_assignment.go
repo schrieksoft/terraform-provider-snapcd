@@ -20,7 +20,7 @@ import (
 
 var typeRoleAssignmentDefaultError = fmt.Sprintf("snapcd_type_role_assignment error")
 
-var typeRoleAssignmentEndpoint = "/api/Identity/TypeRoleAssignment"
+var typeRoleAssignmentEndpoint = "/api/TypeRoleAssignment"
 
 var _ resource.Resource = (*typeRoleAssignmentResource)(nil)
 

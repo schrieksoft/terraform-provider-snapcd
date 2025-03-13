@@ -18,7 +18,7 @@ import (
 
 var secretStoreNamespaceAssignmentDefaultError = fmt.Sprintf("snapcd_secret_store_namespace_assignment error")
 
-var secretStoreNamespaceAssignmentEndpoint = "/api/Definition/SecretStoreNamespaceAssignment"
+var secretStoreNamespaceAssignmentEndpoint = "/api/SecretStoreNamespaceAssignment"
 
 var _ resource.Resource = (*secretStoreNamespaceAssignmentResource)(nil)
 
