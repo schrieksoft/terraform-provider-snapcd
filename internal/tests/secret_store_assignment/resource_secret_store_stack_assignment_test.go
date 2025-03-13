@@ -39,9 +39,8 @@ func TestAccResourceSecretStoreStackAssignment_CreateUpdate(t *testing.T) {
 			{
 				Config: providerconfig.ProviderConfig + providerconfig.AppendRandomString(`
 resource "snapcd_secret_store_stack_assignment" "this" { 
-  permission  		= "Read" 
   secret_store_id   = snapcd_secret_store_stack_assignment.this.id
-  secret_store_id   = snapcd_namespace.this.id
+  stack_id   = snapcd_stack.this.id
 }`),
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_secret_store_stack_assignment.this", "id"),
