@@ -55,9 +55,10 @@ func (r *azureKeyVaultSecretStoreResource) Metadata(ctx context.Context, req res
 }
 
 type azureKeyVaultSecretStoreModel struct {
-	Name        types.String `tfsdk:"name"`
-	Id          types.String `tfsdk:"id"`
-	KeyVaultUrl types.String `tfsdk:"key_vault_url"`
+	Name               types.String `tfsdk:"name"`
+	Id                 types.String `tfsdk:"id"`
+	KeyVaultUrl        types.String `tfsdk:"key_vault_url"`
+	IsGloballyAssigned types.Bool   `tfsdk:"is_globally_assigned"`
 }
 
 func (r *azureKeyVaultSecretStoreResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
@@ -74,6 +75,9 @@ func (r *azureKeyVaultSecretStoreResource) Schema(ctx context.Context, req resou
 			},
 			"key_vault_url": schema.StringAttribute{
 				Required: true,
+			},
+			"is_globally_assigned": schema.BoolAttribute{
+				Optional: true,
 			},
 		},
 	}

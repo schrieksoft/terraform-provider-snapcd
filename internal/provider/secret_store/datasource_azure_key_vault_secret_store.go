@@ -58,6 +58,9 @@ func (d *azureKeyVaultSecretStoreDataSource) Schema(ctx context.Context, req dat
 			"key_vault_url": schema.StringAttribute{
 				Computed: true,
 			},
+			"is_globally_assigned": schema.BoolAttribute{
+				Computed: true,
+			},
 		},
 	}
 }

@@ -18,6 +18,7 @@ import (
 	"terraform-provider-snapcd/internal/provider/secret"
 	"terraform-provider-snapcd/internal/provider/secret_store"
 	"terraform-provider-snapcd/internal/provider/secret_store_assignment"
+	"terraform-provider-snapcd/internal/provider/runner_pool_assignment"
 	"terraform-provider-snapcd/utils"
 
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
@@ -450,5 +451,11 @@ func (p *snapcdProvider) Resources(_ context.Context) []func() resource.Resource
 		secret_store_assignment.SecretStoreStackAssignmentResource,
 		secret_store_assignment.SecretStoreNamespaceAssignmentResource,
 		secret_store_assignment.SecretStoreModuleAssignmentResource,
+
+
+
+		runner_pool_assignment.RunnerPoolStackAssignmentResource,
+		runner_pool_assignment.RunnerPoolNamespaceAssignmentResource,
+		runner_pool_assignment.RunnerPoolModuleAssignmentResource,
 	}
 }

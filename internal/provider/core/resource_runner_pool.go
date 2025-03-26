@@ -55,8 +55,9 @@ func (r *runnerPoolResource) Metadata(ctx context.Context, req resource.Metadata
 }
 
 type runnerPoolModel struct {
-	Name types.String `tfsdk:"name"`
-	Id   types.String `tfsdk:"id"`
+	Name               types.String `tfsdk:"name"`
+	Id                 types.String `tfsdk:"id"`
+	IsGloballyAssigned types.Bool   `tfsdk:"is_globally_assigned"`
 }
 
 func (r *runnerPoolResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
@@ -70,6 +71,9 @@ func (r *runnerPoolResource) Schema(ctx context.Context, req resource.SchemaRequ
 			},
 			"name": schema.StringAttribute{
 				Required: true,
+			},
+			"is_globally_assigned": schema.BoolAttribute{
+				Optional: true,
 			},
 		},
 	}

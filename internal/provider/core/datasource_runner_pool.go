@@ -55,6 +55,9 @@ func (d *runnerPoolDataSource) Schema(ctx context.Context, req datasource.Schema
 			"name": schema.StringAttribute{
 				Required: true,
 			},
+			"is_globally_assigned": schema.BoolAttribute{
+				Computed: true,
+			},
 		},
 	}
 }

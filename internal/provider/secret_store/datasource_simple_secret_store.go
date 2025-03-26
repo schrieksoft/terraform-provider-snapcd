@@ -55,6 +55,9 @@ func (d *simpleSecretStoreDataSource) Schema(ctx context.Context, req datasource
 			"name": schema.StringAttribute{
 				Required: true,
 			},
+			"is_globally_assigned": schema.BoolAttribute{
+				Computed: true,
+			},
 		},
 	}
 }

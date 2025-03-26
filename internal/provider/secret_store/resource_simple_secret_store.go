@@ -55,8 +55,9 @@ func (r *simpleSecretStoreResource) Metadata(ctx context.Context, req resource.M
 }
 
 type simpleSecretStoreModel struct {
-	Name types.String `tfsdk:"name"`
-	Id   types.String `tfsdk:"id"`
+	Name               types.String `tfsdk:"name"`
+	Id                 types.String `tfsdk:"id"`
+	IsGloballyAssigned types.Bool   `tfsdk:"is_globally_assigned"`
 }
 
 func (r *simpleSecretStoreResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
@@ -70,6 +71,9 @@ func (r *simpleSecretStoreResource) Schema(ctx context.Context, req resource.Sch
 			},
 			"name": schema.StringAttribute{
 				Required: true,
+			},
+			"is_globally_assigned": schema.BoolAttribute{
+				Optional: true,
 			},
 		},
 	}
