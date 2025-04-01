@@ -14,9 +14,8 @@ resource "snapcd_module" "this" {
   name                         	 = "somevalue%s"
   namespace_id                	 = snapcd_namespace.this.id
   runner_pool_id                 = data.snapcd_runner_pool.default.id
-  target_module_relative_path  	 = "modules/module1"
-  provider_cache_enabled         = true
-  module_cache_enabled         	 = true
+  source_subdirectory  	       = "modules/module1"
+  source_url                     = "foo"
   select_on           			     = "PoolId"
   select_strategy     			     = "FirstOf"
   init_before_hook				       = "fooBeforeHook"
@@ -50,12 +49,10 @@ resource "snapcd_namespace" "this" {
 
 `)
 
-
 var RunnerPoolCreateConfig = providerconfig.AppendRandomString(`
 resource "snapcd_runner_pool" "this" { 
   name  = "somevalue%s"
 }`)
-
 
 var StackCreateConfig = providerconfig.AppendRandomString(`
 resource "snapcd_stack" "this" { 

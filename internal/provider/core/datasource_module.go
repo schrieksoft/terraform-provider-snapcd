@@ -64,24 +64,30 @@ func (d *moduleDataSource) Schema(ctx context.Context, req datasource.SchemaRequ
 			"runner_pool_id": schema.StringAttribute{
 				Computed: true,
 			},
-			"target_repo_revision": schema.StringAttribute{
+			"source_revision": schema.StringAttribute{
 				Computed: true,
 			},
-			"target_repo_url": schema.StringAttribute{
+			"source_url": schema.StringAttribute{
 				Computed: true,
 			},
-			"provider_cache_enabled": schema.BoolAttribute{
-				Computed: true,
-			},
-			"module_cache_enabled": schema.BoolAttribute{
-				Computed: true,
-			},
-			"target_module_relative_path": schema.StringAttribute{
+			"source_subdirectory": schema.StringAttribute{
 				Computed: true,
 			},
 			"depends_on_modules": schema.ListAttribute{
 				Computed:    true,
 				ElementType: types.StringType,
+			},
+			"source_type": schema.StringAttribute{
+				Computed: true,
+				Validators: []validator.String{
+					stringvalidator.OneOf("Git"),
+				},
+			},
+			"source_revision_type": schema.StringAttribute{
+				Computed: true,
+				Validators: []validator.String{
+					stringvalidator.OneOf("Default"),
+				},
 			},
 			"select_on": schema.StringAttribute{
 				Computed: true,

@@ -70,10 +70,7 @@ type namespaceModel struct {
 	DefaultOutputBeforeHook      types.String `tfsdk:"default_output_before_hook"`
 	DefaultOutputAfterHook       types.String `tfsdk:"default_output_after_hook"`
 	DefaultEngine                types.String `tfsdk:"default_engine"`
-	DefaultTargetRepoRevision    types.String `tfsdk:"default_target_repo_revision"`
-	DefaultTargetRepoUrl         types.String `tfsdk:"default_target_repo_url"`
-	DefaultProviderCacheEnabled  types.Bool   `tfsdk:"default_provider_cache_enabled"`
-	DefaultModuleCacheEnabled    types.Bool   `tfsdk:"default_module_cache_enabled"`
+
 	DefaultSelectOn              types.String `tfsdk:"default_select_on"`
 	DefaultSelectStrategy        types.String `tfsdk:"default_select_strategy"`
 	DefaultOutputSecretStoreId   types.String `tfsdk:"default_output_secret_store_id"`
@@ -154,20 +151,6 @@ func (r *namespaceResource) Schema(ctx context.Context, req resource.SchemaReque
 				},
 			},
 
-			"default_target_repo_revision": schema.StringAttribute{
-				Optional: true,
-			},
-
-			"default_target_repo_url": schema.StringAttribute{
-				Optional: true,
-			},
-
-			"default_provider_cache_enabled": schema.BoolAttribute{
-				Optional: true,
-			},
-			"default_module_cache_enabled": schema.BoolAttribute{
-				Optional: true,
-			},
 			"default_select_on": schema.StringAttribute{
 				Optional: true,
 				Validators: []validator.String{

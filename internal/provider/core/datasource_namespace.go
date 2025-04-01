@@ -103,20 +103,6 @@ func (d *namespaceDataSource) Schema(ctx context.Context, req datasource.SchemaR
 				Computed: true,
 			},
 
-			"default_target_repo_revision": schema.StringAttribute{
-				Computed: true,
-			},
-
-			"default_target_repo_url": schema.StringAttribute{
-				Computed: true,
-			},
-
-			"default_provider_cache_enabled": schema.BoolAttribute{
-				Computed: true,
-			},
-			"default_module_cache_enabled": schema.BoolAttribute{
-				Computed: true,
-			},
 			"default_select_on": schema.StringAttribute{
 				Computed: true,
 				Validators: []validator.String{

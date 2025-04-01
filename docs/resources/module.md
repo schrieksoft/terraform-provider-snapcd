@@ -22,9 +22,9 @@ description: |-
 - `runner_pool_id` (String)
 - `select_on` (String)
 - `select_strategy` (String)
-- `target_module_relative_path` (String)
-- `target_repo_revision` (String)
-- `target_repo_url` (String)
+- `source_subdirectory` (String)
+- `source_revision` (String)
+- `source_url` (String)
 
 ### Optional
 

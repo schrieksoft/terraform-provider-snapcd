@@ -40,8 +40,8 @@ description: |-
 - `default_provider_cache_enabled` (Boolean)
 - `default_select_on` (String)
 - `default_select_strategy` (String)
-- `default_target_repo_revision` (String)
-- `default_target_repo_url` (String)
+- `default_source_revision` (String)
+- `default_source_url` (String)
 
 ### Read-Only
 

@@ -8,9 +8,9 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
-	"github.com/hashicorp/terraform-plugin-framework/resource/schema/booldefault"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/listdefault"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringdefault"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-framework/types"
@@ -60,34 +60,34 @@ func (r *moduleResource) Metadata(ctx context.Context, req resource.MetadataRequ
 }
 
 type moduleModel struct {
-	Id                       types.String `tfsdk:"id"`
-	Name                     types.String `tfsdk:"name"`
-	NamespaceId              types.String `tfsdk:"namespace_id"`
-	RunnerPoolId             types.String `tfsdk:"runner_pool_id"`
-	TargetRepoRevision       types.String `tfsdk:"target_repo_revision"`
-	TargetRepoUrl            types.String `tfsdk:"target_repo_url"`
-	TargetModuleRelativePath types.String `tfsdk:"target_module_relative_path"`
-	ProviderCacheEnabled     types.Bool   `tfsdk:"provider_cache_enabled"`
-	ModuleCacheEnabled       types.Bool   `tfsdk:"module_cache_enabled"`
-	DependsOnModules         types.List   `tfsdk:"depends_on_modules"`
-	SelectOn                 types.String `tfsdk:"select_on"`
-	SelectStrategy           types.String `tfsdk:"select_strategy"`
-	SelectedConsumerId       types.String `tfsdk:"selected_consumer_id"`
-	InitBeforeHook           types.String `tfsdk:"init_before_hook"`
-	InitAfterHook            types.String `tfsdk:"init_after_hook"`
-	InitBackendArgs          types.String `tfsdk:"init_backend_args"`
-	PlanBeforeHook           types.String `tfsdk:"plan_before_hook"`
-	PlanAfterHook            types.String `tfsdk:"plan_after_hook"`
-	ApplyBeforeHook          types.String `tfsdk:"apply_before_hook"`
-	ApplyAfterHook           types.String `tfsdk:"apply_after_hook"`
-	PlanDestroyBeforeHook    types.String `tfsdk:"plan_destroy_before_hook"`
-	PlanDestroyAfterHook     types.String `tfsdk:"plan_destroy_after_hook"`
-	DestroyBeforeHook        types.String `tfsdk:"destroy_before_hook"`
-	DestroyAfterHook         types.String `tfsdk:"destroy_after_hook"`
-	OutputBeforeHook         types.String `tfsdk:"output_before_hook"`
-	OutputAfterHook          types.String `tfsdk:"output_after_hook"`
-	Engine                   types.String `tfsdk:"engine"`
-	OutputSecretStoreId      types.String `tfsdk:"output_secret_store_id"`
+	Id                    types.String `tfsdk:"id"`
+	Name                  types.String `tfsdk:"name"`
+	NamespaceId           types.String `tfsdk:"namespace_id"`
+	RunnerPoolId          types.String `tfsdk:"runner_pool_id"`
+	SourceRevision        types.String `tfsdk:"source_revision"`
+	SourceUrl             types.String `tfsdk:"source_url"`
+	SourceSubdirectory    types.String `tfsdk:"source_subdirectory"`
+	SourceType            types.String `tfsdk:"source_type"`
+	SourceRevisionType    types.String `tfsdk:"source_revision_type"`
+	DependsOnModules      types.List   `tfsdk:"depends_on_modules"`
+	SelectOn              types.String `tfsdk:"select_on"`
+	SelectStrategy        types.String `tfsdk:"select_strategy"`
+	SelectedConsumerId    types.String `tfsdk:"selected_consumer_id"`
+	InitBeforeHook        types.String `tfsdk:"init_before_hook"`
+	InitAfterHook         types.String `tfsdk:"init_after_hook"`
+	InitBackendArgs       types.String `tfsdk:"init_backend_args"`
+	PlanBeforeHook        types.String `tfsdk:"plan_before_hook"`
+	PlanAfterHook         types.String `tfsdk:"plan_after_hook"`
+	ApplyBeforeHook       types.String `tfsdk:"apply_before_hook"`
+	ApplyAfterHook        types.String `tfsdk:"apply_after_hook"`
+	PlanDestroyBeforeHook types.String `tfsdk:"plan_destroy_before_hook"`
+	PlanDestroyAfterHook  types.String `tfsdk:"plan_destroy_after_hook"`
+	DestroyBeforeHook     types.String `tfsdk:"destroy_before_hook"`
+	DestroyAfterHook      types.String `tfsdk:"destroy_after_hook"`
+	OutputBeforeHook      types.String `tfsdk:"output_before_hook"`
+	OutputAfterHook       types.String `tfsdk:"output_after_hook"`
+	Engine                types.String `tfsdk:"engine"`
+	OutputSecretStoreId   types.String `tfsdk:"output_secret_store_id"`
 }
 
 func (r *moduleResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
@@ -108,24 +108,30 @@ func (r *moduleResource) Schema(ctx context.Context, req resource.SchemaRequest,
 			"runner_pool_id": schema.StringAttribute{
 				Required: true,
 			},
-			"target_repo_revision": schema.StringAttribute{
+			"source_revision": schema.StringAttribute{
 				Optional: true,
 			},
-			"target_repo_url": schema.StringAttribute{
-				Optional: true,
-			},
-			"target_module_relative_path": schema.StringAttribute{
+			"source_url": schema.StringAttribute{
 				Required: true,
 			},
-			"provider_cache_enabled": schema.BoolAttribute{
+			"source_type": schema.StringAttribute{
 				Optional: true,
 				Computed: true,
-				Default:  booldefault.StaticBool(false),
+				Validators: []validator.String{
+					stringvalidator.OneOf("Git", "Registry"),
+				},
+				Default: stringdefault.StaticString("Git"),
 			},
-			"module_cache_enabled": schema.BoolAttribute{
+			"source_revision_type": schema.StringAttribute{
 				Optional: true,
 				Computed: true,
-				Default:  booldefault.StaticBool(false),
+				Validators: []validator.String{
+					stringvalidator.OneOf("Default"),
+				},
+				Default: stringdefault.StaticString("Default"),
+			},
+			"source_subdirectory": schema.StringAttribute{
+				Required: true,
 			},
 			"depends_on_modules": schema.ListAttribute{
 				Optional:    true,
