@@ -69,7 +69,7 @@ const (
 
 func (r *runnerPoolResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-        MarkdownDescription: "Core --- Manages a Module in Snap CD.",
+        MarkdownDescription: "Runner Pools --- Manages a Runner Pool in Snap CD.",
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed: true,

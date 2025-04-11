@@ -62,18 +62,22 @@ type runnerPoolModuleAssignmentModel struct {
 
 func (r *runnerPoolModuleAssignmentResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
+        MarkdownDescription: "Runner Pools --- Manages a Runner Pool Module Assignment in Snap CD.",
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
+				Description: "Unique ID of the Runner Pool Module Assignment.",
 			},
 			"module_id": schema.StringAttribute{
 				Required: true,
+				Description: "ID of the Module to which the Runner Pool is assigned.",
 			},
 			"runner_pool_id": schema.StringAttribute{
 				Required: true,
+				Description: "ID of the Runner Pool that is assigned to the Module.",
 			},
 		},
 	}

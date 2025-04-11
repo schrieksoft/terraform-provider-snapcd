@@ -111,7 +111,7 @@ func (r *namespaceResource) Metadata(ctx context.Context, req resource.MetadataR
 
 func (r *namespaceResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-        MarkdownDescription: "Core --- Manages a Namespace in Snap CD.",
+        MarkdownDescription: "Namespaces --- Manages a Namespace in Snap CD.",
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed: true,

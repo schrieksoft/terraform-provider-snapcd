@@ -48,7 +48,7 @@ func (d *stackDataSource) Metadata(ctx context.Context, req datasource.MetadataR
 
 func (d *stackDataSource) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: "Core --- Use this data source to access information about an existing Stack in Snap CD.",
+		MarkdownDescription: "Stacks --- Use this data source to access information about an existing Stack in Snap CD.",
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed:    true,

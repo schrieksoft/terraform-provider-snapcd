@@ -70,7 +70,7 @@ type stackModel struct {
 
 func (r *stackResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: "Core --- Manages a Stack in Snap CD.",
+		MarkdownDescription: "Stacks --- Manages a Stack in Snap CD.",
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed: true,

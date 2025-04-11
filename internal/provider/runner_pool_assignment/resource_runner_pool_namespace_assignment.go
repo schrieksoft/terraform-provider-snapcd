@@ -62,18 +62,22 @@ type runnerPoolNamespaceAssignmentModel struct {
 
 func (r *runnerPoolNamespaceAssignmentResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
+        MarkdownDescription: "Runner Pools --- Manages a Runner Pool Namespace Assignment in Snap CD.",
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
+				Description: "Unique ID of the Runner Pool Namespace Assignment.",
 			},
 			"namespace_id": schema.StringAttribute{
 				Required: true,
+				Description: "ID of the Namespace to which the Runner Pool is assigned.",
 			},
 			"runner_pool_id": schema.StringAttribute{
 				Required: true,
+				Description: "ID of the Runner Pool that is assigned to the Namespace.",
 			},
 		},
 	}

@@ -126,7 +126,7 @@ const (
 
 func (r *moduleResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: `Core --- Manages a Module in Snap CD.`,
+		MarkdownDescription: `Modules --- Manages a Module in Snap CD.`,
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed: true,
