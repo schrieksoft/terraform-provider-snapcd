@@ -18,7 +18,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 )
 
-var moduleEnvVarFromDefinitionDefaultError = fmt.Sprintf("snapcd_module_env_var_from_definition error")
+var moduleEnvVarFromDefinitionDefaultError = fmt.Sprintf("snapcd_moduleEnvVarFromDefinition error")
 
 var moduleEnvVarFromDefinitionEndpoint = "/api/ModuleEnvVarFromDefinition"
 
@@ -65,25 +65,29 @@ type moduleEnvVarFromDefinitionModel struct {
 
 func (r *moduleEnvVarFromDefinitionResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: `Module Inputs --- Manages a Module Env Var (From Definition) in Snap CD.`,
+		MarkdownDescription: `Module Inputs --- Manages a Module EnvVar (From Definition) in Snap CD.`,
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
+				Description: DescSharedId + "Module EnvVar (From Definition).",
 			},
 			"name": schema.StringAttribute{
-				Required: true,
+				Required:    true,
+				Description: DescSharedName1 + "Module EnvVar (From Definition). " + DescSharedName2,
 			},
 			"definition_name": schema.StringAttribute{
 				Required: true,
 				Validators: []validator.String{
 					stringvalidator.OneOf("ModuleId", "NamespaceId", "StackId", "ModuleName", "NamespaceName", "StackName", "SourceUrl", "SourceRevision", "SourceSubdirectory"),
 				},
+				Description: DescSharedDefinitionName,
 			},
 			"module_id": schema.StringAttribute{
-				Required: true,
+				Required:    true,
+				Description: DescSharedModuleId1 + "Module EnvVar (From Definition)" + DescSharedModuleId2,
 			},
 		},
 	}

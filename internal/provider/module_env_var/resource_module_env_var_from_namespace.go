@@ -63,23 +63,26 @@ type moduleEnvVarFromNamespaceModel struct {
 
 func (r *moduleEnvVarFromNamespaceResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: `Module Inputs --- Manages a Module Env Var (From Definition) in Snap CD.`,
+		MarkdownDescription: `Module Inputs --- Manages a Module EnvVar (From Namespace) in Snap CD.`,
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
+				Description: DescSharedId + "Module EnvVar (From Namespace).",
 			},
 			"name": schema.StringAttribute{
-				Required: true,
+				Required:    true,
+				Description: DescSharedName1 + "Module EnvVar (From Namespace). " + DescSharedName2,
 			},
-
 			"reference_name": schema.StringAttribute{
-				Required: true,
+				Required:    true,
+				Description: DescSharedReferenceName,
 			},
 			"module_id": schema.StringAttribute{
-				Required: true,
+				Required:    true,
+				Description: DescSharedModuleId1 + "Module EnvVar (From Namespace)" + DescSharedModuleId2,
 			},
 		},
 	}

@@ -68,16 +68,18 @@ type moduleEnvVarFromSecretModel struct {
 
 func (r *moduleEnvVarFromSecretResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: `Module Inputs --- Manages a Module Env Var (From Secret) in Snap CD.`,
+		MarkdownDescription: `Module Inputs --- Manages a Module EnvVar (From Secret) in Snap CD.`,
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
+				Description: DescSharedId + "Module EnvVar (From Secret).",
 			},
 			"name": schema.StringAttribute{
-				Required: true,
+				Required:    true,
+				Description: DescSharedName1 + "Module EnvVar (From Secret). " + DescSharedName2,
 			},
 			"secret_name": schema.StringAttribute{
 				Required: true,
@@ -90,7 +92,8 @@ func (r *moduleEnvVarFromSecretResource) Schema(ctx context.Context, req resourc
 				Default: stringdefault.StaticString("String"),
 			},
 			"module_id": schema.StringAttribute{
-				Required: true,
+				Required:    true,
+				Description: DescSharedModuleId1 + "Module EnvVar (From Secret)" + DescSharedModuleId2,
 			},
 			"secret_scope": schema.StringAttribute{
 				Required: true,

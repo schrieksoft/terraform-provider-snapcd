@@ -48,22 +48,27 @@ func (d *moduleEnvVarFromLiteralDataSource) Metadata(ctx context.Context, req da
 
 func (d *moduleEnvVarFromLiteralDataSource) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: "Module Inputs --- Use this data source to access information about an existing Module Env Var (From Literal) in Snap CD.",
+		MarkdownDescription: "Module Inputs --- Use this data source to access information about an existing Module EnvVar (From Literal) in Snap CD.",
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
-				Computed: true,
-			},
-			"type": schema.StringAttribute{
-				Computed: true,
-			},
-			"literal_value": schema.StringAttribute{
-				Computed: true,
+				Computed:    true,
+				Description: DescSharedId + "Module EnvVar (From Literal).",
 			},
 			"name": schema.StringAttribute{
-				Required: true,
+				Required:    true,
+				Description: DescSharedName1 + "Module EnvVar (From Literal). " + DescSharedName2,
+			},
+			"type": schema.StringAttribute{
+				Computed:    true,
+				Description: DescSharedLiteralType,
+			},
+			"literal_value": schema.StringAttribute{
+				Computed:    true,
+				Description: DescSharedLiteralValue,
 			},
 			"module_id": schema.StringAttribute{
-				Required: true,
+				Required:    true,
+				Description: DescSharedModuleId1 + "Module EnvVar (From Literal)" + DescSharedModuleId2,
 			},
 		},
 	}
