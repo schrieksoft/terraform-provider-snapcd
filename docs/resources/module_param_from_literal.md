@@ -1,13 +1,13 @@
 ---
 page_title: "snapcd_module_param_from_literal Resource - snapcd"
-subcategory: ""
+subcategory: "Module Inputs"
 description: |-
-  
+  Manages a Module Param (From Literal) in Snap CD.
 ---
 
 # snapcd_module_param_from_literal (Resource)
 
-
+Manages a Module Param (From Literal) in Snap CD.
 
 
 
@@ -18,8 +18,8 @@ description: |-
 ### Required
 
 - `literal_value` (String)
-- `module_id` (String)
-- `name` (String)
+- `module_id` (String) ID of the Module Param (From Literal)'s parent Module.
+- `name` (String) Name of the Module Param (From Literal).  Must be unique in combination with `module_id`.
 
 ### Optional
 
@@ -27,4 +27,4 @@ description: |-
 
 ### Read-Only
 
-- `id` (String) The ID of this resource.
+- `id` (String) Unique ID of the Module Param (From Literal).

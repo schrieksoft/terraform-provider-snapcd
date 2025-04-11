@@ -1,13 +1,13 @@
 ---
 page_title: "snapcd_module_param_from_output Data Source - snapcd"
-subcategory: ""
+subcategory: "Module Inputs"
 description: |-
-  
+  Use this data source to access information about an existing Module Param (From Output) in Snap CD.
 ---
 
 # snapcd_module_param_from_output (Data Source)
 
-
+Use this data source to access information about an existing Module Param (From Output) in Snap CD.
 
 
 
@@ -17,12 +17,12 @@ description: |-
 
 ### Required
 
-- `module_id` (String)
-- `name` (String)
+- `module_id` (String) ID of the Module Param (From Output)'s parent Module.
+- `name` (String) Name of the Module Param (From Output).  Must be unique in combination with `module_id`.
 
 ### Read-Only
 
-- `id` (String) The ID of this resource.
-- `module_name` (String)
-- `namespace_name` (String)
-- `output_name` (String)
+- `id` (String) Unique ID of the Module Param (From Output).
+- `module_name` (String) Name of the parent Module from which to source the take the Output.
+- `namespace_name` (String) Name of the parent Namespace of the parent Module from which to take the Output.
+- `output_name` (String) Name of Output to take as input.

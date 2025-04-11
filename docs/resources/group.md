@@ -1,13 +1,13 @@
 ---
 page_title: "snapcd_group Resource - snapcd"
-subcategory: ""
+subcategory: "Identity Access Management"
 description: |-
-  
+  Manages a Group in Snap CD.
 ---
 
 # snapcd_group (Resource)
 
-
+Manages a Group in Snap CD.
 
 
 
@@ -17,12 +17,12 @@ description: |-
 
 ### Required
 
-- `name` (String)
+- `name` (String) Unique Name of the Group.
 
 ### Optional
 
-- `description` (String)
+- `description` (String) Description of the Group.
 
 ### Read-Only
 
-- `id` (String) The ID of this resource.
+- `id` (String) Unique ID of the Group.

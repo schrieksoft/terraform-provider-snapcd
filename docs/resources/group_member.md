@@ -1,13 +1,13 @@
 ---
 page_title: "snapcd_group_member Resource - snapcd"
-subcategory: ""
+subcategory: "Identity Access Management"
 description: |-
-  
+  Manages a Group Member in Snap CD.
 ---
 
 # snapcd_group_member (Resource)
 
-
+Manages a Group Member in Snap CD.
 
 
 
@@ -17,10 +17,10 @@ description: |-
 
 ### Required
 
-- `group_id` (String)
-- `principal_discriminator` (String)
-- `principal_id` (String)
+- `group_id` (String) ID of the Group to assign membership of.
+- `principal_discriminator` (String) Type of Principal to assign to the Group
+- `principal_id` (String) ID of the Principal to assign to the Group.
 
 ### Read-Only
 
-- `id` (String) The ID of this resource.
+- `id` (String) Unique ID of the Group Member.

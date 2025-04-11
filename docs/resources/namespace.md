@@ -1,6 +1,6 @@
 ---
 page_title: "snapcd_namespace Resource - snapcd"
-subcategory: "Core"
+subcategory: "Namespaces"
 description: |-
   Manages a Namespace in Snap CD.
 ---

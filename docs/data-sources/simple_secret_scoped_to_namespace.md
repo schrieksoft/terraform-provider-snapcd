@@ -17,11 +17,11 @@ description: |-
 
 ### Required
 
-- `name` (String)
-- `namespace_id` (String)
+- `name` (String) Unique Name within of the Secret within the Secret Store.
+- `namespace_id` (String) Id of the Namespace to scope the Secret to
 
 ### Read-Only
 
-- `id` (String) The ID of this resource.
-- `secret_store_id` (String)
-- `value` (String, Sensitive)
+- `id` (String) Unique ID of the Secret.
+- `secret_store_id` (String) Unique ID of the Secret.
+- `value` (String, Sensitive) Value of the to store in the Simple Secret Store. NOTE that this value **will** end up in the .tfstate file. If you wish to avoid this, create the secret directly via the API or Dashboard instead.

@@ -1,13 +1,13 @@
 ---
 page_title: "snapcd_service_principal Resource - snapcd"
-subcategory: ""
+subcategory: "Identity Access Management"
 description: |-
-  
+  Manages a Service Principal in Snap CD.
 ---
 
 # snapcd_service_principal (Resource)
 
-
+Manages a Service Principal in Snap CD.
 
 
 
@@ -17,9 +17,9 @@ description: |-
 
 ### Required
 
-- `client_id` (String)
-- `client_secret` (String, Sensitive)
+- `client_id` (String) Client Id of the Service Principal. This value must be unique.
+- `client_secret` (String, Sensitive) Client Secret of the Service Principal.
 
 ### Read-Only
 
-- `id` (String) The ID of this resource.
+- `id` (String) Unique ID of the Service Principal.

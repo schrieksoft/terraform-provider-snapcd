@@ -1,13 +1,13 @@
 ---
 page_title: "snapcd_namespace_param_from_literal Resource - snapcd"
-subcategory: ""
+subcategory: "Namespace Inputs"
 description: |-
-  
+  Manages a Namespace Param (From Literal) in Snap CD.
 ---
 
 # snapcd_namespace_param_from_literal (Resource)
 
-
+Manages a Namespace Param (From Literal) in Snap CD.
 
 
 
@@ -17,15 +17,15 @@ description: |-
 
 ### Required
 
-- `literal_value` (String)
-- `name` (String)
-- `namespace_id` (String)
+- `literal_value` (String) Literal value of the input.
+- `name` (String) Name of the Namespace Param (From Literal).  Must be unique in combination with `namespace_id`.
+- `namespace_id` (String) ID of the Namespace Param (From Literal)'s parent Namespace.
 
 ### Optional
 
-- `type` (String)
-- `usage_mode` (String)
+- `type` (String) Type of literal input.
+- `usage_mode` (String) Whether the input should be used by default on all Modules, or only when explicitly selected on the Module itself.
 
 ### Read-Only
 
-- `id` (String) The ID of this resource.
+- `id` (String) Unique ID of the Namespace Param (From Literal).

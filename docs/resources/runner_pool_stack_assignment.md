@@ -1,13 +1,13 @@
 ---
 page_title: "snapcd_runner_pool_stack_assignment Resource - snapcd"
-subcategory: ""
+subcategory: "Runner Pools"
 description: |-
-  
+  Manages a Runner Pool Stack Assignment in Snap CD.
 ---
 
 # snapcd_runner_pool_stack_assignment (Resource)
 
-
+Manages a Runner Pool Stack Assignment in Snap CD.
 
 
 
@@ -17,9 +17,9 @@ description: |-
 
 ### Required
 
-- `runner_pool_id` (String)
-- `stack_id` (String)
+- `runner_pool_id` (String) ID of the Runner Pool that is assigned to the Stack.
+- `stack_id` (String) ID of the Stack to which the Runner Pool is assigned.
 
 ### Read-Only
 
-- `id` (String) The ID of this resource.
+- `id` (String) Unique ID of the Runner Pool Stack Assignment.

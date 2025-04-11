@@ -1,13 +1,13 @@
 ---
 page_title: "snapcd_namespace_param_from_definition Resource - snapcd"
-subcategory: ""
+subcategory: "Namespace Inputs"
 description: |-
-  
+  Manages a Namespace Param (From Definition) in Snap CD.
 ---
 
 # snapcd_namespace_param_from_definition (Resource)
 
-
+Manages a Namespace Param (From Definition) in Snap CD.
 
 
 
@@ -17,14 +17,14 @@ description: |-
 
 ### Required
 
-- `definition_name` (String)
-- `name` (String)
-- `namespace_id` (String)
+- `definition_name` (String) Name of the Definition from which to get take the input.
+- `name` (String) Name of the Namespace Param (From Definition).  Must be unique in combination with `namespace_id`.
+- `namespace_id` (String) ID of the Namespace Param (From Definition)'s parent Namespace.
 
 ### Optional
 
-- `usage_mode` (String)
+- `usage_mode` (String) Whether the input should be used by default on all Modules, or only when explicitly selected on the Module itself.
 
 ### Read-Only
 
-- `id` (String) The ID of this resource.
+- `id` (String) Unique ID of the Namespace Param (From Definition).

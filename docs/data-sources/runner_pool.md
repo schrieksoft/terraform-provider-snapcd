@@ -1,6 +1,6 @@
 ---
 page_title: "snapcd_runner_pool Data Source - snapcd"
-subcategory: "Core"
+subcategory: "Runner Pools"
 description: |-
   Use this data source to access information about an existing Runner Pool in Snap CD.
 ---

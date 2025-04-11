@@ -17,11 +17,11 @@ description: |-
 
 ### Required
 
-- `name` (String)
-- `secret_store_id` (String)
-- `stack_id` (String)
-- `value` (String, Sensitive)
+- `name` (String) Unique Name within of the Secret within the Secret Store.
+- `secret_store_id` (String) Unique ID of the Secret.
+- `stack_id` (String) Id of the Stack to scope the Secret to
+- `value` (String, Sensitive) Value of the to store in the Simple Secret Store. NOTE that this value **will** end up in the .tfstate file. If you wish to avoid this, create the secret directly via the API or Dashboard instead.
 
 ### Read-Only
 
-- `id` (String) The ID of this resource.
+- `id` (String) Unique ID of the Secret.

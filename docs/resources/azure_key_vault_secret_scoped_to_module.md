@@ -17,11 +17,11 @@ description: |-
 
 ### Required
 
-- `module_id` (String)
-- `name` (String)
-- `remote_secret_name` (String)
-- `secret_store_id` (String)
+- `module_id` (String) Id of the Module to scope the Secret to
+- `name` (String) Unique Name within of the Secret within the Secret Store.
+- `remote_secret_name` (String) Name of the (remote) secret within the Azure Key Vault that backs the Secret Store defined in `secret_store_id`.
+- `secret_store_id` (String) Unique ID of the Secret.
 
 ### Read-Only
 
-- `id` (String) The ID of this resource.
+- `id` (String) Unique ID of the Secret.

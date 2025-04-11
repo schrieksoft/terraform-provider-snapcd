@@ -1,13 +1,13 @@
 ---
 page_title: "snapcd_secret_store_module_assignment Resource - snapcd"
-subcategory: ""
+subcategory: "Secret Stores"
 description: |-
-  
+  Manages an Secret Store Module Assignment in Snap CD.
 ---
 
 # snapcd_secret_store_module_assignment (Resource)
 
-
+Manages an Secret Store Module Assignment in Snap CD.
 
 
 
@@ -17,9 +17,9 @@ description: |-
 
 ### Required
 
-- `module_id` (String)
-- `secret_store_id` (String)
+- `module_id` (String) ID of the Module to which to assign the Secret Store
+- `secret_store_id` (String) ID of the Secret Store to be assigned to the Module
 
 ### Read-Only
 
-- `id` (String) The ID of this resource.
+- `id` (String) Unique ID of the Secret Store Assignemtn.

@@ -1,6 +1,6 @@
 ---
 page_title: "snapcd_stack Resource - snapcd"
-subcategory: "Core"
+subcategory: "Stacks"
 description: |-
   Manages a Stack in Snap CD.
 ---

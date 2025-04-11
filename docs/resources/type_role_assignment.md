@@ -1,13 +1,13 @@
 ---
 page_title: "snapcd_type_role_assignment Resource - snapcd"
-subcategory: ""
+subcategory: "Identity Access Management"
 description: |-
-  
+  Manages a Type Role Assignment in Snap CD.
 ---
 
 # snapcd_type_role_assignment (Resource)
 
-
+Manages a Type Role Assignment in Snap CD.
 
 
 
@@ -17,11 +17,11 @@ description: |-
 
 ### Required
 
-- `principal_discriminator` (String)
-- `principal_id` (String)
-- `resource_discriminator` (String)
-- `role_name` (String)
+- `principal_discriminator` (String) Type of Principal that the `principal_id` identifies
+- `principal_id` (String) ID of the Principal to which the role is assigned.
+- `resource_discriminator` (String) Type of Resource to which the role is assigned.
+- `role_name` (String) Name of the Role that is assigned
 
 ### Read-Only
 
-- `id` (String) The ID of this resource.
+- `id` (String) Unique ID of the Type Role Assignment.

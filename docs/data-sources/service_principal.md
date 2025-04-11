@@ -1,13 +1,13 @@
 ---
 page_title: "snapcd_service_principal Data Source - snapcd"
-subcategory: ""
+subcategory: "Identity Access Management"
 description: |-
-  
+  Use this data source to access information about an existing Service Principal in Snap CD.
 ---
 
 # snapcd_service_principal (Data Source)
 
-
+Use this data source to access information about an existing Service Principal in Snap CD.
 
 
 
@@ -17,8 +17,8 @@ description: |-
 
 ### Required
 
-- `client_id` (String)
+- `client_id` (String) Client Id of the Service Principal. This value must be unique.
 
 ### Read-Only
 
-- `id` (String) The ID of this resource.
+- `id` (String) Unique ID of the Service Principal.

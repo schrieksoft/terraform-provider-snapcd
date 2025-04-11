@@ -1,13 +1,13 @@
 ---
 page_title: "snapcd_namespace_env_var_from_literal Data Source - snapcd"
-subcategory: ""
+subcategory: "Namespace Inputs"
 description: |-
-  
+  Use this data source to access information about an existing Namesapce Env Var (From Literal) in Snap CD.
 ---
 
 # snapcd_namespace_env_var_from_literal (Data Source)
 
-
+Use this data source to access information about an existing Namesapce Env Var (From Literal) in Snap CD.
 
 
 
@@ -17,12 +17,12 @@ description: |-
 
 ### Required
 
-- `name` (String)
-- `namespace_id` (String)
+- `name` (String) Name of the Namespace Env Var (From Literal).  Must be unique in combination with `namespace_id`.
+- `namespace_id` (String) ID of the Namespace Param (From Literal)'s parent Namespace.
 
 ### Read-Only
 
-- `id` (String) The ID of this resource.
-- `literal_value` (String)
-- `type` (String)
-- `usage_mode` (String)
+- `id` (String) Unique ID of the Namespace Env Var (From Literal).
+- `literal_value` (String) Literal value of the input.
+- `type` (String) Type of literal input.
+- `usage_mode` (String) Whether the input should be used by default on all Modules, or only when explicitly selected on the Module itself.

@@ -1,13 +1,13 @@
 ---
 page_title: "snapcd_module_param_from_namespace Resource - snapcd"
-subcategory: ""
+subcategory: "Module Inputs"
 description: |-
-  
+  Manages a Module Param (From Namespace) in Snap CD.
 ---
 
 # snapcd_module_param_from_namespace (Resource)
 
-
+Manages a Module Param (From Namespace) in Snap CD.
 
 
 
@@ -17,10 +17,10 @@ description: |-
 
 ### Required
 
-- `module_id` (String)
-- `name` (String)
-- `reference_name` (String)
+- `module_id` (String) ID of the Module Param (From Namespace)'s parent Module.
+- `name` (String) Name of the Module Param (From Namespace).  Must be unique in combination with `module_id`.
+- `reference_name` (String) Name of the Namespace Input to pull in to take as input.
 
 ### Read-Only
 
-- `id` (String) The ID of this resource.
+- `id` (String) Unique ID of the Module Param (From Namespace).

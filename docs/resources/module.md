@@ -1,6 +1,6 @@
 ---
 page_title: "snapcd_module Resource - snapcd"
-subcategory: "Core"
+subcategory: "Modules"
 description: |-
   Manages a Module in Snap CD.
 ---

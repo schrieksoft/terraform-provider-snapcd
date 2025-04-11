@@ -1,13 +1,13 @@
 ---
 page_title: "snapcd_module_param_from_definition Data Source - snapcd"
-subcategory: ""
+subcategory: "Module Inputs"
 description: |-
-  
+  Use this data source to access information about an existing Module Param (From Definition) in Snap CD.
 ---
 
 # snapcd_module_param_from_definition (Data Source)
 
-
+Use this data source to access information about an existing Module Param (From Definition) in Snap CD.
 
 
 
@@ -17,10 +17,10 @@ description: |-
 
 ### Required
 
-- `module_id` (String)
-- `name` (String)
+- `module_id` (String) ID of the Module Param (From Definition)'s parent Module.
+- `name` (String) Name of the Module Param (From Definition).  Must be unique in combination with `module_id`.
 
 ### Read-Only
 
-- `definition_name` (String)
-- `id` (String) The ID of this resource.
+- `definition_name` (String) Name of the Definition from which to get take the input.
+- `id` (String) Unique ID of the Module Param (From Definition).

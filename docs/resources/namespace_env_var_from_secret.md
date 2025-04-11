@@ -1,13 +1,13 @@
 ---
 page_title: "snapcd_namespace_env_var_from_secret Resource - snapcd"
-subcategory: ""
+subcategory: "Namespace Inputs"
 description: |-
-  
+  Manages a Namespace Env Var (From Secret) in Snap CD.
 ---
 
 # snapcd_namespace_env_var_from_secret (Resource)
 
-
+Manages a Namespace Env Var (From Secret) in Snap CD.
 
 
 
@@ -17,16 +17,16 @@ description: |-
 
 ### Required
 
-- `name` (String)
-- `namespace_id` (String)
-- `secret_name` (String)
-- `secret_scope` (String)
+- `name` (String) Name of the Namespace Env Var (From Secret).  Must be unique in combination with `namespace_id`.
+- `namespace_id` (String) ID of the Namespace Param (From Secret)'s parent Namespace.
+- `secret_name` (String) Name of the Secret to take as input.
+- `secret_scope` (String) Scope on which the Secret to take as input as been stored (Stack or Namespace).
 
 ### Optional
 
-- `type` (String)
-- `usage_mode` (String)
+- `type` (String) Type of literal input the secret value should be formatted as.
+- `usage_mode` (String) Whether the input should be used by default on all Modules, or only when explicitly selected on the Module itself.
 
 ### Read-Only
 
-- `id` (String) The ID of this resource.
+- `id` (String) Unique ID of the Namespace Env Var (From Secret).

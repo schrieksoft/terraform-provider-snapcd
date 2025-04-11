@@ -1,13 +1,13 @@
 ---
 page_title: "snapcd_runner_pool_module_assignment Resource - snapcd"
-subcategory: ""
+subcategory: "Runner Pools"
 description: |-
-  
+  Manages a Runner Pool Module Assignment in Snap CD.
 ---
 
 # snapcd_runner_pool_module_assignment (Resource)
 
-
+Manages a Runner Pool Module Assignment in Snap CD.
 
 
 
@@ -17,9 +17,9 @@ description: |-
 
 ### Required
 
-- `module_id` (String)
-- `runner_pool_id` (String)
+- `module_id` (String) ID of the Module to which the Runner Pool is assigned.
+- `runner_pool_id` (String) ID of the Runner Pool that is assigned to the Module.
 
 ### Read-Only
 
-- `id` (String) The ID of this resource.
+- `id` (String) Unique ID of the Runner Pool Module Assignment.

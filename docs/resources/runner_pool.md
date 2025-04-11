@@ -1,13 +1,13 @@
 ---
 page_title: "snapcd_runner_pool Resource - snapcd"
-subcategory: "Core"
+subcategory: "Runner Pools"
 description: |-
-  Manages a Module in Snap CD.
+  Manages a Runner Pool in Snap CD.
 ---
 
 # snapcd_runner_pool (Resource)
 
-Manages a Module in Snap CD.
+Manages a Runner Pool in Snap CD.
 
 
 

@@ -1,6 +1,6 @@
 ---
 page_title: "snapcd_namespace Data Source - snapcd"
-subcategory: "Core"
+subcategory: "Namespaces"
 description: |-
   Use this data source to access information about an existing Namespace in Snap CD.
 ---

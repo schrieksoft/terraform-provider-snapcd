@@ -1,13 +1,13 @@
 ---
 page_title: "snapcd_module_env_var_from_literal Data Source - snapcd"
-subcategory: ""
+subcategory: "Module Inputs"
 description: |-
-  
+  Use this data source to access information about an existing Module Env Var (From Literal) in Snap CD.
 ---
 
 # snapcd_module_env_var_from_literal (Data Source)
 
-
+Use this data source to access information about an existing Module Env Var (From Literal) in Snap CD.
 
 
 
@@ -17,11 +17,11 @@ description: |-
 
 ### Required
 
-- `module_id` (String)
-- `name` (String)
+- `module_id` (String) ID of the Module Env Var (From Literal)'s parent Module.
+- `name` (String) Name of the Module Env Var (From Literal).  Must be unique in combination with `module_id`.
 
 ### Read-Only
 
-- `id` (String) The ID of this resource.
-- `literal_value` (String)
-- `type` (String)
+- `id` (String) Unique ID of the Module Env Var (From Literal).
+- `literal_value` (String) Literal value of the input.
+- `type` (String) Type of literal input.

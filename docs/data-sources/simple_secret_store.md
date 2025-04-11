@@ -1,13 +1,13 @@
 ---
 page_title: "snapcd_simple_secret_store Data Source - snapcd"
-subcategory: ""
+subcategory: "Secret Stores"
 description: |-
-  
+  Use this data source to access information about an existing Simple Secret Store in Snap CD.
 ---
 
 # snapcd_simple_secret_store (Data Source)
 
-
+Use this data source to access information about an existing Simple Secret Store in Snap CD.
 
 
 
@@ -17,9 +17,9 @@ description: |-
 
 ### Required
 
-- `name` (String)
+- `name` (String) Unique Name of the Secret Store.
 
 ### Read-Only
 
-- `id` (String) The ID of this resource.
-- `is_globally_assigned` (Boolean)
+- `id` (String) Unique ID of the Secret Store.
+- `is_globally_assigned` (Boolean) If set to true, all secrets scoped to any resource in the system (any Stack, Namespace, Module or Output) can be assigned to this Secret Store

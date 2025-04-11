@@ -1,6 +1,6 @@
 ---
 page_title: "snapcd_stack Data Source - snapcd"
-subcategory: "Core"
+subcategory: "Stacks"
 description: |-
   Use this data source to access information about an existing Stack in Snap CD.
 ---

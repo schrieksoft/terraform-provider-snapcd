@@ -1,13 +1,13 @@
 ---
 page_title: "snapcd_secret_store_stack_assignment Resource - snapcd"
-subcategory: ""
+subcategory: "Secret Stores"
 description: |-
-  
+  Manages an Secret Store Stack Assignment in Snap CD.
 ---
 
 # snapcd_secret_store_stack_assignment (Resource)
 
-
+Manages an Secret Store Stack Assignment in Snap CD.
 
 
 
@@ -17,9 +17,9 @@ description: |-
 
 ### Required
 
-- `secret_store_id` (String)
-- `stack_id` (String)
+- `secret_store_id` (String) ID of the Secret Store to be assigned to the Stack
+- `stack_id` (String) ID of the Stack to which to assign the Secret Store
 
 ### Read-Only
 
-- `id` (String) The ID of this resource.
+- `id` (String) Unique ID of the Secret Store Assignemtn.

@@ -1,13 +1,13 @@
 ---
 page_title: "snapcd_module_param_from_secret Data Source - snapcd"
-subcategory: ""
+subcategory: "Module Inputs"
 description: |-
-  
+  Use this data source to access information about an existing Module Param (From Secret) in Snap CD.
 ---
 
 # snapcd_module_param_from_secret (Data Source)
 
-
+Use this data source to access information about an existing Module Param (From Secret) in Snap CD.
 
 
 
@@ -17,12 +17,12 @@ description: |-
 
 ### Required
 
-- `module_id` (String)
-- `name` (String)
+- `module_id` (String) ID of the Module Param (From Secret)'s parent Module.
+- `name` (String) Name of the Module Param (From Secret).  Must be unique in combination with `module_id`.
 
 ### Read-Only
 
-- `id` (String) The ID of this resource.
-- `secret_name` (String)
-- `secret_scope` (String)
-- `type` (String)
+- `id` (String) Unique ID of the Module Param (From Secret).
+- `secret_name` (String) Name of the Secret to take as input.
+- `secret_scope` (String) Scope on which the Secret to take as input as been stored (Stack, Namespace or Module).
+- `type` (String) Type of literal input the secret value should be formatted as.

@@ -1,13 +1,13 @@
 ---
 page_title: "snapcd_group Data Source - snapcd"
-subcategory: ""
+subcategory: "Identity Access Management"
 description: |-
-  
+  Use this data source to access information about an existing Group in Snap CD.
 ---
 
 # snapcd_group (Data Source)
 
-
+Use this data source to access information about an existing Group in Snap CD.
 
 
 
@@ -17,9 +17,9 @@ description: |-
 
 ### Required
 
-- `name` (String)
+- `name` (String) Unique Name of the Group.
 
 ### Read-Only
 
-- `description` (String)
-- `id` (String) The ID of this resource.
+- `description` (String) Description of the Group.
+- `id` (String) Unique ID of the Group.

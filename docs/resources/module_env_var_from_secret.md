@@ -1,13 +1,13 @@
 ---
 page_title: "snapcd_module_env_var_from_secret Resource - snapcd"
-subcategory: ""
+subcategory: "Module Inputs"
 description: |-
-  
+  Manages a Module Env Var (From Secret) in Snap CD.
 ---
 
 # snapcd_module_env_var_from_secret (Resource)
 
-
+Manages a Module Env Var (From Secret) in Snap CD.
 
 
 
@@ -17,15 +17,15 @@ description: |-
 
 ### Required
 
-- `module_id` (String)
-- `name` (String)
-- `secret_name` (String)
-- `secret_scope` (String)
+- `module_id` (String) ID of the Module Env Var (From Secret)'s parent Module.
+- `name` (String) Name of the Module Env Var (From Secret).  Must be unique in combination with `module_id`.
+- `secret_name` (String) Name of the Secret to take as input.
+- `secret_scope` (String) Scope on which the Secret to take as input as been stored (Stack, Namespace or Module)
 
 ### Optional
 
-- `type` (String)
+- `type` (String) The type of Secret to take as input
 
 ### Read-Only
 
-- `id` (String) The ID of this resource.
+- `id` (String) Unique ID of the Module Env Var (From Secret).

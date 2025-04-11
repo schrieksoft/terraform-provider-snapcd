@@ -1,13 +1,13 @@
 ---
 page_title: "snapcd_module_env_var_from_output_set Data Source - snapcd"
-subcategory: ""
+subcategory: "Module Inputs"
 description: |-
-  
+  Use this data source to access information about an existing Module Env Var (From Output Set) in Snap CD.
 ---
 
 # snapcd_module_env_var_from_output_set (Data Source)
 
-
+Use this data source to access information about an existing Module Env Var (From Output Set) in Snap CD.
 
 
 
@@ -17,11 +17,11 @@ description: |-
 
 ### Required
 
-- `module_id` (String)
-- `name` (String)
+- `module_id` (String) ID of the Module Env Var (From Output Set)'s parent Module.
+- `name` (String) Name of the Module Env Var (From Output Set).  Must be unique in combination with `module_id`.
 
 ### Read-Only
 
-- `id` (String) The ID of this resource.
-- `module_name` (String)
-- `namespace_name` (String)
+- `id` (String) Unique ID of the Module Env Var (From Output Set).
+- `module_name` (String) Name of the parent Module from which to source the take the Output.
+- `namespace_name` (String) Name of the parent Namespace of the parent Module from which to take the Output.
