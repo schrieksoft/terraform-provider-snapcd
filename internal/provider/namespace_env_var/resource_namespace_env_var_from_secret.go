@@ -76,19 +76,23 @@ func (r *namespaceEnvVarFromSecretResource) Schema(ctx context.Context, req reso
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
+				Description: DescSharedId + "Namespace Env Var (From Secret).",
 			},
 			"name": schema.StringAttribute{
-				Required: true,
+				Required:    true,
+				Description: DescSharedName1 + "Namespace Env Var (From Secret). " + DescSharedName2,
 			},
 			"type": schema.StringAttribute{
 				Optional: true,
 				Computed: true,
 				Validators: []validator.String{
 					stringvalidator.OneOf("String", "NotString", "Number", "Bool", "Tuple", "Object")},
-				Default: stringdefault.StaticString("String"),
+				Default:     stringdefault.StaticString("String"),
+				Description: DescSharedSecretType,
 			},
 			"secret_name": schema.StringAttribute{
-				Required: true,
+				Required:    true,
+				Description: DescSharedSecretName,
 			},
 			"usage_mode": schema.StringAttribute{
 				Optional: true,
@@ -96,16 +100,19 @@ func (r *namespaceEnvVarFromSecretResource) Schema(ctx context.Context, req reso
 				Validators: []validator.String{
 					stringvalidator.OneOf("UseIfSelected", "UseByDefault"),
 				},
-				Default: stringdefault.StaticString("UseIfSelected"),
+				Default:     stringdefault.StaticString("UseIfSelected"),
+				Description: DescSharedUsage,
 			},
 			"namespace_id": schema.StringAttribute{
-				Required: true,
+				Required:    true,
+				Description: DescSharedNamespaceId1 + "Namespace Param (From Secret)" + DescSharedNamespaceId2,
 			},
 			"secret_scope": schema.StringAttribute{
 				Required: true,
 				Validators: []validator.String{
 					stringvalidator.OneOf("Stack", "Namespace"),
 				},
+				Description: DescSharedSecretScope,
 			},
 		},
 	}

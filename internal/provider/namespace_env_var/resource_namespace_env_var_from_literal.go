@@ -75,19 +75,23 @@ func (r *namespaceEnvVarFromLiteralResource) Schema(ctx context.Context, req res
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
+				Description: DescSharedId + "Namespace Env Var (From Literal).",
 			},
 			"name": schema.StringAttribute{
-				Required: true,
+				Required:    true,
+				Description: DescSharedName1 + "Namespace Env Var (From Literal). " + DescSharedName2,
 			},
 			"type": schema.StringAttribute{
 				Optional: true,
 				Computed: true,
 				Validators: []validator.String{
 					stringvalidator.OneOf("String", "NotString", "Number", "Bool", "Tuple", "Object")},
-				Default: stringdefault.StaticString("String"),
+				Default:     stringdefault.StaticString("String"),
+				Description: DescSharedLiteralType,
 			},
 			"literal_value": schema.StringAttribute{
-				Required: true,
+				Required:    true,
+				Description: DescSharedLiteralValue,
 			},
 			"usage_mode": schema.StringAttribute{
 				Optional: true,
@@ -96,9 +100,11 @@ func (r *namespaceEnvVarFromLiteralResource) Schema(ctx context.Context, req res
 					stringvalidator.OneOf("UseIfSelected", "UseByDefault"),
 				},
 				Default: stringdefault.StaticString("UseByDefault"),
+				Description: DescSharedUsage,		
 			},
 			"namespace_id": schema.StringAttribute{
-				Required: true,
+				Required:    true,
+				Description: DescSharedNamespaceId1 + "Namespace Param (From Literal)" + DescSharedNamespaceId2,
 			},
 		},
 	}

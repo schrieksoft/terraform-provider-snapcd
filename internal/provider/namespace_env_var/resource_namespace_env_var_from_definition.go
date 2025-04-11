@@ -74,12 +74,15 @@ func (r *namespaceEnvVarFromDefinitionResource) Schema(ctx context.Context, req 
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
+				Description: DescSharedId + "Namespace Env Var (From Definition).",
 			},
 			"name": schema.StringAttribute{
-				Required: true,
+				Required:    true,
+				Description: DescSharedName1 + "Namespace Env Var (From Definition). " + DescSharedName2,
 			},
 			"definition_name": schema.StringAttribute{
-				Required: true,
+				Required:    true,
+				Description: DescSharedDefinitionName,
 			},
 			"usage_mode": schema.StringAttribute{
 				Optional: true,
@@ -88,9 +91,11 @@ func (r *namespaceEnvVarFromDefinitionResource) Schema(ctx context.Context, req 
 					stringvalidator.OneOf("UseIfSelected", "UseByDefault"),
 				},
 				Default: stringdefault.StaticString("UseByDefault"),
+				Description: DescSharedUsage,		
 			},
 			"namespace_id": schema.StringAttribute{
-				Required: true,
+				Required:    true,
+				Description: DescSharedNamespaceId1 + "Namespace Param (From Definition)" + DescSharedNamespaceId2,
 			},
 		},
 	}

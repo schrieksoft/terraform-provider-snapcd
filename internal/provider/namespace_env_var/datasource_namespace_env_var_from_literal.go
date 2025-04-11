@@ -51,22 +51,28 @@ func (d *namespaceEnvVarFromLiteralDataSource) Schema(ctx context.Context, req d
 		MarkdownDescription: "Namespace Inputs --- Use this data source to access information about an existing Namesapce Env Var (From Literal) in Snap CD.",
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
-				Computed: true,
+				Computed:    true,
+				Description: DescSharedId + "Namespace Env Var (From Literal).",
 			},
 			"name": schema.StringAttribute{
-				Required: true,
+				Required:    true,
+				Description: DescSharedName1 + "Namespace Env Var (From Literal). " + DescSharedName2,
 			},
 			"literal_value": schema.StringAttribute{
-				Computed: true,
+				Computed:    true,
+				Description: DescSharedLiteralValue,
 			},
 			"type": schema.StringAttribute{
-				Computed: true,
+				Computed:    true,
+				Description: DescSharedLiteralType,
 			},
 			"usage_mode": schema.StringAttribute{
 				Computed: true,
+				Description: DescSharedUsage,		
 			},
 			"namespace_id": schema.StringAttribute{
-				Required: true,
+				Required:    true,
+				Description: DescSharedNamespaceId1 + "Namespace Param (From Literal)" + DescSharedNamespaceId2,
 			},
 		},
 	}

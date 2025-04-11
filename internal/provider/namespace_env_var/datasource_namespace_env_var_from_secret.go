@@ -51,25 +51,32 @@ func (d *namespaceEnvVarFromSecretDataSource) Schema(ctx context.Context, req da
 		MarkdownDescription: "Namespace Inputs --- Use this data source to access information about an existing Namesapce Env Var (From Secret) in Snap CD.",
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
-				Computed: true,
+				Computed:    true,
+				Description: DescSharedId + "Namespace Env Var (From Secret).",
 			},
 			"name": schema.StringAttribute{
-				Required: true,
+				Required:    true,
+				Description: DescSharedName1 + "Namespace Env Var (From Secret). " + DescSharedName2,
 			},
 			"secret_name": schema.StringAttribute{
-				Computed: true,
+				Computed:    true,
+				Description: DescSharedSecretName,
 			},
 			"type": schema.StringAttribute{
-				Computed: true,
+				Computed:    true,
+				Description: DescSharedSecretType,
 			},
 			"usage_mode": schema.StringAttribute{
-				Computed: true,
+				Computed:    true,
+				Description: DescSharedUsage,
 			},
 			"namespace_id": schema.StringAttribute{
-				Required: true,
+				Required:    true,
+				Description: DescSharedNamespaceId1 + "Namespace Param (From Secret)" + DescSharedNamespaceId2,
 			},
 			"secret_scope": schema.StringAttribute{
-				Computed: true,
+				Computed:    true,
+				Description: DescSharedSecretScope,
 			},
 		},
 	}

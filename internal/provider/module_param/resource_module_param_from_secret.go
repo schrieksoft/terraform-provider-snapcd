@@ -83,6 +83,7 @@ func (r *moduleParamFromSecretResource) Schema(ctx context.Context, req resource
 			},
 			"secret_name": schema.StringAttribute{
 				Required: true,
+				Description: DescSharedSecretName,
 			},
 			"type": schema.StringAttribute{
 				Optional: true,
@@ -90,6 +91,7 @@ func (r *moduleParamFromSecretResource) Schema(ctx context.Context, req resource
 				Validators: []validator.String{
 					stringvalidator.OneOf("String", "NotString", "Number", "Bool", "Tuple", "Object")},
 				Default: stringdefault.StaticString("String"),
+				Description: DescSharedSecretType,
 			},
 			"module_id": schema.StringAttribute{
 				Required: true,
@@ -100,6 +102,7 @@ func (r *moduleParamFromSecretResource) Schema(ctx context.Context, req resource
 				Validators: []validator.String{
 					stringvalidator.OneOf("Stack", "Namespace", "Module"),
 				},
+				Description: DescSharedSecretScope,
 			},
 		},
 	}

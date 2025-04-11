@@ -60,16 +60,19 @@ func (d *moduleParamFromSecretDataSource) Schema(ctx context.Context, req dataso
 			},
 			"module_id": schema.StringAttribute{
 				Required: true,
+				Description: DescSharedModuleId1 + "Module Param (From Secret)" + DescSharedModuleId2,
 			},
 			"type": schema.StringAttribute{
 				Computed: true,
+				Description: DescSharedSecretType,
 			},
 			"secret_name": schema.StringAttribute{
 				Computed: true,
+				Description: DescSharedSecretName,
 			},
 			"secret_scope": schema.StringAttribute{
 				Computed: true,
-				Description: DescSharedModuleId1 + "Module Param (From Secret)" + DescSharedModuleId2,
+				Description: DescSharedSecretScope,
 			},
 		},
 	}

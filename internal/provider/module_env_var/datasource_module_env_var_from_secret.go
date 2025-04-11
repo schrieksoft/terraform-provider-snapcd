@@ -48,28 +48,31 @@ func (d *moduleEnvVarFromSecretDataSource) Metadata(ctx context.Context, req dat
 
 func (d *moduleEnvVarFromSecretDataSource) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: "Module Inputs --- Use this data source to access information about an existing Module EnvVar (From Secret) in Snap CD.",
+		MarkdownDescription: "Module Inputs --- Use this data source to access information about an existing Module Env Var (From Secret) in Snap CD.",
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed:    true,
-				Description: DescSharedId + "Module EnvVar (From Secret).",
+				Description: DescSharedId + "Module Env Var (From Secret).",
 			},
 			"name": schema.StringAttribute{
 				Required:    true,
-				Description: DescSharedName1 + "Module EnvVar (From Secret). " + DescSharedName2,
+				Description: DescSharedName1 + "Module Env Var (From Secret). " + DescSharedName2,
 			},
 			"module_id": schema.StringAttribute{
 				Required: true,
+				Description: DescSharedModuleId1 + "Module Param (From Secret)" + DescSharedModuleId2,
 			},
 			"type": schema.StringAttribute{
 				Computed: true,
+				Description: DescSharedSecretType,
 			},
 			"secret_name": schema.StringAttribute{
 				Computed: true,
+				Description: DescSharedSecretName,
 			},
 			"secret_scope": schema.StringAttribute{
 				Computed:    true,
-				Description: DescSharedModuleId1 + "Module EnvVar (From Secret)" + DescSharedModuleId2,
+				Description: DescSharedSecretScope,
 			},
 		},
 	}

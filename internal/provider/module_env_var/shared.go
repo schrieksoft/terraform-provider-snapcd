@@ -14,5 +14,6 @@ const (
 	DescSharedReferenceName  = "Name of the Namespace Input to pull in to take as input."
 	DescSharedOutputName     = "Name of Output to take as input."
 	DescSharedSecretName     = "Name of the Secret to take as input."
+	DescSharedSecretType     = "The type of Secret to take as input"
 	DescSharedSecretScope    = "Scope on which the Secret to take as input as been stored (Stack, Namespace or Module)"
 )
