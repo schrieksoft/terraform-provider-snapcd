@@ -70,19 +70,24 @@ func (r *simpleSecretScopedToNamespaceResource) Schema(ctx context.Context, req 
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
+				Description: DescId,
 			},
 			"name": schema.StringAttribute{
 				Required: true,
+				Description: DescName,
 			},
 			"value": schema.StringAttribute{
 				Required:  true,
 				Sensitive: true,
+				Description: DescValue,
 			},
 			"namespace_id": schema.StringAttribute{
 				Required: true,
+				Description: DescNamespaceId,
 			},
 			"secret_store_id": schema.StringAttribute{
 				Required: true,
+				Description: DescSecretStoreId,
 			},
 		},
 	}

@@ -62,18 +62,22 @@ type simpleSecretStoreModel struct {
 
 func (r *simpleSecretStoreResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
+        MarkdownDescription: "Secret Stores --- Manages a Simple Secret Store in Snap CD.",
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
+				Description: DescId,
 			},
 			"name": schema.StringAttribute{
 				Required: true,
+				Description: DescName,
 			},
 			"is_globally_assigned": schema.BoolAttribute{
 				Optional: true,
+				Description: DescIsGloballyAssigned,
 			},
 		},
 	}

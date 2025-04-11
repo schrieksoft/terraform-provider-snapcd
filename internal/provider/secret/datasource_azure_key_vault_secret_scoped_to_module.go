@@ -51,18 +51,23 @@ func (d *azureKeyVaultSecretScopedToModuleDataSource) Schema(ctx context.Context
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed: true,
+				Description: DescId,
 			},
 			"name": schema.StringAttribute{
 				Required: true,
+				Description: DescName,
 			},
 			"remote_secret_name": schema.StringAttribute{
 				Computed: true,
+				Description: DescRemoteName,
 			},
 			"module_id": schema.StringAttribute{
 				Required: true,
+				Description: DescModuleId,
 			},
 			"secret_store_id": schema.StringAttribute{
 				Computed: true,
+				Description: DescSecretStoreId,
 			},
 		},
 	}

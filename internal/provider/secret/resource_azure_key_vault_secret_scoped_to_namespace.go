@@ -70,18 +70,23 @@ func (r *azureKeyVaultSecretScopedToNamespaceResource) Schema(ctx context.Contex
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
+				Description: DescId,
 			},
 			"name": schema.StringAttribute{
 				Required: true,
+				Description: DescName,
 			},
 			"remote_secret_name": schema.StringAttribute{
 				Required: true,
+				Description: DescRemoteName,
 			},
 			"namespace_id": schema.StringAttribute{
 				Required: true,
+				Description: DescNamespaceId,
 			},
 			"secret_store_id": schema.StringAttribute{
 				Required: true,
+				Description: DescSecretStoreId,
 			},
 		},
 	}

@@ -70,19 +70,24 @@ func (r *simpleSecretScopedToStackResource) Schema(ctx context.Context, req reso
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
+				Description: DescId,
 			},
 			"name": schema.StringAttribute{
 				Required: true,
+				Description: DescName,
 			},
 			"value": schema.StringAttribute{
 				Required:  true,
 				Sensitive: true,
+				Description: DescValue,
 			},
 			"stack_id": schema.StringAttribute{
 				Required: true,
+				Description: DescStackId,
 			},
 			"secret_store_id": schema.StringAttribute{
 				Required: true,
+				Description: DescSecretStoreId,
 			},
 		},
 	}

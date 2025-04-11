@@ -51,19 +51,24 @@ func (d *simpleSecretScopedToNamespaceDataSource) Schema(ctx context.Context, re
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed: true,
+				Description: DescId,
 			},
 			"name": schema.StringAttribute{
 				Required: true,
+				Description: DescName,
 			},
 			"value": schema.StringAttribute{
 				Computed:  true,
 				Sensitive: true,
+				Description: DescValue,
 			},
 			"namespace_id": schema.StringAttribute{
 				Required: true,
+				Description: DescNamespaceId,
 			},
 			"secret_store_id": schema.StringAttribute{
 				Computed: true,
+				Description: DescSecretStoreId,
 			},
 		},
 	}

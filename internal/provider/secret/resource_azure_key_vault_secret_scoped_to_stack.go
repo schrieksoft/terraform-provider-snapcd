@@ -70,18 +70,23 @@ func (r *azureKeyVaultSecretScopedToStackResource) Schema(ctx context.Context, r
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
+				Description: DescId,
 			},
 			"name": schema.StringAttribute{
 				Required: true,
+				Description: DescName,
 			},
 			"remote_secret_name": schema.StringAttribute{
 				Required: true,
+				Description: DescRemoteName,
 			},
 			"stack_id": schema.StringAttribute{
 				Required: true,
+				Description: DescStackId,
 			},
 			"secret_store_id": schema.StringAttribute{
 				Required: true,
+				Description: DescSecretStoreId,
 			},
 		},
 	}

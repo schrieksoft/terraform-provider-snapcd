@@ -48,15 +48,19 @@ func (d *simpleSecretStoreDataSource) Metadata(ctx context.Context, req datasour
 
 func (d *simpleSecretStoreDataSource) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = schema.Schema{
+		MarkdownDescription: "Secret Stores --- Use this data source to access information about an existing Simple Secret Store in Snap CD.",
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed: true,
+				Description: DescId,
 			},
 			"name": schema.StringAttribute{
 				Required: true,
+				Description: DescName,
 			},
 			"is_globally_assigned": schema.BoolAttribute{
 				Computed: true,
+				Description: DescIsGloballyAssigned,
 			},
 		},
 	}

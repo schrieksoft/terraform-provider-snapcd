@@ -51,19 +51,24 @@ func (d *simpleSecretScopedToStackDataSource) Schema(ctx context.Context, req da
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed: true,
+				Description: DescId,
 			},
 			"name": schema.StringAttribute{
 				Required: true,
+				Description: DescName,
 			},
 			"value": schema.StringAttribute{
 				Computed:  true,
 				Sensitive: true,
+				Description: DescValue,
 			},
 			"stack_id": schema.StringAttribute{
 				Required: true,
+				Description: DescStackId,
 			},
 			"secret_store_id": schema.StringAttribute{
 				Computed: true,
+				Description: DescSecretStoreId,
 			},
 		},
 	}

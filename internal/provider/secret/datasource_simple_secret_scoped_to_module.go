@@ -51,19 +51,24 @@ func (d *simpleSecretScopedToModuleDataSource) Schema(ctx context.Context, req d
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed: true,
+				Description: DescId,
 			},
 			"name": schema.StringAttribute{
 				Required: true,
+				Description: DescName,
 			},
 			"value": schema.StringAttribute{
 				Computed:  true,
 				Sensitive: true,
+				Description: DescValue,
 			},
 			"module_id": schema.StringAttribute{
 				Required: true,
+				Description: DescModuleId,
 			},
 			"secret_store_id": schema.StringAttribute{
 				Computed: true,
+				Description: DescSecretStoreId,
 			},
 		},
 	}

@@ -62,18 +62,22 @@ type secretStoreNamespaceAssignmentModel struct {
 
 func (r *secretStoreNamespaceAssignmentResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
+        MarkdownDescription: "Secret Stores --- Manages an Secret Store Namespace Assignment in Snap CD.",
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
+				Description: DescId,
 			},
 			"namespace_id": schema.StringAttribute{
 				Required: true,
+				Description: "ID of the Namespace to which to assign the Secret Store",
 			},
 			"secret_store_id": schema.StringAttribute{
 				Required: true,
+				Description: DescSecretStoreId + "Namespace",
 			},
 		},
 	}
