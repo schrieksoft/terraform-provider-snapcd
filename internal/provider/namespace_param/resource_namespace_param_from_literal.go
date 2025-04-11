@@ -68,26 +68,30 @@ type namespaceParamFromLiteralModel struct {
 
 func (r *namespaceParamFromLiteralResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: `Namespace Inputs --- Manages a Namespace Input (From Literal) in Snap CD.`,
+		MarkdownDescription: `Namespace Inputs --- Manages a Namespace Param (From Literal) in Snap CD.`,
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
+				Description: DescSharedId + "Namespace Param (From Literal).",
 			},
 			"name": schema.StringAttribute{
-				Required: true,
+				Required:    true,
+				Description: DescSharedName1 + "Namespace Param (From Literal). " + DescSharedName2,
 			},
 			"type": schema.StringAttribute{
 				Optional: true,
 				Computed: true,
 				Validators: []validator.String{
 					stringvalidator.OneOf("String", "NotString", "Number", "Bool", "Tuple", "Object")},
-				Default: stringdefault.StaticString("String"),
+				Default:     stringdefault.StaticString("String"),
+				Description: DescSharedLiteralType,
 			},
 			"literal_value": schema.StringAttribute{
-				Required: true,
+				Required:    true,
+				Description: DescSharedLiteralValue,
 			},
 			"usage_mode": schema.StringAttribute{
 				Optional: true,
@@ -95,10 +99,12 @@ func (r *namespaceParamFromLiteralResource) Schema(ctx context.Context, req reso
 				Validators: []validator.String{
 					stringvalidator.OneOf("UseIfSelected", "UseByDefault"),
 				},
-				Default: stringdefault.StaticString("UseIfSelected"),
+				Default:     stringdefault.StaticString("UseByDefault"),
+				Description: DescSharedUsage,
 			},
 			"namespace_id": schema.StringAttribute{
-				Required: true,
+				Required:    true,
+				Description: DescSharedNamespaceId1 + "Namespace Param (From Literal)" + DescSharedNamespaceId2,
 			},
 		},
 	}

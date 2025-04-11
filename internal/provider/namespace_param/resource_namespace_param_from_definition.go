@@ -67,19 +67,22 @@ type namespaceParamFromDefinitionModel struct {
 
 func (r *namespaceParamFromDefinitionResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: `Namespace Inputs --- Manages a Namespace Input (From Definition) in Snap CD.`,
+		MarkdownDescription: `Namespace Inputs --- Manages a Namespace Param (From Definition) in Snap CD.`,
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
+				Description: DescSharedId + "Namespace Param (From Definition).",
 			},
 			"name": schema.StringAttribute{
-				Required: true,
+				Required:    true,
+				Description: DescSharedName1 + "Namespace Param (From Definition). " + DescSharedName2,
 			},
 			"definition_name": schema.StringAttribute{
-				Required: true,
+				Required:    true,
+				Description: DescSharedDefinitionName,
 			},
 			"usage_mode": schema.StringAttribute{
 				Optional: true,
@@ -87,10 +90,12 @@ func (r *namespaceParamFromDefinitionResource) Schema(ctx context.Context, req r
 				Validators: []validator.String{
 					stringvalidator.OneOf("UseIfSelected", "UseByDefault"),
 				},
-				Default: stringdefault.StaticString("UseIfSelected"),
+				Default:     stringdefault.StaticString("UseByDefault"),
+				Description: DescSharedUsage,
 			},
 			"namespace_id": schema.StringAttribute{
-				Required: true,
+				Required:    true,
+				Description: DescSharedNamespaceId1 + "Namespace Param (From Definition)" + DescSharedNamespaceId2,
 			},
 		},
 	}

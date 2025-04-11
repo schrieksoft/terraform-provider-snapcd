@@ -48,25 +48,31 @@ func (d *namespaceParamFromLiteralDataSource) Metadata(ctx context.Context, req 
 
 func (d *namespaceParamFromLiteralDataSource) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: "Namespace Inputs --- Use this data source to access information about an existing Namespace Param (From Literal) in Snap CD.",
+		MarkdownDescription: "Namespace Inputs --- Use this data source to access information about an existing Namesapce Param (From Literal) in Snap CD.",
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
-				Computed: true,
+				Computed:    true,
+				Description: DescSharedId + "Namespace Param (From Literal).",
 			},
 			"name": schema.StringAttribute{
-				Required: true,
+				Required:    true,
+				Description: DescSharedName1 + "Namespace Param (From Literal). " + DescSharedName2,
 			},
 			"literal_value": schema.StringAttribute{
-				Computed: true,
+				Computed:    true,
+				Description: DescSharedLiteralValue,
 			},
 			"type": schema.StringAttribute{
-				Computed: true,
+				Computed:    true,
+				Description: DescSharedLiteralType,
 			},
 			"usage_mode": schema.StringAttribute{
-				Computed: true,
+				Computed:    true,
+				Description: DescSharedUsage,
 			},
 			"namespace_id": schema.StringAttribute{
-				Required: true,
+				Required:    true,
+				Description: DescSharedNamespaceId1 + "Namespace Param (From Literal)" + DescSharedNamespaceId2,
 			},
 		},
 	}

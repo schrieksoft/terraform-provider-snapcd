@@ -48,28 +48,35 @@ func (d *namespaceParamFromSecretDataSource) Metadata(ctx context.Context, req d
 
 func (d *namespaceParamFromSecretDataSource) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: "Namespace Inputs --- Use this data source to access information about an existing Namespace Param (From Secret) in Snap CD.",
+		MarkdownDescription: "Namespace Inputs --- Use this data source to access information about an existing Namesapce Param (From Secret) in Snap CD.",
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
-				Computed: true,
+				Computed:    true,
+				Description: DescSharedId + "Namespace Param (From Secret).",
 			},
 			"name": schema.StringAttribute{
-				Required: true,
+				Required:    true,
+				Description: DescSharedName1 + "Namespace Param (From Secret). " + DescSharedName2,
 			},
 			"secret_name": schema.StringAttribute{
-				Computed: true,
+				Computed:    true,
+				Description: DescSharedSecretName,
 			},
 			"type": schema.StringAttribute{
-				Computed: true,
+				Computed:    true,
+				Description: DescSharedSecretType,
 			},
 			"usage_mode": schema.StringAttribute{
-				Computed: true,
+				Computed:    true,
+				Description: DescSharedUsage,
 			},
 			"namespace_id": schema.StringAttribute{
-				Required: true,
+				Required:    true,
+				Description: DescSharedNamespaceId1 + "Namespace Param (From Secret)" + DescSharedNamespaceId2,
 			},
 			"secret_scope": schema.StringAttribute{
-				Computed: true,
+				Computed:    true,
+				Description: DescSharedSecretScope,
 			},
 		},
 	}
