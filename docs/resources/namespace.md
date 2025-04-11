@@ -30,7 +30,7 @@ Manages a Namespace in Snap CD.
 - `default_init_after_hook` (String) Shell script that should be executed after the 'Init' step of any deployment is run.All modules in this Namespace will use this value, unless explicitly overriden on the Module itself.
 - `default_init_backend_args` (String) Arguments to pass to the 'init' command in order to set the backend. This should be a text block such as:
 
-```
+
 init_backend_args = <<EOT
   -backend-config="storage_account_name=somestorageaccount" \
   -backend-config="container_name=terraform-states" \
@@ -39,7 +39,7 @@ init_backend_args = <<EOT
   -backend-config="subscription_id=xxxx-xxx-xxx-xxx-xxxx" \
   -backend-config="tenant_id=zzzz-zzz-zzz-zzz-zzzzzz"
 EOT
-```
+
 
 All modules in this Namespace will use this value, unless explicitly overriden on the Module itself.
 - `default_init_before_hook` (String) Shell script that should be executed before the 'Init' step of any deployment is run.All modules in this Namespace will use this value, unless explicitly overriden on the Module itself.
