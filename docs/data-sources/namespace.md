@@ -2,12 +2,12 @@
 page_title: "snapcd_namespace Data Source - snapcd"
 subcategory: "Core"
 description: |-
-  Use this data source to acces information about and existing Namespace in Snap CD.
+  Use this data source to access information about an existing Namespace in Snap CD.
 ---
 
 # snapcd_namespace (Data Source)
 
-Use this data source to acces information about and existing Namespace in Snap CD.
+Use this data source to access information about an existing Namespace in Snap CD.
 
 
 

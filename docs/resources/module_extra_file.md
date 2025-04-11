@@ -1,13 +1,13 @@
 ---
 page_title: "snapcd_module_extra_file Resource - snapcd"
-subcategory: ""
+subcategory: "Extra Files"
 description: |-
-  
+  Manages a Module Extra File in Snap CD.
 ---
 
 # snapcd_module_extra_file (Resource)
 
-
+Manages a Module Extra File in Snap CD.
 
 
 
@@ -17,14 +17,14 @@ description: |-
 
 ### Required
 
-- `contents` (String)
-- `file_name` (String)
-- `module_id` (String)
+- `contents` (String) Contents of the Module Extra File
+- `file_name` (String) Name of the Module Extra File. This name will be use as the name of the file that is created. Must be unique in combination with `Module_id`.
+- `module_id` (String) ID of the Module Extra File's parent Module.
 
 ### Optional
 
-- `overwrite` (Boolean)
+- `overwrite` (Boolean) If true any pre-existing file with the same name will be overwritten.
 
 ### Read-Only
 
-- `id` (String) The ID of this resource.
+- `id` (String) Unique ID of the Module Extra File.

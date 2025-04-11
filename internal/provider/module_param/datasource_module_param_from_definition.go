@@ -48,19 +48,23 @@ func (d *moduleParamFromDefinitionDataSource) Metadata(ctx context.Context, req 
 
 func (d *moduleParamFromDefinitionDataSource) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = schema.Schema{
+		MarkdownDescription: "Module Inputs --- Use this data source to access information about an existing Module Param (From Definition) in Snap CD.",
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
-				Computed: true,
+				Computed:    true,
+				Description: DescSharedId + "Module Param (From Definition).",
 			},
 			"name": schema.StringAttribute{
-				Required: true,
+				Required:    true,
+				Description: DescSharedName1 + "Module Param (From Definition). " + DescSharedName2,
 			},
-
 			"definition_name": schema.StringAttribute{
 				Computed: true,
+				Description: DescSharedDefinitionName,
 			},
 			"module_id": schema.StringAttribute{
 				Required: true,
+				Description: DescSharedModuleId1 + "Module Param (From Definition)" + DescSharedModuleId2,
 			},
 		},
 	}

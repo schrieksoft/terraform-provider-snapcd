@@ -48,21 +48,27 @@ func (d *moduleExtraFileDataSource) Metadata(ctx context.Context, req datasource
 
 func (d *moduleExtraFileDataSource) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = schema.Schema{
+		MarkdownDescription: "Extra Files --- Use this data source to access information about an existing Module Extra File in Snap CD.",
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
-				Computed: true,
+				Computed:    true,
+				Description: DescModuleExtraFileId,
 			},
 			"module_id": schema.StringAttribute{
-				Required: true,
+				Required:    true,
+				Description: DescModuleExtraFileModuleId,
 			},
 			"file_name": schema.StringAttribute{
-				Required: true,
+				Required:    true,
+				Description: DescModuleExtraFileFilename,
 			},
 			"contents": schema.StringAttribute{
-				Computed: true,
+				Computed:    true,
+				Description: DescModuleExtraFileContents,
 			},
 			"overwrite": schema.BoolAttribute{
-				Optional: true,
+				Optional:    true,
+				Description: DescModuleExtraFileOverwrite,
 			},
 		},
 	}

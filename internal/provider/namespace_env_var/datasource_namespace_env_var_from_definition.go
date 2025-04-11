@@ -48,6 +48,7 @@ func (d *namespaceEnvVarFromDefinitionDataSource) Metadata(ctx context.Context, 
 
 func (d *namespaceEnvVarFromDefinitionDataSource) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = schema.Schema{
+		MarkdownDescription: "Namespace Inputs --- Use this data source to access information about an existing Namesapce Env Var (From Definition) in Snap CD.",
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed: true,

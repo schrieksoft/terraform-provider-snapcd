@@ -1,4 +1,4 @@
-package provider
+package role_assignment
 
 import (
 	"fmt"
@@ -65,42 +65,51 @@ type resourceRoleAssignmentModel struct {
 	RoleName               types.String `tfsdk:"role_name"`
 }
 
+
 func (r *resourceRoleAssignmentResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
+		MarkdownDescription: `Identity Access Management --- Manages a Resource Role Assignment in Snap CD.`,
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
+				Description: SharedId + "Resource Role Assignment.",
 			},
 			"resource_id": schema.StringAttribute{
 				Required: true,
+				Description: SharedResourceId,
 			},
 			"principal_id": schema.StringAttribute{
 				Required: true,
+				Description: SharedPrincipalId,
 			},
 			"principal_discriminator": schema.StringAttribute{
 				Required: true,
 				Validators: []validator.String{
 					stringvalidator.OneOf("User", "ServicePrincipal", "Group"),
 				},
+				Description: SharedPrincipalDiscriminator,
 			},
 			"resource_discriminator": schema.StringAttribute{
 				Required: true,
 				Validators: []validator.String{
 					stringvalidator.OneOf("Stack", "Namespace", "Module", "RunnerPool"),
 				},
+				Description: "Type of Resource that the `resource_id` identifies.",
 			},
 			"role_name": schema.StringAttribute{
 				Required: true,
 				Validators: []validator.String{
 					stringvalidator.OneOf("Owner", "Contributor", "Reader"),
 				},
+				Description: SharedRoleName,
 			},
 		},
 	}
 }
+
 
 func (r *resourceRoleAssignmentResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
 	var data resourceRoleAssignmentModel

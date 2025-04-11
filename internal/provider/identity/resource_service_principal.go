@@ -60,21 +60,31 @@ type servicePrincipalModel struct {
 	ClientSecret types.String `tfsdk:"client_secret"`
 }
 
+const (
+	DescServicePrincipalId           = "Unique ID of the Service Principal."
+	DescServicePrincipalClientId     = "Client Id of the Service Principal. This value must be unique."
+	DescServicePrincipalClientSecret = "Client Secret of the Service Principal."
+)
+
 func (r *servicePrincipalResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
+		MarkdownDescription: `Identity Access Management --- Manages a Service Principal in Snap CD.`,
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
+				Description: DescServicePrincipalId,
 			},
 			"client_id": schema.StringAttribute{
-				Required: true,
+				Required:    true,
+				Description: DescServicePrincipalClientId,
 			},
 			"client_secret": schema.StringAttribute{
-				Required:  true,
-				Sensitive: true,
+				Required:    true,
+				Sensitive:   true,
+				Description: DescServicePrincipalClientSecret,
 				// PlanModifiers: []planmodifier.String{
 				// 	stringplanmodifier.UseStateForUnknown(),
 				// },

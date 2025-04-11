@@ -48,6 +48,7 @@ func (d *namespaceParamFromLiteralDataSource) Metadata(ctx context.Context, req 
 
 func (d *namespaceParamFromLiteralDataSource) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = schema.Schema{
+		MarkdownDescription: "Namespace Inputs --- Use this data source to access information about an existing Namespace Param (From Literal) in Snap CD.",
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed: true,

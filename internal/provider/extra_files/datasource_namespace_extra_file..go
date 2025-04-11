@@ -48,21 +48,27 @@ func (d *namespaceExtraFileDataSource) Metadata(ctx context.Context, req datasou
 
 func (d *namespaceExtraFileDataSource) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = schema.Schema{
+		MarkdownDescription: "Extra Files --- Use this data source to access information about an existing Namespace Extra File in Snap CD.",
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
-				Computed: true,
+				Computed:    true,
+				Description: DescNamespaceExtraFileId,
 			},
 			"namespace_id": schema.StringAttribute{
-				Required: true,
+				Required:    true,
+				Description: DescNamespaceExtraFileNamespaceId,
 			},
 			"file_name": schema.StringAttribute{
-				Required: true,
+				Required:    true,
+				Description: DescNamespaceExtraFileFilename,
 			},
 			"contents": schema.StringAttribute{
-				Computed: true,
+				Computed:    true,
+				Description: DescNamespaceExtraFileContents,
 			},
 			"overwrite": schema.BoolAttribute{
-				Computed: true,
+				Computed:    true,
+				Description: DescNamespaceExtraFileOverwrite,
 			},
 		},
 	}

@@ -2,12 +2,12 @@
 page_title: "snapcd_stack Data Source - snapcd"
 subcategory: "Core"
 description: |-
-  Use this data source to acces information about and existing Stack in Snap CD.
+  Use this data source to access information about an existing Stack in Snap CD.
 ---
 
 # snapcd_stack (Data Source)
 
-Use this data source to acces information about and existing Stack in Snap CD.
+Use this data source to access information about an existing Stack in Snap CD.
 
 
 

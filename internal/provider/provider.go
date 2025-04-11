@@ -14,7 +14,7 @@ import (
 	"terraform-provider-snapcd/internal/provider/module_param"
 	"terraform-provider-snapcd/internal/provider/namespace_env_var"
 	"terraform-provider-snapcd/internal/provider/namespace_param"
-	role_assignment "terraform-provider-snapcd/internal/provider/role_assignment"
+	"terraform-provider-snapcd/internal/provider/role_assignment"
 	"terraform-provider-snapcd/internal/provider/secret"
 	"terraform-provider-snapcd/internal/provider/secret_store"
 	"terraform-provider-snapcd/internal/provider/secret_store_assignment"

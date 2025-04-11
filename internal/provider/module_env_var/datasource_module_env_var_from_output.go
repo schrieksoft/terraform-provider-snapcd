@@ -48,6 +48,7 @@ func (d *moduleEnvVarFromOutputDataSource) Metadata(ctx context.Context, req dat
 
 func (d *moduleEnvVarFromOutputDataSource) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = schema.Schema{
+		MarkdownDescription: "Module Inputs --- Use this data source to access information about an existing Module Env Var (From Output) in Snap CD.",
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed: true,

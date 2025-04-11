@@ -60,20 +60,30 @@ type groupModel struct {
 	Id          types.String `tfsdk:"id"`
 }
 
+const (
+	DescGroupId          = "Unique ID of the Group."
+	DescGroupName        = "Unique Name of the Group."
+	DescGroupDescription = "Description of the Group."
+)
+
 func (r *groupResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
+		MarkdownDescription: `Identity Access Management --- Manages a Group in Snap CD.`,
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
+				Description: DescGroupId,
 			},
 			"name": schema.StringAttribute{
 				Required: true,
+				Description: DescGroupName,
 			},
 			"description": schema.StringAttribute{
 				Optional: true,
+				Description: DescGroupDescription,
 			},
 		},
 	}

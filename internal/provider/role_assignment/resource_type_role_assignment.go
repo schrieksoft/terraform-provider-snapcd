@@ -1,4 +1,4 @@
-package provider
+package role_assignment
 
 import (
 	"fmt"
@@ -64,35 +64,42 @@ type typeRoleAssignmentModel struct {
 	RoleName               types.String `tfsdk:"role_name"`
 }
 
+
 func (r *typeRoleAssignmentResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
+		MarkdownDescription: `Identity Access Management --- Manages a Type Role Assignment in Snap CD.`,
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
+				Description: SharedId + "Type Role Assignment.",
 			},
 			"principal_id": schema.StringAttribute{
 				Required: true,
+				Description: SharedPrincipalId,
 			},
 			"principal_discriminator": schema.StringAttribute{
 				Required: true,
 				Validators: []validator.String{
 					stringvalidator.OneOf("User", "ServicePrincipal", "Group"),
 				},
+				Description: SharedPrincipalDiscriminator,
 			},
 			"resource_discriminator": schema.StringAttribute{
 				Required: true,
 				Validators: []validator.String{
 					stringvalidator.OneOf("Stack", "Namespace", "Module", "RunnerPool"),
 				},
+				Description: "Type of Resource to which the role is assigned.",
 			},
 			"role_name": schema.StringAttribute{
 				Required: true,
 				Validators: []validator.String{
 					stringvalidator.OneOf("Owner", "Contributor", "Reader"),
 				},
+				Description: SharedRoleName,
 			},
 		},
 	}

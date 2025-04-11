@@ -2,12 +2,12 @@
 page_title: "snapcd_module Data Source - snapcd"
 subcategory: "Core"
 description: |-
-  Use this data source to acces information about and existing Module in Snap CD.
+  Use this data source to access information about an existing Module in Snap CD.
 ---
 
 # snapcd_module (Data Source)
 
-Use this data source to acces information about and existing Module in Snap CD.
+Use this data source to access information about an existing Module in Snap CD.
 
 
 

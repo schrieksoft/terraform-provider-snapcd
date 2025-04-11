@@ -48,6 +48,7 @@ func (d *namespaceParamFromSecretDataSource) Metadata(ctx context.Context, req d
 
 func (d *namespaceParamFromSecretDataSource) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = schema.Schema{
+		MarkdownDescription: "Namespace Inputs --- Use this data source to access information about an existing Namespace Param (From Secret) in Snap CD.",
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed: true,

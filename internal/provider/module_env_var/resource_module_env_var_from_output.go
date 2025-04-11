@@ -65,6 +65,7 @@ type moduleEnvVarFromOutputModel struct {
 
 func (r *moduleEnvVarFromOutputResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
+		MarkdownDescription: `Module Inputs --- Manages a Module Env Var (From Output) in Snap CD.`,
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed: true,

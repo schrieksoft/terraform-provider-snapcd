@@ -68,15 +68,18 @@ type moduleParamFromSecretModel struct {
 
 func (r *moduleParamFromSecretResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
+		MarkdownDescription: `Module Inputs --- Manages a Module Param (From Secret) in Snap CD.`,
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
+				Description: DescSharedId + "Module Param (From Secret).",
 			},
 			"name": schema.StringAttribute{
 				Required: true,
+				Description: DescSharedName1 + "Module Param (From Secret). " + DescSharedName2,
 			},
 			"secret_name": schema.StringAttribute{
 				Required: true,
@@ -90,6 +93,7 @@ func (r *moduleParamFromSecretResource) Schema(ctx context.Context, req resource
 			},
 			"module_id": schema.StringAttribute{
 				Required: true,
+				Description: DescSharedModuleId1 + "Module Param (From Secret)" + DescSharedModuleId2,
 			},
 			"secret_scope": schema.StringAttribute{
 				Required: true,

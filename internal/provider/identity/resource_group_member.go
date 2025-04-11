@@ -63,26 +63,38 @@ type groupMemberModel struct {
 	PrincipalDiscriminator types.String `tfsdk:"principal_discriminator"`
 }
 
+const (
+	DescGroupMemberId                     = "Unique ID of the Group Member."
+	DescGroupMemberGroupId                = "ID of the Group to assign membership of."
+	DescGroupMemberPrincipalId            = "ID of the Principal to assign to the Group."
+	DescGroupMemberPrincipalDiscriminator = "Type of Principal to assign to the Group"
+)
+
 func (r *groupMemberResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
+		MarkdownDescription: `Identity Access Management --- Manages a Group Member in Snap CD.`,
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
+				Description: DescGroupMemberId,
 			},
 			"group_id": schema.StringAttribute{
 				Required: true,
+				Description: DescGroupMemberGroupId,
 			},
 			"principal_id": schema.StringAttribute{
 				Required: true,
+				Description: DescGroupMemberPrincipalId,
 			},
 			"principal_discriminator": schema.StringAttribute{
 				Required: true,
 				Validators: []validator.String{
-					stringvalidator.OneOf("User", "ServicePrincipal", "Group"),
+					stringvalidator.OneOf("User", "ServicePrincipal"),
 				},
+				Description: DescGroupMemberPrincipalDiscriminator,
 			},
 		},
 	}

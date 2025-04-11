@@ -48,12 +48,15 @@ func (d *moduleParamFromSecretDataSource) Metadata(ctx context.Context, req data
 
 func (d *moduleParamFromSecretDataSource) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = schema.Schema{
+		MarkdownDescription: "Module Inputs --- Use this data source to access information about an existing Module Param (From Secret) in Snap CD.",
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
-				Computed: true,
+				Computed:    true,
+				Description: DescSharedId + "Module Param (From Secret).",
 			},
 			"name": schema.StringAttribute{
 				Required: true,
+				Description: DescSharedName1 + "Module Param (From Secret). " + DescSharedName2,
 			},
 			"module_id": schema.StringAttribute{
 				Required: true,
@@ -66,6 +69,7 @@ func (d *moduleParamFromSecretDataSource) Schema(ctx context.Context, req dataso
 			},
 			"secret_scope": schema.StringAttribute{
 				Computed: true,
+				Description: DescSharedModuleId1 + "Module Param (From Secret)" + DescSharedModuleId2,
 			},
 		},
 	}

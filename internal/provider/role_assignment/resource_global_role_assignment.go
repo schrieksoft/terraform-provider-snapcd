@@ -1,4 +1,4 @@
-package provider
+package role_assignment
 
 import (
 	"fmt"
@@ -65,27 +65,32 @@ type globalRoleAssignmentModel struct {
 
 func (r *globalRoleAssignmentResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
+		MarkdownDescription: `Identity Access Management --- Manages a Global Role Assignment in Snap CD.`,
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
+				Description: SharedId + "Global Role Assignment.",
 			},
 			"principal_id": schema.StringAttribute{
 				Required: true,
+				Description: SharedPrincipalId ,
 			},
 			"principal_discriminator": schema.StringAttribute{
 				Required: true,
 				Validators: []validator.String{
 					stringvalidator.OneOf("User", "ServicePrincipal", "Group"),
 				},
+				Description: SharedPrincipalDiscriminator ,
 			},
 			"role_name": schema.StringAttribute{
 				Required: true,
 				Validators: []validator.String{
 					stringvalidator.OneOf("Administrator", "IdentityAccessAdministrator", "Default", "Reader", "Runner"),
 				},
+				Description: SharedRoleName ,
 			},
 		},
 	}

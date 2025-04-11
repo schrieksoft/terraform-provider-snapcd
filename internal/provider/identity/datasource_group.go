@@ -48,15 +48,19 @@ func (d *groupDataSource) Metadata(ctx context.Context, req datasource.MetadataR
 
 func (d *groupDataSource) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = schema.Schema{
+		MarkdownDescription: "Identity Access Management --- Use this data source to access information about an existing Group in Snap CD.",
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
-				Computed: true,
+				Computed:    true,
+				Description: DescGroupId,
 			},
 			"name": schema.StringAttribute{
-				Required: true,
+				Required:    true,
+				Description: DescGroupName,
 			},
 			"description": schema.StringAttribute{
-				Computed: true,
+				Computed:    true,
+				Description: DescGroupDescription,
 			},
 		},
 	}

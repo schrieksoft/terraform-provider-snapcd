@@ -62,26 +62,40 @@ type moduleExtraFileModel struct {
 	Overwrite types.Bool   `tfsdk:"overwrite"`
 }
 
+const (
+	DescModuleExtraFileId        = "Unique ID of the Module Extra File."
+	DescModuleExtraFileModuleId  = "ID of the Module Extra File's parent Module."
+	DescModuleExtraFileFilename  = "Name of the Module Extra File. This name will be use as the name of the file that is created. Must be unique in combination with `Module_id`."
+	DescModuleExtraFileContents  = "Contents of the Module Extra File"
+	DescModuleExtraFileOverwrite = "If true any pre-existing file with the same name will be overwritten."
+)
+
 func (r *moduleExtraFileResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
+		MarkdownDescription: `Extra Files --- Manages a Module Extra File in Snap CD.`,
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
+				Description: DescModuleExtraFileId,
 			},
 			"module_id": schema.StringAttribute{
-				Required: true,
+				Required:    true,
+				Description: DescModuleExtraFileModuleId,
 			},
 			"file_name": schema.StringAttribute{
-				Required: true,
+				Required:    true,
+				Description: DescModuleExtraFileFilename,
 			},
 			"contents": schema.StringAttribute{
-				Required: true,
+				Required:    true,
+				Description: DescModuleExtraFileContents,
 			},
 			"overwrite": schema.BoolAttribute{
-				Optional: true,
+				Optional:    true,
+				Description: DescModuleExtraFileOverwrite,
 			},
 		},
 	}

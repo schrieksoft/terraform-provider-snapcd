@@ -62,26 +62,40 @@ type namespaceExtraFileModel struct {
 	Overwrite   types.Bool   `tfsdk:"overwrite"`
 }
 
+const (
+	DescNamespaceExtraFileId          = "Unique ID of the Namespace Extra File."
+	DescNamespaceExtraFileNamespaceId = "ID of the Namespace Extra File's parent Namespace."
+	DescNamespaceExtraFileFilename    = "Name of the Namespace Extra File. This name will be use as the name of the file that is created. Must be unique in combination with `namespace_id`."
+	DescNamespaceExtraFileContents    = "Contents of the Namespace Extra File"
+	DescNamespaceExtraFileOverwrite   = "If true any pre-existing file with the same name will be overwritten."
+)
+
 func (r *namespaceExtraFileResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
+		MarkdownDescription: `Extra Files --- Manages a Namespace Extra File in Snap CD.`,
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
+				Description: DescNamespaceExtraFileId,
 			},
 			"namespace_id": schema.StringAttribute{
 				Required: true,
+				Description: DescNamespaceExtraFileNamespaceId,
 			},
 			"file_name": schema.StringAttribute{
 				Required: true,
+				Description: DescNamespaceExtraFileFilename,
 			},
 			"contents": schema.StringAttribute{
 				Required: true,
+				Description: DescNamespaceExtraFileContents,
 			},
 			"overwrite": schema.BoolAttribute{
 				Optional: true,
+				Description: DescNamespaceExtraFileOverwrite,
 			},
 		},
 	}

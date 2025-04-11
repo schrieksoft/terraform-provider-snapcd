@@ -1,13 +1,13 @@
 ---
 page_title: "snapcd_namespace_extra_file Resource - snapcd"
-subcategory: ""
+subcategory: "Extra Files"
 description: |-
-  
+  Manages a Namespace Extra File in Snap CD.
 ---
 
 # snapcd_namespace_extra_file (Resource)
 
-
+Manages a Namespace Extra File in Snap CD.
 
 
 
@@ -17,14 +17,14 @@ description: |-
 
 ### Required
 
-- `contents` (String)
-- `file_name` (String)
-- `namespace_id` (String)
+- `contents` (String) Contents of the Namespace Extra File
+- `file_name` (String) Name of the Namespace Extra File. This name will be use as the name of the file that is created. Must be unique in combination with `namespace_id`.
+- `namespace_id` (String) ID of the Namespace Extra File's parent Namespace.
 
 ### Optional
 
-- `overwrite` (Boolean)
+- `overwrite` (Boolean) If true any pre-existing file with the same name will be overwritten.
 
 ### Read-Only
 
-- `id` (String) The ID of this resource.
+- `id` (String) Unique ID of the Namespace Extra File.
