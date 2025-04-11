@@ -48,7 +48,7 @@ func (d *namespaceEnvVarFromSecretDataSource) Metadata(ctx context.Context, req 
 
 func (d *namespaceEnvVarFromSecretDataSource) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: "Namespace Inputs --- Use this data source to access information about an existing Namesapce Env Var (From Secret) in Snap CD.",
+		MarkdownDescription: "Namespace Inputs (Env Vars) --- Use this data source to access information about an existing Namesapce Env Var (From Secret) in Snap CD.",
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed:    true,

@@ -1,6 +1,6 @@
 ---
 page_title: "snapcd_namespace_param_from_secret Resource - snapcd"
-subcategory: "Namespace Inputs"
+subcategory: "Namespace Inputs (Parameters)"
 description: |-
   Manages a Namespace Param (From Secret) in Snap CD.
 ---

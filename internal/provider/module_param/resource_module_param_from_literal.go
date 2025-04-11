@@ -67,7 +67,7 @@ type moduleParamFromLiteralModel struct {
 
 func (r *moduleParamFromLiteralResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: `Module Inputs --- Manages a Module Param (From Literal) in Snap CD.`,
+		MarkdownDescription: `Module Inputs (Parameters) --- Manages a Module Param (From Literal) in Snap CD.`,
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed: true,
@@ -77,7 +77,7 @@ func (r *moduleParamFromLiteralResource) Schema(ctx context.Context, req resourc
 				Description: DescSharedId + "Module Param (From Literal).",
 			},
 			"name": schema.StringAttribute{
-				Required: true,
+				Required:    true,
 				Description: DescSharedName1 + "Module Param (From Literal). " + DescSharedName2,
 			},
 			"literal_value": schema.StringAttribute{
@@ -91,7 +91,7 @@ func (r *moduleParamFromLiteralResource) Schema(ctx context.Context, req resourc
 				Default: stringdefault.StaticString("String"),
 			},
 			"module_id": schema.StringAttribute{
-				Required: true,
+				Required:    true,
 				Description: DescSharedModuleId1 + "Module Param (From Literal)" + DescSharedModuleId2,
 			},
 		},

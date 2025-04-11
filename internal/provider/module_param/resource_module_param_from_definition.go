@@ -65,7 +65,7 @@ type moduleParamFromDefinitionModel struct {
 
 func (r *moduleParamFromDefinitionResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: `Module Inputs --- Manages a Module Param (From Definition) in Snap CD.`,
+		MarkdownDescription: `Module Inputs (Parameters) --- Manages a Module Param (From Definition) in Snap CD.`,
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed: true,
@@ -75,7 +75,7 @@ func (r *moduleParamFromDefinitionResource) Schema(ctx context.Context, req reso
 				Description: DescSharedId + "Module Param (From Definition).",
 			},
 			"name": schema.StringAttribute{
-				Required: true,
+				Required:    true,
 				Description: DescSharedName1 + "Module Param (From Definition). " + DescSharedName2,
 			},
 			"definition_name": schema.StringAttribute{
@@ -86,7 +86,7 @@ func (r *moduleParamFromDefinitionResource) Schema(ctx context.Context, req reso
 				Description: DescSharedDefinitionName,
 			},
 			"module_id": schema.StringAttribute{
-				Required: true,
+				Required:    true,
 				Description: DescSharedModuleId1 + "Module Param (From Definition)" + DescSharedModuleId2,
 			},
 		},

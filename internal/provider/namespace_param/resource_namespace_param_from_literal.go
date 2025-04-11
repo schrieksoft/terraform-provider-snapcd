@@ -68,7 +68,7 @@ type namespaceParamFromLiteralModel struct {
 
 func (r *namespaceParamFromLiteralResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: `Namespace Inputs --- Manages a Namespace Param (From Literal) in Snap CD.`,
+		MarkdownDescription: `Namespace Inputs (Parameters) --- Manages a Namespace Param (From Literal) in Snap CD.`,
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed: true,

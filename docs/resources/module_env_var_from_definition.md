@@ -1,6 +1,6 @@
 ---
 page_title: "snapcd_module_env_var_from_definition Resource - snapcd"
-subcategory: "Module Inputs"
+subcategory: "Module Inputs (Env Vars)"
 description: |-
   Manages a Module Env Var (From Definition) in Snap CD.
 ---

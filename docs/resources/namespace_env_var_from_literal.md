@@ -1,6 +1,6 @@
 ---
 page_title: "snapcd_namespace_env_var_from_literal Resource - snapcd"
-subcategory: "Namespace Inputs"
+subcategory: "Namespace Inputs (Env Vars)"
 description: |-
   Manages a Namespace Env Var (From Literal) in Snap CD.
 ---

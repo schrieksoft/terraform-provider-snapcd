@@ -1,6 +1,6 @@
 ---
 page_title: "snapcd_namespace_env_var_from_secret Resource - snapcd"
-subcategory: "Namespace Inputs"
+subcategory: "Namespace Inputs (Env Vars)"
 description: |-
   Manages a Namespace Env Var (From Secret) in Snap CD.
 ---

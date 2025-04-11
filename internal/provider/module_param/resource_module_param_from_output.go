@@ -65,7 +65,7 @@ type moduleParamFromOutputModel struct {
 
 func (r *moduleParamFromOutputResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: `Module Inputs --- Manages a Module Param (From Output) in Snap CD.`,
+		MarkdownDescription: `Module Inputs (Parameters) --- Manages a Module Param (From Output) in Snap CD.`,
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed: true,
@@ -75,23 +75,23 @@ func (r *moduleParamFromOutputResource) Schema(ctx context.Context, req resource
 				Description: DescSharedId + "Module Param (From Output).",
 			},
 			"name": schema.StringAttribute{
-				Required: true,
+				Required:    true,
 				Description: DescSharedName1 + "Module Param (From Output). " + DescSharedName2,
 			},
 			"output_name": schema.StringAttribute{
-				Required: true,
+				Required:    true,
 				Description: DescSharedOutputName,
 			},
 			"module_name": schema.StringAttribute{
-				Required: true,
+				Required:    true,
 				Description: DescSharedModuleName,
 			},
 			"namespace_name": schema.StringAttribute{
-				Required: true,
+				Required:    true,
 				Description: DescSharedNamespaceName,
 			},
 			"module_id": schema.StringAttribute{
-				Required: true,
+				Required:    true,
 				Description: DescSharedModuleId1 + "Module Param (From Output)" + DescSharedModuleId2,
 			},
 		},

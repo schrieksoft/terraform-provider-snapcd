@@ -63,7 +63,7 @@ type moduleParamFromNamespaceModel struct {
 
 func (r *moduleParamFromNamespaceResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: `Module Inputs --- Manages a Module Param (From Namespace) in Snap CD.`,
+		MarkdownDescription: `Module Inputs (Parameters) --- Manages a Module Param (From Namespace) in Snap CD.`,
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed: true,
@@ -73,15 +73,15 @@ func (r *moduleParamFromNamespaceResource) Schema(ctx context.Context, req resou
 				Description: DescSharedId + "Module Param (From Namespace).",
 			},
 			"name": schema.StringAttribute{
-				Required: true,
+				Required:    true,
 				Description: DescSharedName1 + "Module Param (From Namespace). " + DescSharedName2,
 			},
 			"reference_name": schema.StringAttribute{
-				Required: true,
+				Required:    true,
 				Description: DescSharedReferenceName,
 			},
 			"module_id": schema.StringAttribute{
-				Required: true,
+				Required:    true,
 				Description: DescSharedModuleId1 + "Module Param (From Namespace)" + DescSharedModuleId2,
 			},
 		},

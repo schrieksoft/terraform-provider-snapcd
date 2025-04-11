@@ -68,7 +68,7 @@ type moduleParamFromSecretModel struct {
 
 func (r *moduleParamFromSecretResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: `Module Inputs --- Manages a Module Param (From Secret) in Snap CD.`,
+		MarkdownDescription: `Module Inputs (Parameters) --- Manages a Module Param (From Secret) in Snap CD.`,
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed: true,
@@ -78,11 +78,11 @@ func (r *moduleParamFromSecretResource) Schema(ctx context.Context, req resource
 				Description: DescSharedId + "Module Param (From Secret).",
 			},
 			"name": schema.StringAttribute{
-				Required: true,
+				Required:    true,
 				Description: DescSharedName1 + "Module Param (From Secret). " + DescSharedName2,
 			},
 			"secret_name": schema.StringAttribute{
-				Required: true,
+				Required:    true,
 				Description: DescSharedSecretName,
 			},
 			"type": schema.StringAttribute{
@@ -90,11 +90,11 @@ func (r *moduleParamFromSecretResource) Schema(ctx context.Context, req resource
 				Computed: true,
 				Validators: []validator.String{
 					stringvalidator.OneOf("String", "NotString", "Number", "Bool", "Tuple", "Object")},
-				Default: stringdefault.StaticString("String"),
+				Default:     stringdefault.StaticString("String"),
 				Description: DescSharedSecretType,
 			},
 			"module_id": schema.StringAttribute{
-				Required: true,
+				Required:    true,
 				Description: DescSharedModuleId1 + "Module Param (From Secret)" + DescSharedModuleId2,
 			},
 			"secret_scope": schema.StringAttribute{

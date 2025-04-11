@@ -1,6 +1,6 @@
 ---
 page_title: "snapcd_module_param_from_literal Resource - snapcd"
-subcategory: "Module Inputs"
+subcategory: "Module Inputs (Parameters)"
 description: |-
   Manages a Module Param (From Literal) in Snap CD.
 ---

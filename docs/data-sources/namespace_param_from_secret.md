@@ -1,6 +1,6 @@
 ---
 page_title: "snapcd_namespace_param_from_secret Data Source - snapcd"
-subcategory: "Namespace Inputs"
+subcategory: "Namespace Inputs (Parameters)"
 description: |-
   Use this data source to access information about an existing Namesapce Param (From Secret) in Snap CD.
 ---
