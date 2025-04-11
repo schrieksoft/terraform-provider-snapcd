@@ -17,8 +17,9 @@ description: |-
 
 ### Required
 
-- `name` (String)
+- `name` (String) Unique name of the Runner Pool.
 
 ### Read-Only
 
-- `id` (String) The ID of this resource.
+- `id` (String) Unique ID of the Runner Pool.
+- `is_globally_assigned` (Boolean) Setting this to 'true' allows this Runner Pool to be selected for deployment by any Module in the system.

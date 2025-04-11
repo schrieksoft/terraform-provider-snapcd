@@ -56,7 +56,7 @@ func (d *simpleSecretScopedToModuleDataSource) Schema(ctx context.Context, req d
 				Required: true,
 			},
 			"value": schema.StringAttribute{
-				Computed: true,
+				Computed:  true,
 				Sensitive: true,
 			},
 			"module_id": schema.StringAttribute{

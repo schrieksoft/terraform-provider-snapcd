@@ -17,29 +17,39 @@ description: |-
 
 ### Required
 
-- `name` (String)
-- `stack_id` (String)
+- `name` (String) Name of the Namespace. Must be unique in combination with `stack_id`.
+- `stack_id` (String) ID of the Namespace's parent Stack.
 
 ### Read-Only
 
-- `default_apply_after_hook` (String)
-- `default_apply_before_hook` (String)
-- `default_destroy_after_hook` (String)
-- `default_destroy_before_hook` (String)
-- `default_engine` (String)
-- `default_init_after_hook` (String)
-- `default_init_backend_args` (String)
-- `default_init_before_hook` (String)
-- `default_module_cache_enabled` (Boolean)
-- `default_output_after_hook` (String)
-- `default_output_before_hook` (String)
-- `default_plan_after_hook` (String)
-- `default_plan_before_hook` (String)
-- `default_plan_destroy_after_hook` (String)
-- `default_plan_destroy_before_hook` (String)
-- `default_provider_cache_enabled` (Boolean)
+- `default_apply_after_hook` (String) Shell script that should be executed after the 'Apply' step of any deployment is run. All modules in this Namespace will use this value, unless explicitly overriden on the Module itself.
+- `default_apply_before_hook` (String) Shell script that should be executed before the 'Apply' step of any deployment is run. All modules in this Namespace will use this value, unless explicitly overriden on the Module itself.
+- `default_destroy_after_hook` (String) Shell script that should be executed after the 'Destroy' step of any deployment is run. All modules in this Namespace will use this value, unless explicitly overriden on the Module itself.
+- `default_destroy_before_hook` (String) Shell script that should be executed before the 'Destroy' step of any deployment is run. All modules in this Namespace will use this value, unless explicitly overriden on the Module itself.
+- `default_engine` (String) Determines which binary will be used during deployment. Setting this to 'OpenTofu' will use `tofu`. Setting it to 'Terraform' will use `terraform`. All modules in this Namespace will use this value, unless explicitly overriden on the Module itself.
+- `default_init_after_hook` (String) Shell script that should be executed after the 'Init' step of any deployment is run.All modules in this Namespace will use this value, unless explicitly overriden on the Module itself.
+- `default_init_backend_args` (String) Arguments to pass to the 'init' command in order to set the backend. This should be a text block such as:
+
+```
+init_backend_args = <<EOT
+  -backend-config="storage_account_name=somestorageaccount" \
+  -backend-config="container_name=terraform-states" \
+  -backend-config="key=mystatefile.tfstate" \
+  -backend-config="resource_group_name=someresourcegroup" \
+  -backend-config="subscription_id=xxxx-xxx-xxx-xxx-xxxx" \
+  -backend-config="tenant_id=zzzz-zzz-zzz-zzz-zzzzzz"
+EOT
+```
+
+All modules in this Namespace will use this value, unless explicitly overriden on the Module itself.
+- `default_init_before_hook` (String) Shell script that should be executed before the 'Init' step of any deployment is run.All modules in this Namespace will use this value, unless explicitly overriden on the Module itself.
+- `default_output_after_hook` (String) Shell script that should be executed after the 'Output' step of any deployment is run. All modules in this Namespace will use this value, unless explicitly overriden on the Module itself.
+- `default_output_before_hook` (String) Shell script that should be executed before the 'Output' step of any deployment is run. All modules in this Namespace will use this value, unless explicitly overriden on the Module itself.
+- `default_output_secret_store_id` (String) The ID of the Secret Store that will be used to store this Module's outputs. Note that for an 'Output' step to successfully use this Secret Store, it must either be deployed as `is_globally_assigned=true`, or assigned via module/namespace/stack assignment. All modules in this Namespace will use this value, unless explicitly overriden on the Module itself.
+- `default_plan_after_hook` (String) Shell script that should be executed after the 'Plan' step of any deployment is run. All modules in this Namespace will use this value, unless explicitly overriden on the Module itself.
+- `default_plan_before_hook` (String) Shell script that should be executed before the 'Plan' step of any deployment is run. All modules in this Namespace will use this value, unless explicitly overriden on the Module itself.
+- `default_plan_destroy_after_hook` (String) Shell script that should be executed after the 'PlanDestroy' step of any deployment is run. All modules in this Namespace will use this value, unless explicitly overriden on the Module itself.
+- `default_plan_destroy_before_hook` (String) Shell script that should be executed before the 'PlanDestroy' step of any deployment is run. All modules in this Namespace will use this value, unless explicitly overriden on the Module itself.
 - `default_select_on` (String)
 - `default_select_strategy` (String)
-- `default_source_revision` (String)
-- `default_source_url` (String)
-- `id` (String) The ID of this resource.
+- `id` (String) Unique ID of the Namespace

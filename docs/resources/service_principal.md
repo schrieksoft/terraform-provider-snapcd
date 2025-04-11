@@ -18,12 +18,7 @@ description: |-
 ### Required
 
 - `client_id` (String)
-
-### Optional
-
-- `client_secret` (String)
-- `display_name` (String)
-- `scopes` (List of String)
+- `client_secret` (String, Sensitive)
 
 ### Read-Only
 

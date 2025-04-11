@@ -35,7 +35,6 @@ def main(old_name: str, new_name: str):
         old_name_snake: new_name_snake,
     }
 
-
     for filename in os.listdir():
         if filename.endswith(".go") and old_name_snake in filename:
             new_filename = filename.replace(old_name_snake, new_name_snake)

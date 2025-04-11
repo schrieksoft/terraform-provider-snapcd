@@ -50,13 +50,16 @@ func (d *stackDataSource) Schema(ctx context.Context, req datasource.SchemaReque
 	resp.Schema = schema.Schema{
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
-				Computed: true,
+				Computed:    true,
+				Description: DescStackId,
 			},
 			"name": schema.StringAttribute{
-				Required: true,
+				Required:    true,
+				Description: DescStackName,
 			},
 			"default_output_secret_store_id": schema.StringAttribute{
-				Computed: true,
+				Computed:    true,
+				Description: DescStackDefaultOutputSecretStoreId,
 			},
 		},
 	}

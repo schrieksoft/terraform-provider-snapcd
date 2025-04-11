@@ -52,71 +52,90 @@ func (d *namespaceDataSource) Schema(ctx context.Context, req datasource.SchemaR
 	resp.Schema = schema.Schema{
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
-				Computed: true,
+				Computed:    true,
+				Description: DescNamespaceId,
 			},
 			"name": schema.StringAttribute{
-				Required: true,
+				Required:    true,
+				Description: DescNamespaceName,
 			},
 			"stack_id": schema.StringAttribute{
-				Required: true,
+				Required:    true,
+				Description: DescNamespaceStackId,
 			},
 			"default_init_before_hook": schema.StringAttribute{
-				Computed: true,
+				Computed:    true,
+				Description: DescNamespaceDefaultInitBeforeHook,
 			},
 			"default_init_after_hook": schema.StringAttribute{
-				Computed: true,
+				Computed:    true,
+				Description: DescNamespaceDefaultInitAfterHook,
 			},
 			"default_init_backend_args": schema.StringAttribute{
-				Computed: true,
+				Computed:    true,
+				Description: DescNamespaceDefaultInitBackendArgs,
 			},
 			"default_plan_before_hook": schema.StringAttribute{
-				Computed: true,
+				Computed:    true,
+				Description: DescNamespaceDefaultPlanBeforeHook,
 			},
 			"default_plan_after_hook": schema.StringAttribute{
-				Computed: true,
+				Computed:    true,
+				Description: DescNamespaceDefaultPlanAfterHook,
 			},
 			"default_plan_destroy_before_hook": schema.StringAttribute{
-				Computed: true,
+				Computed:    true,
+				Description: DescNamespaceDefaultPlanDestroyBeforeHook,
 			},
 			"default_plan_destroy_after_hook": schema.StringAttribute{
-				Computed: true,
+				Computed:    true,
+				Description: DescNamespaceDefaultPlanDestroyAfterHook,
 			},
 			"default_apply_before_hook": schema.StringAttribute{
-				Computed: true,
+				Computed:    true,
+				Description: DescNamespaceDefaultApplyBeforeHook,
 			},
 			"default_apply_after_hook": schema.StringAttribute{
-				Computed: true,
+				Computed:    true,
+				Description: DescNamespaceDefaultApplyAfterHook,
 			},
 			"default_destroy_before_hook": schema.StringAttribute{
-				Computed: true,
+				Computed:    true,
+				Description: DescNamespaceDefaultDestroyBeforeHook,
 			},
 			"default_destroy_after_hook": schema.StringAttribute{
-				Computed: true,
+				Computed:    true,
+				Description: DescNamespaceDefaultDestroyAfterHook,
 			},
 			"default_output_before_hook": schema.StringAttribute{
-				Computed: true,
+				Computed:    true,
+				Description: DescNamespaceDefaultOutputBeforeHook,
 			},
 			"default_output_after_hook": schema.StringAttribute{
-				Computed: true,
+				Computed:    true,
+				Description: DescNamespaceDefaultOutputAfterHook,
 			},
 			"default_engine": schema.StringAttribute{
-				Computed: true,
+				Computed:    true,
+				Description: DescNamespaceDefaultEngine,
 			},
-
 			"default_select_on": schema.StringAttribute{
 				Computed: true,
 				Validators: []validator.String{
 					stringvalidator.OneOf("PoolId", "ConsumerId"),
 				},
+				Description: DescNamespaceDefaultSelectOn,
 			},
 			"default_select_strategy": schema.StringAttribute{
 				Computed: true,
 				Validators: []validator.String{
 					stringvalidator.OneOf("FirstOf", "AnyOf"),
 				},
+				Description: DescNamespaceDefaultSelectStrategy,
 			},
 			"default_output_secret_store_id": schema.StringAttribute{
-				Computed: true,
+				Computed:    true,
+				Description: DescNamespaceDefaultOutputSecretStoreId,
 			},
 		},
 	}

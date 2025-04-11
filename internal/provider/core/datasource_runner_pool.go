@@ -50,13 +50,16 @@ func (d *runnerPoolDataSource) Schema(ctx context.Context, req datasource.Schema
 	resp.Schema = schema.Schema{
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
-				Computed: true,
+				Computed:    true,
+				Description: DescRunnerPoolId,
 			},
 			"name": schema.StringAttribute{
-				Required: true,
+				Required:    true,
+				Description: DescRunnerPoolName,
 			},
 			"is_globally_assigned": schema.BoolAttribute{
-				Computed: true,
+				Computed:    true,
+				Description: DescIsGloballyAssigned,
 			},
 		},
 	}

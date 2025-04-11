@@ -18,8 +18,6 @@ resource "snapcd_secret_store_module_assignment" "this" {
   module_id        = snapcd_module.this.id
 }`
 
-
-
 var SimpleSecretStoreStackAssignmentCreateConfig = `
 resource "snapcd_secret_store_stack_assignment" "this" { 
   secret_store_id = snapcd_simple_secret_store.this.id

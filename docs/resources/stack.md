@@ -17,8 +17,12 @@ description: |-
 
 ### Required
 
-- `name` (String)
+- `name` (String) Unique name of the Stack.
+
+### Optional
+
+- `default_output_secret_store_id` (String) The ID of the Secret Store that will be used to store this Module's outputs. Note that for an 'Output' step to successfully use this Secret Store, it must either be deployed as `is_globally_assigned=true`, or assigned via module/namespace/stack assignment.
 
 ### Read-Only
 
-- `id` (String) The ID of this resource.
+- `id` (String) Unique ID of the Stack.

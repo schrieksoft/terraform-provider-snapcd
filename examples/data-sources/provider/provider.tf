@@ -1,4 +1,3 @@
-# Copyright (c) HashiCorp, Inc.
 
 provider "snapcd" {
   url                           = "https://localhost:20002"

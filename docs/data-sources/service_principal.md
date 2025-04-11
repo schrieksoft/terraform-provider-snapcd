@@ -21,7 +21,4 @@ description: |-
 
 ### Read-Only
 
-- `client_secret` (String)
-- `display_name` (String)
 - `id` (String) The ID of this resource.
-- `scopes` (List of String)

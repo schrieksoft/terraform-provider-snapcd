@@ -41,9 +41,6 @@ resource "snapcd_azure_key_vault_secret" "this" {
   secret_store_id    = snapcd_azure_key_vault_secret_store.this.id
 }`)
 
-
-
-
 var SimpleSecretScopedToNamespaceCreateConfig = core.NamespaceCreateConfig + secret_store.SimpleSecretStoreCreateConfig + secret_store_assignment.SimpleSecretStoreNamespaceAssignmentCreateConfig + providerconfig.AppendRandomString(`
 resource "snapcd_simple_secret_scoped_to_namespace" "this" { 
   depends_on         = [snapcd_secret_store_namespace_assignment.this]

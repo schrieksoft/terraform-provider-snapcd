@@ -55,8 +55,8 @@ func (r *runnerPoolNamespaceAssignmentResource) Metadata(ctx context.Context, re
 }
 
 type runnerPoolNamespaceAssignmentModel struct {
-	Id            types.String `tfsdk:"id"`
-	NamespaceId   types.String `tfsdk:"namespace_id"`
+	Id           types.String `tfsdk:"id"`
+	NamespaceId  types.String `tfsdk:"namespace_id"`
 	RunnerPoolId types.String `tfsdk:"runner_pool_id"`
 }
 

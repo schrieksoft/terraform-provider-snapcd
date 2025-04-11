@@ -56,7 +56,7 @@ func (d *simpleSecretScopedToStackDataSource) Schema(ctx context.Context, req da
 				Required: true,
 			},
 			"value": schema.StringAttribute{
-				Computed: true,
+				Computed:  true,
 				Sensitive: true,
 			},
 			"stack_id": schema.StringAttribute{

@@ -56,7 +56,7 @@ func (d *simpleSecretScopedToNamespaceDataSource) Schema(ctx context.Context, re
 				Required: true,
 			},
 			"value": schema.StringAttribute{
-				Computed: true,
+				Computed:  true,
 				Sensitive: true,
 			},
 			"namespace_id": schema.StringAttribute{

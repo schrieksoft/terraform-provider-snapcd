@@ -60,6 +60,12 @@ type runnerPoolModel struct {
 	IsGloballyAssigned types.Bool   `tfsdk:"is_globally_assigned"`
 }
 
+const (
+	DescRunnerPoolId       = "Unique ID of the Runner Pool."
+	DescRunnerPoolName     = "Unique name of the Runner Pool."
+	DescIsGloballyAssigned = "Setting this to 'true' allows this Runner Pool to be selected for deployment by any Module in the system."
+)
+
 func (r *runnerPoolResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
 		Attributes: map[string]schema.Attribute{
@@ -68,12 +74,15 @@ func (r *runnerPoolResource) Schema(ctx context.Context, req resource.SchemaRequ
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
+				Description: DescRunnerPoolId,
 			},
 			"name": schema.StringAttribute{
-				Required: true,
+				Required:    true,
+				Description: DescRunnerPoolName,
 			},
 			"is_globally_assigned": schema.BoolAttribute{
-				Optional: true,
+				Optional:    true,
+				Description: DescIsGloballyAssigned,
 			},
 		},
 	}

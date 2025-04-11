@@ -17,36 +17,50 @@ description: |-
 
 ### Required
 
-- `name` (String)
-- `namespace_id` (String)
-- `runner_pool_id` (String)
+- `name` (String) Name of the Module. Must be unique in combination with `namespace_id`.
+- `namespace_id` (String) ID of the Module's parent Namespace.
+- `runner_pool_id` (String) ID of the Runner Pool that will receive the instructions when triggering a deployment on this Module.
 - `select_on` (String)
 - `select_strategy` (String)
-- `source_subdirectory` (String)
-- `source_revision` (String)
-- `source_url` (String)
+- `source_subdirectory` (String) Subdirectory where the source module code is found.
+- `source_url` (String) Remote URL where the source module code is found.
 
 ### Optional
 
-- `apply_after_hook` (String)
-- `apply_before_hook` (String)
-- `depends_on_modules` (List of String)
-- `destroy_after_hook` (String)
-- `destroy_before_hook` (String)
-- `engine` (String)
-- `init_after_hook` (String)
-- `init_backend_args` (String)
-- `init_before_hook` (String)
-- `module_cache_enabled` (Boolean)
-- `output_after_hook` (String)
-- `output_before_hook` (String)
-- `plan_after_hook` (String)
-- `plan_before_hook` (String)
-- `plan_destroy_after_hook` (String)
-- `plan_destroy_before_hook` (String)
-- `provider_cache_enabled` (Boolean)
-- `selected_consumer_id` (String)
+- `apply_after_hook` (String) Shell script that should be executed after the 'Apply' step of any deployment is run. Setting this will override any default value set on the Module's parent Namespace.
+- `apply_before_hook` (String) Shell script that should be executed before the 'Apply' step of any deployment is run. Setting this will override any default value set on the Module's parent Namespace.
+- `depends_on_modules` (List of String) A list on Snap CD Modules that this Module depends on. Note that Snap CD will automatically discover depedencies based on the Module using as inputs the outputs from another Module, so use `depends_on_modules` where you want to explicitly establish a dependency where outputs are not referenced as inputs.
+- `destroy_after_hook` (String) Shell script that should be executed after the 'Destroy' step of any deployment is run. Setting this will override any default value set on the Module's parent Namespace.
+- `destroy_before_hook` (String) Shell script that should be executed before the 'Destroy' step of any deployment is run. Setting this will override any default value set on the Module's parent Namespace.
+- `engine` (String) Determines which binary will be used during deployment. Setting this to 'OpenTofu' will use `tofu`. Setting it to 'Terraform' will use `terraform`. Setting this will override any default value set on the Module's parent Namespace.
+- `init_after_hook` (String) Shell script that should be executed after the 'Init' step of any deployment is run.Setting this will override any default value set on the Module's parent Namespace.
+- `init_backend_args` (String) Arguments to pass to the 'init' command in order to set the backend. This should be a text block such as:
+
+```
+init_backend_args = <<EOT
+  -backend-config="storage_account_name=somestorageaccount" \
+  -backend-config="container_name=terraform-states" \
+  -backend-config="key=mystatefile.tfstate" \
+  -backend-config="resource_group_name=someresourcegroup" \
+  -backend-config="subscription_id=xxxx-xxx-xxx-xxx-xxxx" \
+  -backend-config="tenant_id=zzzz-zzz-zzz-zzz-zzzzzz"
+EOT
+```
+
+Setting this will override any default value set on the Module's parent Namespace.
+- `init_before_hook` (String) Shell script that should be executed before the 'Init' step of any deployment is run.Setting this will override any default value set on the Module's parent Namespace.
+- `output_after_hook` (String) Shell script that should be executed after the 'Output' step of any deployment is run. Setting this will override any default value set on the Module's parent Namespace.
+- `output_before_hook` (String) Shell script that should be executed before the 'Output' step of any deployment is run. Setting this will override any default value set on the Module's parent Namespace.
+- `output_secret_store_id` (String) The ID of the Secret Store that will be used to store this Module's outputs. Note that for an 'Output' step to successfully use this Secret Store, it must either be deployed as `is_globally_assigned=true`, or assigned via module/namespace/stack assignment. Setting this will override any default value set on the Module's parent Namespace.
+- `plan_after_hook` (String) Shell script that should be executed after the 'Plan' step of any deployment is run. Setting this will override any default value set on the Module's parent Namespace.
+- `plan_before_hook` (String) Shell script that should be executed before the 'Plan' step of any deployment is run. Setting this will override any default value set on the Module's parent Namespace.
+- `plan_destroy_after_hook` (String) Shell script that should be executed after the 'Destroy' step of any deployment is run. Setting this will override any default value set on the Module's parent Namespace.
+- `plan_destroy_before_hook` (String) Shell script that should be executed before the 'Destroy' step of any deployment is run. Setting this will override any default value set on the Module's parent Namespace.
+- `selected_consumer_id` (String) Name of the Runner to select (should unique identify the Runner within the Runner Pool). If null a random Runner will be selected from the Runner pool on every deployment.
+- `source_revision` (String) Remote revision (e.g. version number, branch, commit or tag) where the source module code is found.
+- `source_revision_type` (String) How Snap CD should interpret the `source_revision` field. Setting to 'Default' means Snap CD will interpret the revision type based on the source type (for example, for a 'Git' source type it will automatically figure out whether the `source_revision` refers to a branch, tag or commit). Currently no other approaches are supported.
+- `source_type` (String) The type of remote module store that the source module code should be retrieved from.
 
 ### Read-Only
 
-- `id` (String) The ID of this resource.
+- `id` (String) Unique ID of the Module.

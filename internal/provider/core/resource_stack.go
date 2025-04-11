@@ -54,6 +54,13 @@ func (r *stackResource) Metadata(ctx context.Context, req resource.MetadataReque
 	resp.TypeName = req.ProviderTypeName + "_stack"
 }
 
+const (
+	DescStackDefault                    = " All modules in this Stack will use this value, unless explicitly overriden on its Namespace or on the Module itself."
+	DescStackId                         = "Unique ID of the Stack."
+	DescStackName                       = "Unique name of the Stack."
+	DescStackDefaultOutputSecretStoreId = DescSharedOutputSecretStoreId
+)
+
 type stackModel struct {
 	Name                       types.String `tfsdk:"name"`
 	Id                         types.String `tfsdk:"id"`
@@ -68,12 +75,15 @@ func (r *stackResource) Schema(ctx context.Context, req resource.SchemaRequest, 
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
+				Description: DescStackId,
 			},
 			"name": schema.StringAttribute{
-				Required: true,
+				Required:    true,
+				Description: DescStackName,
 			},
 			"default_output_secret_store_id": schema.StringAttribute{
-				Optional: true,
+				Optional:    true,
+				Description: DescStackDefaultOutputSecretStoreId,
 			},
 		},
 	}

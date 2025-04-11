@@ -56,7 +56,7 @@ func (d *simpleSecretDataSource) Schema(ctx context.Context, req datasource.Sche
 				Required: true,
 			},
 			"value": schema.StringAttribute{
-				Computed: true,
+				Computed:  true,
 				Sensitive: true,
 			},
 			"secret_store_id": schema.StringAttribute{

@@ -90,6 +90,39 @@ type moduleModel struct {
 	OutputSecretStoreId   types.String `tfsdk:"output_secret_store_id"`
 }
 
+const (
+	DescModuleOverride = "Setting this will override any default value set on the Module's parent Namespace."
+
+	DescModuleId                    = "Unique ID of the Module."
+	DescModuleName                  = "Name of the Module. Must be unique in combination with `namespace_id`."
+	DescModuleNamespaceId           = "ID of the Module's parent Namespace."
+	DescModuleRunnerPoolId          = "ID of the Runner Pool that will receive the instructions when triggering a deployment on this Module."
+	DescModuleSourceRevision        = "Remote revision (e.g. version number, branch, commit or tag) where the source module code is found."
+	DescModuleSourceUrl             = "Remote URL where the source module code is found."
+	DescModuleSourceSubdirectory    = "Subdirectory where the source module code is found."
+	DescModuleDependsOnModules      = "A list on Snap CD Modules that this Module depends on. Note that Snap CD will automatically discover depedencies based on the Module using as inputs the outputs from another Module, so use `depends_on_modules` where you want to explicitly establish a dependency where outputs are not referenced as inputs."
+	DescModuleSourceType            = "The type of remote module store that the source module code should be retrieved from."
+	DescModuleSourceRevisionType    = "How Snap CD should interpret the `source_revision` field. Setting to 'Default' means Snap CD will interpret the revision type based on the source type (for example, for a 'Git' source type it will automatically figure out whether the `source_revision` refers to a branch, tag or commit). Currently no other approaches are supported."
+	DescModuleSelectOn              = ""
+	DescModuleSelectStrategy        = ""
+	DescModuleSelectedConsumerId    = "Name of the Runner to select (should unique identify the Runner within the Runner Pool). If null a random Runner will be selected from the Runner pool on every deployment."
+	DescModuleInitBackendArgs       = DescSharedInitBackedArgs + DescModuleOverride
+	DescModuleInitBeforeHook        = DescSharedInitBeforeHook + DescModuleOverride
+	DescModuleInitAfterHook         = DescSharedInitAfterHook + DescModuleOverride
+	DescModulePlanBeforeHook        = DescSharedPlanBeforeHook + DescModuleOverride
+	DescModulePlanAfterHook         = DescSharedPlanAfterHook + DescModuleOverride
+	DescModulePlanDestroyBeforeHook = DescSharedPlanDestroyBeforeHook + DescModuleOverride
+	DescModulePlanDestroyAfterHook  = DescSharedPlanDestroyAfterHook + DescModuleOverride
+	DescModuleApplyBeforeHook       = DescSharedApplyBeforeHook + DescModuleOverride
+	DescModuleApplyAfterHook        = DescSharedApplyAfterHook + DescModuleOverride
+	DescModuleDestroyBeforeHook     = DescSharedDestroyBeforeHook + DescModuleOverride
+	DescModuleDestroyAfterHook      = DescSharedDestroyAfterHook + DescModuleOverride
+	DescModuleOutputBeforeHook      = DescSharedOutputBeforeHook + DescModuleOverride
+	DescModuleOutputAfterHook       = DescSharedOutputAfterHook + DescModuleOverride
+	DescModuleEngine                = DescSharedEngine + DescModuleOverride
+	DescModuleOutputSecretStoreId   = DescSharedOutputSecretStoreId + DescModuleOverride
+)
+
 func (r *moduleResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
 		Attributes: map[string]schema.Attribute{
@@ -98,21 +131,27 @@ func (r *moduleResource) Schema(ctx context.Context, req resource.SchemaRequest,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
+				Description: DescModuleId,
 			},
 			"name": schema.StringAttribute{
-				Required: true,
+				Required:    true,
+				Description: DescModuleName,
 			},
 			"namespace_id": schema.StringAttribute{
-				Required: true,
+				Required:    true,
+				Description: DescModuleNamespaceId,
 			},
 			"runner_pool_id": schema.StringAttribute{
-				Required: true,
+				Required:    true,
+				Description: DescModuleRunnerPoolId,
 			},
 			"source_revision": schema.StringAttribute{
-				Optional: true,
+				Optional:    true,
+				Description: DescModuleSourceRevision,
 			},
 			"source_url": schema.StringAttribute{
-				Required: true,
+				Required:    true,
+				Description: DescModuleSourceUrl,
 			},
 			"source_type": schema.StringAttribute{
 				Optional: true,
@@ -120,7 +159,8 @@ func (r *moduleResource) Schema(ctx context.Context, req resource.SchemaRequest,
 				Validators: []validator.String{
 					stringvalidator.OneOf("Git", "Registry"),
 				},
-				Default: stringdefault.StaticString("Git"),
+				Default:     stringdefault.StaticString("Git"),
+				Description: DescModuleSourceType,
 			},
 			"source_revision_type": schema.StringAttribute{
 				Optional: true,
@@ -128,79 +168,100 @@ func (r *moduleResource) Schema(ctx context.Context, req resource.SchemaRequest,
 				Validators: []validator.String{
 					stringvalidator.OneOf("Default"),
 				},
-				Default: stringdefault.StaticString("Default"),
+				Default:     stringdefault.StaticString("Default"),
+				Description: DescModuleSourceRevisionType,
 			},
 			"source_subdirectory": schema.StringAttribute{
-				Required: true,
+				Required:    true,
+				Description: DescModuleSourceSubdirectory,
 			},
 			"depends_on_modules": schema.ListAttribute{
 				Optional:    true,
 				Computed:    true,
 				ElementType: types.StringType,
 				Default:     listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
+				Description: DescModuleDependsOnModules,
 			},
 			"select_on": schema.StringAttribute{
 				Required: true,
 				Validators: []validator.String{
 					stringvalidator.OneOf("PoolId", "ConsumerId"),
 				},
+				Description: DescModuleSelectOn,
 			},
 			"select_strategy": schema.StringAttribute{
 				Required: true,
 				Validators: []validator.String{
 					stringvalidator.OneOf("FirstOf", "AnyOf"),
 				},
+				Description: DescModuleSelectStrategy,
 			},
 			"selected_consumer_id": schema.StringAttribute{
-				Optional: true,
+				Optional:    true,
+				Description: DescModuleSelectedConsumerId,
 			},
 			"init_before_hook": schema.StringAttribute{
-				Optional: true,
+				Optional:    true,
+				Description: DescModuleInitBeforeHook,
 			},
 			"init_after_hook": schema.StringAttribute{
-				Optional: true,
+				Optional:    true,
+				Description: DescModuleInitAfterHook,
 			},
 			"init_backend_args": schema.StringAttribute{
-				Optional: true,
+				Optional:    true,
+				Description: DescModuleInitBackendArgs,
 			},
 			"plan_before_hook": schema.StringAttribute{
-				Optional: true,
+				Optional:    true,
+				Description: DescModulePlanBeforeHook,
 			},
 			"plan_after_hook": schema.StringAttribute{
-				Optional: true,
+				Optional:    true,
+				Description: DescModulePlanAfterHook,
 			},
 			"plan_destroy_before_hook": schema.StringAttribute{
-				Optional: true,
+				Optional:    true,
+				Description: DescModuleDestroyBeforeHook,
 			},
 			"plan_destroy_after_hook": schema.StringAttribute{
-				Optional: true,
+				Optional:    true,
+				Description: DescModuleDestroyAfterHook,
 			},
 			"apply_before_hook": schema.StringAttribute{
-				Optional: true,
+				Optional:    true,
+				Description: DescModuleApplyBeforeHook,
 			},
 			"apply_after_hook": schema.StringAttribute{
-				Optional: true,
+				Optional:    true,
+				Description: DescModuleApplyAfterHook,
 			},
 			"destroy_before_hook": schema.StringAttribute{
-				Optional: true,
+				Optional:    true,
+				Description: DescModuleDestroyBeforeHook,
 			},
 			"destroy_after_hook": schema.StringAttribute{
-				Optional: true,
+				Optional:    true,
+				Description: DescModuleDestroyAfterHook,
 			},
 			"output_before_hook": schema.StringAttribute{
-				Optional: true,
+				Optional:    true,
+				Description: DescModuleOutputBeforeHook,
 			},
 			"output_after_hook": schema.StringAttribute{
-				Optional: true,
+				Optional:    true,
+				Description: DescModuleOutputAfterHook,
 			},
 			"engine": schema.StringAttribute{
 				Optional: true,
 				Validators: []validator.String{
 					stringvalidator.OneOf("OpenTofu", "Terraform"),
 				},
+				Description: DescModuleEngine,
 			},
 			"output_secret_store_id": schema.StringAttribute{
-				Optional: true,
+				Optional:    true,
+				Description: DescModuleOutputSecretStoreId,
 			},
 		},
 	}

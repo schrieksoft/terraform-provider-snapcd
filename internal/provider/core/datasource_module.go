@@ -53,101 +53,132 @@ func (d *moduleDataSource) Schema(ctx context.Context, req datasource.SchemaRequ
 	resp.Schema = schema.Schema{
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
-				Computed: true,
+				Computed:    true,
+				Description: DescModuleId,
 			},
 			"name": schema.StringAttribute{
-				Required: true,
+				Required:    true,
+				Description: DescModuleName,
 			},
 			"namespace_id": schema.StringAttribute{
-				Required: true,
+				Required:    true,
+				Description: DescModuleNamespaceId,
 			},
 			"runner_pool_id": schema.StringAttribute{
-				Computed: true,
+				Computed:    true,
+				Description: DescModuleRunnerPoolId,
 			},
 			"source_revision": schema.StringAttribute{
-				Computed: true,
+				Computed:    true,
+				Description: DescModuleSourceRevision,
 			},
 			"source_url": schema.StringAttribute{
-				Computed: true,
+				Computed:    true,
+				Description: DescModuleSourceUrl,
 			},
 			"source_subdirectory": schema.StringAttribute{
-				Computed: true,
+				Computed:    true,
+				Description: DescModuleSourceSubdirectory,
 			},
 			"depends_on_modules": schema.ListAttribute{
 				Computed:    true,
 				ElementType: types.StringType,
+				Description: DescModuleDependsOnModules,
 			},
 			"source_type": schema.StringAttribute{
 				Computed: true,
 				Validators: []validator.String{
-					stringvalidator.OneOf("Git"),
+					stringvalidator.OneOf("Git", "Registry"),
 				},
+				Description: DescModuleSourceType,
 			},
 			"source_revision_type": schema.StringAttribute{
 				Computed: true,
 				Validators: []validator.String{
 					stringvalidator.OneOf("Default"),
 				},
+				Description: DescModuleSourceRevisionType,
 			},
 			"select_on": schema.StringAttribute{
 				Computed: true,
 				Validators: []validator.String{
-					stringvalidator.OneOf("None", "PoolId", "ConsumerId"),
+					stringvalidator.OneOf("None", "PoolId", "RunnerId"),
 				},
+				Description: DescModuleSelectOn,
 			},
 			"select_strategy": schema.StringAttribute{
 				Computed: true,
 				Validators: []validator.String{
 					stringvalidator.OneOf("FirstOf", "AnyOf"),
 				},
+				Description: DescModuleSelectStrategy,
 			},
 			"selected_consumer_id": schema.StringAttribute{
-				Computed: true,
+				Computed:    true,
+				Description: DescModuleSelectedConsumerId,
 			},
 			"init_before_hook": schema.StringAttribute{
-				Computed: true,
+				Computed:    true,
+				Description: DescModuleInitBeforeHook,
 			},
 			"init_after_hook": schema.StringAttribute{
-				Computed: true,
+				Computed:    true,
+				Description: DescModuleInitAfterHook,
 			},
 			"init_backend_args": schema.StringAttribute{
-				Computed: true,
+				Computed:    true,
+				Description: DescModuleInitBackendArgs,
 			},
 			"plan_before_hook": schema.StringAttribute{
-				Computed: true,
+				Computed:    true,
+				Description: DescModulePlanBeforeHook,
 			},
 			"plan_after_hook": schema.StringAttribute{
-				Computed: true,
+				Computed:    true,
+				Description: DescModulePlanAfterHook,
 			},
 			"plan_destroy_before_hook": schema.StringAttribute{
-				Computed: true,
+				Computed:    true,
+				Description: DescModulePlanDestroyBeforeHook,
 			},
 			"plan_destroy_after_hook": schema.StringAttribute{
-				Computed: true,
+				Computed:    true,
+				Description: DescModulePlanDestroyAfterHook,
 			},
 			"apply_before_hook": schema.StringAttribute{
-				Computed: true,
+				Computed:    true,
+				Description: DescModuleApplyBeforeHook,
 			},
 			"apply_after_hook": schema.StringAttribute{
-				Computed: true,
+				Computed:    true,
+				Description: DescModuleApplyAfterHook,
 			},
 			"destroy_before_hook": schema.StringAttribute{
-				Computed: true,
+				Computed:    true,
+				Description: DescModuleDestroyBeforeHook,
 			},
 			"destroy_after_hook": schema.StringAttribute{
-				Computed: true,
+				Computed:    true,
+				Description: DescModuleDestroyAfterHook,
 			},
 			"output_before_hook": schema.StringAttribute{
-				Computed: true,
+				Computed:    true,
+				Description: DescModuleOutputBeforeHook,
 			},
 			"output_after_hook": schema.StringAttribute{
-				Computed: true,
+				Computed:    true,
+				Description: DescModuleOutputAfterHook,
 			},
 			"engine": schema.StringAttribute{
 				Computed: true,
+				Validators: []validator.String{
+					stringvalidator.OneOf("OpenTofu", "Terraform"),
+				},
+				Description: DescModuleEngine,
 			},
 			"output_secret_store_id": schema.StringAttribute{
-				Computed: true,
+				Computed:    true,
+				Description: DescModuleOutputSecretStoreId,
 			},
 		},
 	}

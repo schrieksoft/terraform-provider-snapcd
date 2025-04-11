@@ -74,7 +74,6 @@ func (d *namespaceParamFromSecretDataSource) Schema(ctx context.Context, req dat
 	}
 }
 
-
 func (d *namespaceParamFromSecretDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
 	var data namespaceParamFromSecretModel
 

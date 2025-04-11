@@ -1,6 +1,5 @@
 package namespace_param
 
-
 import (
 	"fmt"
 
