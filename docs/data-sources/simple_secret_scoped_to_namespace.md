@@ -1,13 +1,13 @@
 ---
 page_title: "snapcd_simple_secret_scoped_to_namespace Data Source - snapcd"
-subcategory: ""
+subcategory: "Secrets"
 description: |-
-  
+  Use this data source to access information about an existing Simple Secret (Scoped to Namespace) in Snap CD.
 ---
 
 # snapcd_simple_secret_scoped_to_namespace (Data Source)
 
-
+Use this data source to access information about an existing Simple Secret (Scoped to Namespace) in Snap CD.
 
 
 

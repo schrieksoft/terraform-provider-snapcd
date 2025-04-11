@@ -48,6 +48,7 @@ func (d *azureKeyVaultSecretScopedToModuleDataSource) Metadata(ctx context.Conte
 
 func (d *azureKeyVaultSecretScopedToModuleDataSource) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = schema.Schema{
+		MarkdownDescription: "Secrets --- Use this data source to access information about an existing Azure Key Vault Secret (Scoped to Module) in Snap CD.",
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed: true,

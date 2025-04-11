@@ -64,6 +64,7 @@ type simpleSecretScopedToStackModel struct {
 
 func (r *simpleSecretScopedToStackResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
+        MarkdownDescription: "Secrets --- Manages a Simple Secret (Scoped to Stack) in Snap CD.",
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed: true,

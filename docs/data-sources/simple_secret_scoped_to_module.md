@@ -1,13 +1,13 @@
 ---
 page_title: "snapcd_simple_secret_scoped_to_module Data Source - snapcd"
-subcategory: ""
+subcategory: "Secrets"
 description: |-
-  
+  Use this data source to access information about an existing Simple Secret (Scoped to Module) in Snap CD.
 ---
 
 # snapcd_simple_secret_scoped_to_module (Data Source)
 
-
+Use this data source to access information about an existing Simple Secret (Scoped to Module) in Snap CD.
 
 
 

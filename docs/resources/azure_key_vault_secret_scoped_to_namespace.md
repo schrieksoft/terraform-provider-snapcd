@@ -1,13 +1,13 @@
 ---
 page_title: "snapcd_azure_key_vault_secret_scoped_to_namespace Resource - snapcd"
-subcategory: ""
+subcategory: "Secrets"
 description: |-
-  
+  Manages a Azure Key Vault Secret (Scoped to Namespace) in Snap CD.
 ---
 
 # snapcd_azure_key_vault_secret_scoped_to_namespace (Resource)
 
-
+Manages a Azure Key Vault Secret (Scoped to Namespace) in Snap CD.
 
 
 

@@ -48,6 +48,7 @@ func (d *simpleSecretScopedToNamespaceDataSource) Metadata(ctx context.Context, 
 
 func (d *simpleSecretScopedToNamespaceDataSource) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = schema.Schema{
+		MarkdownDescription: "Secrets --- Use this data source to access information about an existing Simple Secret (Scoped to Namespace) in Snap CD.",
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed: true,

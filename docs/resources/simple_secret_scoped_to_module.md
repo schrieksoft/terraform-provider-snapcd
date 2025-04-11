@@ -1,13 +1,13 @@
 ---
 page_title: "snapcd_simple_secret_scoped_to_module Resource - snapcd"
-subcategory: ""
+subcategory: "Secrets"
 description: |-
-  
+  Manages a Simple Secret (Scoped to Module) in Snap CD.
 ---
 
 # snapcd_simple_secret_scoped_to_module (Resource)
 
-
+Manages a Simple Secret (Scoped to Module) in Snap CD.
 
 
 

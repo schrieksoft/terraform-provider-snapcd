@@ -48,6 +48,7 @@ func (d *simpleSecretScopedToStackDataSource) Metadata(ctx context.Context, req 
 
 func (d *simpleSecretScopedToStackDataSource) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = schema.Schema{
+		MarkdownDescription: "Secrets --- Use this data source to access information about an existing Simple Secret (Scoped to Stack) in Snap CD.",
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed: true,
