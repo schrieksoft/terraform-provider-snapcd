@@ -9,17 +9,17 @@ import (
 
 	snapcd "terraform-provider-snapcd/client"
 	"terraform-provider-snapcd/internal/provider/core"
+	"terraform-provider-snapcd/internal/provider/extra_files"
 	"terraform-provider-snapcd/internal/provider/identity"
 	"terraform-provider-snapcd/internal/provider/module_env_var"
 	"terraform-provider-snapcd/internal/provider/module_param"
 	"terraform-provider-snapcd/internal/provider/namespace_env_var"
 	"terraform-provider-snapcd/internal/provider/namespace_param"
 	"terraform-provider-snapcd/internal/provider/role_assignment"
+	"terraform-provider-snapcd/internal/provider/runner_pool_assignment"
 	"terraform-provider-snapcd/internal/provider/secret"
 	"terraform-provider-snapcd/internal/provider/secret_store"
 	"terraform-provider-snapcd/internal/provider/secret_store_assignment"
-	"terraform-provider-snapcd/internal/provider/runner_pool_assignment"
-	"terraform-provider-snapcd/internal/provider/extra_files"
 	"terraform-provider-snapcd/utils"
 
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
@@ -388,12 +388,10 @@ func (p *snapcdProvider) DataSources(_ context.Context) []func() datasource.Data
 		secret.AzureKeyVaultSecretScopedToStackDataSource,
 		secret.AzureKeyVaultSecretScopedToNamespaceDataSource,
 		secret.AzureKeyVaultSecretScopedToModuleDataSource,
-		secret.AzureKeyVaultSecretDataSource,
 
 		secret.SimpleSecretScopedToStackDataSource,
 		secret.SimpleSecretScopedToNamespaceDataSource,
 		secret.SimpleSecretScopedToModuleDataSource,
-		secret.SimpleSecretDataSource,
 
 		extra_files.NamespaceExtraFileDataSource,
 		extra_files.ModuleExtraFileDataSource,
@@ -445,12 +443,10 @@ func (p *snapcdProvider) Resources(_ context.Context) []func() resource.Resource
 		secret.AzureKeyVaultSecretScopedToStackResource,
 		secret.AzureKeyVaultSecretScopedToNamespaceResource,
 		secret.AzureKeyVaultSecretScopedToModuleResource,
-		secret.AzureKeyVaultSecretResource,
 
 		secret.SimpleSecretScopedToStackResource,
 		secret.SimpleSecretScopedToNamespaceResource,
 		secret.SimpleSecretScopedToModuleResource,
-		secret.SimpleSecretResource,
 
 		secret_store_assignment.SecretStoreStackAssignmentResource,
 		secret_store_assignment.SecretStoreNamespaceAssignmentResource,
