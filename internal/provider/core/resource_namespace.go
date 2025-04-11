@@ -53,6 +53,7 @@ func (r *namespaceResource) Configure(_ context.Context, req resource.ConfigureR
 	r.client = client
 }
 
+// ! Category: Namespace
 type namespaceModel struct {
 	Name                         types.String `tfsdk:"name"`
 	Id                           types.String `tfsdk:"id"`
@@ -110,6 +111,7 @@ func (r *namespaceResource) Metadata(ctx context.Context, req resource.MetadataR
 
 func (r *namespaceResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
+        MarkdownDescription: "Core --- Manages a Namespace in Snap CD.",
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed: true,

@@ -48,6 +48,7 @@ func (d *runnerPoolDataSource) Metadata(ctx context.Context, req datasource.Meta
 
 func (d *runnerPoolDataSource) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = schema.Schema{
+        MarkdownDescription: "Core --- Use this data source to acces information about and existing Runner Pool in Snap CD.",
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed:    true,

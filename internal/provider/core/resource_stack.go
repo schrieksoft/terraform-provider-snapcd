@@ -61,6 +61,7 @@ const (
 	DescStackDefaultOutputSecretStoreId = DescSharedOutputSecretStoreId
 )
 
+// ! Category: Stack
 type stackModel struct {
 	Name                       types.String `tfsdk:"name"`
 	Id                         types.String `tfsdk:"id"`
@@ -69,6 +70,7 @@ type stackModel struct {
 
 func (r *stackResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
+		MarkdownDescription: "Core --- Manages a Stack in Snap CD.",
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed: true,

@@ -54,6 +54,7 @@ func (r *runnerPoolResource) Metadata(ctx context.Context, req resource.Metadata
 	resp.TypeName = req.ProviderTypeName + "_runner_pool"
 }
 
+// ! Category: Runner Pool
 type runnerPoolModel struct {
 	Name               types.String `tfsdk:"name"`
 	Id                 types.String `tfsdk:"id"`
@@ -68,6 +69,7 @@ const (
 
 func (r *runnerPoolResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
+        MarkdownDescription: "Core --- Manages a Module in Snap CD.",
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed: true,
