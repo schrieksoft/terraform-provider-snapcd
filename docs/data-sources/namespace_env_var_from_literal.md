@@ -24,5 +24,5 @@ Use this data source to access information about an existing Namesapce Env Var (
 
 - `id` (String) Unique ID of the Namespace Env Var (From Literal).
 - `literal_value` (String) Literal value of the input.
-- `type` (String) Type of literal input.
-- `usage_mode` (String) Whether the input should be used by default on all Modules, or only when explicitly selected on the Module itself.
+- `type` (String) Type of literal input. Must be one of 'String' and 'NotString'. Use 'NotString' for values such as numbers, bools, list, maps etc.
+- `usage_mode` (String) Whether the input should be used by default on all Modules, or only when explicitly selected on the Module itself. Must be one of 'UseIfSelected' and 'UseByDefault'

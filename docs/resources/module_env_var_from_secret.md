@@ -78,11 +78,11 @@ resource "snapcd_module_env_var_from_secret" "myenvvar" {
 - `module_id` (String) ID of the Module Env Var (From Secret)'s parent Module.
 - `name` (String) Name of the Module Env Var (From Secret).  Must be unique in combination with `module_id`.
 - `secret_name` (String) Name of the Secret to take as input.
-- `secret_scope` (String) Scope on which the Secret to take as input as been stored (Stack, Namespace or Module)
+- `secret_scope` (String) Scope on which the Secret to take as input as been stored. Must be one of 'Stack', 'Namespace' and 'Module'
 
 ### Optional
 
-- `type` (String) The type of Secret to take as input
+- `type` (String) The data type of the Secret to take as input. Must be one of 'String' and 'NotString'. Use 'NotString' for values such as numbers, bools, list, maps etc.
 
 ### Read-Only
 

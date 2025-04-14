@@ -87,8 +87,9 @@ func (r *moduleEnvVarFromLiteralResource) Schema(ctx context.Context, req resour
 				Optional: true,
 				Computed: true,
 				Validators: []validator.String{
-					stringvalidator.OneOf("String", "NotString", "Number", "Bool", "Tuple", "Object")},
+					stringvalidator.OneOf("String", "NotString")},
 				Default: stringdefault.StaticString("String"),
+				Description: DescSharedLiteralType,
 			},
 			"module_id": schema.StringAttribute{
 				Required:    true,

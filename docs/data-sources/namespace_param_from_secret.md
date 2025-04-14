@@ -24,6 +24,6 @@ Use this data source to access information about an existing Namesapce Param (Fr
 
 - `id` (String) Unique ID of the Namespace Param (From Secret).
 - `secret_name` (String) Name of the Secret to take as input.
-- `secret_scope` (String) Scope on which the Secret to take as input as been stored (Stack or Namespace).
-- `type` (String) Type of literal input the secret value should be formatted as.
-- `usage_mode` (String) Whether the input should be used by default on all Modules, or only when explicitly selected on the Module itself.
+- `secret_scope` (String) Scope on which the Secret to take as input as been stored. Must be one of 'Stack' or 'Namespace'.
+- `type` (String) Type of literal input the secret value should be formatted as. Must be one of 'String' and 'NotString'. Use 'NotString' for values such as numbers, bools, list, maps etc.
+- `usage_mode` (String) Whether the input should be used by default on all Modules, or only when explicitly selected on the Module itself. Must be one of 'UseIfSelected' and 'UseByDefault'

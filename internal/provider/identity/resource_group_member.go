@@ -67,7 +67,7 @@ const (
 	DescGroupMemberId                     = "Unique ID of the Group Member."
 	DescGroupMemberGroupId                = "ID of the Group to assign membership of."
 	DescGroupMemberPrincipalId            = "ID of the Principal to assign to the Group."
-	DescGroupMemberPrincipalDiscriminator = "Type of Principal to assign to the Group"
+	DescGroupMemberPrincipalDiscriminator = "Type of Principal to assign to the Group. Must be one of 'User' and 'ServicePrincipal'"
 )
 
 func (r *groupMemberResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {

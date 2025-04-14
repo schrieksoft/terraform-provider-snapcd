@@ -22,6 +22,6 @@ Use this data source to access information about an existing Namesapce Param (Fr
 
 ### Read-Only
 
-- `definition_name` (String) Name of the Definition from which to get take the input.
+- `definition_name` (String) Name of the Definition from which to get take the input. Must be one of 'ModuleId', 'NamespaceId', 'StackId', 'ModuleName', 'NamespaceName', 'StackName', 'SourceUrl', 'SourceRevision' and 'SourceSubdirectory'
 - `id` (String) Unique ID of the Namespace Param (From Definition).
-- `usage_mode` (String) Whether the input should be used by default on all Modules, or only when explicitly selected on the Module itself.
+- `usage_mode` (String) Whether the input should be used by default on all Modules, or only when explicitly selected on the Module itself. Must be one of 'UseIfSelected' and 'UseByDefault'

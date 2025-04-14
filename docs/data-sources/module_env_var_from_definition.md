@@ -22,5 +22,5 @@ Use this data source to access information about an existing Module Env Var (Fro
 
 ### Read-Only
 
-- `definition_name` (String) Name of the Definition from which to get take the input. Can be one of 'ModuleId', 'NamespaceId', 'StackId', 'ModuleName', 'NamespaceName', 'StackName', 'SourceUrl', 'SourceRevision' or 'SourceSubdirectory'.
+- `definition_name` (String) Name of the Definition from which to get take the input. Must be one of 'ModuleId', 'NamespaceId', 'StackId', 'ModuleName', 'NamespaceName', 'StackName', 'SourceUrl', 'SourceRevision' and 'SourceSubdirectory'.
 - `id` (String) Unique ID of the Module Env Var (From Definition).

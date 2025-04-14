@@ -89,7 +89,7 @@ func (r *moduleEnvVarFromSecretResource) Schema(ctx context.Context, req resourc
 				Optional: true,
 				Computed: true,
 				Validators: []validator.String{
-					stringvalidator.OneOf("String", "NotString", "Number", "Bool", "Tuple", "Object")},
+					stringvalidator.OneOf("String", "NotString")},
 				Default:     stringdefault.StaticString("String"),
 				Description: DescSharedSecretType,
 			},

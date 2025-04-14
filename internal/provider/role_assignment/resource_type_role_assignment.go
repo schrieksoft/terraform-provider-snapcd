@@ -92,14 +92,14 @@ func (r *typeRoleAssignmentResource) Schema(ctx context.Context, req resource.Sc
 				Validators: []validator.String{
 					stringvalidator.OneOf("Stack", "Namespace", "Module", "RunnerPool"),
 				},
-				Description: "Type of Resource to which the role is assigned.",
+				Description: "Type of Resource to which the role is assigned. Must be one of 'Stack', 'Namespace', 'Module' and 'RunnerPool'",
 			},
 			"role_name": schema.StringAttribute{
 				Required: true,
 				Validators: []validator.String{
 					stringvalidator.OneOf("Owner", "Contributor", "Reader"),
 				},
-				Description: SharedRoleName,
+				Description: SharedRoleName  + "Must be one of 'Owner', 'Contributor' and 'Reader'",
 			},
 		},
 	}

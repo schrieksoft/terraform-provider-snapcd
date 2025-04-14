@@ -61,7 +61,7 @@ resource "snapcd_module_param_from_namespace" "myparam" {
 - `default_apply_before_hook` (String) Shell script that should be executed before the 'Apply' step of any deployment is run. All modules in this Namespace will use this value, unless explicitly overriden on the Module itself.
 - `default_destroy_after_hook` (String) Shell script that should be executed after the 'Destroy' step of any deployment is run. All modules in this Namespace will use this value, unless explicitly overriden on the Module itself.
 - `default_destroy_before_hook` (String) Shell script that should be executed before the 'Destroy' step of any deployment is run. All modules in this Namespace will use this value, unless explicitly overriden on the Module itself.
-- `default_engine` (String) Determines which binary will be used during deployment. Setting this to 'OpenTofu' will use `tofu`. Setting it to 'Terraform' will use `terraform`. All modules in this Namespace will use this value, unless explicitly overriden on the Module itself.
+- `default_engine` (String) Determines which binary will be used during deployment. Must be one of 'OpenTofu' and 'Terraform'. Setting this to 'OpenTofu' will use `tofu`. Setting it to 'Terraform' will use `terraform`. All modules in this Namespace will use this value, unless explicitly overriden on the Module itself.
 - `default_init_after_hook` (String) Shell script that should be executed after the 'Init' step of any deployment is run.All modules in this Namespace will use this value, unless explicitly overriden on the Module itself.
 - `default_init_backend_args` (String) Arguments to pass to the 'init' command in order to set the backend. This should be a text block such as:
 

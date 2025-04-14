@@ -24,4 +24,4 @@ Use this data source to access information about an existing Module Param (From 
 
 - `id` (String) Unique ID of the Module Param (From Literal).
 - `literal_value` (String) Literal value of the input.
-- `type` (String) Type of literal input.
+- `type` (String) Type of literal input. Must be one of 'String' and 'NotString'. Use 'NotString' for values such as numbers, bools, list, maps etc.

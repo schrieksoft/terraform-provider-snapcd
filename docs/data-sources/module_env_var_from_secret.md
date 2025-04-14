@@ -24,5 +24,5 @@ Use this data source to access information about an existing Module Env Var (Fro
 
 - `id` (String) Unique ID of the Module Env Var (From Secret).
 - `secret_name` (String) Name of the Secret to take as input.
-- `secret_scope` (String) Scope on which the Secret to take as input as been stored (Stack, Namespace or Module)
-- `type` (String) The type of Secret to take as input
+- `secret_scope` (String) Scope on which the Secret to take as input as been stored. Must be one of 'Stack', 'Namespace' and 'Module'
+- `type` (String) The data type of the Secret to take as input. Must be one of 'String' and 'NotString'. Use 'NotString' for values such as numbers, bools, list, maps etc.

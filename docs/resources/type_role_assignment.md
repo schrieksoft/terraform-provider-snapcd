@@ -30,10 +30,10 @@ resource "snapcd_type_role_assignment" "mysp_administrator" {
 
 ### Required
 
-- `principal_discriminator` (String) Type of Principal that the `principal_id` identifies
+- `principal_discriminator` (String) Type of Principal that the `principal_id` identifies. Must be one of 'User', 'ServicePrincipal' and 'Group'
 - `principal_id` (String) ID of the Principal to which the role is assigned.
-- `resource_discriminator` (String) Type of Resource to which the role is assigned.
-- `role_name` (String) Name of the Role that is assigned
+- `resource_discriminator` (String) Type of Resource to which the role is assigned. Must be one of 'Stack', 'Namespace', 'Module' and 'RunnerPool'
+- `role_name` (String) Name of the Role that is assigned.Must be one of 'Owner', 'Contributor' and 'Reader'
 
 ### Read-Only
 

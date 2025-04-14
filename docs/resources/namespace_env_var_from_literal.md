@@ -42,8 +42,8 @@ resource "snapcd_namespace_env_var_from_literal" "myenvvar" {
 
 ### Optional
 
-- `type` (String) Type of literal input.
-- `usage_mode` (String) Whether the input should be used by default on all Modules, or only when explicitly selected on the Module itself.
+- `type` (String) Type of literal input. Must be one of 'String' and 'NotString'. Use 'NotString' for values such as numbers, bools, list, maps etc.
+- `usage_mode` (String) Whether the input should be used by default on all Modules, or only when explicitly selected on the Module itself. Must be one of 'UseIfSelected' and 'UseByDefault'
 
 ### Read-Only
 

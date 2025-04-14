@@ -25,6 +25,6 @@ const (
 	DescSharedDestroyAfterHook      = "Shell script that should be executed after the 'Destroy' step of any deployment is run. "
 	DescSharedOutputBeforeHook      = "Shell script that should be executed before the 'Output' step of any deployment is run. "
 	DescSharedOutputAfterHook       = "Shell script that should be executed after the 'Output' step of any deployment is run. "
-	DescSharedEngine                = "Determines which binary will be used during deployment. Setting this to 'OpenTofu' will use `tofu`. Setting it to 'Terraform' will use `terraform`. "
+	DescSharedEngine                = "Determines which binary will be used during deployment. Must be one of 'OpenTofu' and 'Terraform'. Setting this to 'OpenTofu' will use `tofu`. Setting it to 'Terraform' will use `terraform`. "
 	DescSharedOutputSecretStoreId   = "The ID of the Secret Store that will be used to store this Module's outputs. Note that for an 'Output' step to successfully use this Secret Store, it must either be deployed as `is_globally_assigned=true`, or assigned via module/namespace/stack assignment. "
 )

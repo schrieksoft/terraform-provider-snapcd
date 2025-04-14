@@ -86,7 +86,7 @@ func (r *namespaceParamFromSecretResource) Schema(ctx context.Context, req resou
 				Optional: true,
 				Computed: true,
 				Validators: []validator.String{
-					stringvalidator.OneOf("String", "NotString", "Number", "Bool", "Tuple", "Object")},
+					stringvalidator.OneOf("String", "NotString")},
 				Default:     stringdefault.StaticString("String"),
 				Description: DescSharedSecretType,
 			},

@@ -90,7 +90,7 @@ func (r *globalRoleAssignmentResource) Schema(ctx context.Context, req resource.
 				Validators: []validator.String{
 					stringvalidator.OneOf("Administrator", "IdentityAccessAdministrator", "Default", "Reader", "Runner"),
 				},
-				Description: SharedRoleName ,
+				Description: SharedRoleName + "Must be one of 'Administrator', 'IdentityAccessAdministrator', 'Default', 'Reader' and 'Runner'",
 			},
 		},
 	}

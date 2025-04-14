@@ -104,7 +104,7 @@ func (r *resourceRoleAssignmentResource) Schema(ctx context.Context, req resourc
 				Validators: []validator.String{
 					stringvalidator.OneOf("Owner", "Contributor", "Reader"),
 				},
-				Description: SharedRoleName,
+				Description: SharedRoleName  + "Must be one of 'Owner', 'Contributor' and 'Reader'",
 			},
 		},
 	}

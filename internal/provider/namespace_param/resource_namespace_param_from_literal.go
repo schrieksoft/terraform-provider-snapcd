@@ -85,7 +85,7 @@ func (r *namespaceParamFromLiteralResource) Schema(ctx context.Context, req reso
 				Optional: true,
 				Computed: true,
 				Validators: []validator.String{
-					stringvalidator.OneOf("String", "NotString", "Number", "Bool", "Tuple", "Object")},
+					stringvalidator.OneOf("String", "NotString")},
 				Default:     stringdefault.StaticString("String"),
 				Description: DescSharedLiteralType,
 			},

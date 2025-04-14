@@ -37,13 +37,13 @@ resource "snapcd_namespace_param_from_definition" "myparam" {
 
 ### Required
 
-- `definition_name` (String) Name of the Definition from which to get take the input.
+- `definition_name` (String) Name of the Definition from which to get take the input. Must be one of 'ModuleId', 'NamespaceId', 'StackId', 'ModuleName', 'NamespaceName', 'StackName', 'SourceUrl', 'SourceRevision' and 'SourceSubdirectory'
 - `name` (String) Name of the Namespace Param (From Definition).  Must be unique in combination with `namespace_id`.
 - `namespace_id` (String) ID of the Namespace Param (From Definition)'s parent Namespace.
 
 ### Optional
 
-- `usage_mode` (String) Whether the input should be used by default on all Modules, or only when explicitly selected on the Module itself.
+- `usage_mode` (String) Whether the input should be used by default on all Modules, or only when explicitly selected on the Module itself. Must be one of 'UseIfSelected' and 'UseByDefault'
 
 ### Read-Only
 

@@ -87,7 +87,7 @@ func (r *moduleParamFromLiteralResource) Schema(ctx context.Context, req resourc
 				Optional: true,
 				Computed: true,
 				Validators: []validator.String{
-					stringvalidator.OneOf("String", "NotString", "Number", "Bool", "Tuple", "Object")},
+					stringvalidator.OneOf("String", "NotString")},
 				Default: stringdefault.StaticString("String"),
 			},
 			"module_id": schema.StringAttribute{

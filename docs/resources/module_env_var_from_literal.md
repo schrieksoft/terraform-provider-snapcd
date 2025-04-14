@@ -55,7 +55,7 @@ resource "snapcd_module_env_var_from_literal" "myenvvar" {
 
 ### Optional
 
-- `type` (String)
+- `type` (String) Type of literal input. Must be one of 'String' and 'NotString'. Use 'NotString' for values such as numbers, bools, list, maps etc.
 
 ### Read-Only
 

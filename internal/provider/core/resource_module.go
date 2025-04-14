@@ -102,7 +102,7 @@ const (
 	DescModuleSourceUrl             = "Remote URL where the source module code is found."
 	DescModuleSourceSubdirectory    = "Subdirectory where the source module code is found."
 	DescModuleDependsOnModules      = "A list on Snap CD Modules that this Module depends on. Note that Snap CD will automatically discover depedencies based on the Module using as inputs the outputs from another Module, so use `depends_on_modules` where you want to explicitly establish a dependency where outputs are not referenced as inputs."
-	DescModuleSourceType            = "The type of remote module store that the source module code should be retrieved from."
+	DescModuleSourceType            = "The type of remote module store that the source module code should be retrieved from. Must be one of 'Git' or 'Registry'"
 	DescModuleSourceRevisionType    = "How Snap CD should interpret the `source_revision` field. Setting to 'Default' means Snap CD will interpret the revision type based on the source type (for example, for a 'Git' source type it will automatically figure out whether the `source_revision` refers to a branch, tag or commit). Currently no other approaches are supported."
 	DescModuleSelectOn              = ""
 	DescModuleSelectStrategy        = ""

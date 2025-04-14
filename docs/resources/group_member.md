@@ -35,7 +35,7 @@ resource "snapcd_group_member" "mygroup_mysp" {
 ### Required
 
 - `group_id` (String) ID of the Group to assign membership of.
-- `principal_discriminator` (String) Type of Principal to assign to the Group
+- `principal_discriminator` (String) Type of Principal to assign to the Group. Must be one of 'User' and 'ServicePrincipal'
 - `principal_id` (String) ID of the Principal to assign to the Group.
 
 ### Read-Only

@@ -49,7 +49,7 @@ resource "snapcd_module_env_var_from_definition" "myenvvar" {
 
 ### Required
 
-- `definition_name` (String) Name of the Definition from which to get take the input. Can be one of 'ModuleId', 'NamespaceId', 'StackId', 'ModuleName', 'NamespaceName', 'StackName', 'SourceUrl', 'SourceRevision' or 'SourceSubdirectory'.
+- `definition_name` (String) Name of the Definition from which to get take the input. Must be one of 'ModuleId', 'NamespaceId', 'StackId', 'ModuleName', 'NamespaceName', 'StackName', 'SourceUrl', 'SourceRevision' and 'SourceSubdirectory'.
 - `module_id` (String) ID of the Module Env Var (From Definition)'s parent Module.
 - `name` (String) Name of the Module Env Var (From Definition).  Must be unique in combination with `module_id`.
 

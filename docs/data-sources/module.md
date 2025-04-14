@@ -27,7 +27,7 @@ Use this data source to access information about an existing Module in Snap CD.
 - `depends_on_modules` (List of String) A list on Snap CD Modules that this Module depends on. Note that Snap CD will automatically discover depedencies based on the Module using as inputs the outputs from another Module, so use `depends_on_modules` where you want to explicitly establish a dependency where outputs are not referenced as inputs.
 - `destroy_after_hook` (String) Shell script that should be executed after the 'Destroy' step of any deployment is run. Setting this will override any default value set on the Module's parent Namespace.
 - `destroy_before_hook` (String) Shell script that should be executed before the 'Destroy' step of any deployment is run. Setting this will override any default value set on the Module's parent Namespace.
-- `engine` (String) Determines which binary will be used during deployment. Setting this to 'OpenTofu' will use `tofu`. Setting it to 'Terraform' will use `terraform`. Setting this will override any default value set on the Module's parent Namespace.
+- `engine` (String) Determines which binary will be used during deployment. Must be one of 'OpenTofu' and 'Terraform'. Setting this to 'OpenTofu' will use `tofu`. Setting it to 'Terraform' will use `terraform`. Setting this will override any default value set on the Module's parent Namespace.
 - `id` (String) Unique ID of the Module.
 - `init_after_hook` (String) Shell script that should be executed after the 'Init' step of any deployment is run.Setting this will override any default value set on the Module's parent Namespace.
 - `init_backend_args` (String) Arguments to pass to the 'init' command in order to set the backend. This should be a text block such as:
@@ -59,5 +59,5 @@ Setting this will override any default value set on the Module's parent Namespac
 - `source_revision` (String) Remote revision (e.g. version number, branch, commit or tag) where the source module code is found.
 - `source_revision_type` (String) How Snap CD should interpret the `source_revision` field. Setting to 'Default' means Snap CD will interpret the revision type based on the source type (for example, for a 'Git' source type it will automatically figure out whether the `source_revision` refers to a branch, tag or commit). Currently no other approaches are supported.
 - `source_subdirectory` (String) Subdirectory where the source module code is found.
-- `source_type` (String) The type of remote module store that the source module code should be retrieved from.
+- `source_type` (String) The type of remote module store that the source module code should be retrieved from. Must be one of 'Git' or 'Registry'
 - `source_url` (String) Remote URL where the source module code is found.
