@@ -22,5 +22,5 @@ Use this data source to access information about an existing Module Param (From 
 
 ### Read-Only
 
-- `definition_name` (String) Name of the Definition from which to get take the input.
+- `definition_name` (String) Name of the Definition from which to get take the input. Can be one of 'ModuleId', 'NamespaceId', 'StackId', 'ModuleName', 'NamespaceName', 'StackName', 'SourceUrl', 'SourceRevision' or 'SourceSubdirectory'.
 - `id` (String) Unique ID of the Module Param (From Definition).

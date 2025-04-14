@@ -17,13 +17,13 @@ resource "snapcd_module" "mymodule" {
   runner_pool_id      = data.snapcd_runner_pool.default.id
 }
 
-
-// If you declare a Namespace Param called "myvar_declared_on_namespace", you can map it to "myvar" as follows:
-// Note that you can do this mapping irrespective of whether the Namespace Param's "Usage Mode" was set to "UseByDefault" or "UseIfSelected". 
-// However, it it was set to "UseByDefault", both "var.myvar_declared_on_namespace" and "var.myvar" will be provided as input variables
-// when the Module executes
-resource "snapcd_module_param_from_namespace" "myparam" {
+// Provided you have a Module called "anothermodule" within a namespace called "anothernamespace" (within the same Stack as "mymodule"), 
+// which provides an output valled "some_output", you can set the input paramter "var.myvar" equal to the value stored in "some_output" as 
+// follows:
+resource "snapcd_module_param_from_output" "myparam" {
   name           = "myvar"
-  reference_name = "myvar_declared_on_namespace"
+  output_name    = "some_output"
+  module_name    = "anothermodule"
+  namespace_name = "anothernamespace"
   module_id      = snapcd_module.mymodule.id
 }

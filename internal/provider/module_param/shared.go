@@ -6,7 +6,7 @@ const (
 	DescSharedName2          = " Must be unique in combination with `module_id`."
 	DescSharedModuleId1      = "ID of the "
 	DescSharedModuleId2      = "'s parent Module."
-	DescSharedDefinitionName = "Name of the Definition from which to get take the input."
+	DescSharedDefinitionName = "Name of the Definition from which to get take the input. Can be one of 'ModuleId', 'NamespaceId', 'StackId', 'ModuleName', 'NamespaceName', 'StackName', 'SourceUrl', 'SourceRevision' or 'SourceSubdirectory'."
 	DescSharedLiteralType    = "Type of literal input."
 	DescSharedLiteralValue   = "Literal value of the input."
 	DescSharedModuleName     = "Name of the parent Module from which to source the take the Output."
