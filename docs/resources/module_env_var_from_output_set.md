@@ -17,7 +17,7 @@ data "snapcd_stack" "default" {
   name = "default"
 }
 
-resource "snapcd_stack" "mynamespace" {
+resource "snapcd_namespace" "mynamespace" {
   name     = "mynamespace"
   stack_id = data.snapcd_stack.default.id
 }
