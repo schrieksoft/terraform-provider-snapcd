@@ -7,6 +7,9 @@ resource "snapcd_namespace" "mynamespace" {
   stack_id = data.snapcd_stack.default.id
 }
 
+resource "snapcd_runner_pool" "myrunnerpool" {
+  name = "myrunnerpool"
+}
 
 resource "snapcd_module" "mymodule" {
   name                = "mymodule"
@@ -23,7 +26,6 @@ resource "snapcd_module" "mymodule" {
 resource "snapcd_azure_key_vault_secret_store" "mysecretstore" {
   name          = "my-secret-store"
   key_vault_url = "https://name-of-my-azure-key-vault.vault.azure.net/"
-
 }
 
 resource "secret_store_stack_assignment" "mysecretstore_default" {

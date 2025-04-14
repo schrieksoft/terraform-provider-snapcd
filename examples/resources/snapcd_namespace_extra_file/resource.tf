@@ -19,22 +19,22 @@ resource "snapcd_namespace" "mynamespace" {
 // Namespace executes, these two files will be added to the root folder of the Module. 
 
 resource "snapcd_namespace_extra_file" "provider_vars" {
-  file_name = "providers_vars.tf"
-  contents  = <<EOT
+  file_name    = "providers_vars.tf"
+  contents     = <<EOT
 variable "subscription_id" {}
 variable "tenant_id" {}
   EOT
-  module_id = snapcd_namespace.mynamespace.id
+  namespace_id = snapcd_namespace.mynamespace.id
 }
 
 resource "snapcd_namespace_extra_file" "providers" {
-  file_name = "providers.tf"
-  contents  = <<EOT
+  file_name    = "providers.tf"
+  contents     = <<EOT
 provider "azurerm" {
   subscription_id = var.subscription_id
   tenant_id       = var.tenant_id
   features {}
 }
   EOT
-  module_id = snapcd_namespace.mynamespace.id
+  namespace_id = snapcd_namespace.mynamespace.id
 }

@@ -22,6 +22,9 @@ resource "snapcd_namespace" "mynamespace" {
   stack_id = data.snapcd_stack.default.id
 }
 
+resource "snapcd_runner_pool" "myrunnerpool" {
+  name = "myrunnerpool"
+}
 
 resource "snapcd_module" "mymodule" {
   name                = "mymodule"
