@@ -9,15 +9,32 @@ import (
 	utils "terraform-provider-snapcd/utils"
 
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
+	"github.com/hashicorp/terraform-plugin-framework/types"
 
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
 )
+
+var servicePrincipalDefaultError = fmt.Sprintf("snapcd_service_principal error")
+
+var servicePrincipalEndpoint = "/api/ServicePrincipal"
 
 var _ datasource.DataSource = (*servicePrincipalDataSource)(nil)
 
 func ServicePrincipalDataSource() datasource.DataSource {
 	return &servicePrincipalDataSource{}
 }
+
+type servicePrincipalModel struct {
+	Id           types.String `tfsdk:"id"`
+	ClientId     types.String `tfsdk:"client_id"`
+	ClientSecret types.String `tfsdk:"client_secret"`
+}
+
+const (
+	DescServicePrincipalId           = "Unique ID of the Service Principal."
+	DescServicePrincipalClientId     = "Client Id of the Service Principal. This value must be unique."
+	DescServicePrincipalClientSecret = "Client Secret of the Service Principal."
+)
 
 type servicePrincipalDataSource struct {
 	client *snapcd.Client

@@ -407,7 +407,6 @@ func (p *snapcdProvider) Resources(_ context.Context) []func() resource.Resource
 		core.StackResource,
 		core.RunnerPoolResource,
 
-		identity.ServicePrincipalResource,
 		identity.GroupResource,
 		identity.GroupMemberResource,
 
