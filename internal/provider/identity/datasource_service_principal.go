@@ -25,15 +25,13 @@ func ServicePrincipalDataSource() datasource.DataSource {
 }
 
 type servicePrincipalModel struct {
-	Id           types.String `tfsdk:"id"`
-	ClientId     types.String `tfsdk:"client_id"`
-	ClientSecret types.String `tfsdk:"client_secret"`
+	Id       types.String `tfsdk:"id"`
+	ClientId types.String `tfsdk:"client_id"`
 }
 
 const (
-	DescServicePrincipalId           = "Unique ID of the Service Principal."
-	DescServicePrincipalClientId     = "Client Id of the Service Principal. This value must be unique."
-	DescServicePrincipalClientSecret = "Client Secret of the Service Principal."
+	DescServicePrincipalId       = "Unique ID of the Service Principal."
+	DescServicePrincipalClientId = "Client Id of the Service Principal. This value must be unique."
 )
 
 type servicePrincipalDataSource struct {

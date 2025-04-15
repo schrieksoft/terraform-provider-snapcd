@@ -1,0 +1,4 @@
+
+data "snapcd_simple_secret_store" "mysecretstore" {
+  name = "mysecretstore"
+}
