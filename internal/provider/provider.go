@@ -359,6 +359,7 @@ func (p *snapcdProvider) DataSources(_ context.Context) []func() datasource.Data
 
 		identity.ServicePrincipalDataSource,
 		identity.GroupDataSource,
+		identity.UserDataSource,
 
 		module_env_var.ModuleEnvVarFromLiteralDataSource,
 		module_env_var.ModuleEnvVarFromDefinitionDataSource,

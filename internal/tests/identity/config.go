@@ -21,3 +21,8 @@ var GroupCreateConfig = providerconfig.AppendRandomString(`
 resource "snapcd_group" "this" { 
   name  = "somevalue%s"
 }`)
+
+var UserGetConfig = `
+data "snapcd_user" "this" { 
+  user_name  = "kschriek@gmail.com"
+}`
