@@ -1,3 +1,8 @@
+# Contribute
+
+- Install "pre-commit", e.g. `pip3 install pre-commit==2.20.0`. You'll need [Python 3 ](https://www.python.org/downloads/release/python-3110/)
+- Run `pre-commit install` in root of folder to activate the pre-commit hooks.
+
 # Test
 
 ```shell

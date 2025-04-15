@@ -454,6 +454,7 @@ func (p *snapcdProvider) Resources(_ context.Context) []func() resource.Resource
 		runner_pool_assignment.RunnerPoolStackAssignmentResource,
 		runner_pool_assignment.RunnerPoolNamespaceAssignmentResource,
 		runner_pool_assignment.RunnerPoolModuleAssignmentResource,
+		runner_pool_assignment.RunnerPoolServicePrincipalAssignmentResource,
 
 		extra_files.NamespaceExtraFileResource,
 		extra_files.ModuleExtraFileResource,
