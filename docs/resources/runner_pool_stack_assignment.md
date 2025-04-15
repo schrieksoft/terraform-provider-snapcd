@@ -13,17 +13,17 @@ Manages a Runner Pool Stack Assignment in Snap CD.
 ## Example Usage
 
 ```terraform
-data "snapcd_stack" "default" {
-  name = "default"
-}
-
 resource "snapcd_runner_pool" "myrunnerpool" {
   name = "myrunnerpool"
 }
 
-resource "snapcd_runner_pool_stack_assignment" "mysp_administrator" {
+data "snapcd_service_principal" "mysp" {
+  client_id = "mysp"
+}
+
+resource "snapcd_runner_pool_service_principal_assignment" "myrunnerpool_mysp" {
   runner_pool_id = snapcd_runner_pool.myrunnerpool.id
-  stack_id       = data.snapcd_stack.default.id
+  stack_id       = data.snapcd_service_principal.mysp.id
 }
 ```
 
@@ -45,5 +45,5 @@ Import is supported using the following syntax:
 
 ```shell
 RESOURCE_ID="12345678-90ab-cdef-1234-56789abcdef0"
-terraform import snapcd_runner_pool_stack_assignment.this $RESOURCE_ID
+terraform import snapcd_runner_pool_service_principal_assignment.this $RESOURCE_ID
 ```

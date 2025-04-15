@@ -43,7 +43,7 @@ resource "snapcd_module" "mymodule" {
 
 
 // Assign Secret Store to Module, allowing to create Secrets scoped to this Module to be created in this Secret Store
-resource "snapcd_secret_store_module_assignment" "mysp_administrator" {
+resource "snapcd_secret_store_module_assignment" "mysecretstore_mymodule" {
   secret_store_id = snapcd_azure_key_vault_secret_store.mysecretstore.id
   module_id       = snapcd_module.mymodule.id
 }

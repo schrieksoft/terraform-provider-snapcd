@@ -11,7 +11,7 @@ resource "snapcd_runner_pool" "myrunnerpool" {
   name = "myrunnerpool"
 }
 
-resource "snapcd_runner_pool_namespace_assignment" "mysp_administrator" {
+resource "snapcd_runner_pool_namespace_assignment" "myrunnerpool_mynamespace" {
   runner_pool_id = snapcd_runner_pool.myrunnerpool.id
   namespace_id   = snapcd_namespace.mynamespace.id
 }

@@ -36,7 +36,7 @@ resource "snapcd_module" "mymodule" {
 }
 
 
-resource "snapcd_runner_pool_module_assignment" "mysp_administrator" {
+resource "snapcd_runner_pool_module_assignment" "myrunnerpool_mymodule" {
   runner_pool_id = snapcd_runner_pool.myrunnerpool.id
   module_id      = snapcd_module.mymodule.id
 }
