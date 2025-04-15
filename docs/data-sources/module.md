@@ -55,9 +55,7 @@ data "snapcd_module" "mymodule" {
 - `plan_destroy_after_hook` (String) Shell script that should be executed after the 'PlanDestroy' step of any deployment is run. Setting this will override any default value set on the Module's parent Namespace.
 - `plan_destroy_before_hook` (String) Shell script that should be executed before the 'PlanDestroy' step of any deployment is run. Setting this will override any default value set on the Module's parent Namespace.
 - `runner_pool_id` (String) ID of the Runner Pool that will receive the instructions when triggering a deployment on this Module.
-- `select_on` (String)
-- `select_strategy` (String)
-- `selected_consumer_id` (String) Name of the Runner to select (should unique identify the Runner within the Runner Pool). If null a random Runner will be selected from the Runner pool on every deployment.
+- `runner_self_declared_name` (String) Name of the Runner to select (should unique identify the Runner within the Runner Pool). If null a random Runner will be selected from the Runner pool on every deployment.
 - `source_revision` (String) Remote revision (e.g. version number, branch, commit or tag) where the source module code is found.
 - `source_revision_type` (String) How Snap CD should interpret the `source_revision` field. Setting to 'Default' means Snap CD will interpret the revision type based on the source type (for example, for a 'Git' source type it will automatically figure out whether the `source_revision` refers to a branch, tag or commit). Currently no other approaches are supported.
 - `source_subdirectory` (String) Subdirectory where the source module code is found.

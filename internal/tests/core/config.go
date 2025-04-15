@@ -10,24 +10,22 @@ data "snapcd_runner_pool" "default" {
   name = "default"
 }
 
-resource "snapcd_module" "this" { 
+resource "snapcd_module" "this" {
   name                         	 = "somevalue%s"
   namespace_id                	 = snapcd_namespace.this.id
   runner_pool_id                 = data.snapcd_runner_pool.default.id
   source_subdirectory  	       = "modules/module1"
   source_url                     = "foo"
-  select_on           			     = "PoolId"
-  select_strategy     			     = "FirstOf"
   init_before_hook				       = "fooBeforeHook"
 }
 `)
 
 var NamespaceCreateConfig = providerconfig.AppendRandomString(`
-data "snapcd_stack" "default" { 
+data "snapcd_stack" "default" {
   name  = "default"
 }
 
-resource "snapcd_namespace" "this" { 
+resource "snapcd_namespace" "this" {
   name                      = "somevalue%s"
   stack_id			     		    = data.snapcd_stack.default.id
   default_init_before_hook  = "foo"
@@ -37,11 +35,11 @@ resource "snapcd_namespace" "this" {
 var NamespaceUpdateConfig = providerconfig.AppendRandomString(`
 
 
-data "snapcd_stack" "default" { 
+data "snapcd_stack" "default" {
   name  = "default"
 }
 
-resource "snapcd_namespace" "this" { 
+resource "snapcd_namespace" "this" {
   name                        	 = "somevalue%s"
   stack_id			     		 = data.snapcd_stack.default.id
   default_init_before_hook       = "bar"
@@ -50,16 +48,16 @@ resource "snapcd_namespace" "this" {
 `)
 
 var RunnerPoolCreateConfig = providerconfig.AppendRandomString(`
-resource "snapcd_runner_pool" "this" { 
+resource "snapcd_runner_pool" "this" {
   name  = "somevalue%s"
 }`)
 
 var StackCreateConfig = providerconfig.AppendRandomString(`
-resource "snapcd_stack" "this" { 
+resource "snapcd_stack" "this" {
   name  = "somevalue%s"
 }`)
 
 var PrexistingStack = `
-resource "snapcd_stack" "this" { 
+resource "snapcd_stack" "this" {
   name  = "default"
 }`

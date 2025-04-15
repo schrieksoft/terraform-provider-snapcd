@@ -71,9 +71,7 @@ type moduleModel struct {
 	SourceType            types.String `tfsdk:"source_type"`
 	SourceRevisionType    types.String `tfsdk:"source_revision_type"`
 	DependsOnModules      types.List   `tfsdk:"depends_on_modules"`
-	SelectOn              types.String `tfsdk:"select_on"`
-	SelectStrategy        types.String `tfsdk:"select_strategy"`
-	SelectedConsumerId    types.String `tfsdk:"selected_consumer_id"`
+	RunnerSelfDeclaredName    types.String `tfsdk:"runner_self_declared_name"`
 	InitBeforeHook        types.String `tfsdk:"init_before_hook"`
 	InitAfterHook         types.String `tfsdk:"init_after_hook"`
 	InitBackendArgs       types.String `tfsdk:"init_backend_args"`
@@ -104,9 +102,7 @@ const (
 	DescModuleDependsOnModules      = "A list on Snap CD Modules that this Module depends on. Note that Snap CD will automatically discover depedencies based on the Module using as inputs the outputs from another Module, so use `depends_on_modules` where you want to explicitly establish a dependency where outputs are not referenced as inputs."
 	DescModuleSourceType            = "The type of remote module store that the source module code should be retrieved from. Must be one of 'Git' or 'Registry'"
 	DescModuleSourceRevisionType    = "How Snap CD should interpret the `source_revision` field. Setting to 'Default' means Snap CD will interpret the revision type based on the source type (for example, for a 'Git' source type it will automatically figure out whether the `source_revision` refers to a branch, tag or commit). Currently no other approaches are supported."
-	DescModuleSelectOn              = ""
-	DescModuleSelectStrategy        = ""
-	DescModuleSelectedConsumerId    = "Name of the Runner to select (should unique identify the Runner within the Runner Pool). If null a random Runner will be selected from the Runner pool on every deployment."
+	DescModuleRunnerSelfDeclaredName    = "Name of the Runner to select (should unique identify the Runner within the Runner Pool). If null a random Runner will be selected from the Runner pool on every deployment."
 	DescModuleInitBackendArgs       = DescSharedInitBackedArgs + DescModuleOverride
 	DescModuleInitBeforeHook        = DescSharedInitBeforeHook + DescModuleOverride
 	DescModuleInitAfterHook         = DescSharedInitAfterHook + DescModuleOverride
@@ -184,23 +180,9 @@ func (r *moduleResource) Schema(ctx context.Context, req resource.SchemaRequest,
 				Default:     listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{})),
 				Description: DescModuleDependsOnModules,
 			},
-			"select_on": schema.StringAttribute{
-				Required: true,
-				Validators: []validator.String{
-					stringvalidator.OneOf("PoolId", "ConsumerId"),
-				},
-				Description: DescModuleSelectOn,
-			},
-			"select_strategy": schema.StringAttribute{
-				Required: true,
-				Validators: []validator.String{
-					stringvalidator.OneOf("FirstOf", "AnyOf"),
-				},
-				Description: DescModuleSelectStrategy,
-			},
-			"selected_consumer_id": schema.StringAttribute{
+			"runner_self_declared_name": schema.StringAttribute{
 				Optional:    true,
-				Description: DescModuleSelectedConsumerId,
+				Description: DescModuleRunnerSelfDeclaredName,
 			},
 			"init_before_hook": schema.StringAttribute{
 				Optional:    true,

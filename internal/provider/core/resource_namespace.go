@@ -72,20 +72,18 @@ type namespaceModel struct {
 	DefaultOutputBeforeHook      types.String `tfsdk:"default_output_before_hook"`
 	DefaultOutputAfterHook       types.String `tfsdk:"default_output_after_hook"`
 	DefaultEngine                types.String `tfsdk:"default_engine"`
-	DefaultSelectOn              types.String `tfsdk:"default_select_on"`
-	DefaultSelectStrategy        types.String `tfsdk:"default_select_strategy"`
 	DefaultOutputSecretStoreId   types.String `tfsdk:"default_output_secret_store_id"`
 }
 
 
 const (
     DescNamespaceDefault = "All modules in this Namespace will use this value, unless explicitly overriden on the Module itself."
-        
+
 	DescNamespaceId                          = "Unique ID of the Namespace"
 	DescNamespaceName                        = "Name of the Namespace. Must be unique in combination with `stack_id`."
 	DescNamespaceStackId                     = "ID of the Namespace's parent Stack."
-	
-    DescNamespaceDefaultInitBackendArgs           = DescSharedInitBackedArgs + DescNamespaceDefault	
+
+    DescNamespaceDefaultInitBackendArgs           = DescSharedInitBackedArgs + DescNamespaceDefault
     DescNamespaceDefaultInitBeforeHook            = DescSharedInitBeforeHook + DescNamespaceDefault
     DescNamespaceDefaultInitAfterHook             = DescSharedInitAfterHook + DescNamespaceDefault
     DescNamespaceDefaultPlanBeforeHook            = DescSharedPlanBeforeHook + DescNamespaceDefault
@@ -99,10 +97,7 @@ const (
     DescNamespaceDefaultOutputBeforeHook          = DescSharedOutputBeforeHook + DescNamespaceDefault
     DescNamespaceDefaultOutputAfterHook           = DescSharedOutputAfterHook + DescNamespaceDefault
     DescNamespaceDefaultEngine                    = DescSharedEngine + DescNamespaceDefault
-	
-	DescNamespaceDefaultSelectOn             = ""
-	DescNamespaceDefaultSelectStrategy       = ""
-    DescNamespaceDefaultOutputSecretStoreId       = DescSharedOutputSecretStoreId + DescNamespaceDefault  
+    DescNamespaceDefaultOutputSecretStoreId       = DescSharedOutputSecretStoreId + DescNamespaceDefault
 )
 
 func (r *namespaceResource) Metadata(ctx context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
@@ -135,11 +130,11 @@ func (r *namespaceResource) Schema(ctx context.Context, req resource.SchemaReque
 			"default_init_before_hook": schema.StringAttribute{
 				Optional: true,
                 Description: DescNamespaceDefaultInitBeforeHook,
-			},        
+			},
 			"default_init_after_hook": schema.StringAttribute{
 				Optional: true,
                 Description: DescNamespaceDefaultInitAfterHook,
-			}, 
+			},
 			"default_plan_before_hook": schema.StringAttribute{
 				Optional: true,
                 Description: DescNamespaceDefaultPlanBeforeHook,
@@ -171,7 +166,7 @@ func (r *namespaceResource) Schema(ctx context.Context, req resource.SchemaReque
 			"default_destroy_after_hook": schema.StringAttribute{
 				Optional: true,
                 Description: DescNamespaceDefaultDestroyAfterHook,
-			},                    
+			},
 			"default_output_before_hook": schema.StringAttribute{
 				Optional: true,
                 Description: DescNamespaceDefaultOutputBeforeHook,
@@ -186,20 +181,6 @@ func (r *namespaceResource) Schema(ctx context.Context, req resource.SchemaReque
 					stringvalidator.OneOf("OpenTofu", "Terraform"),
 				},
                 Description: DescNamespaceDefaultEngine,
-			},
-			"default_select_on": schema.StringAttribute{
-				Optional: true,
-				Validators: []validator.String{
-					stringvalidator.OneOf("PoolId", "ConsumerId"),
-				},
-                Description: DescNamespaceDefaultSelectOn,
-			},
-			"default_select_strategy": schema.StringAttribute{
-				Optional: true,
-				Validators: []validator.String{
-					stringvalidator.OneOf("FirstOf", "AnyOf"),
-				},
-                Description: DescNamespaceDefaultSelectStrategy,
 			},
 			"default_output_secret_store_id": schema.StringAttribute{
 				Optional: true,

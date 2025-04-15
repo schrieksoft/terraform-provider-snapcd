@@ -100,23 +100,9 @@ func (d *moduleDataSource) Schema(ctx context.Context, req datasource.SchemaRequ
 				},
 				Description: DescModuleSourceRevisionType,
 			},
-			"select_on": schema.StringAttribute{
-				Computed: true,
-				Validators: []validator.String{
-					stringvalidator.OneOf("None", "PoolId", "RunnerId"),
-				},
-				Description: DescModuleSelectOn,
-			},
-			"select_strategy": schema.StringAttribute{
-				Computed: true,
-				Validators: []validator.String{
-					stringvalidator.OneOf("FirstOf", "AnyOf"),
-				},
-				Description: DescModuleSelectStrategy,
-			},
-			"selected_consumer_id": schema.StringAttribute{
+			"runner_self_declared_name": schema.StringAttribute{
 				Computed:    true,
-				Description: DescModuleSelectedConsumerId,
+				Description: DescModuleRunnerSelfDeclaredName,
 			},
 			"init_before_hook": schema.StringAttribute{
 				Computed:    true,

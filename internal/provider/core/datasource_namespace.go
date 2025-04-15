@@ -8,9 +8,7 @@ import (
 	snapcd "terraform-provider-snapcd/client"
 	utils "terraform-provider-snapcd/utils"
 
-	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
-	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
 )
@@ -119,20 +117,6 @@ func (d *namespaceDataSource) Schema(ctx context.Context, req datasource.SchemaR
 			"default_engine": schema.StringAttribute{
 				Computed:    true,
 				Description: DescNamespaceDefaultEngine,
-			},
-			"default_select_on": schema.StringAttribute{
-				Computed: true,
-				Validators: []validator.String{
-					stringvalidator.OneOf("PoolId", "ConsumerId"),
-				},
-				Description: DescNamespaceDefaultSelectOn,
-			},
-			"default_select_strategy": schema.StringAttribute{
-				Computed: true,
-				Validators: []validator.String{
-					stringvalidator.OneOf("FirstOf", "AnyOf"),
-				},
-				Description: DescNamespaceDefaultSelectStrategy,
 			},
 			"default_output_secret_store_id": schema.StringAttribute{
 				Computed:    true,

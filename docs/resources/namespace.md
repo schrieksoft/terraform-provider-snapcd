@@ -84,8 +84,6 @@ resource "snapcd_module_param_from_namespace" "myparam" {
 - `default_plan_before_hook` (String) Shell script that should be executed before the 'Plan' step of any deployment is run. All modules in this Namespace will use this value, unless explicitly overriden on the Module itself.
 - `default_plan_destroy_after_hook` (String) Shell script that should be executed after the 'PlanDestroy' step of any deployment is run. All modules in this Namespace will use this value, unless explicitly overriden on the Module itself.
 - `default_plan_destroy_before_hook` (String) Shell script that should be executed before the 'PlanDestroy' step of any deployment is run. All modules in this Namespace will use this value, unless explicitly overriden on the Module itself.
-- `default_select_on` (String)
-- `default_select_strategy` (String)
 
 ### Read-Only
 

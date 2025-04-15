@@ -1,0 +1,15 @@
+repos:
+  - repo: local
+    hooks:
+      - id: make-generate
+        name: make generate
+        entry: make generate
+        language: system
+        pass_filenames: false # setting this to "false" means the hook will only run once per commit, *not* once per file
+
+  # terraform
+  # NOTE this repo has other terraform-related hooks that we could consider using, include "infracost" that produces cloud cost estimates
+  - repo: https://github.com/antonbabenko/pre-commit-terraform
+    rev: v1.74.2
+    hooks:
+      - id: terraform_fmt
