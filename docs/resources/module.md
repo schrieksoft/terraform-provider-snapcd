@@ -34,6 +34,17 @@ resource "snapcd_module" "mymodule" {
   source_url          = "https://github.com/schrieksoft/snapcd-samples.git"
   source_subdirectory = "getting-started/two-module-dag/module2"
   runner_pool_id      = data.snapcd_runner_pool.default.id
+
+  // example of how to set optional backend args for "init"
+  init_backend_args = <<EOT
+    -backend-config="storage_account_name=somestorageaccount" \
+    -backend-config="container_name=terraform-states" \
+    -backend-config="key=mystatefile.tfstate" \
+    -backend-config="resource_group_name=someresourcegroup" \
+    -backend-config="subscription_id=xxxx-xxx-xxx-xxx-xxxx" \
+    -backend-config="tenant_id=zzzz-zzz-zzz-zzz-zzzzzz"
+  EOT
+
 }
 ```
 
@@ -59,20 +70,7 @@ resource "snapcd_module" "mymodule" {
 - `destroy_before_hook` (String) Shell script that should be executed before the 'Destroy' step of any deployment is run. Setting this will override any default value set on the Module's parent Namespace.
 - `engine` (String) Determines which binary will be used during deployment. Must be one of 'OpenTofu' and 'Terraform'. Setting this to 'OpenTofu' will use `tofu`. Setting it to 'Terraform' will use `terraform`. Setting this will override any default value set on the Module's parent Namespace.
 - `init_after_hook` (String) Shell script that should be executed after the 'Init' step of any deployment is run.Setting this will override any default value set on the Module's parent Namespace.
-- `init_backend_args` (String) Arguments to pass to the 'init' command in order to set the backend. This should be a text block such as:
-
-```
-init_backend_args = <<EOT
-  -backend-config="storage_account_name=somestorageaccount" \
-  -backend-config="container_name=terraform-states" \
-  -backend-config="key=mystatefile.tfstate" \
-  -backend-config="resource_group_name=someresourcegroup" \
-  -backend-config="subscription_id=xxxx-xxx-xxx-xxx-xxxx" \
-  -backend-config="tenant_id=zzzz-zzz-zzz-zzz-zzzzzz"
-EOT
-```
-
-Setting this will override any default value set on the Module's parent Namespace.
+- `init_backend_args` (String) Arguments to pass to the 'init' command in order to set the backend. This should be a text block.Setting this will override any default value set on the Module's parent Namespace.
 - `init_before_hook` (String) Shell script that should be executed before the 'Init' step of any deployment is run.Setting this will override any default value set on the Module's parent Namespace.
 - `output_after_hook` (String) Shell script that should be executed after the 'Output' step of any deployment is run. Setting this will override any default value set on the Module's parent Namespace.
 - `output_before_hook` (String) Shell script that should be executed before the 'Output' step of any deployment is run. Setting this will override any default value set on the Module's parent Namespace.
@@ -89,3 +87,12 @@ Setting this will override any default value set on the Module's parent Namespac
 ### Read-Only
 
 - `id` (String) Unique ID of the Module.
+
+## Import
+
+Import is supported using the following syntax:
+
+```shell
+RESOURCE_ID="12345678-90ab-cdef-1234-56789abcdef0"
+terraform import snapcd_module.this $RESOURCE_ID
+```

@@ -87,3 +87,12 @@ resource "snapcd_module_env_var_from_secret" "myenvvar" {
 ### Read-Only
 
 - `id` (String) Unique ID of the Module Env Var (From Secret).
+
+## Import
+
+Import is supported using the following syntax:
+
+```shell
+RESOURCE_ID="12345678-90ab-cdef-1234-56789abcdef0"
+terraform import snapcd_module_env_var_from_secret.this $RESOURCE_ID
+```

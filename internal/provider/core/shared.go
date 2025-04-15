@@ -4,17 +4,7 @@ const (
 	DescSharedInitBeforeHook = "Shell script that should be executed before the 'Init' step of any deployment is run."
 	DescSharedInitAfterHook  = "Shell script that should be executed after the 'Init' step of any deployment is run."
 
-	DescSharedInitBackedArgs = "Arguments to pass to the 'init' command in order to set the backend. This should be a text block such as:\n\n" +
-		"```\n" +
-		"init_backend_args = <<EOT\n" +
-		"  -backend-config=\"storage_account_name=somestorageaccount\" \\\n" +
-		"  -backend-config=\"container_name=terraform-states\" \\\n" +
-		"  -backend-config=\"key=mystatefile.tfstate\" \\\n" +
-		"  -backend-config=\"resource_group_name=someresourcegroup\" \\\n" +
-		"  -backend-config=\"subscription_id=xxxx-xxx-xxx-xxx-xxxx\" \\\n" +
-		"  -backend-config=\"tenant_id=zzzz-zzz-zzz-zzz-zzzzzz\"\n" +
-		"EOT\n" +
-		"```\n\n"
+	DescSharedInitBackedArgs = "Arguments to pass to the 'init' command in order to set the backend. This should be a text block."
 	DescSharedPlanBeforeHook        = "Shell script that should be executed before the 'Plan' step of any deployment is run. "
 	DescSharedPlanAfterHook         = "Shell script that should be executed after the 'Plan' step of any deployment is run. "
 	DescSharedPlanDestroyBeforeHook = "Shell script that should be executed before the 'PlanDestroy' step of any deployment is run. "

@@ -67,3 +67,12 @@ resource "snapcd_module_env_var_from_output_set" "myenvvar" {
 ### Read-Only
 
 - `id` (String) Unique ID of the Module Param (From Output Set).
+
+## Import
+
+Import is supported using the following syntax:
+
+```shell
+RESOURCE_ID="12345678-90ab-cdef-1234-56789abcdef0"
+terraform import snapcd_module_param_from_output_set.this $RESOURCE_ID
+```

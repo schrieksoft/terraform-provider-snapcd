@@ -36,3 +36,12 @@ resource "snapcd_global_role_assignment" "mysp_administrator" {
 ### Read-Only
 
 - `id` (String) Unique ID of the Global Role Assignment.
+
+## Import
+
+Import is supported using the following syntax:
+
+```shell
+RESOURCE_ID="12345678-90ab-cdef-1234-56789abcdef0"
+terraform import snapcd_global_role_assignment.this $RESOURCE_ID
+```

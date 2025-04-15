@@ -43,3 +43,12 @@ resource "snapcd_runner_pool_namespace_assignment" "mysp_administrator" {
 ### Read-Only
 
 - `id` (String) Unique ID of the Runner Pool Namespace Assignment.
+
+## Import
+
+Import is supported using the following syntax:
+
+```shell
+RESOURCE_ID="12345678-90ab-cdef-1234-56789abcdef0"
+terraform import snapcd_runner_pool_namespace_assignment.this $RESOURCE_ID
+```

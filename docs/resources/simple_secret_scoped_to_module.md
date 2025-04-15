@@ -71,3 +71,12 @@ resource "snapcd_simple_secret_scoped_to_module" "mysecret" {
 ### Read-Only
 
 - `id` (String) Unique ID of the Secret.
+
+## Import
+
+Import is supported using the following syntax:
+
+```shell
+RESOURCE_ID="12345678-90ab-cdef-1234-56789abcdef0"
+terraform import snapcd_simple_secret_scoped_to_module.this $RESOURCE_ID
+```

@@ -71,3 +71,12 @@ provider "azurerm" {
 ### Read-Only
 
 - `id` (String) Unique ID of the Namespace Extra File.
+
+## Import
+
+Import is supported using the following syntax:
+
+```shell
+RESOURCE_ID="12345678-90ab-cdef-1234-56789abcdef0"
+terraform import snapcd_namespace_extra_file.this $RESOURCE_ID
+```

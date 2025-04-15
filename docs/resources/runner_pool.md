@@ -32,3 +32,12 @@ resource "snapcd_runner_pool" "myrunnerpool" {
 ### Read-Only
 
 - `id` (String) Unique ID of the Runner Pool.
+
+## Import
+
+Import is supported using the following syntax:
+
+```shell
+RESOURCE_ID="12345678-90ab-cdef-1234-56789abcdef0"
+terraform import snapcd_runner_pool.this $RESOURCE_ID
+```

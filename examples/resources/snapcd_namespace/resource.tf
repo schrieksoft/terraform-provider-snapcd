@@ -18,6 +18,18 @@ resource "snapcd_module" "mymodule" {
   source_url          = "https://github.com/schrieksoft/snapcd-samples.git"
   source_subdirectory = "getting-started/two-module-dag/module2"
   runner_pool_id      = data.snapcd_runner_pool.default.id
+
+
+
+  // example of how to set optional (default) backend args for "init"
+  default_init_backend_args = <<EOT
+    -backend-config="storage_account_name=somestorageaccount" \
+    -backend-config="container_name=terraform-states" \
+    -backend-config="key=mystatefile.tfstate" \
+    -backend-config="resource_group_name=someresourcegroup" \
+    -backend-config="subscription_id=xxxx-xxx-xxx-xxx-xxxx" \
+    -backend-config="tenant_id=zzzz-zzz-zzz-zzz-zzzzzz"
+  EOT
 }
 
 

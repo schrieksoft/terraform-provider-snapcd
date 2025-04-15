@@ -76,3 +76,12 @@ resource "snapcd_namespace_param_from_secret" "myparam" {
 ### Read-Only
 
 - `id` (String) Unique ID of the Namespace Param (From Secret).
+
+## Import
+
+Import is supported using the following syntax:
+
+```shell
+RESOURCE_ID="12345678-90ab-cdef-1234-56789abcdef0"
+terraform import snapcd_namespace_param_from_secret.this $RESOURCE_ID
+```

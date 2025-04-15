@@ -41,3 +41,12 @@ resource "snapcd_group_member" "mygroup_mysp" {
 ### Read-Only
 
 - `id` (String) Unique ID of the Group Member.
+
+## Import
+
+Import is supported using the following syntax:
+
+```shell
+RESOURCE_ID="12345678-90ab-cdef-1234-56789abcdef0"
+terraform import snapcd_group_member.this $RESOURCE_ID
+```
