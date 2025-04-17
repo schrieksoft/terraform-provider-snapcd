@@ -34,6 +34,7 @@ resource "snapcd_module" "mymodule" {
   source_url          = "https://github.com/schrieksoft/snapcd-samples.git"
   source_subdirectory = "getting-started/two-module-dag/module2"
   runner_pool_id      = data.snapcd_runner_pool.default.id
+  engine              = "OpenTofu"
 
   // example of how to set optional backend args for "init"
   init_backend_args = <<EOT

@@ -28,5 +28,5 @@ data "snapcd_azure_key_vault_secret_store" "mysecretstore" {
 ### Read-Only
 
 - `id` (String) Unique ID of the Secret Store.
-- `is_globally_assigned` (Boolean) If set to true, all secrets scoped to any resource in the system (any Stack, Namespace, Module or Output) can be assigned to this Secret Store
+- `is_globally_assigned` (Boolean) If set to true, secrets scoped to any resource in the system (any Stack, Namespace, Module or Output) can be assigned to this Secret Store
 - `key_vault_url` (String) URL of the Key Vault backing the Secret Store.

@@ -29,7 +29,7 @@ resource "snapcd_azure_key_vault_secret_store" "mysecretstore" {
 
 ### Optional
 
-- `is_globally_assigned` (Boolean) If set to true, all secrets scoped to any resource in the system (any Stack, Namespace, Module or Output) can be assigned to this Secret Store
+- `is_globally_assigned` (Boolean) If set to true, secrets scoped to any resource in the system (any Stack, Namespace, Module or Output) can be assigned to this Secret Store
 
 ### Read-Only
 
