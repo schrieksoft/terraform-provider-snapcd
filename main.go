@@ -28,7 +28,7 @@ func main() {
 	flag.Parse()
 
 	opts := providerserver.ServeOpts{
-		Address: "registry.terraform.io/schrieksoft/argocd",
+		Address: "registry.terraform.io/schrieksoft/snapcd",
 		Debug:   debug,
 	}
 
