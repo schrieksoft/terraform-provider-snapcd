@@ -73,7 +73,7 @@ resource "snapcd_module" "mymodule" {
 - `init_before_hook` (String) Shell script that should be executed before the 'Init' step of any deployment is run.Setting this will override any default value set on the Module's parent Namespace.
 - `output_after_hook` (String) Shell script that should be executed after the 'Output' step of any deployment is run. Setting this will override any default value set on the Module's parent Namespace.
 - `output_before_hook` (String) Shell script that should be executed before the 'Output' step of any deployment is run. Setting this will override any default value set on the Module's parent Namespace.
-- `output_secret_store_id` (String) The ID of the Secret Store that will be used to store this Module's outputs. Note that for an 'Output' step to successfully use this Secret Store, it must either be deployed as `is_globally_assigned=true`, or assigned via module/namespace/stack assignment. Setting this will override any default value set on the Module's parent Namespace.
+- `output_secret_store_id` (String) The ID of the Secret Store that will be used to store this Module's outputs. Note that for an 'Output' step to successfully use this Secret Store, it must either be deployed as `is_assigned_to_all_scopes=true`, or assigned via module/namespace/stack assignment. Setting this will override any default value set on the Module's parent Namespace.
 - `plan_after_hook` (String) Shell script that should be executed after the 'Plan' step of any deployment is run. Setting this will override any default value set on the Module's parent Namespace.
 - `plan_before_hook` (String) Shell script that should be executed before the 'Plan' step of any deployment is run. Setting this will override any default value set on the Module's parent Namespace.
 - `plan_destroy_after_hook` (String) Shell script that should be executed after the 'Destroy' step of any deployment is run. Setting this will override any default value set on the Module's parent Namespace.
@@ -82,6 +82,9 @@ resource "snapcd_module" "mymodule" {
 - `source_revision` (String) Remote revision (e.g. version number, branch, commit or tag) where the source module code is found.
 - `source_revision_type` (String) How Snap CD should interpret the `source_revision` field. Setting to 'Default' means Snap CD will interpret the revision type based on the source type (for example, for a 'Git' source type it will automatically figure out whether the `source_revision` refers to a branch, tag or commit). Currently no other approaches are supported.
 - `source_type` (String) The type of remote module store that the source module code should be retrieved from. Must be one of 'Git' or 'Registry'
+- `trigger_on_definition_changed` (Boolean) If set to 'true', the Module will automatically be applied if its definition changes. A definition change results from fields on the Module itself, on any of its Inputs (Param or Env Var) or Extra Files being altered. So too changes to its Namespace (including Inputs and Extra Files) or Stack. Note however that Namespace and Stack changes are not notified by default. This behaviour can be changed in `snapcd_namespace` and `snapcd_stack` resource definitions.
+- `trigger_on_source_changed` (Boolean) If set to 'true', the Module will automatically be applied if the source it is referencing has changed. For example, if tracking a Git branch: a new commit would constitute a change.
+- `trigger_on_upstream_output_changed` (Boolean) If set to 'true', the Module will automatically be applied if Outputs from other Modules that it is referencing as Inputs (Param or Env Var) has changed.
 
 ### Read-Only
 

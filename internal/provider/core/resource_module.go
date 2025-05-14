@@ -8,6 +8,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/booldefault"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/listdefault"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringdefault"
@@ -61,63 +62,70 @@ func (r *moduleResource) Metadata(ctx context.Context, req resource.MetadataRequ
 
 // ! Category: Module
 type moduleModel struct {
-	Id                    types.String `tfsdk:"id"`
-	Name                  types.String `tfsdk:"name"`
-	NamespaceId           types.String `tfsdk:"namespace_id"`
-	RunnerPoolId          types.String `tfsdk:"runner_pool_id"`
-	SourceRevision        types.String `tfsdk:"source_revision"`
-	SourceUrl             types.String `tfsdk:"source_url"`
-	SourceSubdirectory    types.String `tfsdk:"source_subdirectory"`
-	SourceType            types.String `tfsdk:"source_type"`
-	SourceRevisionType    types.String `tfsdk:"source_revision_type"`
-	DependsOnModules      types.List   `tfsdk:"depends_on_modules"`
-	RunnerSelfDeclaredName    types.String `tfsdk:"runner_self_declared_name"`
-	InitBeforeHook        types.String `tfsdk:"init_before_hook"`
-	InitAfterHook         types.String `tfsdk:"init_after_hook"`
-	InitBackendArgs       types.String `tfsdk:"init_backend_args"`
-	PlanBeforeHook        types.String `tfsdk:"plan_before_hook"`
-	PlanAfterHook         types.String `tfsdk:"plan_after_hook"`
-	ApplyBeforeHook       types.String `tfsdk:"apply_before_hook"`
-	ApplyAfterHook        types.String `tfsdk:"apply_after_hook"`
-	PlanDestroyBeforeHook types.String `tfsdk:"plan_destroy_before_hook"`
-	PlanDestroyAfterHook  types.String `tfsdk:"plan_destroy_after_hook"`
-	DestroyBeforeHook     types.String `tfsdk:"destroy_before_hook"`
-	DestroyAfterHook      types.String `tfsdk:"destroy_after_hook"`
-	OutputBeforeHook      types.String `tfsdk:"output_before_hook"`
-	OutputAfterHook       types.String `tfsdk:"output_after_hook"`
-	Engine                types.String `tfsdk:"engine"`
-	OutputSecretStoreId   types.String `tfsdk:"output_secret_store_id"`
+	Id                             types.String `tfsdk:"id"`
+	Name                           types.String `tfsdk:"name"`
+	NamespaceId                    types.String `tfsdk:"namespace_id"`
+	RunnerPoolId                   types.String `tfsdk:"runner_pool_id"`
+	SourceRevision                 types.String `tfsdk:"source_revision"`
+	SourceUrl                      types.String `tfsdk:"source_url"`
+	SourceSubdirectory             types.String `tfsdk:"source_subdirectory"`
+	SourceType                     types.String `tfsdk:"source_type"`
+	SourceRevisionType             types.String `tfsdk:"source_revision_type"`
+	DependsOnModules               types.List   `tfsdk:"depends_on_modules"`
+	RunnerSelfDeclaredName         types.String `tfsdk:"runner_self_declared_name"`
+	InitBeforeHook                 types.String `tfsdk:"init_before_hook"`
+	InitAfterHook                  types.String `tfsdk:"init_after_hook"`
+	InitBackendArgs                types.String `tfsdk:"init_backend_args"`
+	PlanBeforeHook                 types.String `tfsdk:"plan_before_hook"`
+	PlanAfterHook                  types.String `tfsdk:"plan_after_hook"`
+	ApplyBeforeHook                types.String `tfsdk:"apply_before_hook"`
+	ApplyAfterHook                 types.String `tfsdk:"apply_after_hook"`
+	PlanDestroyBeforeHook          types.String `tfsdk:"plan_destroy_before_hook"`
+	PlanDestroyAfterHook           types.String `tfsdk:"plan_destroy_after_hook"`
+	DestroyBeforeHook              types.String `tfsdk:"destroy_before_hook"`
+	DestroyAfterHook               types.String `tfsdk:"destroy_after_hook"`
+	OutputBeforeHook               types.String `tfsdk:"output_before_hook"`
+	OutputAfterHook                types.String `tfsdk:"output_after_hook"`
+	Engine                         types.String `tfsdk:"engine"`
+	OutputSecretStoreId            types.String `tfsdk:"output_secret_store_id"`
+	TriggerOnDefinitionChanged     types.Bool `tfsdk:"trigger_on_definition_changed"`
+	TriggerOnUpstreamOutputChanged types.Bool `tfsdk:"trigger_on_upstream_output_changed"`
+	TriggerOnSourceChanged         types.Bool `tfsdk:"trigger_on_source_changed"`
 }
 
 const (
 	DescModuleOverride = "Setting this will override any default value set on the Module's parent Namespace."
 
-	DescModuleId                    = "Unique ID of the Module."
-	DescModuleName                  = "Name of the Module. Must be unique in combination with `namespace_id`."
-	DescModuleNamespaceId           = "ID of the Module's parent Namespace."
-	DescModuleRunnerPoolId          = "ID of the Runner Pool that will receive the instructions when triggering a deployment on this Module."
-	DescModuleSourceRevision        = "Remote revision (e.g. version number, branch, commit or tag) where the source module code is found."
-	DescModuleSourceUrl             = "Remote URL where the source module code is found."
-	DescModuleSourceSubdirectory    = "Subdirectory where the source module code is found."
-	DescModuleDependsOnModules      = "A list on Snap CD Modules that this Module depends on. Note that Snap CD will automatically discover depedencies based on the Module using as inputs the outputs from another Module, so use `depends_on_modules` where you want to explicitly establish a dependency where outputs are not referenced as inputs."
-	DescModuleSourceType            = "The type of remote module store that the source module code should be retrieved from. Must be one of 'Git' or 'Registry'"
-	DescModuleSourceRevisionType    = "How Snap CD should interpret the `source_revision` field. Setting to 'Default' means Snap CD will interpret the revision type based on the source type (for example, for a 'Git' source type it will automatically figure out whether the `source_revision` refers to a branch, tag or commit). Currently no other approaches are supported."
-	DescModuleRunnerSelfDeclaredName    = "Name of the Runner to select (should unique identify the Runner within the Runner Pool). If null a random Runner will be selected from the Runner pool on every deployment."
-	DescModuleInitBackendArgs       = DescSharedInitBackedArgs + DescModuleOverride
-	DescModuleInitBeforeHook        = DescSharedInitBeforeHook + DescModuleOverride
-	DescModuleInitAfterHook         = DescSharedInitAfterHook + DescModuleOverride
-	DescModulePlanBeforeHook        = DescSharedPlanBeforeHook + DescModuleOverride
-	DescModulePlanAfterHook         = DescSharedPlanAfterHook + DescModuleOverride
-	DescModulePlanDestroyBeforeHook = DescSharedPlanDestroyBeforeHook + DescModuleOverride
-	DescModulePlanDestroyAfterHook  = DescSharedPlanDestroyAfterHook + DescModuleOverride
-	DescModuleApplyBeforeHook       = DescSharedApplyBeforeHook + DescModuleOverride
-	DescModuleApplyAfterHook        = DescSharedApplyAfterHook + DescModuleOverride
-	DescModuleDestroyBeforeHook     = DescSharedDestroyBeforeHook + DescModuleOverride
-	DescModuleDestroyAfterHook      = DescSharedDestroyAfterHook + DescModuleOverride
-	DescModuleOutputBeforeHook      = DescSharedOutputBeforeHook + DescModuleOverride
-	DescModuleOutputAfterHook       = DescSharedOutputAfterHook + DescModuleOverride
-	DescModuleEngine                = DescSharedEngine + DescModuleOverride
-	DescModuleOutputSecretStoreId   = DescSharedOutputSecretStoreId + DescModuleOverride
+	DescModuleId                     = "Unique ID of the Module."
+	DescModuleName                   = "Name of the Module. Must be unique in combination with `namespace_id`."
+	DescModuleNamespaceId            = "ID of the Module's parent Namespace."
+	DescModuleRunnerPoolId           = "ID of the Runner Pool that will receive the instructions when triggering a deployment on this Module."
+	DescModuleSourceRevision         = "Remote revision (e.g. version number, branch, commit or tag) where the source module code is found."
+	DescModuleSourceUrl              = "Remote URL where the source module code is found."
+	DescModuleSourceSubdirectory     = "Subdirectory where the source module code is found."
+	DescModuleDependsOnModules       = "A list on Snap CD Modules that this Module depends on. Note that Snap CD will automatically discover depedencies based on the Module using as inputs the outputs from another Module, so use `depends_on_modules` where you want to explicitly establish a dependency where outputs are not referenced as inputs."
+	DescModuleSourceType             = "The type of remote module store that the source module code should be retrieved from. Must be one of 'Git' or 'Registry'"
+	DescModuleSourceRevisionType     = "How Snap CD should interpret the `source_revision` field. Setting to 'Default' means Snap CD will interpret the revision type based on the source type (for example, for a 'Git' source type it will automatically figure out whether the `source_revision` refers to a branch, tag or commit). Currently no other approaches are supported."
+	DescModuleRunnerSelfDeclaredName = "Name of the Runner to select (should unique identify the Runner within the Runner Pool). If null a random Runner will be selected from the Runner pool on every deployment."
+	DescModuleInitBackendArgs        = DescSharedInitBackedArgs + DescModuleOverride
+	DescModuleInitBeforeHook         = DescSharedInitBeforeHook + DescModuleOverride
+	DescModuleInitAfterHook          = DescSharedInitAfterHook + DescModuleOverride
+	DescModulePlanBeforeHook         = DescSharedPlanBeforeHook + DescModuleOverride
+	DescModulePlanAfterHook          = DescSharedPlanAfterHook + DescModuleOverride
+	DescModulePlanDestroyBeforeHook  = DescSharedPlanDestroyBeforeHook + DescModuleOverride
+	DescModulePlanDestroyAfterHook   = DescSharedPlanDestroyAfterHook + DescModuleOverride
+	DescModuleApplyBeforeHook        = DescSharedApplyBeforeHook + DescModuleOverride
+	DescModuleApplyAfterHook         = DescSharedApplyAfterHook + DescModuleOverride
+	DescModuleDestroyBeforeHook      = DescSharedDestroyBeforeHook + DescModuleOverride
+	DescModuleDestroyAfterHook       = DescSharedDestroyAfterHook + DescModuleOverride
+	DescModuleOutputBeforeHook       = DescSharedOutputBeforeHook + DescModuleOverride
+	DescModuleOutputAfterHook        = DescSharedOutputAfterHook + DescModuleOverride
+	DescModuleEngine                 = DescSharedEngine + DescModuleOverride
+	DescModuleOutputSecretStoreId    = DescSharedOutputSecretStoreId + DescModuleOverride
+
+	DescTriggerOnSourceChanged         = "If set to 'true', the Module will automatically be applied if the source it is referencing has changed. For example, if tracking a Git branch: a new commit would constitute a change."
+	DescTriggerOnUpstreamOutputChanged = "If set to 'true', the Module will automatically be applied if Outputs from other Modules that it is referencing as Inputs (Param or Env Var) has changed."
+	DescTriggerOnDefinitionChanged     = "If set to 'true', the Module will automatically be applied if its definition changes. A definition change results from fields on the Module itself, on any of its Inputs (Param or Env Var) or Extra Files being altered. So too changes to its Namespace (including Inputs and Extra Files) or Stack. Note however that Namespace and Stack changes are not notified by default. This behaviour can be changed in `snapcd_namespace` and `snapcd_stack` resource definitions."
 )
 
 func (r *moduleResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
@@ -246,6 +254,24 @@ func (r *moduleResource) Schema(ctx context.Context, req resource.SchemaRequest,
 			"output_secret_store_id": schema.StringAttribute{
 				Optional:    true,
 				Description: DescModuleOutputSecretStoreId,
+			},
+			"trigger_on_definition_changed": schema.BoolAttribute{
+				Optional:    true,
+				Computed:    true,
+				Description: DescTriggerOnDefinitionChanged,
+				Default:     booldefault.StaticBool(true),
+			},
+			"trigger_on_upstream_output_changed": schema.BoolAttribute{
+				Optional:    true,
+				Computed:    true,
+				Description: DescTriggerOnUpstreamOutputChanged,
+				Default:     booldefault.StaticBool(true),
+			},
+			"trigger_on_source_changed": schema.BoolAttribute{
+				Optional:    true,
+				Computed:    true,
+				Description: DescTriggerOnSourceChanged,
+				Default:     booldefault.StaticBool(true),
 			},
 		},
 	}

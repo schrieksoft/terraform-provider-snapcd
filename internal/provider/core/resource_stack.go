@@ -5,9 +5,12 @@ import (
 
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringdefault"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
+	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 
 	snapcd "terraform-provider-snapcd/client"
@@ -59,13 +62,14 @@ const (
 	DescStackId                         = "Unique ID of the Stack."
 	DescStackName                       = "Unique name of the Stack."
 	DescStackDefaultOutputSecretStoreId = DescSharedOutputSecretStoreId
+	DescStackTriggerBehaviourOnModified = "Behaviour with respect to applying modules within the Stack if any of the fields on the Stack resource has changed. Must be one of 'TriggerAllImmediately' or 'DoNotTrigger'. Setting to 'TriggerAllImmediately' will trigger *all* Modules within the Stack to run an apply Job simultaneously. Setting to 'DoNotTrigger' will do nothing. The default (and recommended) setting is 'DoNotTrigger'."
 )
 
-// ! Category: Stack
 type stackModel struct {
 	Name                       types.String `tfsdk:"name"`
 	Id                         types.String `tfsdk:"id"`
 	DefaultOutputSecretStoreId types.String `tfsdk:"default_output_secret_store_id"`
+	TriggerBehaviourOnModified types.String `tfsdk:"trigger_behaviour_on_modified"`
 }
 
 func (r *stackResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
@@ -86,6 +90,15 @@ func (r *stackResource) Schema(ctx context.Context, req resource.SchemaRequest, 
 			"default_output_secret_store_id": schema.StringAttribute{
 				Optional:    true,
 				Description: DescStackDefaultOutputSecretStoreId,
+			},
+			"trigger_behaviour_on_modified": schema.StringAttribute{
+				Optional:    true,
+				Computed:    true,
+				Description: DescStackTriggerBehaviourOnModified,
+				Validators: []validator.String{
+					stringvalidator.OneOf("DoNotTrigger", "TriggerAllImmediately"),
+				},
+				Default: stringdefault.StaticString("DoNotTrigger"),
 			},
 		},
 	}

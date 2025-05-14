@@ -55,15 +55,15 @@ func (r *azureKeyVaultSecretStoreResource) Metadata(ctx context.Context, req res
 }
 
 type azureKeyVaultSecretStoreModel struct {
-	Name               types.String `tfsdk:"name"`
-	Id                 types.String `tfsdk:"id"`
-	KeyVaultUrl        types.String `tfsdk:"key_vault_url"`
-	IsGloballyAssigned types.Bool   `tfsdk:"is_globally_assigned"`
+	Name                  types.String `tfsdk:"name"`
+	Id                    types.String `tfsdk:"id"`
+	KeyVaultUrl           types.String `tfsdk:"key_vault_url"`
+	IsAssignedToAllScopes types.Bool   `tfsdk:"is_assigned_to_all_scopes"`
 }
 
 func (r *azureKeyVaultSecretStoreResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-        MarkdownDescription: "Secret Stores --- Manages an Azure Key Vault Secret Store in Snap CD.",
+		MarkdownDescription: "Secret Stores --- Manages an Azure Key Vault Secret Store in Snap CD.",
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed: true,
@@ -73,16 +73,16 @@ func (r *azureKeyVaultSecretStoreResource) Schema(ctx context.Context, req resou
 				Description: DescId,
 			},
 			"name": schema.StringAttribute{
-				Required: true,
+				Required:    true,
 				Description: DescName,
 			},
 			"key_vault_url": schema.StringAttribute{
-				Required: true,
+				Required:    true,
 				Description: DescKeyVaultUrl,
 			},
-			"is_globally_assigned": schema.BoolAttribute{
-				Optional: true,
-				Description: DescIsGloballyAssigned,
+			"is_assigned_to_all_scopes": schema.BoolAttribute{
+				Optional:    true,
+				Description: DescIsAssignedToAllScopes,
 			},
 		},
 	}

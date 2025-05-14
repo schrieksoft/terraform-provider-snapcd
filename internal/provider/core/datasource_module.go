@@ -167,6 +167,19 @@ func (d *moduleDataSource) Schema(ctx context.Context, req datasource.SchemaRequ
 				Computed:    true,
 				Description: DescModuleOutputSecretStoreId,
 			},
+
+			"trigger_on_definition_changed": schema.BoolAttribute{
+				Computed:    true,
+				Description: DescTriggerOnDefinitionChanged,
+			},
+			"trigger_on_upstream_output_changed": schema.BoolAttribute{
+				Computed:    true,
+				Description: DescTriggerOnUpstreamOutputChanged,
+			},
+			"trigger_on_source_changed": schema.BoolAttribute{
+				Computed:    true,
+				Description: DescTriggerOnSourceChanged,
+			},
 		},
 	}
 }

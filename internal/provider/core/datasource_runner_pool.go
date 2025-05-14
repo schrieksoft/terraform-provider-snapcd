@@ -58,9 +58,9 @@ func (d *runnerPoolDataSource) Schema(ctx context.Context, req datasource.Schema
 				Required:    true,
 				Description: DescRunnerPoolName,
 			},
-			"is_globally_assigned": schema.BoolAttribute{
+			"is_assigned_to_all_modules": schema.BoolAttribute{
 				Computed:    true,
-				Description: DescIsGloballyAssigned,
+				Description: DescIsAssignedToAllModules,
 			},
 		},
 	}

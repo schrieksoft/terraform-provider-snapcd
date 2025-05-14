@@ -55,14 +55,14 @@ func (r *simpleSecretStoreResource) Metadata(ctx context.Context, req resource.M
 }
 
 type simpleSecretStoreModel struct {
-	Name               types.String `tfsdk:"name"`
-	Id                 types.String `tfsdk:"id"`
-	IsGloballyAssigned types.Bool   `tfsdk:"is_globally_assigned"`
+	Name                  types.String `tfsdk:"name"`
+	Id                    types.String `tfsdk:"id"`
+	IsAssignedToAllScopes types.Bool   `tfsdk:"is_assigned_to_all_scopes"`
 }
 
 func (r *simpleSecretStoreResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-        MarkdownDescription: "Secret Stores --- Manages a Simple Secret Store in Snap CD.",
+		MarkdownDescription: "Secret Stores --- Manages a Simple Secret Store in Snap CD.",
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed: true,
@@ -72,12 +72,12 @@ func (r *simpleSecretStoreResource) Schema(ctx context.Context, req resource.Sch
 				Description: DescId,
 			},
 			"name": schema.StringAttribute{
-				Required: true,
+				Required:    true,
 				Description: DescName,
 			},
-			"is_globally_assigned": schema.BoolAttribute{
-				Optional: true,
-				Description: DescIsGloballyAssigned,
+			"is_assigned_to_all_scopes": schema.BoolAttribute{
+				Optional:    true,
+				Description: DescIsAssignedToAllScopes,
 			},
 		},
 	}

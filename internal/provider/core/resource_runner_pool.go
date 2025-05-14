@@ -56,20 +56,20 @@ func (r *runnerPoolResource) Metadata(ctx context.Context, req resource.Metadata
 
 // ! Category: Runner Pool
 type runnerPoolModel struct {
-	Name               types.String `tfsdk:"name"`
-	Id                 types.String `tfsdk:"id"`
-	IsGloballyAssigned types.Bool   `tfsdk:"is_globally_assigned"`
+	Name                   types.String `tfsdk:"name"`
+	Id                     types.String `tfsdk:"id"`
+	IsAssignedToAllModules types.Bool   `tfsdk:"is_assigned_to_all_modules"`
 }
 
 const (
-	DescRunnerPoolId       = "Unique ID of the Runner Pool."
-	DescRunnerPoolName     = "Unique name of the Runner Pool."
-	DescIsGloballyAssigned = "Setting this to 'true' allows this Runner Pool to be selected for deployment by any Module in the system."
+	DescRunnerPoolId           = "Unique ID of the Runner Pool."
+	DescRunnerPoolName         = "Unique name of the Runner Pool."
+	DescIsAssignedToAllModules = "Setting this to 'true' allows this Runner Pool to be selected for deployment by any Module in the system."
 )
 
 func (r *runnerPoolResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-        MarkdownDescription: "Runner Pools --- Manages a Runner Pool in Snap CD.",
+		MarkdownDescription: "Runner Pools --- Manages a Runner Pool in Snap CD.",
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed: true,
@@ -82,9 +82,9 @@ func (r *runnerPoolResource) Schema(ctx context.Context, req resource.SchemaRequ
 				Required:    true,
 				Description: DescRunnerPoolName,
 			},
-			"is_globally_assigned": schema.BoolAttribute{
+			"is_assigned_to_all_modules": schema.BoolAttribute{
 				Optional:    true,
-				Description: DescIsGloballyAssigned,
+				Description: DescIsAssignedToAllModules,
 			},
 		},
 	}

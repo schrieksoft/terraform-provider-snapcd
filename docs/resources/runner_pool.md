@@ -27,7 +27,7 @@ resource "snapcd_runner_pool" "myrunnerpool" {
 
 ### Optional
 
-- `is_globally_assigned` (Boolean) Setting this to 'true' allows this Runner Pool to be selected for deployment by any Module in the system.
+- `is_assigned_to_all_modules` (Boolean) Setting this to 'true' allows this Runner Pool to be selected for deployment by any Module in the system.
 
 ### Read-Only
 

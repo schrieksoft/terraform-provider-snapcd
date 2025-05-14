@@ -1,4 +1,3 @@
-
 package core
 
 import (
@@ -9,6 +8,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringdefault"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-framework/types"
@@ -73,31 +73,34 @@ type namespaceModel struct {
 	DefaultOutputAfterHook       types.String `tfsdk:"default_output_after_hook"`
 	DefaultEngine                types.String `tfsdk:"default_engine"`
 	DefaultOutputSecretStoreId   types.String `tfsdk:"default_output_secret_store_id"`
+	TriggerBehaviourOnModified   types.String `tfsdk:"trigger_behaviour_on_modified"`
 }
 
-
 const (
-    DescNamespaceDefault = "All modules in this Namespace will use this value, unless explicitly overriden on the Module itself."
+	DescNamespaceDefault = "All modules in this Namespace will use this value, unless explicitly overriden on the Module itself."
 
-	DescNamespaceId                          = "Unique ID of the Namespace"
-	DescNamespaceName                        = "Name of the Namespace. Must be unique in combination with `stack_id`."
-	DescNamespaceStackId                     = "ID of the Namespace's parent Stack."
+	DescNamespaceId      = "Unique ID of the Namespace"
+	DescNamespaceName    = "Name of the Namespace. Must be unique in combination with `stack_id`."
+	DescNamespaceStackId = "ID of the Namespace's parent Stack."
 
-    DescNamespaceDefaultInitBackendArgs           = DescSharedInitBackedArgs + DescNamespaceDefault
-    DescNamespaceDefaultInitBeforeHook            = DescSharedInitBeforeHook + DescNamespaceDefault
-    DescNamespaceDefaultInitAfterHook             = DescSharedInitAfterHook + DescNamespaceDefault
-    DescNamespaceDefaultPlanBeforeHook            = DescSharedPlanBeforeHook + DescNamespaceDefault
-    DescNamespaceDefaultPlanAfterHook             = DescSharedPlanAfterHook + DescNamespaceDefault
-    DescNamespaceDefaultPlanDestroyBeforeHook     = DescSharedPlanDestroyBeforeHook + DescNamespaceDefault
-    DescNamespaceDefaultPlanDestroyAfterHook      = DescSharedPlanDestroyAfterHook + DescNamespaceDefault
-    DescNamespaceDefaultApplyBeforeHook           = DescSharedApplyBeforeHook + DescNamespaceDefault
-    DescNamespaceDefaultApplyAfterHook            = DescSharedApplyAfterHook + DescNamespaceDefault
-    DescNamespaceDefaultDestroyBeforeHook         = DescSharedDestroyBeforeHook + DescNamespaceDefault
-    DescNamespaceDefaultDestroyAfterHook          = DescSharedDestroyAfterHook + DescNamespaceDefault
-    DescNamespaceDefaultOutputBeforeHook          = DescSharedOutputBeforeHook + DescNamespaceDefault
-    DescNamespaceDefaultOutputAfterHook           = DescSharedOutputAfterHook + DescNamespaceDefault
-    DescNamespaceDefaultEngine                    = DescSharedEngine + DescNamespaceDefault
-    DescNamespaceDefaultOutputSecretStoreId       = DescSharedOutputSecretStoreId + DescNamespaceDefault
+	DescNamespaceDefaultInitBackendArgs       = DescSharedInitBackedArgs + DescNamespaceDefault
+	DescNamespaceDefaultInitBeforeHook        = DescSharedInitBeforeHook + DescNamespaceDefault
+	DescNamespaceDefaultInitAfterHook         = DescSharedInitAfterHook + DescNamespaceDefault
+	DescNamespaceDefaultPlanBeforeHook        = DescSharedPlanBeforeHook + DescNamespaceDefault
+	DescNamespaceDefaultPlanAfterHook         = DescSharedPlanAfterHook + DescNamespaceDefault
+	DescNamespaceDefaultPlanDestroyBeforeHook = DescSharedPlanDestroyBeforeHook + DescNamespaceDefault
+	DescNamespaceDefaultPlanDestroyAfterHook  = DescSharedPlanDestroyAfterHook + DescNamespaceDefault
+	DescNamespaceDefaultApplyBeforeHook       = DescSharedApplyBeforeHook + DescNamespaceDefault
+	DescNamespaceDefaultApplyAfterHook        = DescSharedApplyAfterHook + DescNamespaceDefault
+	DescNamespaceDefaultDestroyBeforeHook     = DescSharedDestroyBeforeHook + DescNamespaceDefault
+	DescNamespaceDefaultDestroyAfterHook      = DescSharedDestroyAfterHook + DescNamespaceDefault
+	DescNamespaceDefaultOutputBeforeHook      = DescSharedOutputBeforeHook + DescNamespaceDefault
+	DescNamespaceDefaultOutputAfterHook       = DescSharedOutputAfterHook + DescNamespaceDefault
+	DescNamespaceDefaultEngine                = DescSharedEngine + DescNamespaceDefault
+	DescNamespaceDefaultOutputSecretStoreId   = DescSharedOutputSecretStoreId + DescNamespaceDefault
+
+	DescNamespaceTriggerBehaviourOnModified = "Behaviour with respect to applying modules within the Namespace if any of the fields on the Namespace resource (or any of its Param, Env Var or Extra File resources) has changed. Must be one of 'TriggerAllImmediately' or 'DoNotTrigger'. Setting to 'TriggerAllImmediately' will trigger *all* Modules within the Stack to run an apply Job simultaneously. Setting to 'DoNotTrigger' will do nothing. The default (and recommended) setting is 'DoNotTrigger'."
+
 )
 
 func (r *namespaceResource) Metadata(ctx context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
@@ -106,85 +109,94 @@ func (r *namespaceResource) Metadata(ctx context.Context, req resource.MetadataR
 
 func (r *namespaceResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-        MarkdownDescription: "Namespaces --- Manages a Namespace in Snap CD.",
+		MarkdownDescription: "Namespaces --- Manages a Namespace in Snap CD.",
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
-                Description: DescNamespaceId,
+				Description: DescNamespaceId,
 			},
 			"name": schema.StringAttribute{
-				Required: true,
-                Description: DescNamespaceName,
+				Required:    true,
+				Description: DescNamespaceName,
 			},
 			"stack_id": schema.StringAttribute{
-				Required: true,
-                Description: DescNamespaceStackId,
+				Required:    true,
+				Description: DescNamespaceStackId,
 			},
 			"default_init_backend_args": schema.StringAttribute{
-				Optional: true,
-                Description: DescNamespaceDefaultInitBackendArgs,
+				Optional:    true,
+				Description: DescNamespaceDefaultInitBackendArgs,
 			},
 			"default_init_before_hook": schema.StringAttribute{
-				Optional: true,
-                Description: DescNamespaceDefaultInitBeforeHook,
+				Optional:    true,
+				Description: DescNamespaceDefaultInitBeforeHook,
 			},
 			"default_init_after_hook": schema.StringAttribute{
-				Optional: true,
-                Description: DescNamespaceDefaultInitAfterHook,
+				Optional:    true,
+				Description: DescNamespaceDefaultInitAfterHook,
 			},
 			"default_plan_before_hook": schema.StringAttribute{
-				Optional: true,
-                Description: DescNamespaceDefaultPlanBeforeHook,
+				Optional:    true,
+				Description: DescNamespaceDefaultPlanBeforeHook,
 			},
 			"default_plan_after_hook": schema.StringAttribute{
-				Optional: true,
-                Description: DescNamespaceDefaultPlanAfterHook,
+				Optional:    true,
+				Description: DescNamespaceDefaultPlanAfterHook,
 			},
 			"default_plan_destroy_before_hook": schema.StringAttribute{
-				Optional: true,
-                Description: DescNamespaceDefaultPlanDestroyBeforeHook,
+				Optional:    true,
+				Description: DescNamespaceDefaultPlanDestroyBeforeHook,
 			},
 			"default_plan_destroy_after_hook": schema.StringAttribute{
-				Optional: true,
-                Description: DescNamespaceDefaultPlanDestroyAfterHook,
+				Optional:    true,
+				Description: DescNamespaceDefaultPlanDestroyAfterHook,
 			},
 			"default_apply_before_hook": schema.StringAttribute{
-				Optional: true,
-                Description: DescNamespaceDefaultApplyBeforeHook,
+				Optional:    true,
+				Description: DescNamespaceDefaultApplyBeforeHook,
 			},
 			"default_apply_after_hook": schema.StringAttribute{
-				Optional: true,
-                Description: DescNamespaceDefaultApplyAfterHook,
+				Optional:    true,
+				Description: DescNamespaceDefaultApplyAfterHook,
 			},
 			"default_destroy_before_hook": schema.StringAttribute{
-				Optional: true,
-                Description: DescNamespaceDefaultDestroyBeforeHook,
+				Optional:    true,
+				Description: DescNamespaceDefaultDestroyBeforeHook,
 			},
 			"default_destroy_after_hook": schema.StringAttribute{
-				Optional: true,
-                Description: DescNamespaceDefaultDestroyAfterHook,
+				Optional:    true,
+				Description: DescNamespaceDefaultDestroyAfterHook,
 			},
 			"default_output_before_hook": schema.StringAttribute{
-				Optional: true,
-                Description: DescNamespaceDefaultOutputBeforeHook,
+				Optional:    true,
+				Description: DescNamespaceDefaultOutputBeforeHook,
 			},
 			"default_output_after_hook": schema.StringAttribute{
-				Optional: true,
-                Description: DescNamespaceDefaultOutputAfterHook,
+				Optional:    true,
+				Description: DescNamespaceDefaultOutputAfterHook,
 			},
 			"default_engine": schema.StringAttribute{
 				Optional: true,
 				Validators: []validator.String{
 					stringvalidator.OneOf("OpenTofu", "Terraform"),
 				},
-                Description: DescNamespaceDefaultEngine,
+				Description: DescNamespaceDefaultEngine,
 			},
 			"default_output_secret_store_id": schema.StringAttribute{
-				Optional: true,
-                Description: DescNamespaceDefaultOutputSecretStoreId,
+				Optional:    true,
+				Description: DescNamespaceDefaultOutputSecretStoreId,
+			},
+			"trigger_behaviour_on_modified": schema.StringAttribute{
+				Optional:    true,
+				Computed:    true,
+				Description: DescStackTriggerBehaviourOnModified,
+				Validators: []validator.String{
+					stringvalidator.OneOf("DoNotTrigger", "TriggerAllImmediately"),
+				},
+				Default: stringdefault.StaticString("DoNotTrigger"),
 			},
 		},
 	}

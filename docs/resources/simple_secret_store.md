@@ -27,7 +27,7 @@ resource "snapcd_simple_secret_store" "mysecretstore" {
 
 ### Optional
 
-- `is_globally_assigned` (Boolean) If set to true, secrets scoped to any resource in the system (any Stack, Namespace, Module or Output) can be assigned to this Secret Store
+- `is_assigned_to_all_scopes` (Boolean) If set to true, secrets scoped to any resource in the system (any Stack, Namespace, Module or Output) can be assigned to this Secret Store
 
 ### Read-Only
 
