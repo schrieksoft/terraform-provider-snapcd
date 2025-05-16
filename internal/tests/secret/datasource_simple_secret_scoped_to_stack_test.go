@@ -18,6 +18,7 @@ func TestAccDataSourceSimpleSecretScopedToStack(t *testing.T) {
 
 data "snapcd_simple_secret_scoped_to_stack" "this" {
 	name = snapcd_simple_secret_scoped_to_stack.this.name
+    stack_id = snapcd_stack.this.id
 }`,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("data.snapcd_simple_secret_scoped_to_stack.this", "id"),

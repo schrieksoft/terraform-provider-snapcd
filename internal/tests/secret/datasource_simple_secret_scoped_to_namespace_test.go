@@ -18,6 +18,7 @@ func TestAccDataSourceSimpleSecretScopedToNamespace(t *testing.T) {
 
 data "snapcd_simple_secret_scoped_to_namespace" "this" {
 	name = snapcd_simple_secret_scoped_to_namespace.this.name
+    namespace_id = snapcd_namespace.this.id
 }`,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("data.snapcd_simple_secret_scoped_to_namespace.this", "id"),

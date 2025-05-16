@@ -14,7 +14,7 @@ import (
 var ResourceRoleAssignmentCreateConfig = `
 resource "snapcd_resource_role_assignment" "this" { 
   resource_id  	 		  = snapcd_stack.this.id
-  principal_id   		  = snapcd_service_principal.this.id
+  principal_id   		  = data.snapcd_service_principal.this.id
   principal_discriminator = "ServicePrincipal"
   resource_discriminator  = "Stack"
   role_name 			  = "Owner"
@@ -25,7 +25,7 @@ func TestAccResourceResourceRoleAssignment_Create(t *testing.T) {
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + core.StackCreateConfig + identity.ServicePrincipalCreateConfig + ResourceRoleAssignmentCreateConfig,
+				Config: providerconfig.ProviderConfig + core.StackCreateConfig + identity.ServicePrincipalDataSourceConfig + ResourceRoleAssignmentCreateConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_resource_role_assignment.this", "id"),
 				),
@@ -39,18 +39,18 @@ func TestAccResourceResourceRoleAssignment_CreateUpdate(t *testing.T) {
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + core.StackCreateConfig + identity.ServicePrincipalCreateConfig + ResourceRoleAssignmentCreateConfig,
+				Config: providerconfig.ProviderConfig + core.StackCreateConfig + identity.ServicePrincipalDataSourceConfig + ResourceRoleAssignmentCreateConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_resource_role_assignment.this", "id"),
 					resource.TestCheckResourceAttr("snapcd_resource_role_assignment.this", "role_name", "Owner"),
 				),
 			},
 			{
-				Config: providerconfig.ProviderConfig + core.StackCreateConfig + identity.ServicePrincipalCreateConfig + `
+				Config: providerconfig.ProviderConfig + core.StackCreateConfig + identity.ServicePrincipalDataSourceConfig + `
 
 resource "snapcd_resource_role_assignment" "this" { 
   resource_id  	 		  = snapcd_stack.this.id
-  principal_id   		  = snapcd_service_principal.this.id
+  principal_id   		  = data.snapcd_service_principal.this.id
   principal_discriminator = "ServicePrincipal"
   resource_discriminator  = "Stack"
   role_name 			  = "Contributor"
@@ -69,7 +69,7 @@ func TestAccResourceResourceRoleAssignment_Import(t *testing.T) {
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + core.StackCreateConfig + identity.ServicePrincipalCreateConfig + ResourceRoleAssignmentCreateConfig,
+				Config: providerconfig.ProviderConfig + core.StackCreateConfig + identity.ServicePrincipalDataSourceConfig + ResourceRoleAssignmentCreateConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_resource_role_assignment.this", "id"),
 				),

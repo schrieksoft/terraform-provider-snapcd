@@ -14,11 +14,19 @@ resource "snapcd_module" "this" {
   name                         	 = "somevalue%s"
   namespace_id                	 = snapcd_namespace.this.id
   runner_pool_id                 = data.snapcd_runner_pool.default.id
-  source_subdirectory  	       = "modules/module1"
+  source_subdirectory  	         = "modules/module1"
   source_url                     = "foo"
+  source_revision                = "main"
   init_before_hook				       = "fooBeforeHook"
+  trigger_on_definition_changed          = false
+  trigger_on_upstream_output_changed     = false
+  trigger_on_source_changed              = false
+  trigger_on_source_changed_notification = false
 }
 `)
+
+
+
 
 var NamespaceCreateConfig = providerconfig.AppendRandomString(`
 data "snapcd_stack" "default" {
@@ -32,6 +40,7 @@ resource "snapcd_namespace" "this" {
 }
 `)
 
+
 var NamespaceUpdateConfig = providerconfig.AppendRandomString(`
 
 
@@ -40,9 +49,9 @@ data "snapcd_stack" "default" {
 }
 
 resource "snapcd_namespace" "this" {
-  name                        	 = "somevalue%s"
-  stack_id			     		 = data.snapcd_stack.default.id
-  default_init_before_hook       = "bar"
+  name                      = "somevalue%s"
+  stack_id			     		    = data.snapcd_stack.default.id
+  default_init_before_hook  = "bar"
 }
 
 `)
@@ -61,3 +70,9 @@ var PrexistingStack = `
 resource "snapcd_stack" "this" {
   name  = "default"
 }`
+
+var SourceRefresherPreselectionCreateConfig = providerconfig.AppendRandomString(`
+resource "snapcd_source_refresher_preselection" "this" {
+  source_url     = "somevalue%s"
+  runner_pool_id = snapcd_runner_pool.this.id
+}`)

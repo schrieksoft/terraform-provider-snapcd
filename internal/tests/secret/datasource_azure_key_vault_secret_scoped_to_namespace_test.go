@@ -18,6 +18,8 @@ func TestAccDataSourceAzureKeyVaultSecretScopedToNamespace(t *testing.T) {
 
 data "snapcd_azure_key_vault_secret_scoped_to_namespace" "this" {
 	name = snapcd_azure_key_vault_secret_scoped_to_namespace.this.name
+    namespace_id = snapcd_namespace.this.id
+
 }`,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("data.snapcd_azure_key_vault_secret_scoped_to_namespace.this", "id"),

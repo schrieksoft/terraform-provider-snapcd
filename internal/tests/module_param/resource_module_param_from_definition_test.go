@@ -49,11 +49,11 @@ func TestAccResourceModuleParamFromDefinition_CreateUpdate(t *testing.T) {
 resource "snapcd_module_param_from_definition" "this" { 
   module_id = snapcd_module.this.id
   name  = "somevalue%s"
-  definition_name  = "ModuleName"
+  definition_name  = "NamespaceName"
 }`),
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_module_param_from_definition.this", "id"),
-					resource.TestCheckResourceAttr("snapcd_module_param_from_definition.this", "definition_name", "barrr"),
+					resource.TestCheckResourceAttr("snapcd_module_param_from_definition.this", "definition_name", "NamespaceName"),
 				),
 			},
 		},

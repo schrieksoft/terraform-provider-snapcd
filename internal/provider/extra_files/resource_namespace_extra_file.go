@@ -6,6 +6,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-framework/resource"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/booldefault"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/types"
@@ -82,20 +83,22 @@ func (r *namespaceExtraFileResource) Schema(ctx context.Context, req resource.Sc
 				Description: DescNamespaceExtraFileId,
 			},
 			"namespace_id": schema.StringAttribute{
-				Required: true,
+				Required:    true,
 				Description: DescNamespaceExtraFileNamespaceId,
 			},
 			"file_name": schema.StringAttribute{
-				Required: true,
+				Required:    true,
 				Description: DescNamespaceExtraFileFilename,
 			},
 			"contents": schema.StringAttribute{
-				Required: true,
+				Required:    true,
 				Description: DescNamespaceExtraFileContents,
 			},
 			"overwrite": schema.BoolAttribute{
-				Optional: true,
-				Description: DescNamespaceExtraFileOverwrite,
+				Optional:    true,
+				Computed:    true,
+				Description: DescModuleExtraFileOverwrite,
+				Default:     booldefault.StaticBool(false),
 			},
 		},
 	}

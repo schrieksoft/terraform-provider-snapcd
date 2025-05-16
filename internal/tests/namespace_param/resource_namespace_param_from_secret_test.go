@@ -20,6 +20,16 @@ resource "snapcd_namespace_param_from_secret" "this" {
   
 `)
 
+var NewNamespaceParamFromSecretCreateConfig = secret.AzureKeyVaultSecretScopedToNamespaceCreateConfig + providerconfig.AppendRandomString(`
+resource "snapcd_namespace_param_from_secret" "this" { 
+  namespace_id = snapcd_namespace.this.id
+  name  	   = "someNEWvalue%s"
+  secret_name  = snapcd_azure_key_vault_secret_scoped_to_namespace.this.name
+  secret_scope = "Namespace"
+}
+  
+`)
+
 func TestAccResourceNamespaceParamFromSecret_Create(t *testing.T) {
 	resource.UnitTest(t, resource.TestCase{
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
@@ -46,15 +56,10 @@ func TestAccResourceNamespaceParamFromSecret_CreateUpdate(t *testing.T) {
 				),
 			},
 			{
-				Config: providerconfig.ProviderConfig + `
-resource "snapcd_namespace_param_from_secret" "this" { 
-  namespace_id = snapcd_namespace.this.id
-  name  = "somevalue%s"
-  secret_value  = "barrr"
-}`,
+				Config: providerconfig.ProviderConfig + NewNamespaceParamFromSecretCreateConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_namespace_param_from_secret.this", "id"),
-					resource.TestCheckResourceAttr("snapcd_namespace_param_from_secret.this", "secret_value", "barrr"),
+					resource.TestCheckResourceAttr("snapcd_namespace_param_from_secret.this", "name", providerconfig.AppendRandomString("someNEWvalue%s")),
 				),
 			},
 		},

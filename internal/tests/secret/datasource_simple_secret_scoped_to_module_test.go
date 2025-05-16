@@ -18,6 +18,7 @@ func TestAccDataSourceSimpleSecretScopedToModule(t *testing.T) {
 
 data "snapcd_simple_secret_scoped_to_module" "this" {
 	name = snapcd_simple_secret_scoped_to_module.this.name
+    module_id = snapcd_module.this.id
 }`,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("data.snapcd_simple_secret_scoped_to_module.this", "id"),

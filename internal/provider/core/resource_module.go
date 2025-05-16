@@ -62,35 +62,36 @@ func (r *moduleResource) Metadata(ctx context.Context, req resource.MetadataRequ
 
 // ! Category: Module
 type moduleModel struct {
-	Id                             types.String `tfsdk:"id"`
-	Name                           types.String `tfsdk:"name"`
-	NamespaceId                    types.String `tfsdk:"namespace_id"`
-	RunnerPoolId                   types.String `tfsdk:"runner_pool_id"`
-	SourceRevision                 types.String `tfsdk:"source_revision"`
-	SourceUrl                      types.String `tfsdk:"source_url"`
-	SourceSubdirectory             types.String `tfsdk:"source_subdirectory"`
-	SourceType                     types.String `tfsdk:"source_type"`
-	SourceRevisionType             types.String `tfsdk:"source_revision_type"`
-	DependsOnModules               types.List   `tfsdk:"depends_on_modules"`
-	RunnerSelfDeclaredName         types.String `tfsdk:"runner_self_declared_name"`
-	InitBeforeHook                 types.String `tfsdk:"init_before_hook"`
-	InitAfterHook                  types.String `tfsdk:"init_after_hook"`
-	InitBackendArgs                types.String `tfsdk:"init_backend_args"`
-	PlanBeforeHook                 types.String `tfsdk:"plan_before_hook"`
-	PlanAfterHook                  types.String `tfsdk:"plan_after_hook"`
-	ApplyBeforeHook                types.String `tfsdk:"apply_before_hook"`
-	ApplyAfterHook                 types.String `tfsdk:"apply_after_hook"`
-	PlanDestroyBeforeHook          types.String `tfsdk:"plan_destroy_before_hook"`
-	PlanDestroyAfterHook           types.String `tfsdk:"plan_destroy_after_hook"`
-	DestroyBeforeHook              types.String `tfsdk:"destroy_before_hook"`
-	DestroyAfterHook               types.String `tfsdk:"destroy_after_hook"`
-	OutputBeforeHook               types.String `tfsdk:"output_before_hook"`
-	OutputAfterHook                types.String `tfsdk:"output_after_hook"`
-	Engine                         types.String `tfsdk:"engine"`
-	OutputSecretStoreId            types.String `tfsdk:"output_secret_store_id"`
-	TriggerOnDefinitionChanged     types.Bool `tfsdk:"trigger_on_definition_changed"`
-	TriggerOnUpstreamOutputChanged types.Bool `tfsdk:"trigger_on_upstream_output_changed"`
-	TriggerOnSourceChanged         types.Bool `tfsdk:"trigger_on_source_changed"`
+	Id                                 types.String `tfsdk:"id"`
+	Name                               types.String `tfsdk:"name"`
+	NamespaceId                        types.String `tfsdk:"namespace_id"`
+	RunnerPoolId                       types.String `tfsdk:"runner_pool_id"`
+	SourceRevision                     types.String `tfsdk:"source_revision"`
+	SourceUrl                          types.String `tfsdk:"source_url"`
+	SourceSubdirectory                 types.String `tfsdk:"source_subdirectory"`
+	SourceType                         types.String `tfsdk:"source_type"`
+	SourceRevisionType                 types.String `tfsdk:"source_revision_type"`
+	DependsOnModules                   types.List   `tfsdk:"depends_on_modules"`
+	RunnerSelfDeclaredName             types.String `tfsdk:"runner_self_declared_name"`
+	InitBeforeHook                     types.String `tfsdk:"init_before_hook"`
+	InitAfterHook                      types.String `tfsdk:"init_after_hook"`
+	InitBackendArgs                    types.String `tfsdk:"init_backend_args"`
+	PlanBeforeHook                     types.String `tfsdk:"plan_before_hook"`
+	PlanAfterHook                      types.String `tfsdk:"plan_after_hook"`
+	ApplyBeforeHook                    types.String `tfsdk:"apply_before_hook"`
+	ApplyAfterHook                     types.String `tfsdk:"apply_after_hook"`
+	PlanDestroyBeforeHook              types.String `tfsdk:"plan_destroy_before_hook"`
+	PlanDestroyAfterHook               types.String `tfsdk:"plan_destroy_after_hook"`
+	DestroyBeforeHook                  types.String `tfsdk:"destroy_before_hook"`
+	DestroyAfterHook                   types.String `tfsdk:"destroy_after_hook"`
+	OutputBeforeHook                   types.String `tfsdk:"output_before_hook"`
+	OutputAfterHook                    types.String `tfsdk:"output_after_hook"`
+	Engine                             types.String `tfsdk:"engine"`
+	OutputSecretStoreId                types.String `tfsdk:"output_secret_store_id"`
+	TriggerOnDefinitionChanged         types.Bool   `tfsdk:"trigger_on_definition_changed"`
+	TriggerOnUpstreamOutputChanged     types.Bool   `tfsdk:"trigger_on_upstream_output_changed"`
+	TriggerOnSourceChanged             types.Bool   `tfsdk:"trigger_on_source_changed"`
+	TriggerOnSourceChangedNotification types.Bool   `tfsdk:"trigger_on_source_changed_notification"`
 }
 
 const (
@@ -105,7 +106,7 @@ const (
 	DescModuleSourceSubdirectory     = "Subdirectory where the source module code is found."
 	DescModuleDependsOnModules       = "A list on Snap CD Modules that this Module depends on. Note that Snap CD will automatically discover depedencies based on the Module using as inputs the outputs from another Module, so use `depends_on_modules` where you want to explicitly establish a dependency where outputs are not referenced as inputs."
 	DescModuleSourceType             = "The type of remote module store that the source module code should be retrieved from. Must be one of 'Git' or 'Registry'"
-	DescModuleSourceRevisionType     = "How Snap CD should interpret the `source_revision` field. Setting to 'Default' means Snap CD will interpret the revision type based on the source type (for example, for a 'Git' source type it will automatically figure out whether the `source_revision` refers to a branch, tag or commit). Currently no other approaches are supported."
+	DescModuleSourceRevisionType     = "How Snap CD should interpret the `source_revision` field. Must be one of 'Default' or 'SemanticVersionRange'. Setting to 'Default' means Snap CD will interpret the revision type based on the source type (for example, for a 'Git' source type it will automatically figure out whether the `source_revision` refers to a branch, tag or commit). Setting to 'SemanticVersionRange' means that Snap CD will resolve the revision to a semantic version line `vX.Y.Z` (alternatively witout the 'v' prefix of that is how your semantic version are tagged, i.e. 'X.Y.Z'). It will take the highest version within the major or minor version range that you specify. For example, specify `v2.20.*` or `v2.*`. You can also specify a specific semantic version here, e.g. `v2.20.7`. In that case the behaviour is the same as with when using 'Default', except that only valid semantic versions are accepted. NOTE that 'SemanticVersionRange' is currently only supported in combination with the 'Git' `source_type`."
 	DescModuleRunnerSelfDeclaredName = "Name of the Runner to select (should unique identify the Runner within the Runner Pool). If null a random Runner will be selected from the Runner pool on every deployment."
 	DescModuleInitBackendArgs        = DescSharedInitBackedArgs + DescModuleOverride
 	DescModuleInitBeforeHook         = DescSharedInitBeforeHook + DescModuleOverride
@@ -123,9 +124,10 @@ const (
 	DescModuleEngine                 = DescSharedEngine + DescModuleOverride
 	DescModuleOutputSecretStoreId    = DescSharedOutputSecretStoreId + DescModuleOverride
 
-	DescTriggerOnSourceChanged         = "If set to 'true', the Module will automatically be applied if the source it is referencing has changed. For example, if tracking a Git branch: a new commit would constitute a change."
-	DescTriggerOnUpstreamOutputChanged = "If set to 'true', the Module will automatically be applied if Outputs from other Modules that it is referencing as Inputs (Param or Env Var) has changed."
-	DescTriggerOnDefinitionChanged     = "If set to 'true', the Module will automatically be applied if its definition changes. A definition change results from fields on the Module itself, on any of its Inputs (Param or Env Var) or Extra Files being altered. So too changes to its Namespace (including Inputs and Extra Files) or Stack. Note however that Namespace and Stack changes are not notified by default. This behaviour can be changed in `snapcd_namespace` and `snapcd_stack` resource definitions."
+	DescTriggerOnSourceChanged             = "Defaults to 'true'. If 'true', the Module will automatically be applied if the source it is referencing has changed. For example, if tracking a Git branch: a new commit would constitute a change."
+	DescTriggerOnSourceChangedNotification = "Defaults to 'false'. If 'true', the Module will automatically be applied if the 'api/Hooks/SourceChanged' endpoint is called for this Module. Use this if you want to use external tooling to inform Snap CD that a source has been changed. Consider setting `trigger_on_definition_changed` to 'false' when setting `trigger_on_definition_changed_hook` to 'true'"
+	DescTriggerOnUpstreamOutputChanged     = "Defaults to 'true'. If 'true', the Module will automatically be applied if Outputs from other Modules that it is referencing as Inputs (Param or Env Var) has changed."
+	DescTriggerOnDefinitionChanged         = "Defaults to 'true'. If 'true', the Module will automatically be applied if its definition changes. A definition change results from fields on the Module itself, on any of its Inputs (Param or Env Var) or Extra Files being altered. So too changes to its Namespace (including Inputs and Extra Files) or Stack. Note however that Namespace and Stack changes are not notified by default. This behaviour can be changed in `snapcd_namespace` and `snapcd_stack` resource definitions."
 )
 
 func (r *moduleResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
@@ -152,7 +154,7 @@ func (r *moduleResource) Schema(ctx context.Context, req resource.SchemaRequest,
 				Description: DescModuleRunnerPoolId,
 			},
 			"source_revision": schema.StringAttribute{
-				Optional:    true,
+				Required:    true,
 				Description: DescModuleSourceRevision,
 			},
 			"source_url": schema.StringAttribute{
@@ -172,13 +174,15 @@ func (r *moduleResource) Schema(ctx context.Context, req resource.SchemaRequest,
 				Optional: true,
 				Computed: true,
 				Validators: []validator.String{
-					stringvalidator.OneOf("Default"),
+					stringvalidator.OneOf("Default", "SemanticVersionRange"),
 				},
 				Default:     stringdefault.StaticString("Default"),
 				Description: DescModuleSourceRevisionType,
 			},
 			"source_subdirectory": schema.StringAttribute{
-				Required:    true,
+				Optional:    true,
+				Computed:    true,
+				Default:     stringdefault.StaticString(""),
 				Description: DescModuleSourceSubdirectory,
 			},
 			"depends_on_modules": schema.ListAttribute{
@@ -272,6 +276,12 @@ func (r *moduleResource) Schema(ctx context.Context, req resource.SchemaRequest,
 				Computed:    true,
 				Description: DescTriggerOnSourceChanged,
 				Default:     booldefault.StaticBool(true),
+			},
+			"trigger_on_source_changed_notification": schema.BoolAttribute{
+				Optional:    true,
+				Computed:    true,
+				Description: DescTriggerOnSourceChangedNotification,
+				Default:     booldefault.StaticBool(false),
 			},
 		},
 	}

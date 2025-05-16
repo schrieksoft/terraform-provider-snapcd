@@ -180,6 +180,10 @@ func (d *moduleDataSource) Schema(ctx context.Context, req datasource.SchemaRequ
 				Computed:    true,
 				Description: DescTriggerOnSourceChanged,
 			},
+			"trigger_on_source_changed_notification": schema.BoolAttribute{
+				Computed:    true,
+				Description: DescTriggerOnSourceChangedNotification,
+			},
 		},
 	}
 }

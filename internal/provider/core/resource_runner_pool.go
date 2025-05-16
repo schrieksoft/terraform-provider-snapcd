@@ -6,6 +6,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-framework/resource"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/booldefault"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/types"
@@ -84,7 +85,9 @@ func (r *runnerPoolResource) Schema(ctx context.Context, req resource.SchemaRequ
 			},
 			"is_assigned_to_all_modules": schema.BoolAttribute{
 				Optional:    true,
+				Computed:    true,
 				Description: DescIsAssignedToAllModules,
+				Default:     booldefault.StaticBool(false),
 			},
 		},
 	}

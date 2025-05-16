@@ -18,6 +18,7 @@ func TestAccDataSourceAzureKeyVaultSecretScopedToStack(t *testing.T) {
 
 data "snapcd_azure_key_vault_secret_scoped_to_stack" "this" {
 	name = snapcd_azure_key_vault_secret_scoped_to_stack.this.name
+    stack_id = snapcd_stack.this.id
 }`,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("data.snapcd_azure_key_vault_secret_scoped_to_stack.this", "id"),

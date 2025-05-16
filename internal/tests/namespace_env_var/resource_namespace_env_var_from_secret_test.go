@@ -15,7 +15,17 @@ resource "snapcd_namespace_env_var_from_secret" "this" {
   namespace_id = snapcd_namespace.this.id
   name  	   = "somevalue%s"
   secret_name  = snapcd_azure_key_vault_secret_scoped_to_namespace.this.name
-  secret_scope        = "Namespace"
+  secret_scope = "Namespace"
+}
+  
+`)
+
+var NewNamespaceEnvVarFromSecretCreateConfig = secret.AzureKeyVaultSecretScopedToNamespaceCreateConfig + providerconfig.AppendRandomString(`
+resource "snapcd_namespace_env_var_from_secret" "this" { 
+  namespace_id = snapcd_namespace.this.id
+  name  	   = "someNEWvalue%s"
+  secret_name  = snapcd_azure_key_vault_secret_scoped_to_namespace.this.name
+  secret_scope = "Namespace"
 }
   
 `)
@@ -46,15 +56,10 @@ func TestAccResourceNamespaceEnvVarFromSecret_CreateUpdate(t *testing.T) {
 				),
 			},
 			{
-				Config: providerconfig.ProviderConfig + providerconfig.AppendRandomString(`
-resource "snapcd_namespace_env_var_from_secret" "this" { 
-  namespace_id = snapcd_namespace.this.id
-  name  = "somevalue%s"
-  secret_value  = "barrr"
-}`),
+				Config: providerconfig.ProviderConfig + NewNamespaceEnvVarFromSecretCreateConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_namespace_env_var_from_secret.this", "id"),
-					resource.TestCheckResourceAttr("snapcd_namespace_env_var_from_secret.this", "secret_value", "barrr"),
+					resource.TestCheckResourceAttr("snapcd_namespace_env_var_from_secret.this", "name", providerconfig.AppendRandomString("someNEWvalue%s")),
 				),
 			},
 		},

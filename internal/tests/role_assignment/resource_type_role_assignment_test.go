@@ -12,7 +12,7 @@ import (
 
 var TypeRoleAssignmentCreateConfig = `
 resource "snapcd_type_role_assignment" "this" { 
-  principal_id   		  = snapcd_service_principal.this.id
+  principal_id   		  = data.snapcd_service_principal.this.id
   principal_discriminator = "ServicePrincipal"
   resource_discriminator  = "Stack"
   role_name 			  = "Owner"
@@ -23,7 +23,7 @@ func TestAccResourceTypeRoleAssignment_Create(t *testing.T) {
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + identity.ServicePrincipalCreateConfig + TypeRoleAssignmentCreateConfig,
+				Config: providerconfig.ProviderConfig + identity.ServicePrincipalDataSourceConfig + TypeRoleAssignmentCreateConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_type_role_assignment.this", "id"),
 				),
@@ -37,17 +37,17 @@ func TestAccResourceTypeRoleAssignment_CreateUpdate(t *testing.T) {
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + identity.ServicePrincipalCreateConfig + TypeRoleAssignmentCreateConfig,
+				Config: providerconfig.ProviderConfig + identity.ServicePrincipalDataSourceConfig + TypeRoleAssignmentCreateConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_type_role_assignment.this", "id"),
 					resource.TestCheckResourceAttr("snapcd_type_role_assignment.this", "role_name", "Owner"),
 				),
 			},
 			{
-				Config: providerconfig.ProviderConfig + identity.ServicePrincipalCreateConfig + `
+				Config: providerconfig.ProviderConfig + identity.ServicePrincipalDataSourceConfig + `
 
 resource "snapcd_type_role_assignment" "this" { 
-  principal_id   		  = snapcd_service_principal.this.id
+  principal_id   		  = data.snapcd_service_principal.this.id
   principal_discriminator = "ServicePrincipal"
   resource_discriminator  = "Stack"
   role_name 			  = "Contributor"
@@ -66,7 +66,7 @@ func TestAccResourceTypeRoleAssignment_Import(t *testing.T) {
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + identity.ServicePrincipalCreateConfig + TypeRoleAssignmentCreateConfig,
+				Config: providerconfig.ProviderConfig + identity.ServicePrincipalDataSourceConfig + TypeRoleAssignmentCreateConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_type_role_assignment.this", "id"),
 				),

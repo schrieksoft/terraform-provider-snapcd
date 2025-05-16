@@ -9,13 +9,12 @@ import (
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 )
 
-
 func TestAccResourceGroupMember_Create(t *testing.T) {
 	resource.UnitTest(t, resource.TestCase{
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + GroupCreateConfig + ServicePrincipalCreateConfig + GroupMemberCreateConfig,
+				Config: providerconfig.ProviderConfig + GroupCreateConfig + ServicePrincipalDataSourceConfig + GroupMemberCreateConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_group_member.this", "id"),
 				),
@@ -29,26 +28,18 @@ func TestAccResourceGroupMember_CreateUpdate(t *testing.T) {
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + GroupCreateConfig + ServicePrincipalCreateConfig + GroupMemberCreateConfig,
+				Config: providerconfig.ProviderConfig + GroupCreateConfig + ServicePrincipalDataSourceConfig + GroupMemberCreateConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_group_member.this", "id"),
 				),
 			},
 			{
-				Config: providerconfig.ProviderConfig + GroupCreateConfig + ServicePrincipalCreateConfig + providerconfig.AppendRandomString(`
-
-resource "snapcd_service_principal" "new" { 
-  client_id  	 = "someNEWvalue%s"
-  client_secret  = "veryverysecret"
-  scopes    	 = ["foo","bar","ban", "baz"]
-  display_name   = "foo"
-}
-
+				Config: providerconfig.ProviderConfig + GroupCreateConfig + ServicePrincipalDataSourceConfig + `
 resource "snapcd_group_member" "this" { 
   group_id  	 		  = snapcd_group.this.id
-  principal_id   		  = snapcd_service_principal.new.id
-  principal_discriminator = "ServicePrincipal"
-}`),
+  principal_id   		  = data.snapcd_service_principal.this.id
+  principal_discriminator = "User"
+}`,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_group_member.this", "id"),
 				),
@@ -62,7 +53,7 @@ func TestAccResourceGroupMember_Import(t *testing.T) {
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + GroupCreateConfig + ServicePrincipalCreateConfig + GroupMemberCreateConfig,
+				Config: providerconfig.ProviderConfig + GroupCreateConfig + ServicePrincipalDataSourceConfig + GroupMemberCreateConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_group_member.this", "id"),
 				),
