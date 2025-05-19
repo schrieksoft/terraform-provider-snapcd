@@ -22,6 +22,7 @@ resource "snapcd_module" "this" {
   trigger_on_upstream_output_changed     = false
   trigger_on_source_changed              = false
   trigger_on_source_changed_notification = false
+  apply_approval_threshold               = 1
 }
 `)
 
@@ -37,6 +38,7 @@ resource "snapcd_namespace" "this" {
   name                      = "somevalue%s"
   stack_id			     		    = data.snapcd_stack.default.id
   default_init_before_hook  = "foo"
+  default_apply_approval_threshold = 1
 }
 `)
 

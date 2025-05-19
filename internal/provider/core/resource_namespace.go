@@ -73,8 +73,8 @@ type namespaceModel struct {
 	DefaultOutputAfterHook          types.String `tfsdk:"default_output_after_hook"`
 	DefaultEngine                   types.String `tfsdk:"default_engine"`
 	DefaultOutputSecretStoreId      types.String `tfsdk:"default_output_secret_store_id"`
-	DefaultApplyApprovalThreshold   types.Number `tfsdk:"default_apply_approval_threshold"`
-	DefaultDestroyApprovalThreshold types.Number `tfsdk:"default_destroy_approval_threshold"`
+	DefaultApplyApprovalThreshold   types.Int64  `tfsdk:"default_apply_approval_threshold"`
+	DefaultDestroyApprovalThreshold types.Int64  `tfsdk:"default_destroy_approval_threshold"`
 
 	TriggerBehaviourOnModified types.String `tfsdk:"trigger_behaviour_on_modified"`
 }
@@ -193,12 +193,12 @@ func (r *namespaceResource) Schema(ctx context.Context, req resource.SchemaReque
 				Optional:    true,
 				Description: DescNamespaceDefaultOutputSecretStoreId,
 			},
-			"default_apply_approval_threshold": schema.NumberAttribute{
+			"default_apply_approval_threshold": schema.Int64Attribute{
 				Optional:    true,
 				Description: DescNamespaceDefaultApplyApprovalThreshold,
 			},
 
-			"default_destroy_approval_threshold": schema.NumberAttribute{
+			"default_destroy_approval_threshold": schema.Int64Attribute{
 				Optional:    true,
 				Description: DescNamespaceDefaultDestroyApprovalThreshold,
 			},

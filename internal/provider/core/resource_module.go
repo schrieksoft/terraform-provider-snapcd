@@ -92,8 +92,8 @@ type moduleModel struct {
 	TriggerOnUpstreamOutputChanged     types.Bool   `tfsdk:"trigger_on_upstream_output_changed"`
 	TriggerOnSourceChanged             types.Bool   `tfsdk:"trigger_on_source_changed"`
 	TriggerOnSourceChangedNotification types.Bool   `tfsdk:"trigger_on_source_changed_notification"`
-	ApplyApprovalThreshold             types.Number `tfsdk:"apply_approval_threshold"`
-	DestroyApprovalThreshold           types.Number `tfsdk:"destroy_approval_threshold"`
+	ApplyApprovalThreshold             types.Int64  `tfsdk:"apply_approval_threshold"`
+	DestroyApprovalThreshold           types.Int64  `tfsdk:"destroy_approval_threshold"`
 }
 
 const (
@@ -264,12 +264,12 @@ func (r *moduleResource) Schema(ctx context.Context, req resource.SchemaRequest,
 				Description: DescModuleOutputSecretStoreId,
 			},
 
-			"apply_approval_threshold": schema.NumberAttribute{
+			"apply_approval_threshold": schema.Int64Attribute{
 				Optional:    true,
 				Description: DescModuleApplyApprovalThreshold,
 			},
 
-			"destroy_approval_threshold": schema.NumberAttribute{
+			"destroy_approval_threshold": schema.Int64Attribute{
 				Optional:    true,
 				Description: DescModuleDestroyApprovalThreshold,
 			},
