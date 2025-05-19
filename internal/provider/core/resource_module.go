@@ -92,37 +92,41 @@ type moduleModel struct {
 	TriggerOnUpstreamOutputChanged     types.Bool   `tfsdk:"trigger_on_upstream_output_changed"`
 	TriggerOnSourceChanged             types.Bool   `tfsdk:"trigger_on_source_changed"`
 	TriggerOnSourceChangedNotification types.Bool   `tfsdk:"trigger_on_source_changed_notification"`
+	ApplyApprovalThreshold             types.Number `tfsdk:"apply_approval_threshold"`
+	DestroyApprovalThreshold           types.Number `tfsdk:"destroy_approval_threshold"`
 }
 
 const (
 	DescModuleOverride = "Setting this will override any default value set on the Module's parent Namespace."
 
-	DescModuleId                     = "Unique ID of the Module."
-	DescModuleName                   = "Name of the Module. Must be unique in combination with `namespace_id`."
-	DescModuleNamespaceId            = "ID of the Module's parent Namespace."
-	DescModuleRunnerPoolId           = "ID of the Runner Pool that will receive the instructions when triggering a deployment on this Module."
-	DescModuleSourceRevision         = "Remote revision (e.g. version number, branch, commit or tag) where the source module code is found."
-	DescModuleSourceUrl              = "Remote URL where the source module code is found."
-	DescModuleSourceSubdirectory     = "Subdirectory where the source module code is found."
-	DescModuleDependsOnModules       = "A list on Snap CD Modules that this Module depends on. Note that Snap CD will automatically discover depedencies based on the Module using as inputs the outputs from another Module, so use `depends_on_modules` where you want to explicitly establish a dependency where outputs are not referenced as inputs."
-	DescModuleSourceType             = "The type of remote module store that the source module code should be retrieved from. Must be one of 'Git' or 'Registry'"
-	DescModuleSourceRevisionType     = "How Snap CD should interpret the `source_revision` field. Must be one of 'Default' or 'SemanticVersionRange'. Setting to 'Default' means Snap CD will interpret the revision type based on the source type (for example, for a 'Git' source type it will automatically figure out whether the `source_revision` refers to a branch, tag or commit). Setting to 'SemanticVersionRange' means that Snap CD will resolve the revision to a semantic version line `vX.Y.Z` (alternatively witout the 'v' prefix of that is how your semantic version are tagged, i.e. 'X.Y.Z'). It will take the highest version within the major or minor version range that you specify. For example, specify `v2.20.*` or `v2.*`. You can also specify a specific semantic version here, e.g. `v2.20.7`. In that case the behaviour is the same as with when using 'Default', except that only valid semantic versions are accepted. NOTE that 'SemanticVersionRange' is currently only supported in combination with the 'Git' `source_type`."
-	DescModuleRunnerSelfDeclaredName = "Name of the Runner to select (should unique identify the Runner within the Runner Pool). If null a random Runner will be selected from the Runner pool on every deployment."
-	DescModuleInitBackendArgs        = DescSharedInitBackedArgs + DescModuleOverride
-	DescModuleInitBeforeHook         = DescSharedInitBeforeHook + DescModuleOverride
-	DescModuleInitAfterHook          = DescSharedInitAfterHook + DescModuleOverride
-	DescModulePlanBeforeHook         = DescSharedPlanBeforeHook + DescModuleOverride
-	DescModulePlanAfterHook          = DescSharedPlanAfterHook + DescModuleOverride
-	DescModulePlanDestroyBeforeHook  = DescSharedPlanDestroyBeforeHook + DescModuleOverride
-	DescModulePlanDestroyAfterHook   = DescSharedPlanDestroyAfterHook + DescModuleOverride
-	DescModuleApplyBeforeHook        = DescSharedApplyBeforeHook + DescModuleOverride
-	DescModuleApplyAfterHook         = DescSharedApplyAfterHook + DescModuleOverride
-	DescModuleDestroyBeforeHook      = DescSharedDestroyBeforeHook + DescModuleOverride
-	DescModuleDestroyAfterHook       = DescSharedDestroyAfterHook + DescModuleOverride
-	DescModuleOutputBeforeHook       = DescSharedOutputBeforeHook + DescModuleOverride
-	DescModuleOutputAfterHook        = DescSharedOutputAfterHook + DescModuleOverride
-	DescModuleEngine                 = DescSharedEngine + DescModuleOverride
-	DescModuleOutputSecretStoreId    = DescSharedOutputSecretStoreId + DescModuleOverride
+	DescModuleId                       = "Unique ID of the Module."
+	DescModuleName                     = "Name of the Module. Must be unique in combination with `namespace_id`."
+	DescModuleNamespaceId              = "ID of the Module's parent Namespace."
+	DescModuleRunnerPoolId             = "ID of the Runner Pool that will receive the instructions when triggering a deployment on this Module."
+	DescModuleSourceRevision           = "Remote revision (e.g. version number, branch, commit or tag) where the source module code is found."
+	DescModuleSourceUrl                = "Remote URL where the source module code is found."
+	DescModuleSourceSubdirectory       = "Subdirectory where the source module code is found."
+	DescModuleDependsOnModules         = "A list on Snap CD Modules that this Module depends on. Note that Snap CD will automatically discover depedencies based on the Module using as inputs the outputs from another Module, so use `depends_on_modules` where you want to explicitly establish a dependency where outputs are not referenced as inputs."
+	DescModuleSourceType               = "The type of remote module store that the source module code should be retrieved from. Must be one of 'Git' or 'Registry'"
+	DescModuleSourceRevisionType       = "How Snap CD should interpret the `source_revision` field. Must be one of 'Default' or 'SemanticVersionRange'. Setting to 'Default' means Snap CD will interpret the revision type based on the source type (for example, for a 'Git' source type it will automatically figure out whether the `source_revision` refers to a branch, tag or commit). Setting to 'SemanticVersionRange' means that Snap CD will resolve the revision to a semantic version line `vX.Y.Z` (alternatively witout the 'v' prefix of that is how your semantic version are tagged, i.e. 'X.Y.Z'). It will take the highest version within the major or minor version range that you specify. For example, specify `v2.20.*` or `v2.*`. You can also specify a specific semantic version here, e.g. `v2.20.7`. In that case the behaviour is the same as with when using 'Default', except that only valid semantic versions are accepted. NOTE that 'SemanticVersionRange' is currently only supported in combination with the 'Git' `source_type`."
+	DescModuleRunnerSelfDeclaredName   = "Name of the Runner to select (should unique identify the Runner within the Runner Pool). If null a random Runner will be selected from the Runner pool on every deployment."
+	DescModuleInitBackendArgs          = DescSharedInitBackedArgs + DescModuleOverride
+	DescModuleInitBeforeHook           = DescSharedInitBeforeHook + DescModuleOverride
+	DescModuleInitAfterHook            = DescSharedInitAfterHook + DescModuleOverride
+	DescModulePlanBeforeHook           = DescSharedPlanBeforeHook + DescModuleOverride
+	DescModulePlanAfterHook            = DescSharedPlanAfterHook + DescModuleOverride
+	DescModulePlanDestroyBeforeHook    = DescSharedPlanDestroyBeforeHook + DescModuleOverride
+	DescModulePlanDestroyAfterHook     = DescSharedPlanDestroyAfterHook + DescModuleOverride
+	DescModuleApplyBeforeHook          = DescSharedApplyBeforeHook + DescModuleOverride
+	DescModuleApplyAfterHook           = DescSharedApplyAfterHook + DescModuleOverride
+	DescModuleDestroyBeforeHook        = DescSharedDestroyBeforeHook + DescModuleOverride
+	DescModuleDestroyAfterHook         = DescSharedDestroyAfterHook + DescModuleOverride
+	DescModuleOutputBeforeHook         = DescSharedOutputBeforeHook + DescModuleOverride
+	DescModuleOutputAfterHook          = DescSharedOutputAfterHook + DescModuleOverride
+	DescModuleEngine                   = DescSharedEngine + DescModuleOverride
+	DescModuleOutputSecretStoreId      = DescSharedOutputSecretStoreId + DescModuleOverride
+	DescModuleApplyApprovalThreshold   = DescSharedApplyApprovalThreshold + DescModuleOverride + DescZeroThreshold
+	DescModuleDestroyApprovalThreshold = DescSharedDestroyApprovalThreshold + DescModuleOverride + DescZeroThreshold
 
 	DescTriggerOnSourceChanged             = "Defaults to 'true'. If 'true', the Module will automatically be applied if the source it is referencing has changed. For example, if tracking a Git branch: a new commit would constitute a change."
 	DescTriggerOnSourceChangedNotification = "Defaults to 'false'. If 'true', the Module will automatically be applied if the 'api/Hooks/SourceChanged' endpoint is called for this Module. Use this if you want to use external tooling to inform Snap CD that a source has been changed. Consider setting `trigger_on_definition_changed` to 'false' when setting `trigger_on_definition_changed_hook` to 'true'"
@@ -258,6 +262,16 @@ func (r *moduleResource) Schema(ctx context.Context, req resource.SchemaRequest,
 			"output_secret_store_id": schema.StringAttribute{
 				Optional:    true,
 				Description: DescModuleOutputSecretStoreId,
+			},
+
+			"apply_approval_threshold": schema.NumberAttribute{
+				Optional:    true,
+				Description: DescModuleApplyApprovalThreshold,
+			},
+
+			"destroy_approval_threshold": schema.NumberAttribute{
+				Optional:    true,
+				Description: DescModuleDestroyApprovalThreshold,
 			},
 			"trigger_on_definition_changed": schema.BoolAttribute{
 				Optional:    true,
