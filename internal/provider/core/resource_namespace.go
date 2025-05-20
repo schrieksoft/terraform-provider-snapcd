@@ -75,6 +75,7 @@ type namespaceModel struct {
 	DefaultOutputSecretStoreId      types.String `tfsdk:"default_output_secret_store_id"`
 	DefaultApplyApprovalThreshold   types.Int64  `tfsdk:"default_apply_approval_threshold"`
 	DefaultDestroyApprovalThreshold types.Int64  `tfsdk:"default_destroy_approval_threshold"`
+	DefaultApprovalTimeoutMinutes             types.Int64  `tfsdk:"default_approval_timeout_minutes"`
 
 	TriggerBehaviourOnModified types.String `tfsdk:"trigger_behaviour_on_modified"`
 }
@@ -103,6 +104,8 @@ const (
 	DescNamespaceDefaultOutputSecretStoreId      = DescSharedOutputSecretStoreId + DescNamespaceDefault
 	DescNamespaceDefaultApplyApprovalThreshold   = DescSharedApplyApprovalThreshold + DescNamespaceDefault + DescZeroThreshold
 	DescNamespaceDefaultDestroyApprovalThreshold = DescSharedDestroyApprovalThreshold + DescNamespaceDefault + DescZeroThreshold
+
+	DescNamespaceDefaultApprovalTimeoutMinutes   = DescSharedApprovalTimeoutMinutes + DescNamespaceDefault + DescZeroTimeout
 
 	DescNamespaceTriggerBehaviourOnModified = "Behaviour with respect to applying modules within the Namespace if any of the fields on the Namespace resource (or any of its Param, Env Var or Extra File resources) has changed. Must be one of 'TriggerAllImmediately' or 'DoNotTrigger'. Setting to 'TriggerAllImmediately' will trigger *all* Modules within the Stack to run an apply Job simultaneously. Setting to 'DoNotTrigger' will do nothing. The default (and recommended) setting is 'DoNotTrigger'."
 )
@@ -202,6 +205,12 @@ func (r *namespaceResource) Schema(ctx context.Context, req resource.SchemaReque
 				Optional:    true,
 				Description: DescNamespaceDefaultDestroyApprovalThreshold,
 			},
+
+			"default_approval_timeout_minutes": schema.Int64Attribute{
+				Optional:    true,
+				Description: DescNamespaceDefaultApprovalTimeoutMinutes,
+			},
+			
 			"trigger_behaviour_on_modified": schema.StringAttribute{
 				Optional:    true,
 				Computed:    true,

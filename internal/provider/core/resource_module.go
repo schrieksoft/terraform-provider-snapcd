@@ -94,6 +94,7 @@ type moduleModel struct {
 	TriggerOnSourceChangedNotification types.Bool   `tfsdk:"trigger_on_source_changed_notification"`
 	ApplyApprovalThreshold             types.Int64  `tfsdk:"apply_approval_threshold"`
 	DestroyApprovalThreshold           types.Int64  `tfsdk:"destroy_approval_threshold"`
+	ApprovalTimeoutMinutes             types.Int64  `tfsdk:"approval_timeout_minutes"`
 }
 
 const (
@@ -127,6 +128,7 @@ const (
 	DescModuleOutputSecretStoreId      = DescSharedOutputSecretStoreId + DescModuleOverride
 	DescModuleApplyApprovalThreshold   = DescSharedApplyApprovalThreshold + DescModuleOverride + DescZeroThreshold
 	DescModuleDestroyApprovalThreshold = DescSharedDestroyApprovalThreshold + DescModuleOverride + DescZeroThreshold
+	DescModuleApprovalTimeoutMinutes   = DescSharedApprovalTimeoutMinutes + DescModuleOverride + DescZeroTimeout
 
 	DescTriggerOnSourceChanged             = "Defaults to 'true'. If 'true', the Module will automatically be applied if the source it is referencing has changed. For example, if tracking a Git branch: a new commit would constitute a change."
 	DescTriggerOnSourceChangedNotification = "Defaults to 'false'. If 'true', the Module will automatically be applied if the 'api/Hooks/SourceChanged' endpoint is called for this Module. Use this if you want to use external tooling to inform Snap CD that a source has been changed. Consider setting `trigger_on_definition_changed` to 'false' when setting `trigger_on_definition_changed_hook` to 'true'"
@@ -273,6 +275,12 @@ func (r *moduleResource) Schema(ctx context.Context, req resource.SchemaRequest,
 				Optional:    true,
 				Description: DescModuleDestroyApprovalThreshold,
 			},
+
+			"approval_timeout_minutes": schema.Int64Attribute{
+				Optional:    true,
+				Description: DescModuleApprovalTimeoutMinutes,
+			},
+			
 			"trigger_on_definition_changed": schema.BoolAttribute{
 				Optional:    true,
 				Computed:    true,
