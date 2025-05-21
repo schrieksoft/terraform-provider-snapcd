@@ -8,7 +8,9 @@ import (
 	snapcd "terraform-provider-snapcd/client"
 	utils "terraform-provider-snapcd/utils"
 
+	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
+	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
 )
@@ -61,6 +63,9 @@ func (d *namespaceParamFromDefinitionDataSource) Schema(ctx context.Context, req
 			"definition_name": schema.StringAttribute{
 				Computed:    true,
 				Description: DescSharedDefinitionName,
+				Validators: []validator.String{
+					stringvalidator.OneOf("ModuleId", "NamespaceId", "StackId", "ModuleName", "NamespaceName", "StackName", "SourceUrl", "SourceRevision", "SourceSubdirectory", "SourceDefinitiveRevision"),
+				},
 			},
 			"usage_mode": schema.StringAttribute{
 				Computed:    true,

@@ -81,7 +81,7 @@ func (r *moduleParamFromDefinitionResource) Schema(ctx context.Context, req reso
 			"definition_name": schema.StringAttribute{
 				Required: true,
 				Validators: []validator.String{
-					stringvalidator.OneOf("ModuleId", "NamespaceId", "StackId", "ModuleName", "NamespaceName", "StackName", "SourceUrl", "SourceRevision", "SourceSubdirectory"),
+					stringvalidator.OneOf("ModuleId", "NamespaceId", "StackId", "ModuleName", "NamespaceName", "StackName", "SourceUrl", "SourceRevision", "SourceSubdirectory", "SourceDefinitiveRevision"),
 				},
 				Description: DescSharedDefinitionName,
 			},
