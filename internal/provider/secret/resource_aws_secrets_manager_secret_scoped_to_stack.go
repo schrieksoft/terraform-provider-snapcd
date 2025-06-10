@@ -64,7 +64,7 @@ type awsSecretsManagerSecretScopedToStackModel struct {
 
 func (r *awsSecretsManagerSecretScopedToStackResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-        MarkdownDescription: "Secrets --- Manages a Azure Key Vault Secret (Scoped to Stack) in Snap CD.",
+        MarkdownDescription: "Secrets --- Manages a AWS Secrets Manager Secret (Scoped to Stack) in Snap CD.",
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed: true,

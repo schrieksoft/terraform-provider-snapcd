@@ -48,7 +48,7 @@ func (d *awsSecretsManagerSecretScopedToNamespaceDataSource) Metadata(ctx contex
 
 func (d *awsSecretsManagerSecretScopedToNamespaceDataSource) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: "Secrets --- Use this data source to access information about an existing Azure Key Vault Secret (Scoped to Namespace) in Snap CD.",
+		MarkdownDescription: "Secrets --- Use this data source to access information about an existing AWS Secrets Manager Secret (Scoped to Namespace) in Snap CD.",
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed: true,

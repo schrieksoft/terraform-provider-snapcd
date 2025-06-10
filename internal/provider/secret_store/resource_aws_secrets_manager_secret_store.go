@@ -63,7 +63,7 @@ type awsSecretsManagerSecretStoreModel struct {
 
 func (r *awsSecretsManagerSecretStoreResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: "Secret Stores --- Manages an Azure Key Vault Secret Store in Snap CD.",
+		MarkdownDescription: "Secret Stores --- Manages an AWS Secrets Manager Secret Store in Snap CD.",
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed: true,
