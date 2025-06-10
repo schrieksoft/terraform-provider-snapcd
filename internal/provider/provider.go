@@ -385,11 +385,16 @@ func (p *snapcdProvider) DataSources(_ context.Context) []func() datasource.Data
 		namespace_param.NamespaceParamFromSecretDataSource,
 
 		secret_store.AzureKeyVaultSecretStoreDataSource,
+		secret_store.AwsSecretsManagerSecretStoreDataSource,
 		secret_store.SimpleSecretStoreDataSource,
 
 		secret.AzureKeyVaultSecretScopedToStackDataSource,
 		secret.AzureKeyVaultSecretScopedToNamespaceDataSource,
 		secret.AzureKeyVaultSecretScopedToModuleDataSource,
+
+		secret.AwsSecretsManagerSecretScopedToStackDataSource,
+		secret.AwsSecretsManagerSecretScopedToNamespaceDataSource,
+		secret.AwsSecretsManagerSecretScopedToModuleDataSource,
 
 		secret.SimpleSecretScopedToStackDataSource,
 		secret.SimpleSecretScopedToNamespaceDataSource,
@@ -441,10 +446,15 @@ func (p *snapcdProvider) Resources(_ context.Context) []func() resource.Resource
 
 		secret_store.AzureKeyVaultSecretStoreResource,
 		secret_store.SimpleSecretStoreResource,
+		secret_store.AwsSecretsManagerSecretStoreResource,
 
 		secret.AzureKeyVaultSecretScopedToStackResource,
 		secret.AzureKeyVaultSecretScopedToNamespaceResource,
 		secret.AzureKeyVaultSecretScopedToModuleResource,
+
+		secret.AwsSecretsManagerSecretScopedToStackResource,
+		secret.AwsSecretsManagerSecretScopedToNamespaceResource,
+		secret.AwsSecretsManagerSecretScopedToModuleResource,
 
 		secret.SimpleSecretScopedToStackResource,
 		secret.SimpleSecretScopedToNamespaceResource,
