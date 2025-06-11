@@ -4,7 +4,7 @@ import (
 	providerconfig "terraform-provider-snapcd/internal/tests/providerconfig"
 )
 
-var ModuleCreateConfig = NamespaceCreateConfig + providerconfig.AppendRandomString(`
+var ModuleCreateConfigDelta = providerconfig.AppendRandomString(`
 
 data "snapcd_runner_pool" "default" {
   name = "default"
@@ -26,8 +26,7 @@ resource "snapcd_module" "this" {
 }
 `)
 
-
-
+var ModuleCreateConfig = NamespaceCreateConfig + ModuleCreateConfigDelta
 
 var NamespaceCreateConfig = providerconfig.AppendRandomString(`
 data "snapcd_stack" "default" {
@@ -41,7 +40,6 @@ resource "snapcd_namespace" "this" {
   default_apply_approval_threshold = 1
 }
 `)
-
 
 var NamespaceUpdateConfig = providerconfig.AppendRandomString(`
 
