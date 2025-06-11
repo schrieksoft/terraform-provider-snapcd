@@ -39,7 +39,6 @@ data "snapcd_module" "mymodule" {
 
 - `apply_after_hook` (String) Shell script that should be executed after the 'Apply' step of any deployment is run. Setting this will override any default value set on the Module's parent Namespace.
 - `apply_before_hook` (String) Shell script that should be executed before the 'Apply' step of any deployment is run. Setting this will override any default value set on the Module's parent Namespace.
-- `depends_on_modules` (List of String) A list on Snap CD Modules that this Module depends on. Note that Snap CD will automatically discover depedencies based on the Module using as inputs the outputs from another Module, so use `depends_on_modules` where you want to explicitly establish a dependency where outputs are not referenced as inputs.
 - `destroy_after_hook` (String) Shell script that should be executed after the 'Destroy' step of any deployment is run. Setting this will override any default value set on the Module's parent Namespace.
 - `destroy_before_hook` (String) Shell script that should be executed before the 'Destroy' step of any deployment is run. Setting this will override any default value set on the Module's parent Namespace.
 - `engine` (String) Determines which binary will be used during deployment. Must be one of 'OpenTofu' and 'Terraform'. Setting this to 'OpenTofu' will use `tofu`. Setting it to 'Terraform' will use `terraform`. Setting this will override any default value set on the Module's parent Namespace.

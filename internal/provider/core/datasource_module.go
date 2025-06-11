@@ -11,7 +11,6 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
-	"github.com/hashicorp/terraform-plugin-framework/types"
 
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
 )
@@ -80,11 +79,6 @@ func (d *moduleDataSource) Schema(ctx context.Context, req datasource.SchemaRequ
 			"source_subdirectory": schema.StringAttribute{
 				Computed:    true,
 				Description: DescModuleSourceSubdirectory,
-			},
-			"depends_on_modules": schema.ListAttribute{
-				Computed:    true,
-				ElementType: types.StringType,
-				Description: DescModuleDependsOnModules,
 			},
 			"source_type": schema.StringAttribute{
 				Computed: true,

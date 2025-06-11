@@ -357,6 +357,7 @@ func (p *snapcdProvider) DataSources(_ context.Context) []func() datasource.Data
 		core.StackDataSource,
 		core.RunnerPoolDataSource,
 		core.SourceRefresherPreselectionDataSource,
+		core.DependsOnModuleDataSource,
 
 		identity.ServicePrincipalDataSource,
 		identity.GroupDataSource,
@@ -420,6 +421,7 @@ func (p *snapcdProvider) Resources(_ context.Context) []func() resource.Resource
 		core.StackResource,
 		core.RunnerPoolResource,
 		core.SourceRefresherPreselectionResource,
+		core.DependsOnModuleResource,
 
 		identity.GroupResource,
 		identity.GroupMemberResource,
