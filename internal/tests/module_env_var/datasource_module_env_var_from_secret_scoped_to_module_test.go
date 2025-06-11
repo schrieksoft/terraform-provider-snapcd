@@ -16,8 +16,8 @@ func TestAccDataSourceModuleEnvVarFromSecretScopedToModule(t *testing.T) {
 			{
 				Config: providerconfig.ProviderConfig + ModuleEnvVarFromSecretScopedToModuleCreateConfig + `
 data "snapcd_module_env_var_from_secret_scoped_to_module" "this" {
-	secret_scoped_to_module_id 		= snapcd_module_env_var_from_secret_scoped_to_module.this.secret_scoped_to_module_id
-	module_id 	                    = snapcd_module_env_var_from_secret_scoped_to_module.this.module_id
+	name 		= snapcd_module_env_var_from_secret_scoped_to_module.this.name
+	module_id 	= snapcd_module_env_var_from_secret_scoped_to_module.this.module_id
 }`,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("data.snapcd_module_env_var_from_secret_scoped_to_module.this", "id"),

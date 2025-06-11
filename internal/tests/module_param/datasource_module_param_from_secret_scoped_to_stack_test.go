@@ -17,7 +17,7 @@ func TestAccDataSourceModuleParamFromSecretScopedToStack(t *testing.T) {
 			{
 				Config: providerconfig.ProviderConfig + core.ModuleCreateConfig + ModuleParamFromSecretScopedToStackCreateConfig + `
 data "snapcd_module_param_from_secret_scoped_to_stack" "this" {
-	secret_scoped_to_stack_id 		= snapcd_module_param_from_secret_scoped_to_stack.this.secret_scoped_to_stack_id
+	name 		= snapcd_module_param_from_secret_scoped_to_stack.this.name
 	module_id 						= snapcd_module_param_from_secret_scoped_to_stack.this.module_id
 }`,
 				Check: resource.ComposeTestCheckFunc(

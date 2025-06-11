@@ -38,7 +38,7 @@ func (d *namespaceEnvVarFromSecretScopedToNamespaceDataSource) Schema(_ context.
 				Description: DescSharedId + "Namespace Env Var (From Secret Scoped To Namespace).",
 			},
 			"name": schema.StringAttribute{
-				Computed:    true,
+				Required:    true,
 				Description: DescSharedName1 + "Namespace Env Var (From Secret Scoped To Namespace). " + DescSharedName2,
 			},
 			"type": schema.StringAttribute{
@@ -46,7 +46,7 @@ func (d *namespaceEnvVarFromSecretScopedToNamespaceDataSource) Schema(_ context.
 				Description: DescSharedSecretType,
 			},
 			"secret_scoped_to_namespace_id": schema.StringAttribute{
-				Required:    true,
+				Computed:    true,
 				Description: "The ID of the secret scoped to namespace to use for this namespace env var.",
 			},
 			"usage_mode": schema.StringAttribute{
@@ -89,7 +89,7 @@ func (d *namespaceEnvVarFromSecretScopedToNamespaceDataSource) Read(ctx context.
 	}
 
 	// Read API call logic
-	result, httpError := d.client.Get(fmt.Sprintf("%s/%s/%s", namespaceEnvVarFromSecretScopedToNamespaceEndpoint, data.NamespaceId.ValueString(), data.SecretScopedToNamespaceId.ValueString()))
+	result, httpError := d.client.Get(fmt.Sprintf("%s/%s/%s", namespaceEnvVarFromSecretScopedToNamespaceEndpoint, data.NamespaceId.ValueString(), data.Name.ValueString()))
 	
 	if httpError != nil {
 		resp.Diagnostics.AddError(namespaceEnvVarFromSecretScopedToNamespaceDefaultError, "Error calling GET: "+httpError.Error.Error())

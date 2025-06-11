@@ -14,8 +14,7 @@ var ModuleEnvVarFromOutputSetCreateConfig = providerconfig.AppendRandomString(`
 resource "snapcd_module_env_var_from_output_set" "this" { 
   module_id = snapcd_module.this.id
   name  	= "somevalue%s"
-  module_name  	= "bar"
-  namespace_name  	= "bar"
+  output_module_id  	= snapcd_module.two.id
 }
   
 `)
@@ -25,7 +24,7 @@ func TestAccResourceModuleEnvVarFromOutputSet_Create(t *testing.T) {
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + core.ModuleCreateConfig + ModuleEnvVarFromOutputSetCreateConfig,
+				Config: providerconfig.ProviderConfig + core.ModuleCreateConfig + core.ModuleCreateConfigDeltaTwo + ModuleEnvVarFromOutputSetCreateConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_module_env_var_from_output_set.this", "id"),
 				),
@@ -39,23 +38,22 @@ func TestAccResourceModuleEnvVarFromOutputSet_CreateUpdate(t *testing.T) {
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + core.ModuleCreateConfig + ModuleEnvVarFromOutputSetCreateConfig,
+				Config: providerconfig.ProviderConfig + core.ModuleCreateConfig + core.ModuleCreateConfigDeltaTwo + ModuleEnvVarFromOutputSetCreateConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_module_env_var_from_output_set.this", "id"),
 					resource.TestCheckResourceAttr("snapcd_module_env_var_from_output_set.this", "name", providerconfig.AppendRandomString("somevalue%s")),
 				),
 			},
 			{
-				Config: providerconfig.ProviderConfig + core.ModuleCreateConfig + providerconfig.AppendRandomString(`
+				Config: providerconfig.ProviderConfig + core.ModuleCreateConfig + core.ModuleCreateConfigDeltaTwo + providerconfig.AppendRandomString(`
 resource "snapcd_module_env_var_from_output_set" "this" { 
   module_id = snapcd_module.this.id
   name  = "somevalue%s"
-  module_name  	= "bar"
-  namespace_name  	= "barrr"
+  output_module_id  	= snapcd_module.this.id
 }`),
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_module_env_var_from_output_set.this", "id"),
-					resource.TestCheckResourceAttr("snapcd_module_env_var_from_output_set.this", "namespace_name", "barrr"),
+					resource.TestCheckResourceAttrSet("snapcd_module_env_var_from_output_set.this", "output_module_id"),
 				),
 			},
 		},

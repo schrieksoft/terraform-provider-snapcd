@@ -55,7 +55,7 @@ func (d *moduleEnvVarFromSecretScopedToNamespaceDataSource) Schema(ctx context.C
 				Description: DescSharedId + "Module Env Var (From Secret Scoped To Namespace).",
 			},
 			"name": schema.StringAttribute{
-				Computed:    true,
+				Required:    true,
 				Description: DescSharedName1 + "Module Env Var (From Secret Scoped To Namespace). " + DescSharedName2,
 			},
 			"module_id": schema.StringAttribute{
@@ -67,7 +67,7 @@ func (d *moduleEnvVarFromSecretScopedToNamespaceDataSource) Schema(ctx context.C
 				Description: DescSharedSecretType,
 			},
 			"secret_scoped_to_namespace_id": schema.StringAttribute{
-				Required:    true,
+				Computed:    true,
 				Description: "ID of the Secret Scoped To Namespace to take as input.",
 			},
 		},
@@ -83,7 +83,7 @@ func (d *moduleEnvVarFromSecretScopedToNamespaceDataSource) Read(ctx context.Con
 		return
 	}
 
-	result, httpError := d.client.Get(fmt.Sprintf("%s/%s/%s", moduleEnvVarFromSecretScopedToNamespaceEndpoint, data.ModuleId.ValueString(), data.SecretScopedToNamespaceId.ValueString()))
+	result, httpError := d.client.Get(fmt.Sprintf("%s/%s/%s", moduleEnvVarFromSecretScopedToNamespaceEndpoint, data.ModuleId.ValueString(), data.Name.ValueString()))
 	var err error
 	if httpError != nil {
 		err = httpError.Error

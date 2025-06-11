@@ -53,9 +53,8 @@ resource "snapcd_module_param_from_output" "myparam" {
 ### Required
 
 - `module_id` (String) ID of the Module Param (From Output)'s parent Module.
-- `module_name` (String) Name of the parent Module from which to source the take the Output.
 - `name` (String) Name of the Module Param (From Output).  Must be unique in combination with `module_id`.
-- `namespace_name` (String) Name of the parent Namespace of the parent Module from which to take the Output.
+- `output_module_id` (String) ID of the Module from which to take the Output.
 - `output_name` (String) Name of Output to take as input.
 
 ### Read-Only

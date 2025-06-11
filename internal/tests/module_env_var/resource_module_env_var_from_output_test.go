@@ -14,8 +14,7 @@ var ModuleEnvVarFromOutputCreateConfig = providerconfig.AppendRandomString(`
 resource "snapcd_module_env_var_from_output" "this" { 
   module_id = snapcd_module.this.id
   name  	= "somevalue%s"
-  module_name  	= "bar"
-  namespace_name  	= "bar"
+  output_module_id  	= snapcd_module.two.id
   output_name   = "bar"
 }
   
@@ -26,7 +25,7 @@ func TestAccResourceModuleEnvVarFromOutput_Create(t *testing.T) {
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + core.ModuleCreateConfig + ModuleEnvVarFromOutputCreateConfig,
+				Config: providerconfig.ProviderConfig + core.ModuleCreateConfig + core.ModuleCreateConfigDeltaTwo + ModuleEnvVarFromOutputCreateConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_module_env_var_from_output.this", "id"),
 				),
@@ -40,24 +39,23 @@ func TestAccResourceModuleEnvVarFromOutput_CreateUpdate(t *testing.T) {
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + core.ModuleCreateConfig + ModuleEnvVarFromOutputCreateConfig,
+				Config: providerconfig.ProviderConfig + core.ModuleCreateConfig + core.ModuleCreateConfigDeltaTwo + ModuleEnvVarFromOutputCreateConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_module_env_var_from_output.this", "id"),
 					resource.TestCheckResourceAttr("snapcd_module_env_var_from_output.this", "name", providerconfig.AppendRandomString("somevalue%s")),
 				),
 			},
 			{
-				Config: providerconfig.ProviderConfig + core.ModuleCreateConfig + providerconfig.AppendRandomString(`
+				Config: providerconfig.ProviderConfig + core.ModuleCreateConfig + core.ModuleCreateConfigDeltaTwo + providerconfig.AppendRandomString(`
 resource "snapcd_module_env_var_from_output" "this" { 
   module_id = snapcd_module.this.id
   name  = "somevalue%s"
-  module_name  	= "bar"
-  namespace_name  	= "barrr"
+  output_module_id  	= snapcd_module.this.id
   output_name   = "bar"
 }`),
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_module_env_var_from_output.this", "id"),
-					resource.TestCheckResourceAttr("snapcd_module_env_var_from_output.this", "namespace_name", "barrr"),
+					resource.TestCheckResourceAttrSet("snapcd_module_env_var_from_output.this", "output_module_id"),
 				),
 			},
 		},
@@ -69,7 +67,7 @@ func TestAccResourceModuleEnvVarFromOutput_Import(t *testing.T) {
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + core.ModuleCreateConfig + ModuleEnvVarFromOutputCreateConfig,
+				Config: providerconfig.ProviderConfig + core.ModuleCreateConfig + core.ModuleCreateConfigDeltaTwo + ModuleEnvVarFromOutputCreateConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_module_env_var_from_output.this", "id"),
 				),

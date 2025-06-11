@@ -17,12 +17,12 @@ Retrieves a Namespace Param (From Secret Scoped To Stack) from Snap CD.
 
 ### Required
 
-- `namespace_id` (String) ID of the Namespace Param (From Secret Scoped To Stack)'s parent Namespace.
+- `name` (String) Name of the Namespace Param (From Secret Scoped To Stack).  Must be unique in combination with `namespace_id`.
 - `secret_scoped_to_stack_id` (String) The ID of the secret scoped to stack to use for this namespace param.
 
 ### Read-Only
 
 - `id` (String) Unique ID of the Namespace Param (From Secret Scoped To Stack).
-- `name` (String) Name of the Namespace Param (From Secret Scoped To Stack).  Must be unique in combination with `namespace_id`.
+- `namespace_id` (String) ID of the Namespace Param (From Secret Scoped To Stack)'s parent Namespace.
 - `type` (String) Type of literal input the secret value should be formatted as. Must be one of 'String' and 'NotString'. Use 'NotString' for values such as numbers, bools, list, maps etc.
 - `usage_mode` (String) Whether the input should be used by default on all Modules, or only when explicitly selected on the Module itself. Must be one of 'UseIfSelected' and 'UseByDefault'

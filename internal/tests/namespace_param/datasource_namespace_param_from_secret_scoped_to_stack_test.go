@@ -17,7 +17,7 @@ func TestAccDataSourceNamespaceParamFromSecretScopedToStack(t *testing.T) {
 			{
 				Config: providerconfig.ProviderConfig + core.NamespaceCreateConfig + NamespaceParamFromSecretScopedToStackCreateConfig + `
 data "snapcd_namespace_param_from_secret_scoped_to_stack" "this" {
-	secret_scoped_to_stack_id 		= snapcd_namespace_param_from_secret_scoped_to_stack.this.secret_scoped_to_stack_id
+	name 		= snapcd_namespace_param_from_secret_scoped_to_stack.this.name
 	namespace_id 	= snapcd_namespace_param_from_secret_scoped_to_stack.this.namespace_id
 }`,
 				Check: resource.ComposeTestCheckFunc(

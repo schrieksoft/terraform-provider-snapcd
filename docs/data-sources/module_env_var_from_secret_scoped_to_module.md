@@ -18,10 +18,10 @@ Use this data source to access information about an existing Module Env Var (Fro
 ### Required
 
 - `module_id` (String) ID of the Module Env Var (From Secret Scoped To Module)'s parent Module.
-- `secret_scoped_to_module_id` (String) ID of the Secret Scoped To Module to take as input.
+- `name` (String) Name of the Module Env Var (From Secret Scoped To Module).  Must be unique in combination with `module_id`.
 
 ### Read-Only
 
 - `id` (String) Unique ID of the Module Env Var (From Secret Scoped To Module).
-- `name` (String) Name of the Module Env Var (From Secret Scoped To Module).  Must be unique in combination with `module_id`.
+- `secret_scoped_to_module_id` (String) ID of the Secret Scoped To Module to take as input.
 - `type` (String) The data type of the Secret to take as input. Must be one of 'String' and 'NotString'. Use 'NotString' for values such as numbers, bools, list, maps etc.

@@ -15,7 +15,7 @@ func TestAccDataSourceModuleEnvVarFromOutputSet(t *testing.T) {
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + core.ModuleCreateConfig + ModuleEnvVarFromOutputSetCreateConfig + `
+				Config: providerconfig.ProviderConfig + core.ModuleCreateConfig+ core.ModuleCreateConfigDeltaTwo + ModuleEnvVarFromOutputSetCreateConfig + `
 data "snapcd_module_env_var_from_output_set" "this" {
 	name 		= snapcd_module_env_var_from_output_set.this.name
 	module_id 	= snapcd_module_env_var_from_output_set.this.module_id

@@ -38,7 +38,7 @@ func (d *namespaceParamFromSecretScopedToNamespaceDataSource) Schema(_ context.C
 				Description: DescSharedId + "Namespace Param (From Secret Scoped To Namespace).",
 			},
 			"name": schema.StringAttribute{
-				Computed:    true,
+				Required:    true,
 				Description: DescSharedName1 + "Namespace Param (From Secret Scoped To Namespace). " + DescSharedName2,
 			},
 			"type": schema.StringAttribute{
@@ -54,7 +54,7 @@ func (d *namespaceParamFromSecretScopedToNamespaceDataSource) Schema(_ context.C
 				Description: DescSharedUsage,
 			},
 			"namespace_id": schema.StringAttribute{
-				Required:    true,
+				Computed:    true,
 				Description: DescSharedNamespaceId1 + "Namespace Param (From Secret Scoped To Namespace)" + DescSharedNamespaceId2,
 			},
 		},
@@ -89,7 +89,7 @@ func (d *namespaceParamFromSecretScopedToNamespaceDataSource) Read(ctx context.C
 	}
 
 	// Read API call logic
-	result, httpError := d.client.Get(fmt.Sprintf("%s/%s/%s", namespaceParamFromSecretScopedToNamespaceEndpoint, data.NamespaceId.ValueString(), data.SecretScopedToNamespaceId.ValueString()))
+	result, httpError := d.client.Get(fmt.Sprintf("%s/%s/%s", namespaceParamFromSecretScopedToNamespaceEndpoint, data.NamespaceId.ValueString(), data.Name.ValueString()))
 
 	if httpError != nil {
 		resp.Diagnostics.AddError(namespaceParamFromSecretScopedToNamespaceDefaultError, "Error calling GET: "+httpError.Error.Error())

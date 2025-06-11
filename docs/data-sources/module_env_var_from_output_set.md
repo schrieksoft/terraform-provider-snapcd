@@ -42,5 +42,4 @@ data "snapcd_module_param_from_output_set" "myenvvar" {
 ### Read-Only
 
 - `id` (String) Unique ID of the Module Env Var (From Output Set).
-- `module_name` (String) Name of the parent Module from which to source the take the Output.
-- `namespace_name` (String) Name of the parent Namespace of the parent Module from which to take the Output.
+- `output_module_id` (String) ID of the Module from which to take the Output.

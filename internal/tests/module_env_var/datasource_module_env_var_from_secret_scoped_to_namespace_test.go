@@ -17,7 +17,7 @@ func TestAccDataSourceModuleEnvVarFromSecretScopedToNamespace(t *testing.T) {
 			{
 				Config: providerconfig.ProviderConfig + core.ModuleCreateConfigDelta + ModuleEnvVarFromSecretScopedToNamespaceCreateConfig + `
 data "snapcd_module_env_var_from_secret_scoped_to_namespace" "this" {
-	secret_scoped_to_namespace_id 		= snapcd_module_env_var_from_secret_scoped_to_namespace.this.secret_scoped_to_namespace_id
+	name 		= snapcd_module_env_var_from_secret_scoped_to_namespace.this.name
 	module_id 	                        = snapcd_module_env_var_from_secret_scoped_to_namespace.this.module_id
 }`,
 				Check: resource.ComposeTestCheckFunc(

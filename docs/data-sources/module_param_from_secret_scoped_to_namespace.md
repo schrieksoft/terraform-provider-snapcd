@@ -18,10 +18,10 @@ Use this data source to access information about an existing Module Param (From 
 ### Required
 
 - `module_id` (String) ID of the Module Param (From Secret Scoped To Namespace)'s parent Module.
-- `secret_scoped_to_namespace_id` (String) ID of the Secret Scoped To Namespace to take as input.
+- `name` (String) Name of the Module Param (From Secret Scoped To Namespace).  Must be unique in combination with `module_id`.
 
 ### Read-Only
 
 - `id` (String) Unique ID of the Module Param (From Secret Scoped To Namespace).
-- `name` (String) Name of the Module Param (From Secret Scoped To Namespace).  Must be unique in combination with `module_id`.
+- `secret_scoped_to_namespace_id` (String) ID of the Secret Scoped To Namespace to take as input.
 - `type` (String) The data type of the Secret to take as input. Must be one of 'String' and 'NotString'. Use 'NotString' for values such as numbers, bools, list, maps etc.

@@ -58,13 +58,9 @@ func (d *moduleEnvVarFromOutputSetDataSource) Schema(ctx context.Context, req da
 				Required:    true,
 				Description: DescSharedName1 + "Module Env Var (From Output Set). " + DescSharedName2,
 			},
-			"module_name": schema.StringAttribute{
+			"output_module_id": schema.StringAttribute{
 				Computed:    true,
-				Description: DescSharedModuleName,
-			},
-			"namespace_name": schema.StringAttribute{
-				Computed:    true,
-				Description: DescSharedNamespaceName,
+				Description: DescSharedOutputModuleId,
 			},
 			"module_id": schema.StringAttribute{
 				Required:    true,

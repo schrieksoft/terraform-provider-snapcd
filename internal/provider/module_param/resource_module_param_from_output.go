@@ -55,12 +55,11 @@ func (r *moduleParamFromOutputResource) Metadata(ctx context.Context, req resour
 }
 
 type moduleParamFromOutputModel struct {
-	Name          types.String `tfsdk:"name"`
-	Id            types.String `tfsdk:"id"`
-	OutputName    types.String `tfsdk:"output_name"`
-	ModuleName    types.String `tfsdk:"module_name"`
-	NamespaceName types.String `tfsdk:"namespace_name"`
-	ModuleId      types.String `tfsdk:"module_id"`
+	Name           types.String `tfsdk:"name"`
+	Id             types.String `tfsdk:"id"`
+	OutputName     types.String `tfsdk:"output_name"`
+	OutputModuleId types.String `tfsdk:"output_module_id"`
+	ModuleId       types.String `tfsdk:"module_id"`
 }
 
 func (r *moduleParamFromOutputResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
@@ -82,13 +81,9 @@ func (r *moduleParamFromOutputResource) Schema(ctx context.Context, req resource
 				Required:    true,
 				Description: DescSharedOutputName,
 			},
-			"module_name": schema.StringAttribute{
+			"output_module_id": schema.StringAttribute{
 				Required:    true,
-				Description: DescSharedModuleName,
-			},
-			"namespace_name": schema.StringAttribute{
-				Required:    true,
-				Description: DescSharedNamespaceName,
+				Description: DescSharedOutputModuleId,
 			},
 			"module_id": schema.StringAttribute{
 				Required:    true,

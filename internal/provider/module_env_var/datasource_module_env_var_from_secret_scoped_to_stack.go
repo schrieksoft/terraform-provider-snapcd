@@ -55,7 +55,7 @@ func (d *moduleEnvVarFromSecretScopedToStackDataSource) Schema(ctx context.Conte
 				Description: DescSharedId + "Module Env Var (From Secret Scoped To Stack).",
 			},
 			"name": schema.StringAttribute{
-				Computed:    true,
+				Required:    true,
 				Description: DescSharedName1 + "Module Env Var (From Secret Scoped To Stack). " + DescSharedName2,
 			},
 			"module_id": schema.StringAttribute{
@@ -67,7 +67,7 @@ func (d *moduleEnvVarFromSecretScopedToStackDataSource) Schema(ctx context.Conte
 				Description: DescSharedSecretType,
 			},
 			"secret_scoped_to_stack_id": schema.StringAttribute{
-				Required:    true,
+				Computed:    true,
 				Description: "ID of the Secret Scoped To Stack to take as input.",
 			},
 		},
@@ -83,7 +83,7 @@ func (d *moduleEnvVarFromSecretScopedToStackDataSource) Read(ctx context.Context
 		return
 	}
 
-	result, httpError := d.client.Get(fmt.Sprintf("%s/%s/%s", moduleEnvVarFromSecretScopedToStackEndpoint, data.ModuleId.ValueString(), data.SecretScopedToStackId.ValueString()))
+	result, httpError := d.client.Get(fmt.Sprintf("%s/%s/%s", moduleEnvVarFromSecretScopedToStackEndpoint, data.ModuleId.ValueString(), data.Name.ValueString()))
 	var err error
 	if httpError != nil {
 		err = httpError.Error

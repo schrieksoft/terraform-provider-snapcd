@@ -14,8 +14,7 @@ var ModuleParamFromOutputCreateConfig = providerconfig.AppendRandomString(`
 resource "snapcd_module_param_from_output" "this" { 
   module_id = snapcd_module.this.id
   name  	= "somevalue%s"
-  module_name  	= "bar"
-  namespace_name  	= "bar"
+  output_module_id  	= snapcd_module.two.id
   output_name   = "bar"
 }
   
@@ -51,13 +50,12 @@ func TestAccResourceModuleParamFromOutput_CreateUpdate(t *testing.T) {
 resource "snapcd_module_param_from_output" "this" { 
   module_id = snapcd_module.this.id
   name  = "somevalue%s"
-  module_name  	= "bar"
-  namespace_name  	= "barrr"
+  output_module_id  	= snapcd_module.this.id
   output_name   = "bar"
 }`),
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_module_param_from_output.this", "id"),
-					resource.TestCheckResourceAttr("snapcd_module_param_from_output.this", "namespace_name", "barrr"),
+					resource.TestCheckResourceAttrSet("snapcd_module_param_from_output.this", "output_module_id"),
 				),
 			},
 		},

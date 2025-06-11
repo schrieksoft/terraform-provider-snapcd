@@ -55,11 +55,10 @@ func (r *moduleEnvVarFromOutputSetResource) Metadata(ctx context.Context, req re
 }
 
 type moduleEnvVarFromOutputSetModel struct {
-	Name          types.String `tfsdk:"name"`
-	Id            types.String `tfsdk:"id"`
-	ModuleName    types.String `tfsdk:"module_name"`
-	NamespaceName types.String `tfsdk:"namespace_name"`
-	ModuleId      types.String `tfsdk:"module_id"`
+	Name           types.String `tfsdk:"name"`
+	Id             types.String `tfsdk:"id"`
+	OutputModuleId types.String `tfsdk:"output_module_id"`
+	ModuleId       types.String `tfsdk:"module_id"`
 }
 
 func (r *moduleEnvVarFromOutputSetResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
@@ -77,13 +76,9 @@ func (r *moduleEnvVarFromOutputSetResource) Schema(ctx context.Context, req reso
 				Required:    true,
 				Description: DescSharedName1 + "Module Env Var (From Output Set). " + DescSharedName2,
 			},
-			"module_name": schema.StringAttribute{
+			"output_module_id": schema.StringAttribute{
 				Required:    true,
-				Description: DescSharedModuleName,
-			},
-			"namespace_name": schema.StringAttribute{
-				Required:    true,
-				Description: DescSharedNamespaceName,
+				Description: DescSharedOutputModuleId,
 			},
 			"module_id": schema.StringAttribute{
 				Required:    true,

@@ -26,6 +26,24 @@ resource "snapcd_module" "this" {
 }
 `)
 
+var ModuleCreateConfigDeltaTwo = providerconfig.AppendRandomString(`
+
+resource "snapcd_module" "two" {
+  name                         	 = "somevalueTwo%s"
+  namespace_id                	 = snapcd_namespace.this.id
+  runner_pool_id                 = data.snapcd_runner_pool.default.id
+  source_subdirectory  	         = "modules/module1"
+  source_url                     = "foo"
+  source_revision                = "main"
+  init_before_hook				       = "fooBeforeHook"
+  trigger_on_definition_changed          = false
+  trigger_on_upstream_output_changed     = false
+  trigger_on_source_changed              = false
+  trigger_on_source_changed_notification = false
+  apply_approval_threshold               = 1
+}
+`)
+
 var ModuleCreateConfig = NamespaceCreateConfig + ModuleCreateConfigDelta
 
 var NamespaceCreateConfig = providerconfig.AppendRandomString(`

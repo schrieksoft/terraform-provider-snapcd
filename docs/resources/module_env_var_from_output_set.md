@@ -60,9 +60,8 @@ resource "snapcd_module_param_from_output_set" "myenvvar" {
 ### Required
 
 - `module_id` (String) ID of the Module Env Var (From Output Set)'s parent Module.
-- `module_name` (String) Name of the parent Module from which to source the take the Output.
 - `name` (String) Name of the Module Env Var (From Output Set).  Must be unique in combination with `module_id`.
-- `namespace_name` (String) Name of the parent Namespace of the parent Module from which to take the Output.
+- `output_module_id` (String) ID of the Module from which to take the Output.
 
 ### Read-Only
 
