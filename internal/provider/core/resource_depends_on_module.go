@@ -61,9 +61,9 @@ type dependsOnModuleModel struct {
 }
 
 const (
-	DescDependsOnModuleId           = "Unique ID of the dependency relationship."
-	DescDependsOnModuleModuleId     = "ID of the module that depends on another module."
-	DescDependsOnModuleDependsOnId  = "ID of the module that this module depends on."
+	DescDependsOnModuleId          = "Unique ID of the dependency relationship."
+	DescDependsOnModuleModuleId    = "ID of the module that depends on another module."
+	DescDependsOnModuleDependsOnId = "ID of the module that this module depends on."
 )
 
 func (r *dependsOnModuleResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {

@@ -75,8 +75,6 @@ resource "snapcd_simple_secret" "this" {
   secret_store_id    = snapcd_simple_secret_store.this.id
 }`)
 
-
-
 var AwsSecretsManagerSecretScopedToNamespaceCreateConfig = core.NamespaceCreateConfig + secret_store.AwsSecretsManagerSecretStoreCreateConfig + secret_store_assignment.AwsSecretsManagerSecretStoreNamespaceAssignmentCreateConfig + providerconfig.AppendRandomString(`
 resource "snapcd_aws_secrets_manager_secret_scoped_to_namespace" "this" { 
   depends_on         = [snapcd_secret_store_namespace_assignment.this]

@@ -15,7 +15,6 @@ resource "snapcd_simple_secret_store" "this" {
   name  = "somevalue%s"
 }`)
 
-
 var AwsSecretsManagerSecretStoreCreateConfig = providerconfig.AppendRandomString(`
 resource "snapcd_aws_secrets_manager_secret_store" "this" { 
   name  = "somevalue%s"

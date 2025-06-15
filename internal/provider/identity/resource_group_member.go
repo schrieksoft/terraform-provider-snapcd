@@ -82,11 +82,11 @@ func (r *groupMemberResource) Schema(ctx context.Context, req resource.SchemaReq
 				Description: DescGroupMemberId,
 			},
 			"group_id": schema.StringAttribute{
-				Required: true,
+				Required:    true,
 				Description: DescGroupMemberGroupId,
 			},
 			"principal_id": schema.StringAttribute{
-				Required: true,
+				Required:    true,
 				Description: DescGroupMemberPrincipalId,
 			},
 			"principal_discriminator": schema.StringAttribute{

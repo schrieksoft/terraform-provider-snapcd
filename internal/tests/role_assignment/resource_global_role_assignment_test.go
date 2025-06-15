@@ -3,8 +3,8 @@
 package tests
 
 import (
-	"terraform-provider-snapcd/internal/tests/providerconfig"
 	"terraform-provider-snapcd/internal/tests/identity"
+	"terraform-provider-snapcd/internal/tests/providerconfig"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"

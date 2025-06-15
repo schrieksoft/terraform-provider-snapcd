@@ -67,7 +67,6 @@ func (d *sourceRefresherPreselectionDataSource) Schema(ctx context.Context, req 
 				Computed:    true,
 				Description: DescSourceRefresherPreselectionRunnerPoolSelfDeclaredName,
 			},
-
 		},
 	}
 }

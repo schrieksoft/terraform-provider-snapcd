@@ -36,8 +36,6 @@ resource "snapcd_secret_store_module_assignment" "this" {
   module_id        = snapcd_module.this.id
 }`
 
-
-
 var AwsSecretsManagerSecretStoreStackAssignmentCreateConfig = `
 resource "snapcd_secret_store_stack_assignment" "this" { 
   secret_store_id = snapcd_aws_Secrets_Manager_secret_store.this.id
