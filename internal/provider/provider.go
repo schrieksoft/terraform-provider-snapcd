@@ -11,10 +11,8 @@ import (
 	"terraform-provider-snapcd/internal/provider/core"
 	"terraform-provider-snapcd/internal/provider/extra_files"
 	"terraform-provider-snapcd/internal/provider/identity"
-	"terraform-provider-snapcd/internal/provider/module_env_var"
-	"terraform-provider-snapcd/internal/provider/module_param"
-	"terraform-provider-snapcd/internal/provider/namespace_env_var"
-	"terraform-provider-snapcd/internal/provider/namespace_param"
+	"terraform-provider-snapcd/internal/provider/module_input"
+	"terraform-provider-snapcd/internal/provider/namespace_input"
 	"terraform-provider-snapcd/internal/provider/role_assignment"
 	"terraform-provider-snapcd/internal/provider/runner_pool_assignment"
 	"terraform-provider-snapcd/internal/provider/secret"
@@ -363,27 +361,16 @@ func (p *snapcdProvider) DataSources(_ context.Context) []func() datasource.Data
 		identity.GroupDataSource,
 		identity.UserDataSource,
 
-		module_env_var.ModuleEnvVarFromLiteralDataSource,
-		module_env_var.ModuleEnvVarFromDefinitionDataSource,
-		module_env_var.ModuleEnvVarFromNamespaceDataSource,
-		module_env_var.ModuleEnvVarFromOutputDataSource,
-		module_env_var.ModuleEnvVarFromOutputSetDataSource,
-		module_env_var.ModuleEnvVarFromSecretDataSource,
+		module_input.ModuleInputFromLiteralDataSource,
+		module_input.ModuleInputFromDefinitionDataSource,
+		module_input.ModuleInputFromNamespaceDataSource,
+		module_input.ModuleInputFromOutputDataSource,
+		module_input.ModuleInputFromOutputSetDataSource,
+		module_input.ModuleInputFromSecretDataSource,
 
-		module_param.ModuleParamFromLiteralDataSource,
-		module_param.ModuleParamFromDefinitionDataSource,
-		module_param.ModuleParamFromNamespaceDataSource,
-		module_param.ModuleParamFromOutputDataSource,
-		module_param.ModuleParamFromOutputSetDataSource,
-		module_param.ModuleParamFromSecretDataSource,
-
-		namespace_env_var.NamespaceEnvVarFromLiteralDataSource,
-		namespace_env_var.NamespaceEnvVarFromDefinitionDataSource,
-		namespace_env_var.NamespaceEnvVarFromSecretDataSource,
-
-		namespace_param.NamespaceParamFromLiteralDataSource,
-		namespace_param.NamespaceParamFromDefinitionDataSource,
-		namespace_param.NamespaceParamFromSecretDataSource,
+		namespace_input.NamespaceInputFromLiteralDataSource,
+		namespace_input.NamespaceInputFromDefinitionDataSource,
+		namespace_input.NamespaceInputFromSecretDataSource,
 
 		secret_store.AzureKeyVaultSecretStoreDataSource,
 		secret_store.AwsSecretsManagerSecretStoreDataSource,
@@ -420,27 +407,16 @@ func (p *snapcdProvider) Resources(_ context.Context) []func() resource.Resource
 		identity.GroupResource,
 		identity.GroupMemberResource,
 
-		module_env_var.ModuleEnvVarFromLiteralResource,
-		module_env_var.ModuleEnvVarFromDefinitionResource,
-		module_env_var.ModuleEnvVarFromNamespaceResource,
-		module_env_var.ModuleEnvVarFromOutputResource,
-		module_env_var.ModuleEnvVarFromOutputSetResource,
-		module_env_var.ModuleEnvVarFromSecretResource,
+		module_input.ModuleInputFromLiteralResource,
+		module_input.ModuleInputFromDefinitionResource,
+		module_input.ModuleInputFromNamespaceResource,
+		module_input.ModuleInputFromOutputResource,
+		module_input.ModuleInputFromOutputSetResource,
+		module_input.ModuleInputFromSecretResource,
 
-		module_param.ModuleParamFromLiteralResource,
-		module_param.ModuleParamFromDefinitionResource,
-		module_param.ModuleParamFromNamespaceResource,
-		module_param.ModuleParamFromOutputResource,
-		module_param.ModuleParamFromOutputSetResource,
-		module_param.ModuleParamFromSecretResource,
-
-		namespace_env_var.NamespaceEnvVarFromLiteralResource,
-		namespace_env_var.NamespaceEnvVarFromDefinitionResource,
-		namespace_env_var.NamespaceEnvVarFromSecretResource,
-
-		namespace_param.NamespaceParamFromLiteralResource,
-		namespace_param.NamespaceParamFromDefinitionResource,
-		namespace_param.NamespaceParamFromSecretResource,
+		namespace_input.NamespaceInputFromLiteralResource,
+		namespace_input.NamespaceInputFromDefinitionResource,
+		namespace_input.NamespaceInputFromSecretResource,
 
 		role_assignment.ResourceRoleAssignmentResource,
 		role_assignment.TypeRoleAssignmentResource,
