@@ -57,7 +57,7 @@ func (r *awsSecretsManagerSecretStoreResource) Metadata(ctx context.Context, req
 type awsSecretsManagerSecretStoreModel struct {
 	Name                  types.String `tfsdk:"name"`
 	Id                    types.String `tfsdk:"id"`
-	Region           types.String `tfsdk:"region"`
+	Region                types.String `tfsdk:"region"`
 	IsAssignedToAllScopes types.Bool   `tfsdk:"is_assigned_to_all_scopes"`
 }
 

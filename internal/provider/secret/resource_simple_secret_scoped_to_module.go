@@ -64,7 +64,7 @@ type simpleSecretScopedToModuleModel struct {
 
 func (r *simpleSecretScopedToModuleResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-        MarkdownDescription: "Secrets --- Manages a Simple Secret (Scoped to Module) in Snap CD.",
+		MarkdownDescription: "Secrets --- Manages a Simple Secret (Scoped to Module) in Snap CD.",
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed: true,
@@ -74,20 +74,20 @@ func (r *simpleSecretScopedToModuleResource) Schema(ctx context.Context, req res
 				Description: DescId,
 			},
 			"name": schema.StringAttribute{
-				Required: true,
+				Required:    true,
 				Description: DescName,
 			},
 			"value": schema.StringAttribute{
-				Required:  true,
-				Sensitive: true,
+				Required:    true,
+				Sensitive:   true,
 				Description: DescValue,
 			},
 			"module_id": schema.StringAttribute{
-				Required: true,
+				Required:    true,
 				Description: DescModuleId,
 			},
 			"secret_store_id": schema.StringAttribute{
-				Required: true,
+				Required:    true,
 				Description: DescSecretStoreId,
 			},
 		},

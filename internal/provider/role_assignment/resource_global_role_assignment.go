@@ -75,15 +75,15 @@ func (r *globalRoleAssignmentResource) Schema(ctx context.Context, req resource.
 				Description: SharedId + "Global Role Assignment.",
 			},
 			"principal_id": schema.StringAttribute{
-				Required: true,
-				Description: SharedPrincipalId ,
+				Required:    true,
+				Description: SharedPrincipalId,
 			},
 			"principal_discriminator": schema.StringAttribute{
 				Required: true,
 				Validators: []validator.String{
 					stringvalidator.OneOf("User", "ServicePrincipal", "Group"),
 				},
-				Description: SharedPrincipalDiscriminator ,
+				Description: SharedPrincipalDiscriminator,
 			},
 			"role_name": schema.StringAttribute{
 				Required: true,

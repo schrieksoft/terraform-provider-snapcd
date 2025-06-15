@@ -4,8 +4,6 @@ import (
 	providerconfig "terraform-provider-snapcd/internal/tests/providerconfig"
 )
 
-
-
 var DependsOnModuleCreateConfig = `
 resource "snapcd_depends_on_module" "this" { 
   module_id = snapcd_module.this.id

@@ -64,7 +64,7 @@ type awsSecretsManagerSecretScopedToNamespaceModel struct {
 
 func (r *awsSecretsManagerSecretScopedToNamespaceResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-        MarkdownDescription: "Secrets --- Manages a AWS Secrets Manager Secret (Scoped to Namespace) in Snap CD.",
+		MarkdownDescription: "Secrets --- Manages a AWS Secrets Manager Secret (Scoped to Namespace) in Snap CD.",
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed: true,
@@ -74,19 +74,19 @@ func (r *awsSecretsManagerSecretScopedToNamespaceResource) Schema(ctx context.Co
 				Description: DescId,
 			},
 			"name": schema.StringAttribute{
-				Required: true,
+				Required:    true,
 				Description: DescName,
 			},
 			"remote_secret_name": schema.StringAttribute{
-				Required: true,
+				Required:    true,
 				Description: DescRemoteName,
 			},
 			"namespace_id": schema.StringAttribute{
-				Required: true,
+				Required:    true,
 				Description: DescNamespaceId,
 			},
 			"secret_store_id": schema.StringAttribute{
-				Required: true,
+				Required:    true,
 				Description: DescSecretStoreId,
 			},
 		},

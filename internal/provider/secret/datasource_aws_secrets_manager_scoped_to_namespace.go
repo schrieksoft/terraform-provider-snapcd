@@ -51,23 +51,23 @@ func (d *awsSecretsManagerSecretScopedToNamespaceDataSource) Schema(ctx context.
 		MarkdownDescription: "Secrets --- Use this data source to access information about an existing AWS Secrets Manager Secret (Scoped to Namespace) in Snap CD.",
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
-				Computed: true,
+				Computed:    true,
 				Description: DescId,
 			},
 			"name": schema.StringAttribute{
-				Required: true,
+				Required:    true,
 				Description: DescName,
 			},
 			"remote_secret_name": schema.StringAttribute{
-				Computed: true,
+				Computed:    true,
 				Description: DescRemoteName,
 			},
 			"namespace_id": schema.StringAttribute{
-				Required: true,
+				Required:    true,
 				Description: DescNamespaceId,
 			},
 			"secret_store_id": schema.StringAttribute{
-				Computed: true,
+				Computed:    true,
 				Description: DescSecretStoreId,
 			},
 		},

@@ -64,7 +64,7 @@ type simpleSecretScopedToNamespaceModel struct {
 
 func (r *simpleSecretScopedToNamespaceResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-        MarkdownDescription: "Secrets --- Manages a Simple Secret (Scoped to Namespace) in Snap CD.",
+		MarkdownDescription: "Secrets --- Manages a Simple Secret (Scoped to Namespace) in Snap CD.",
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed: true,
@@ -74,20 +74,20 @@ func (r *simpleSecretScopedToNamespaceResource) Schema(ctx context.Context, req 
 				Description: DescId,
 			},
 			"name": schema.StringAttribute{
-				Required: true,
+				Required:    true,
 				Description: DescName,
 			},
 			"value": schema.StringAttribute{
-				Required:  true,
-				Sensitive: true,
+				Required:    true,
+				Sensitive:   true,
 				Description: DescValue,
 			},
 			"namespace_id": schema.StringAttribute{
-				Required: true,
+				Required:    true,
 				Description: DescNamespaceId,
 			},
 			"secret_store_id": schema.StringAttribute{
-				Required: true,
+				Required:    true,
 				Description: DescSecretStoreId,
 			},
 		},

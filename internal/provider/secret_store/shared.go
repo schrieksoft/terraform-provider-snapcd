@@ -5,5 +5,5 @@ const (
 	DescName                  = "Unique Name of the Secret Store."
 	DescIsAssignedToAllScopes = "If set to true, secrets scoped to any resource in the system (any Stack, Namespace, Module or Output) can be assigned to this Secret Store"
 	DescKeyVaultUrl           = "URL of the Key Vault backing the Secret Store."
-	DescRegion		          = "Region of the AWS Secrets Manager backing the Secret Store."
+	DescRegion                = "Region of the AWS Secrets Manager backing the Secret Store."
 )

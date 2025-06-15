@@ -64,7 +64,7 @@ type azureKeyVaultSecretScopedToNamespaceModel struct {
 
 func (r *azureKeyVaultSecretScopedToNamespaceResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-        MarkdownDescription: "Secrets --- Manages a Azure Key Vault Secret (Scoped to Namespace) in Snap CD.",
+		MarkdownDescription: "Secrets --- Manages a Azure Key Vault Secret (Scoped to Namespace) in Snap CD.",
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed: true,
@@ -74,19 +74,19 @@ func (r *azureKeyVaultSecretScopedToNamespaceResource) Schema(ctx context.Contex
 				Description: DescId,
 			},
 			"name": schema.StringAttribute{
-				Required: true,
+				Required:    true,
 				Description: DescName,
 			},
 			"remote_secret_name": schema.StringAttribute{
-				Required: true,
+				Required:    true,
 				Description: DescRemoteName,
 			},
 			"namespace_id": schema.StringAttribute{
-				Required: true,
+				Required:    true,
 				Description: DescNamespaceId,
 			},
 			"secret_store_id": schema.StringAttribute{
-				Required: true,
+				Required:    true,
 				Description: DescSecretStoreId,
 			},
 		},

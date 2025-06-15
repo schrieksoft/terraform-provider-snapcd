@@ -51,24 +51,24 @@ func (d *simpleSecretScopedToNamespaceDataSource) Schema(ctx context.Context, re
 		MarkdownDescription: "Secrets --- Use this data source to access information about an existing Simple Secret (Scoped to Namespace) in Snap CD.",
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
-				Computed: true,
+				Computed:    true,
 				Description: DescId,
 			},
 			"name": schema.StringAttribute{
-				Required: true,
+				Required:    true,
 				Description: DescName,
 			},
 			"value": schema.StringAttribute{
-				Computed:  true,
-				Sensitive: true,
+				Computed:    true,
+				Sensitive:   true,
 				Description: DescValue,
 			},
 			"namespace_id": schema.StringAttribute{
-				Required: true,
+				Required:    true,
 				Description: DescNamespaceId,
 			},
 			"secret_store_id": schema.StringAttribute{
-				Computed: true,
+				Computed:    true,
 				Description: DescSecretStoreId,
 			},
 		},

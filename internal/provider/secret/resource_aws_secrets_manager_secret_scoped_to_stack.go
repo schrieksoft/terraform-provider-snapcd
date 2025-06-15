@@ -64,7 +64,7 @@ type awsSecretsManagerSecretScopedToStackModel struct {
 
 func (r *awsSecretsManagerSecretScopedToStackResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-        MarkdownDescription: "Secrets --- Manages a AWS Secrets Manager Secret (Scoped to Stack) in Snap CD.",
+		MarkdownDescription: "Secrets --- Manages a AWS Secrets Manager Secret (Scoped to Stack) in Snap CD.",
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed: true,
@@ -74,19 +74,19 @@ func (r *awsSecretsManagerSecretScopedToStackResource) Schema(ctx context.Contex
 				Description: DescId,
 			},
 			"name": schema.StringAttribute{
-				Required: true,
+				Required:    true,
 				Description: DescName,
 			},
 			"remote_secret_name": schema.StringAttribute{
-				Required: true,
+				Required:    true,
 				Description: DescRemoteName,
 			},
 			"stack_id": schema.StringAttribute{
-				Required: true,
+				Required:    true,
 				Description: DescStackId,
 			},
 			"secret_store_id": schema.StringAttribute{
-				Required: true,
+				Required:    true,
 				Description: DescSecretStoreId,
 			},
 		},
