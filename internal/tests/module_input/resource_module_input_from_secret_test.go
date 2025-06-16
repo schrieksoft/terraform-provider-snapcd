@@ -12,7 +12,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 )
 
-var ModuleInputFromSecretCreateConfig = secret_store.AwsSecretsManagerSecretStoreCreateConfig + secret.SecretScopedToStackCreateConfigDelta + providerconfig.AppendRandomString(`
+var ModuleInputFromSecretCreateConfig = secret_store.AwsSecretStoreCreateConfig + secret.SecretScopedToStackCreateConfigDelta + providerconfig.AppendRandomString(`
 resource "snapcd_module_input_from_secret" "this" { 
   input_kind = "Param"
   module_id  = snapcd_module.this.id
@@ -49,7 +49,7 @@ func TestAccResourceModuleInputFromSecret_CreateUpdate(t *testing.T) {
 				),
 			},
 			{
-				Config: providerconfig.ProviderConfig + core.ModuleCreateConfig + secret_store.AwsSecretsManagerSecretStoreCreateConfig + secret.SecretScopedToStackCreateConfigDelta + providerconfig.AppendRandomString(`
+				Config: providerconfig.ProviderConfig + core.ModuleCreateConfig + secret_store.AwsSecretStoreCreateConfig + secret.SecretScopedToStackCreateConfigDelta + providerconfig.AppendRandomString(`
 resource "snapcd_module_input_from_secret" "this" { 
   input_kind = "Param"
   module_id  = snapcd_module.this.id

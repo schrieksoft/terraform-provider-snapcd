@@ -16,22 +16,22 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 )
 
-var awsSecretsManagerSecretStoreDefaultError = fmt.Sprintf("snapcd_aws_secrets_manager_secret_store error")
+var awsSecretStoreDefaultError = fmt.Sprintf("snapcd_aws_secret_store error")
 
-var awsSecretsManagerSecretStoreEndpoint = "/api/AwsSecretsManagerSecretStore"
+var awsSecretStoreEndpoint = "/api/AwsSecretStore"
 
-var _ resource.Resource = (*awsSecretsManagerSecretStoreResource)(nil)
+var _ resource.Resource = (*awsSecretStoreResource)(nil)
 
-func AwsSecretsManagerSecretStoreResource() resource.Resource {
-	return &awsSecretsManagerSecretStoreResource{}
+func AwsSecretStoreResource() resource.Resource {
+	return &awsSecretStoreResource{}
 }
 
-type awsSecretsManagerSecretStoreResource struct {
+type awsSecretStoreResource struct {
 	client *snapcd.Client
 }
 
 // Configure adds the provider configured client to the resource.
-func (r *awsSecretsManagerSecretStoreResource) Configure(_ context.Context, req resource.ConfigureRequest, resp *resource.ConfigureResponse) {
+func (r *awsSecretStoreResource) Configure(_ context.Context, req resource.ConfigureRequest, resp *resource.ConfigureResponse) {
 	if req.ProviderData == nil {
 		return
 	}
@@ -50,20 +50,20 @@ func (r *awsSecretsManagerSecretStoreResource) Configure(_ context.Context, req 
 	r.client = client
 }
 
-func (r *awsSecretsManagerSecretStoreResource) Metadata(ctx context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
-	resp.TypeName = req.ProviderTypeName + "_aws_secrets_manager_secret_store"
+func (r *awsSecretStoreResource) Metadata(ctx context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
+	resp.TypeName = req.ProviderTypeName + "_aws_secret_store"
 }
 
-type awsSecretsManagerSecretStoreModel struct {
+type awsSecretStoreModel struct {
 	Name                  types.String `tfsdk:"name"`
 	Id                    types.String `tfsdk:"id"`
 	Region                types.String `tfsdk:"region"`
 	IsAssignedToAllScopes types.Bool   `tfsdk:"is_assigned_to_all_scopes"`
 }
 
-func (r *awsSecretsManagerSecretStoreResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
+func (r *awsSecretStoreResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: "Secret Stores --- Manages an AWS Secrets Manager Secret Store in Snap CD.",
+		MarkdownDescription: "Secret Stores --- Manages an AWS Secret Store in Snap CD.",
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed: true,
@@ -88,8 +88,8 @@ func (r *awsSecretsManagerSecretStoreResource) Schema(ctx context.Context, req r
 	}
 }
 
-func (r *awsSecretsManagerSecretStoreResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
-	var data awsSecretsManagerSecretStoreModel
+func (r *awsSecretStoreResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
+	var data awsSecretStoreModel
 
 	// Read Terraform plan data into the model
 	resp.Diagnostics.Append(req.Plan.Get(ctx, &data)...)
@@ -100,17 +100,17 @@ func (r *awsSecretsManagerSecretStoreResource) Create(ctx context.Context, req r
 
 	jsonMap, err := utils.PlanToJson(data, []string{"id"})
 	if err != nil {
-		resp.Diagnostics.AddError(awsSecretsManagerSecretStoreDefaultError, "Failed to convert json to plan: "+err.Error())
+		resp.Diagnostics.AddError(awsSecretStoreDefaultError, "Failed to convert json to plan: "+err.Error())
 	}
 
 	if err != nil {
-		resp.Diagnostics.AddError(awsSecretsManagerSecretStoreDefaultError, "Failed to convert plan to json: "+err.Error())
+		resp.Diagnostics.AddError(awsSecretStoreDefaultError, "Failed to convert plan to json: "+err.Error())
 		return
 	}
 
-	result, httpError := r.client.Post(awsSecretsManagerSecretStoreEndpoint, jsonMap)
+	result, httpError := r.client.Post(awsSecretStoreEndpoint, jsonMap)
 	if httpError != nil && httpError.StatusCode == snapcd.Status442EntityAlreadyExists {
-		resp.Diagnostics.AddError(awsSecretsManagerSecretStoreDefaultError, "The resource you are trying to create already exists. To manage it with terraform you must import it")
+		resp.Diagnostics.AddError(awsSecretStoreDefaultError, "The resource you are trying to create already exists. To manage it with terraform you must import it")
 		return
 	}
 	if httpError != nil {
@@ -119,14 +119,14 @@ func (r *awsSecretsManagerSecretStoreResource) Create(ctx context.Context, req r
 		err = nil
 	}
 	if err != nil {
-		resp.Diagnostics.AddError(awsSecretsManagerSecretStoreDefaultError, "Error calling POST, unexpected error: "+err.Error())
+		resp.Diagnostics.AddError(awsSecretStoreDefaultError, "Error calling POST, unexpected error: "+err.Error())
 		return
 	}
 
 	err = utils.JsonToPlan(result, &data)
 
 	if err != nil {
-		resp.Diagnostics.AddError(awsSecretsManagerSecretStoreDefaultError, "Failed to convert json to plan: "+err.Error())
+		resp.Diagnostics.AddError(awsSecretStoreDefaultError, "Failed to convert json to plan: "+err.Error())
 		return
 	}
 
@@ -134,8 +134,8 @@ func (r *awsSecretsManagerSecretStoreResource) Create(ctx context.Context, req r
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
 
-func (r *awsSecretsManagerSecretStoreResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
-	var data awsSecretsManagerSecretStoreModel
+func (r *awsSecretStoreResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
+	var data awsSecretStoreModel
 
 	// Read Terraform prior state data into the model
 	resp.Diagnostics.Append(req.State.Get(ctx, &data)...)
@@ -145,7 +145,7 @@ func (r *awsSecretsManagerSecretStoreResource) Read(ctx context.Context, req res
 	}
 
 	// Read API call logic
-	result, httpError := r.client.Get(fmt.Sprintf("%s/%s", awsSecretsManagerSecretStoreEndpoint, data.Id.ValueString()))
+	result, httpError := r.client.Get(fmt.Sprintf("%s/%s", awsSecretStoreEndpoint, data.Id.ValueString()))
 	if httpError != nil && httpError.StatusCode == snapcd.Status441EntityNotFound {
 		// Resource was not found, so remove it from state
 		resp.State.RemoveResource(ctx)
@@ -158,14 +158,14 @@ func (r *awsSecretsManagerSecretStoreResource) Read(ctx context.Context, req res
 		err = nil
 	}
 	if err != nil {
-		resp.Diagnostics.AddError(awsSecretsManagerSecretStoreDefaultError, "Error calling GET, unexpected error: "+err.Error())
+		resp.Diagnostics.AddError(awsSecretStoreDefaultError, "Error calling GET, unexpected error: "+err.Error())
 		return
 	}
 
 	err = utils.JsonToPlan(result, &data)
 
 	if err != nil {
-		resp.Diagnostics.AddError(awsSecretsManagerSecretStoreDefaultError, "Failed to convert json to plan: "+err.Error())
+		resp.Diagnostics.AddError(awsSecretStoreDefaultError, "Failed to convert json to plan: "+err.Error())
 		return
 	}
 
@@ -173,9 +173,9 @@ func (r *awsSecretsManagerSecretStoreResource) Read(ctx context.Context, req res
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
 
-func (r *awsSecretsManagerSecretStoreResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
-	var data awsSecretsManagerSecretStoreModel
-	var state awsSecretsManagerSecretStoreModel
+func (r *awsSecretStoreResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
+	var data awsSecretStoreModel
+	var state awsSecretStoreModel
 
 	// Read Terraform prior state data into the model
 	resp.Diagnostics.Append(req.State.Get(ctx, &state)...)
@@ -191,23 +191,23 @@ func (r *awsSecretsManagerSecretStoreResource) Update(ctx context.Context, req r
 
 	jsonMap, err := utils.PlanToJson(data)
 	if err != nil {
-		resp.Diagnostics.AddError(awsSecretsManagerSecretStoreDefaultError, "Failed to convert json to plan: "+err.Error())
+		resp.Diagnostics.AddError(awsSecretStoreDefaultError, "Failed to convert json to plan: "+err.Error())
 	}
 
-	result, httpError := r.client.Put(fmt.Sprintf("%s/%s", awsSecretsManagerSecretStoreEndpoint, state.Id.ValueString()), jsonMap)
+	result, httpError := r.client.Put(fmt.Sprintf("%s/%s", awsSecretStoreEndpoint, state.Id.ValueString()), jsonMap)
 	if httpError != nil {
 		err = httpError.Error
 	} else {
 		err = nil
 	}
 	if err != nil {
-		resp.Diagnostics.AddError(awsSecretsManagerSecretStoreDefaultError, "Error calling PUT, unexpected error: "+err.Error())
+		resp.Diagnostics.AddError(awsSecretStoreDefaultError, "Error calling PUT, unexpected error: "+err.Error())
 		return
 	}
 
 	err = utils.JsonToPlan(result, &data)
 	if err != nil {
-		resp.Diagnostics.AddError(awsSecretsManagerSecretStoreDefaultError, "Failed to convert json to plan: "+err.Error())
+		resp.Diagnostics.AddError(awsSecretStoreDefaultError, "Failed to convert json to plan: "+err.Error())
 		return
 	}
 
@@ -215,8 +215,8 @@ func (r *awsSecretsManagerSecretStoreResource) Update(ctx context.Context, req r
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
 
-func (r *awsSecretsManagerSecretStoreResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
-	var data awsSecretsManagerSecretStoreModel
+func (r *awsSecretStoreResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
+	var data awsSecretStoreModel
 
 	// Read Terraform prior state data into the model
 	resp.Diagnostics.Append(req.State.Get(ctx, &data)...)
@@ -226,7 +226,7 @@ func (r *awsSecretsManagerSecretStoreResource) Delete(ctx context.Context, req r
 	}
 
 	// Delete API call logic
-	_, httpError := r.client.Delete(fmt.Sprintf("%s/%s", awsSecretsManagerSecretStoreEndpoint, data.Id.ValueString()))
+	_, httpError := r.client.Delete(fmt.Sprintf("%s/%s", awsSecretStoreEndpoint, data.Id.ValueString()))
 	if httpError != nil && httpError.StatusCode == snapcd.Status441EntityNotFound {
 		// Resource was not found, so remove it from state
 		resp.State.RemoveResource(ctx)
@@ -239,15 +239,15 @@ func (r *awsSecretsManagerSecretStoreResource) Delete(ctx context.Context, req r
 		err = nil
 	}
 	if err != nil {
-		resp.Diagnostics.AddError(awsSecretsManagerSecretStoreDefaultError, "Error calling DELETE, unexpected error: "+err.Error())
+		resp.Diagnostics.AddError(awsSecretStoreDefaultError, "Error calling DELETE, unexpected error: "+err.Error())
 		return
 	}
 }
 
-func (r *awsSecretsManagerSecretStoreResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
-	var data awsSecretsManagerSecretStoreModel
+func (r *awsSecretStoreResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
+	var data awsSecretStoreModel
 
-	result, httpError := r.client.Get(fmt.Sprintf("%s/%s", awsSecretsManagerSecretStoreEndpoint, req.ID))
+	result, httpError := r.client.Get(fmt.Sprintf("%s/%s", awsSecretStoreEndpoint, req.ID))
 	var err error
 	if httpError != nil {
 		err = httpError.Error
@@ -255,13 +255,13 @@ func (r *awsSecretsManagerSecretStoreResource) ImportState(ctx context.Context, 
 		err = nil
 	}
 	if err != nil {
-		resp.Diagnostics.AddError(awsSecretsManagerSecretStoreDefaultError, "Error calling GET, unexpected error: "+err.Error())
+		resp.Diagnostics.AddError(awsSecretStoreDefaultError, "Error calling GET, unexpected error: "+err.Error())
 		return
 	}
 
 	err = utils.JsonToPlan(result, &data)
 	if err != nil {
-		resp.Diagnostics.AddError(awsSecretsManagerSecretStoreDefaultError, "Failed to convert json to plan: "+err.Error())
+		resp.Diagnostics.AddError(awsSecretStoreDefaultError, "Failed to convert json to plan: "+err.Error())
 		return
 	}
 

@@ -1,13 +1,13 @@
 ---
-page_title: "snapcd_aws_secrets_manager_secret_store Resource - snapcd"
+page_title: "snapcd_aws_secret_store Resource - snapcd"
 subcategory: "Secret Stores"
 description: |-
-  Manages an AWS Secrets Manager Secret Store in Snap CD.
+  Manages an AWS Secret Store in Snap CD.
 ---
 
-# snapcd_aws_secrets_manager_secret_store (Resource)
+# snapcd_aws_secret_store (Resource)
 
-Manages an AWS Secrets Manager Secret Store in Snap CD.
+Manages an AWS Secret Store in Snap CD.
 
 
 

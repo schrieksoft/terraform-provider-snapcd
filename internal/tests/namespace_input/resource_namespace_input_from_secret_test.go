@@ -12,7 +12,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 )
 
-var NamespaceInputFromSecretCreateConfig = secret_store.AwsSecretsManagerSecretStoreCreateConfig + secret.SecretScopedToStackCreateConfigDelta + providerconfig.AppendRandomString(`
+var NamespaceInputFromSecretCreateConfig = secret_store.AwsSecretStoreCreateConfig + secret.SecretScopedToStackCreateConfigDelta + providerconfig.AppendRandomString(`
 resource "snapcd_namespace_input_from_secret" "this" { 
   input_kind 	= "Param"
   namespace_id  = snapcd_namespace.this.id
@@ -48,7 +48,7 @@ func TestAccResourceNamespaceInputFromSecret_CreateUpdate(t *testing.T) {
 				),
 			},
 			{
-				Config: providerconfig.ProviderConfig + core.NamespaceCreateConfig + secret_store.AwsSecretsManagerSecretStoreCreateConfig + secret.SecretScopedToModuleCreateConfigDelta + providerconfig.AppendRandomString(`
+				Config: providerconfig.ProviderConfig + core.NamespaceCreateConfig + secret_store.AwsSecretStoreCreateConfig + secret.SecretScopedToModuleCreateConfigDelta + providerconfig.AppendRandomString(`
 resource "snapcd_namespace_input_from_secret" "this" { 
   input_kind 	= "Param"
   namespace_id  = snapcd_namespace.this.id

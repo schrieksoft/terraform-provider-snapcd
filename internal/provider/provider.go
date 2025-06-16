@@ -372,8 +372,8 @@ func (p *snapcdProvider) DataSources(_ context.Context) []func() datasource.Data
 		namespace_input.NamespaceInputFromDefinitionDataSource,
 		namespace_input.NamespaceInputFromSecretDataSource,
 
-		secret_store.AzureKeyVaultSecretStoreDataSource,
-		secret_store.AwsSecretsManagerSecretStoreDataSource,
+		secret_store.AzureSecretStoreDataSource,
+		secret_store.AwsSecretStoreDataSource,
 		secret_store.SimpleSecretStoreDataSource,
 
 		secret.SecretScopedToStackDataSource,
@@ -414,9 +414,9 @@ func (p *snapcdProvider) Resources(_ context.Context) []func() resource.Resource
 		role_assignment.TypeRoleAssignmentResource,
 		role_assignment.GlobalRoleAssignmentResource,
 
-		secret_store.AzureKeyVaultSecretStoreResource,
+		secret_store.AzureSecretStoreResource,
 		secret_store.SimpleSecretStoreResource,
-		secret_store.AwsSecretsManagerSecretStoreResource,
+		secret_store.AwsSecretStoreResource,
 
 		secret.SecretScopedToStackResource,
 		secret.SecretScopedToNamespaceResource,

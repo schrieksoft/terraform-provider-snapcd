@@ -1,13 +1,13 @@
 ---
-page_title: "snapcd_aws_secrets_manager_secret_store Data Source - snapcd"
+page_title: "snapcd_aws_secret_store Data Source - snapcd"
 subcategory: "Secret Stores"
 description: |-
-  Use this data source to access information about an existing AWS Secrets Manager Secret Store in Snap CD.
+  Use this data source to access information about an existing AWS Secret Store in Snap CD.
 ---
 
-# snapcd_aws_secrets_manager_secret_store (Data Source)
+# snapcd_aws_secret_store (Data Source)
 
-Use this data source to access information about an existing AWS Secrets Manager Secret Store in Snap CD.
+Use this data source to access information about an existing AWS Secret Store in Snap CD.
 
 
 

@@ -13,17 +13,17 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
 )
 
-var _ datasource.DataSource = (*awsSecretsManagerSecretStoreDataSource)(nil)
+var _ datasource.DataSource = (*awsSecretStoreDataSource)(nil)
 
-func AwsSecretsManagerSecretStoreDataSource() datasource.DataSource {
-	return &awsSecretsManagerSecretStoreDataSource{}
+func AwsSecretStoreDataSource() datasource.DataSource {
+	return &awsSecretStoreDataSource{}
 }
 
-type awsSecretsManagerSecretStoreDataSource struct {
+type awsSecretStoreDataSource struct {
 	client *snapcd.Client
 }
 
-func (r *awsSecretsManagerSecretStoreDataSource) Configure(_ context.Context, req datasource.ConfigureRequest, resp *datasource.ConfigureResponse) {
+func (r *awsSecretStoreDataSource) Configure(_ context.Context, req datasource.ConfigureRequest, resp *datasource.ConfigureResponse) {
 	if req.ProviderData == nil {
 		return
 	}
@@ -42,13 +42,13 @@ func (r *awsSecretsManagerSecretStoreDataSource) Configure(_ context.Context, re
 	r.client = client
 }
 
-func (d *awsSecretsManagerSecretStoreDataSource) Metadata(ctx context.Context, req datasource.MetadataRequest, resp *datasource.MetadataResponse) {
-	resp.TypeName = req.ProviderTypeName + "_aws_secrets_manager_secret_store"
+func (d *awsSecretStoreDataSource) Metadata(ctx context.Context, req datasource.MetadataRequest, resp *datasource.MetadataResponse) {
+	resp.TypeName = req.ProviderTypeName + "_aws_secret_store"
 }
 
-func (d *awsSecretsManagerSecretStoreDataSource) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
+func (d *awsSecretStoreDataSource) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: "Secret Stores --- Use this data source to access information about an existing AWS Secrets Manager Secret Store in Snap CD.",
+		MarkdownDescription: "Secret Stores --- Use this data source to access information about an existing AWS Secret Store in Snap CD.",
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed:    true,
@@ -70,8 +70,8 @@ func (d *awsSecretsManagerSecretStoreDataSource) Schema(ctx context.Context, req
 	}
 }
 
-func (d *awsSecretsManagerSecretStoreDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var data awsSecretsManagerSecretStoreModel
+func (d *awsSecretStoreDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
+	var data awsSecretStoreModel
 
 	resp.Diagnostics.Append(req.Config.Get(ctx, &data)...)
 
@@ -79,7 +79,7 @@ func (d *awsSecretsManagerSecretStoreDataSource) Read(ctx context.Context, req d
 		return
 	}
 
-	result, httpError := d.client.Get(fmt.Sprintf("%s/ByName/%s", awsSecretsManagerSecretStoreEndpoint, data.Name.ValueString()))
+	result, httpError := d.client.Get(fmt.Sprintf("%s/ByName/%s", awsSecretStoreEndpoint, data.Name.ValueString()))
 	var err error
 	if httpError != nil {
 		err = httpError.Error
@@ -88,14 +88,14 @@ func (d *awsSecretsManagerSecretStoreDataSource) Read(ctx context.Context, req d
 	}
 
 	if err != nil {
-		resp.Diagnostics.AddError(awsSecretsManagerSecretStoreDefaultError, "Error creating calling GET, unexpected error: "+err.Error())
+		resp.Diagnostics.AddError(awsSecretStoreDefaultError, "Error creating calling GET, unexpected error: "+err.Error())
 		return
 	}
 
 	err = utils.JsonToPlan(result, &data)
 
 	if err != nil {
-		resp.Diagnostics.AddError(awsSecretsManagerSecretStoreDefaultError, "Failed to convert map to struct: "+err.Error())
+		resp.Diagnostics.AddError(awsSecretStoreDefaultError, "Failed to convert map to struct: "+err.Error())
 		return
 	}
 

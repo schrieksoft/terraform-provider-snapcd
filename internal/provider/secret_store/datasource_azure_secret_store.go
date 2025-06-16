@@ -13,17 +13,17 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
 )
 
-var _ datasource.DataSource = (*azureKeyVaultSecretStoreDataSource)(nil)
+var _ datasource.DataSource = (*azureSecretStoreDataSource)(nil)
 
-func AzureKeyVaultSecretStoreDataSource() datasource.DataSource {
-	return &azureKeyVaultSecretStoreDataSource{}
+func AzureSecretStoreDataSource() datasource.DataSource {
+	return &azureSecretStoreDataSource{}
 }
 
-type azureKeyVaultSecretStoreDataSource struct {
+type azureSecretStoreDataSource struct {
 	client *snapcd.Client
 }
 
-func (r *azureKeyVaultSecretStoreDataSource) Configure(_ context.Context, req datasource.ConfigureRequest, resp *datasource.ConfigureResponse) {
+func (r *azureSecretStoreDataSource) Configure(_ context.Context, req datasource.ConfigureRequest, resp *datasource.ConfigureResponse) {
 	if req.ProviderData == nil {
 		return
 	}
@@ -42,13 +42,13 @@ func (r *azureKeyVaultSecretStoreDataSource) Configure(_ context.Context, req da
 	r.client = client
 }
 
-func (d *azureKeyVaultSecretStoreDataSource) Metadata(ctx context.Context, req datasource.MetadataRequest, resp *datasource.MetadataResponse) {
-	resp.TypeName = req.ProviderTypeName + "_azure_key_vault_secret_store"
+func (d *azureSecretStoreDataSource) Metadata(ctx context.Context, req datasource.MetadataRequest, resp *datasource.MetadataResponse) {
+	resp.TypeName = req.ProviderTypeName + "_azure_secret_store"
 }
 
-func (d *azureKeyVaultSecretStoreDataSource) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
+func (d *azureSecretStoreDataSource) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: "Secret Stores --- Use this data source to access information about an existing Azure Key Vault Secret Store in Snap CD.",
+		MarkdownDescription: "Secret Stores --- Use this data source to access information about an existing Azure Secret Store in Snap CD.",
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed:    true,
@@ -70,8 +70,8 @@ func (d *azureKeyVaultSecretStoreDataSource) Schema(ctx context.Context, req dat
 	}
 }
 
-func (d *azureKeyVaultSecretStoreDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var data azureKeyVaultSecretStoreModel
+func (d *azureSecretStoreDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
+	var data azureSecretStoreModel
 
 	resp.Diagnostics.Append(req.Config.Get(ctx, &data)...)
 
@@ -79,7 +79,7 @@ func (d *azureKeyVaultSecretStoreDataSource) Read(ctx context.Context, req datas
 		return
 	}
 
-	result, httpError := d.client.Get(fmt.Sprintf("%s/ByName/%s", azureKeyVaultSecretStoreEndpoint, data.Name.ValueString()))
+	result, httpError := d.client.Get(fmt.Sprintf("%s/ByName/%s", azureSecretStoreEndpoint, data.Name.ValueString()))
 	var err error
 	if httpError != nil {
 		err = httpError.Error
@@ -88,14 +88,14 @@ func (d *azureKeyVaultSecretStoreDataSource) Read(ctx context.Context, req datas
 	}
 
 	if err != nil {
-		resp.Diagnostics.AddError(azureKeyVaultSecretStoreDefaultError, "Error creating calling GET, unexpected error: "+err.Error())
+		resp.Diagnostics.AddError(azureSecretStoreDefaultError, "Error creating calling GET, unexpected error: "+err.Error())
 		return
 	}
 
 	err = utils.JsonToPlan(result, &data)
 
 	if err != nil {
-		resp.Diagnostics.AddError(azureKeyVaultSecretStoreDefaultError, "Failed to convert map to struct: "+err.Error())
+		resp.Diagnostics.AddError(azureSecretStoreDefaultError, "Failed to convert map to struct: "+err.Error())
 		return
 	}
 

@@ -16,7 +16,7 @@ func TestAccResourceSecretStoreNamespaceAssignment_Create(t *testing.T) {
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + core.NamespaceCreateConfig + secret_store.AzureKeyVaultSecretStoreCreateConfig + AzureKeyVaultSecretStoreNamespaceAssignmentCreateConfig,
+				Config: providerconfig.ProviderConfig + core.NamespaceCreateConfig + secret_store.AzureSecretStoreCreateConfig + AzureSecretStoreNamespaceAssignmentCreateConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_secret_store_namespace_assignment.this", "id"),
 				),
@@ -30,7 +30,7 @@ func TestAccResourceSecretStoreNamespaceAssignment_Import(t *testing.T) {
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + core.NamespaceCreateConfig + secret_store.AzureKeyVaultSecretStoreCreateConfig + AzureKeyVaultSecretStoreNamespaceAssignmentCreateConfig,
+				Config: providerconfig.ProviderConfig + core.NamespaceCreateConfig + secret_store.AzureSecretStoreCreateConfig + AzureSecretStoreNamespaceAssignmentCreateConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_secret_store_namespace_assignment.this", "id"),
 				),
