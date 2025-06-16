@@ -15,6 +15,5 @@ const (
 	DescSharedSecretName     = "Name of the Secret to take as input."
 	DescSharedSecretType     = "The data type of the Secret to take as input. Must be one of 'String' and 'NotString'. Use 'NotString' for values such as numbers, bools, list, maps etc."
 	DescSharedSecretScope    = "Scope on which the Secret to take as input as been stored. Must be one of 'Stack', 'Namespace' and 'Module'"
-	DescSharedInputKind		 = "The kind of input. Must be one of 'Param' or 'EnvVar'. Changing this will force the resource to be recreated."
-
+	DescSharedInputKind      = "The kind of input. Must be one of 'Param' or 'EnvVar'. Changing this will force the resource to be recreated."
 )

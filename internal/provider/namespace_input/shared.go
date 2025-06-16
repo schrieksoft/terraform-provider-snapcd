@@ -13,5 +13,5 @@ const (
 	DescSharedSecretType     = "Type of literal input the secret value should be formatted as. Must be one of 'String' and 'NotString'. Use 'NotString' for values such as numbers, bools, list, maps etc."
 	DescSharedSecretScope    = "Scope on which the Secret to take as input as been stored. Must be one of 'Stack' or 'Namespace'."
 	DescSharedUsage          = "Whether the input should be used by default on all Modules, or only when explicitly selected on the Module itself. Must be one of 'UseIfSelected' and 'UseByDefault'"
-	DescSharedInputKind		 = "The kind of input. Must be one of 'Param' or 'EnvVar'. Changing this will force the resource to be recreated."
+	DescSharedInputKind      = "The kind of input. Must be one of 'Param' or 'EnvVar'. Changing this will force the resource to be recreated."
 )

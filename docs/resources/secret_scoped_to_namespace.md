@@ -1,13 +1,13 @@
 ---
-page_title: "snapcd_aws_secrets_manager_secret_scoped_to_namespace Resource - snapcd"
+page_title: "snapcd_secret_scoped_to_namespace Resource - snapcd"
 subcategory: "Secrets"
 description: |-
-  Manages a AWS Secrets Manager Secret (Scoped to Namespace) in Snap CD.
+  Manages a Secret (Scoped to Namespace) in Snap CD.
 ---
 
-# snapcd_aws_secrets_manager_secret_scoped_to_namespace (Resource)
+# snapcd_secret_scoped_to_namespace (Resource)
 
-Manages a AWS Secrets Manager Secret (Scoped to Namespace) in Snap CD.
+Manages a Secret (Scoped to Namespace) in Snap CD.
 
 
 

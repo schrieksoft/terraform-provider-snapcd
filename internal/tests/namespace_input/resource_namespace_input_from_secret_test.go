@@ -6,17 +6,18 @@ import (
 	"terraform-provider-snapcd/internal/tests/core"
 	"terraform-provider-snapcd/internal/tests/providerconfig"
 	"terraform-provider-snapcd/internal/tests/secret"
+	"terraform-provider-snapcd/internal/tests/secret_store"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 )
 
-var NamespaceInputFromSecretCreateConfig = secret.SimpleSecretCreateConfig + providerconfig.AppendRandomString(`
+var NamespaceInputFromSecretCreateConfig = secret_store.AwsSecretsManagerSecretStoreCreateConfig + secret.SecretScopedToStackCreateConfigDelta + providerconfig.AppendRandomString(`
 resource "snapcd_namespace_input_from_secret" "this" { 
-  input_kind = "Param"
-  namespace_id = snapcd_namespace.this.id
-  name  	= "somevalue%s"
-  secret_id = snapcd_simple_secret.this.id
+  input_kind 	= "Param"
+  namespace_id  = snapcd_namespace.this.id
+  name  		= "somevalue%s"
+  secret_id 	= snapcd_secret_scoped_to_stack.this.id
 }
   
 `)
@@ -47,13 +48,13 @@ func TestAccResourceNamespaceInputFromSecret_CreateUpdate(t *testing.T) {
 				),
 			},
 			{
-				Config: providerconfig.ProviderConfig + core.NamespaceCreateConfig + secret.SimpleSecretCreateConfig + providerconfig.AppendRandomString(`
+				Config: providerconfig.ProviderConfig + core.NamespaceCreateConfig + secret_store.AwsSecretsManagerSecretStoreCreateConfig + secret.SecretScopedToModuleCreateConfigDelta + providerconfig.AppendRandomString(`
 resource "snapcd_namespace_input_from_secret" "this" { 
-  input_kind = "Param"
-  namespace_id = snapcd_namespace.this.id
-  name  = "somevalue%s"
-  secret_id = snapcd_simple_secret.this.id
-  usage_mode = "UseByDefault"
+  input_kind 	= "Param"
+  namespace_id  = snapcd_namespace.this.id
+  name  		= "somevalue%s"
+  secret_id 	= snapcd_secret_scoped_to_stack.this.id
+  usage_mode 	= "UseByDefault"
 }`),
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_namespace_input_from_secret.this", "id"),

@@ -1,13 +1,13 @@
 ---
-page_title: "snapcd_aws_secrets_manager_secret_scoped_to_module Resource - snapcd"
+page_title: "snapcd_secret_scoped_to_stack Resource - snapcd"
 subcategory: "Secrets"
 description: |-
-  Manages a AWS Secrets Manager Secret (Scoped to Module) in Snap CD.
+  Manages a Secret (Scoped to Stack) in Snap CD.
 ---
 
-# snapcd_aws_secrets_manager_secret_scoped_to_module (Resource)
+# snapcd_secret_scoped_to_stack (Resource)
 
-Manages a AWS Secrets Manager Secret (Scoped to Module) in Snap CD.
+Manages a Secret (Scoped to Stack) in Snap CD.
 
 
 
@@ -17,10 +17,10 @@ Manages a AWS Secrets Manager Secret (Scoped to Module) in Snap CD.
 
 ### Required
 
-- `module_id` (String) Id of the Module to scope the Secret to
 - `name` (String) Unique Name within of the Secret within the Secret Store.
 - `remote_secret_name` (String) Name of the (remote) secret within the Azure Key Vault that backs the Secret Store defined in `secret_store_id`.
 - `secret_store_id` (String) Unique ID of the Secret.
+- `stack_id` (String) Id of the Stack to scope the Secret to
 
 ### Read-Only
 

@@ -376,17 +376,9 @@ func (p *snapcdProvider) DataSources(_ context.Context) []func() datasource.Data
 		secret_store.AwsSecretsManagerSecretStoreDataSource,
 		secret_store.SimpleSecretStoreDataSource,
 
-		secret.AzureKeyVaultSecretScopedToStackDataSource,
-		secret.AzureKeyVaultSecretScopedToNamespaceDataSource,
-		secret.AzureKeyVaultSecretScopedToModuleDataSource,
-
-		secret.AwsSecretsManagerSecretScopedToStackDataSource,
-		secret.AwsSecretsManagerSecretScopedToNamespaceDataSource,
-		secret.AwsSecretsManagerSecretScopedToModuleDataSource,
-
-		secret.SimpleSecretScopedToStackDataSource,
-		secret.SimpleSecretScopedToNamespaceDataSource,
-		secret.SimpleSecretScopedToModuleDataSource,
+		secret.SecretScopedToStackDataSource,
+		secret.SecretScopedToNamespaceDataSource,
+		secret.SecretScopedToModuleDataSource,
 
 		extra_files.NamespaceExtraFileDataSource,
 		extra_files.ModuleExtraFileDataSource,
@@ -426,17 +418,9 @@ func (p *snapcdProvider) Resources(_ context.Context) []func() resource.Resource
 		secret_store.SimpleSecretStoreResource,
 		secret_store.AwsSecretsManagerSecretStoreResource,
 
-		secret.AzureKeyVaultSecretScopedToStackResource,
-		secret.AzureKeyVaultSecretScopedToNamespaceResource,
-		secret.AzureKeyVaultSecretScopedToModuleResource,
-
-		secret.AwsSecretsManagerSecretScopedToStackResource,
-		secret.AwsSecretsManagerSecretScopedToNamespaceResource,
-		secret.AwsSecretsManagerSecretScopedToModuleResource,
-
-		secret.SimpleSecretScopedToStackResource,
-		secret.SimpleSecretScopedToNamespaceResource,
-		secret.SimpleSecretScopedToModuleResource,
+		secret.SecretScopedToStackResource,
+		secret.SecretScopedToNamespaceResource,
+		secret.SecretScopedToModuleResource,
 
 		secret_store_assignment.SecretStoreStackAssignmentResource,
 		secret_store_assignment.SecretStoreNamespaceAssignmentResource,

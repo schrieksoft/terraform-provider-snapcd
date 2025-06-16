@@ -13,17 +13,17 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
 )
 
-var _ datasource.DataSource = (*azureKeyVaultSecretScopedToModuleDataSource)(nil)
+var _ datasource.DataSource = (*secretScopedToModuleDataSource)(nil)
 
-func AzureKeyVaultSecretScopedToModuleDataSource() datasource.DataSource {
-	return &azureKeyVaultSecretScopedToModuleDataSource{}
+func SecretScopedToModuleDataSource() datasource.DataSource {
+	return &secretScopedToModuleDataSource{}
 }
 
-type azureKeyVaultSecretScopedToModuleDataSource struct {
+type secretScopedToModuleDataSource struct {
 	client *snapcd.Client
 }
 
-func (r *azureKeyVaultSecretScopedToModuleDataSource) Configure(_ context.Context, req datasource.ConfigureRequest, resp *datasource.ConfigureResponse) {
+func (r *secretScopedToModuleDataSource) Configure(_ context.Context, req datasource.ConfigureRequest, resp *datasource.ConfigureResponse) {
 	if req.ProviderData == nil {
 		return
 	}
@@ -42,13 +42,13 @@ func (r *azureKeyVaultSecretScopedToModuleDataSource) Configure(_ context.Contex
 	r.client = client
 }
 
-func (d *azureKeyVaultSecretScopedToModuleDataSource) Metadata(ctx context.Context, req datasource.MetadataRequest, resp *datasource.MetadataResponse) {
-	resp.TypeName = req.ProviderTypeName + "_azure_key_vault_secret_scoped_to_module"
+func (d *secretScopedToModuleDataSource) Metadata(ctx context.Context, req datasource.MetadataRequest, resp *datasource.MetadataResponse) {
+	resp.TypeName = req.ProviderTypeName + "_secret_scoped_to_module"
 }
 
-func (d *azureKeyVaultSecretScopedToModuleDataSource) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
+func (d *secretScopedToModuleDataSource) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: "Secrets --- Use this data source to access information about an existing Azure Key Vault Secret (Scoped to Module) in Snap CD.",
+		MarkdownDescription: "Secrets --- Use this data source to access information about an existing Secret (Scoped to Module) in Snap CD.",
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed:    true,
@@ -74,8 +74,8 @@ func (d *azureKeyVaultSecretScopedToModuleDataSource) Schema(ctx context.Context
 	}
 }
 
-func (d *azureKeyVaultSecretScopedToModuleDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var data azureKeyVaultSecretScopedToModuleModel
+func (d *secretScopedToModuleDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
+	var data secretScopedToModuleModel
 
 	resp.Diagnostics.Append(req.Config.Get(ctx, &data)...)
 
@@ -83,7 +83,7 @@ func (d *azureKeyVaultSecretScopedToModuleDataSource) Read(ctx context.Context, 
 		return
 	}
 
-	result, httpError := d.client.Get(fmt.Sprintf("%s/ByName/%s", azureKeyVaultSecretScopedToModuleEndpoint, data.Name.ValueString()))
+	result, httpError := d.client.Get(fmt.Sprintf("%s/ByName/%s", secretScopedToModuleEndpoint, data.Name.ValueString()))
 	var err error
 	if httpError != nil {
 		err = httpError.Error
@@ -92,14 +92,14 @@ func (d *azureKeyVaultSecretScopedToModuleDataSource) Read(ctx context.Context, 
 	}
 
 	if err != nil {
-		resp.Diagnostics.AddError(azureKeyVaultSecretScopedToModuleDefaultError, "Error creating calling GET, unexpected error: "+err.Error())
+		resp.Diagnostics.AddError(secretScopedToModuleDefaultError, "Error creating calling GET, unexpected error: "+err.Error())
 		return
 	}
 
 	err = utils.JsonToPlan(result, &data)
 
 	if err != nil {
-		resp.Diagnostics.AddError(azureKeyVaultSecretScopedToModuleDefaultError, "Failed to convert map to struct: "+err.Error())
+		resp.Diagnostics.AddError(secretScopedToModuleDefaultError, "Failed to convert map to struct: "+err.Error())
 		return
 	}
 

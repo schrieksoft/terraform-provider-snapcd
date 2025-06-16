@@ -1,13 +1,13 @@
 ---
-page_title: "snapcd_aws_secrets_manager_secret_scoped_to_stack Data Source - snapcd"
+page_title: "snapcd_secret_scoped_to_stack Data Source - snapcd"
 subcategory: "Secrets"
 description: |-
-  Use this data source to access information about an existing AWS Secrets Manager Secret (Scoped to Stack) in Snap CD.
+  Use this data source to access information about an existing Secret (Scoped to Stack) in Snap CD.
 ---
 
-# snapcd_aws_secrets_manager_secret_scoped_to_stack (Data Source)
+# snapcd_secret_scoped_to_stack (Data Source)
 
-Use this data source to access information about an existing AWS Secrets Manager Secret (Scoped to Stack) in Snap CD.
+Use this data source to access information about an existing Secret (Scoped to Stack) in Snap CD.
 
 
 

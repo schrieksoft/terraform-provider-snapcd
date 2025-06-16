@@ -1,13 +1,13 @@
 ---
-page_title: "snapcd_aws_secrets_manager_secret_scoped_to_namespace Data Source - snapcd"
+page_title: "snapcd_secret_scoped_to_namespace Data Source - snapcd"
 subcategory: "Secrets"
 description: |-
-  Use this data source to access information about an existing AWS Secrets Manager Secret (Scoped to Namespace) in Snap CD.
+  Use this data source to access information about an existing Secret (Scoped to Namespace) in Snap CD.
 ---
 
-# snapcd_aws_secrets_manager_secret_scoped_to_namespace (Data Source)
+# snapcd_secret_scoped_to_namespace (Data Source)
 
-Use this data source to access information about an existing AWS Secrets Manager Secret (Scoped to Namespace) in Snap CD.
+Use this data source to access information about an existing Secret (Scoped to Namespace) in Snap CD.
 
 
 

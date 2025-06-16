@@ -12,10 +12,10 @@ import (
 
 var NamespaceInputFromLiteralCreateConfig = providerconfig.AppendRandomString(`
 resource "snapcd_namespace_input_from_literal" "this" { 
-  input_kind = "Param"
-  namespace_id = snapcd_namespace.this.id
-  name  	= "somevalue%s"
-  literal_value  	= "bar"
+  input_kind 	= "Param"
+  namespace_id 	= snapcd_namespace.this.id
+  name  		= "somevalue%s"
+  literal_value	= "bar"
 }
   
 `)
@@ -48,10 +48,10 @@ func TestAccResourceNamespaceInputFromLiteral_CreateUpdate(t *testing.T) {
 			{
 				Config: providerconfig.ProviderConfig + core.NamespaceCreateConfig + `
 resource "snapcd_namespace_input_from_literal" "this" { 
-  input_kind = "Param"
-  namespace_id = snapcd_namespace.this.id
-  name  = "somevalue%s"
-  literal_value  = "barrr"
+  input_kind 	= "Param"
+  namespace_id  = snapcd_namespace.this.id
+  name  		= "somevalue%s"
+  literal_value = "barrr"
 }`,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_namespace_input_from_literal.this", "id"),
