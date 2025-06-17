@@ -126,6 +126,18 @@ func (d *namespaceDataSource) Schema(ctx context.Context, req datasource.SchemaR
 				Computed:    true,
 				Description: DescNamespaceTriggerBehaviourOnModified,
 			},
+			"default_apply_approval_threshold": schema.Int64Attribute{
+				Computed:    true,
+				Description: DescNamespaceDefaultApplyApprovalThreshold,
+			},
+			"default_destroy_approval_threshold": schema.Int64Attribute{
+				Computed:    true,
+				Description: DescNamespaceDefaultDestroyApprovalThreshold,
+			},
+			"default_approval_timeout_minutes": schema.Int64Attribute{
+				Computed:    true,
+				Description: DescNamespaceDefaultApprovalTimeoutMinutes,
+			},
 		},
 	}
 }

@@ -87,7 +87,7 @@ func (d *moduleInputFromLiteralDataSource) Read(ctx context.Context, req datasou
 		return
 	}
 
-	result, httpError := d.client.Get(fmt.Sprintf("%s/%s/%s?InputKind=%s", moduleInputFromLiteralEndpoint, data.ModuleId.ValueString(), data.Name.ValueString(), data.InputKind.ValueString()))
+	result, httpError := d.client.Get(fmt.Sprintf("%s/%s/%s", moduleInputFromLiteralEndpoint, data.ModuleId.ValueString(), data.Name.ValueString()))
 	var err error
 	if httpError != nil {
 		err = httpError.Error

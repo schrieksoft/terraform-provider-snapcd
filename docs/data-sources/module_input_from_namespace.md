@@ -43,4 +43,4 @@ data "snapcd_module_env_var_from_namespace" "myvar" {
 ### Read-Only
 
 - `id` (String) Unique ID of the Module Input (From Namespace).
-- `reference_name` (String) Name of the Namespace Input to pull in to take as input.
+- `namespace_input_id` (String) Id of the Namespace Input to pull take as input.

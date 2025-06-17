@@ -107,7 +107,6 @@ func (r *moduleInputFromDefinitionResource) Schema(ctx context.Context, req reso
 func (r *moduleInputFromDefinitionResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
 	var data moduleInputFromDefinitionModel
 
-	// Read Terraform plan data into the model
 	resp.Diagnostics.Append(req.Plan.Get(ctx, &data)...)
 
 	if resp.Diagnostics.HasError() {
@@ -124,7 +123,7 @@ func (r *moduleInputFromDefinitionResource) Create(ctx context.Context, req reso
 		return
 	}
 
-	result, httpError := r.client.Post(moduleInputFromDefinitionEndpoint+"?InputKind="+data.InputKind.ValueString(), jsonMap)
+	result, httpError := r.client.Post(moduleInputFromDefinitionEndpoint, jsonMap)
 	if httpError != nil && httpError.StatusCode == snapcd.Status442EntityAlreadyExists {
 		resp.Diagnostics.AddError(moduleInputFromDefinitionDefaultError, "The resource you are trying to create already exists. To manage it with terraform you must import it")
 		return
@@ -161,7 +160,7 @@ func (r *moduleInputFromDefinitionResource) Read(ctx context.Context, req resour
 	}
 
 	// Read API call logic
-	result, httpError := r.client.Get(fmt.Sprintf("%s/%s?InputKind=%s", moduleInputFromDefinitionEndpoint, data.Id.ValueString(), data.InputKind.ValueString()))
+	result, httpError := r.client.Get(fmt.Sprintf("%s/%s", moduleInputFromDefinitionEndpoint, data.Id.ValueString()))
 	if httpError != nil && httpError.StatusCode == snapcd.Status441EntityNotFound {
 		// Resource was not found, so remove it from state
 		resp.State.RemoveResource(ctx)
@@ -210,7 +209,7 @@ func (r *moduleInputFromDefinitionResource) Update(ctx context.Context, req reso
 		resp.Diagnostics.AddError(moduleInputFromDefinitionDefaultError, "Failed to convert json to plan: "+err.Error())
 	}
 
-	result, httpError := r.client.Put(fmt.Sprintf("%s/%s?InputKind=%s", moduleInputFromDefinitionEndpoint, state.Id.ValueString(), data.InputKind.ValueString()), jsonMap)
+	result, httpError := r.client.Put(fmt.Sprintf("%s/%s", moduleInputFromDefinitionEndpoint, state.Id.ValueString()), jsonMap)
 	if httpError != nil {
 		err = httpError.Error
 	} else {
@@ -242,7 +241,7 @@ func (r *moduleInputFromDefinitionResource) Delete(ctx context.Context, req reso
 	}
 
 	// Delete API call logic
-	_, httpError := r.client.Delete(fmt.Sprintf("%s/%s?InputKind=%s", moduleInputFromDefinitionEndpoint, data.Id.ValueString(), data.InputKind.ValueString()))
+	_, httpError := r.client.Delete(fmt.Sprintf("%s/%s", moduleInputFromDefinitionEndpoint, data.Id.ValueString()))
 	if httpError != nil && httpError.StatusCode == snapcd.Status441EntityNotFound {
 		// Resource was not found, so remove it from state
 		resp.State.RemoveResource(ctx)

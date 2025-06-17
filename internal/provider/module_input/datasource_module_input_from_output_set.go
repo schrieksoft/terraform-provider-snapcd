@@ -83,7 +83,7 @@ func (d *moduleInputFromOutputSetDataSource) Read(ctx context.Context, req datas
 		return
 	}
 
-	result, httpError := d.client.Get(fmt.Sprintf("%s/%s/%s?InputKind=%s", moduleInputFromOutputSetEndpoint, data.ModuleId.ValueString(), data.Name.ValueString(), data.InputKind.ValueString()))
+	result, httpError := d.client.Get(fmt.Sprintf("%s/%s/%s", moduleInputFromOutputSetEndpoint, data.ModuleId.ValueString(), data.Name.ValueString()))
 	var err error
 	if httpError != nil {
 		err = httpError.Error

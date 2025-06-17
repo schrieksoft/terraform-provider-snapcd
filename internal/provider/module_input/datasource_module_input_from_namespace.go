@@ -58,9 +58,9 @@ func (d *moduleInputFromNamespaceDataSource) Schema(ctx context.Context, req dat
 				Required:    true,
 				Description: DescSharedName1 + "Module Input (From Namespace). " + DescSharedName2,
 			},
-			"reference_name": schema.StringAttribute{
+			"namespace_input_id": schema.StringAttribute{
 				Computed:    true,
-				Description: DescSharedReferenceName,
+				Description: DescSharedNamespaceInputId,
 			},
 			"module_id": schema.StringAttribute{
 				Required:    true,
@@ -83,7 +83,7 @@ func (d *moduleInputFromNamespaceDataSource) Read(ctx context.Context, req datas
 		return
 	}
 
-	result, httpError := d.client.Get(fmt.Sprintf("%s/%s/%s?InputKind=%s", moduleInputFromNamespaceEndpoint, data.ModuleId.ValueString(), data.Name.ValueString(), data.InputKind.ValueString()))
+	result, httpError := d.client.Get(fmt.Sprintf("%s/%s/%s", moduleInputFromNamespaceEndpoint, data.ModuleId.ValueString(), data.Name.ValueString()))
 	var err error
 	if httpError != nil {
 		err = httpError.Error

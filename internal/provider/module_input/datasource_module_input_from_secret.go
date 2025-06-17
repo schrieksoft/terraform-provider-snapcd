@@ -87,7 +87,7 @@ func (d *moduleInputFromSecretDataSource) Read(ctx context.Context, req datasour
 		return
 	}
 
-	result, httpError := d.client.Get(fmt.Sprintf("%s/%s/%s?InputKind=%s", moduleInputFromSecretEndpoint, data.ModuleId.ValueString(), data.Name.ValueString(), data.InputKind.ValueString()))
+	result, httpError := d.client.Get(fmt.Sprintf("%s/%s/%s", moduleInputFromSecretEndpoint, data.ModuleId.ValueString(), data.Name.ValueString()))
 	var err error
 	if httpError != nil {
 		err = httpError.Error

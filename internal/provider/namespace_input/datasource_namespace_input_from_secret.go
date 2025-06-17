@@ -93,7 +93,7 @@ func (d *namespaceInputFromSecretDataSource) Read(ctx context.Context, req datas
 	}
 
 	// Read API call logic
-	result, httpError := d.client.Get(fmt.Sprintf("%s/%s/%s?InputKind=%s", namespaceInputFromSecretEndpoint, data.NamespaceId.ValueString(), data.Name.ValueString(), data.InputKind.ValueString()))
+	result, httpError := d.client.Get(fmt.Sprintf("%s/%s/%s", namespaceInputFromSecretEndpoint, data.NamespaceId.ValueString(), data.Name.ValueString()))
 
 	if httpError != nil {
 		resp.Diagnostics.AddError(namespaceInputFromSecretDefaultError, "Error calling GET: "+httpError.Error.Error())

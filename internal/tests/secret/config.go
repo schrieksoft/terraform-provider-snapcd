@@ -29,7 +29,7 @@ resource "snapcd_secret_scoped_to_module" "this" {
   module_id 	       = snapcd_module.this.id
 }`)
 
-var SecretScopedToStackCreateConfig = core.StackCreateConfig + secret_store.AwsSecretStoreCreateConfig + secret_store_assignment.AwsSecretStoreStackAssignmentCreateConfig
+var SecretScopedToStackCreateConfig = core.StackCreateConfig + secret_store.AwsSecretStoreCreateConfig + secret_store_assignment.AwsSecretStoreStackAssignmentCreateConfig + SecretScopedToStackCreateConfigDelta
 
 var SecretScopedToStackCreateConfigDelta = providerconfig.AppendRandomString(`
 resource "snapcd_secret_scoped_to_stack" "this" { 

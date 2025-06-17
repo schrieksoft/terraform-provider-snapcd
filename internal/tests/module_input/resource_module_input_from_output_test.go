@@ -26,7 +26,7 @@ func TestAccResourceModuleInputFromOutput_Create(t *testing.T) {
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + core.ModuleCreateConfig + ModuleInputFromOutputCreateConfig,
+				Config: providerconfig.ProviderConfig + core.ModuleCreateConfig + core.ModuleCreateConfigDeltaTwo + ModuleInputFromOutputCreateConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_module_input_from_output.this", "id"),
 				),
@@ -40,20 +40,20 @@ func TestAccResourceModuleInputFromOutput_CreateUpdate(t *testing.T) {
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + core.ModuleCreateConfig + ModuleInputFromOutputCreateConfig,
+				Config: providerconfig.ProviderConfig + core.ModuleCreateConfig + core.ModuleCreateConfigDeltaTwo + ModuleInputFromOutputCreateConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_module_input_from_output.this", "id"),
 					resource.TestCheckResourceAttr("snapcd_module_input_from_output.this", "name", providerconfig.AppendRandomString("somevalue%s")),
 				),
 			},
 			{
-				Config: providerconfig.ProviderConfig + core.ModuleCreateConfig + providerconfig.AppendRandomString(`
+				Config: providerconfig.ProviderConfig + core.ModuleCreateConfig + core.ModuleCreateConfigDeltaTwo + providerconfig.AppendRandomString(`
 resource "snapcd_module_input_from_output" "this" { 
-  input_kind = "Param"
-  module_id = snapcd_module.this.id
-  name  = "somevalue%s"
-  output_module_id  	= snapcd_module.this.id
-  output_name   = "bar"
+  input_kind 		= "Param"
+  module_id 		= snapcd_module.this.id
+  name  			= "somevalue%s"
+  output_module_id  = snapcd_module.this.id
+  output_name   	= "bar"
 }`),
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_module_input_from_output.this", "id"),
@@ -69,7 +69,7 @@ func TestAccResourceModuleInputFromOutput_Import(t *testing.T) {
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + core.ModuleCreateConfig + ModuleInputFromOutputCreateConfig,
+				Config: providerconfig.ProviderConfig + core.ModuleCreateConfig + core.ModuleCreateConfigDeltaTwo + ModuleInputFromOutputCreateConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_module_input_from_output.this", "id"),
 				),

@@ -92,7 +92,7 @@ func (d *namespaceInputFromDefinitionDataSource) Read(ctx context.Context, req d
 		return
 	}
 
-	result, httpError := d.client.Get(fmt.Sprintf("%s/%s/%s?InputKind=%s", namespaceInputFromDefinitionEndpoint, data.NamespaceId.ValueString(), data.Name.ValueString(), data.InputKind.ValueString()))
+	result, httpError := d.client.Get(fmt.Sprintf("%s/%s/%s", namespaceInputFromDefinitionEndpoint, data.NamespaceId.ValueString(), data.Name.ValueString()))
 	var err error
 	if httpError != nil {
 		err = httpError.Error

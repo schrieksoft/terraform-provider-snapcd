@@ -178,6 +178,18 @@ func (d *moduleDataSource) Schema(ctx context.Context, req datasource.SchemaRequ
 				Computed:    true,
 				Description: DescTriggerOnSourceChangedNotification,
 			},
+			"apply_approval_threshold": schema.Int64Attribute{
+				Computed:    true,
+				Description: DescModuleApplyApprovalThreshold,
+			},
+			"destroy_approval_threshold": schema.Int64Attribute{
+				Computed:    true,
+				Description: DescModuleDestroyApprovalThreshold,
+			},
+			"approval_timeout_minutes": schema.Int64Attribute{
+				Computed:    true,
+				Description: DescModuleApprovalTimeoutMinutes,
+			},
 		},
 	}
 }

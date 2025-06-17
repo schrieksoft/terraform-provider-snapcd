@@ -9,11 +9,11 @@ import (
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 )
 
-var DependsOnModuleDataSourceConfig = providerconfig.AppendRandomString(`
+var DependsOnModuleDataSourceConfig = `
 data "snapcd_depends_on_module" "this" {
   id = snapcd_depends_on_module.this.id
 }
-`)
+`
 
 func TestAccDataSourceDependsOnModule_Read(t *testing.T) {
 	resource.UnitTest(t, resource.TestCase{

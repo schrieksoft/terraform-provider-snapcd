@@ -55,7 +55,7 @@ resource "snapcd_module_input_from_namespace" "myparam" {
 - `input_kind` (String) The kind of input. Must be one of 'Param' or 'EnvVar'. Changing this will force the resource to be recreated.
 - `module_id` (String) ID of the Module Input (From Namespace)'s parent Module.
 - `name` (String) Name of the Module Input (From Namespace).  Must be unique in combination with `module_id`.
-- `reference_name` (String) Name of the Namespace Input to pull in to take as input.
+- `namespace_input_id` (String) Id of the Namespace Input to pull take as input.
 
 ### Read-Only
 

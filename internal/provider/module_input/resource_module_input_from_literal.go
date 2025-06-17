@@ -129,7 +129,7 @@ func (r *moduleInputFromLiteralResource) Create(ctx context.Context, req resourc
 		return
 	}
 
-	result, httpError := r.client.Post(moduleInputFromLiteralEndpoint+"?InputKind="+data.InputKind.ValueString(), jsonMap)
+	result, httpError := r.client.Post(moduleInputFromLiteralEndpoint, jsonMap)
 	if httpError != nil && httpError.StatusCode == snapcd.Status442EntityAlreadyExists {
 		resp.Diagnostics.AddError(moduleInputFromLiteralDefaultError, "The resource you are trying to create already exists. To manage it with terraform you must import it")
 		return
@@ -166,7 +166,7 @@ func (r *moduleInputFromLiteralResource) Read(ctx context.Context, req resource.
 	}
 
 	// Read API call logic
-	result, httpError := r.client.Get(fmt.Sprintf("%s/%s?InputKind=%s", moduleInputFromLiteralEndpoint, data.Id.ValueString(), data.InputKind.ValueString()))
+	result, httpError := r.client.Get(fmt.Sprintf("%s/%s", moduleInputFromLiteralEndpoint, data.Id.ValueString()))
 	if httpError != nil && httpError.StatusCode == snapcd.Status441EntityNotFound {
 		// Resource was not found, so remove it from state
 		resp.State.RemoveResource(ctx)
@@ -215,7 +215,7 @@ func (r *moduleInputFromLiteralResource) Update(ctx context.Context, req resourc
 		resp.Diagnostics.AddError(moduleInputFromLiteralDefaultError, "Failed to convert json to plan: "+err.Error())
 	}
 
-	result, httpError := r.client.Put(fmt.Sprintf("%s/%s?InputKind=%s", moduleInputFromLiteralEndpoint, state.Id.ValueString(), data.InputKind.ValueString()), jsonMap)
+	result, httpError := r.client.Put(fmt.Sprintf("%s/%s", moduleInputFromLiteralEndpoint, state.Id.ValueString()), jsonMap)
 	if httpError != nil {
 		err = httpError.Error
 	} else {
@@ -247,7 +247,7 @@ func (r *moduleInputFromLiteralResource) Delete(ctx context.Context, req resourc
 	}
 
 	// Delete API call logic
-	_, httpError := r.client.Delete(fmt.Sprintf("%s/%s?InputKind=%s", moduleInputFromLiteralEndpoint, data.Id.ValueString(), data.InputKind.ValueString()))
+	_, httpError := r.client.Delete(fmt.Sprintf("%s/%s", moduleInputFromLiteralEndpoint, data.Id.ValueString()))
 	if httpError != nil && httpError.StatusCode == snapcd.Status441EntityNotFound {
 		// Resource was not found, so remove it from state
 		resp.State.RemoveResource(ctx)

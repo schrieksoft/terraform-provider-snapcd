@@ -38,8 +38,11 @@ data "snapcd_module" "mymodule" {
 ### Read-Only
 
 - `apply_after_hook` (String) Shell script that should be executed after the 'Apply' step of any deployment is run. Setting this will override any default value set on the Module's parent Namespace.
+- `apply_approval_threshold` (Number) The number of Users (or Service Principals) that need to approve before an 'Apply' plan is executed. Setting this will override any default value set on the Module's parent Namespace. If set neither on Module nor on Namespace then a threshold of 0 is used.
 - `apply_before_hook` (String) Shell script that should be executed before the 'Apply' step of any deployment is run. Setting this will override any default value set on the Module's parent Namespace.
+- `approval_timeout_minutes` (Number) The number of minutes a Job should remain in the 'WaitingForApproval' in the case of an 'Apply' or 'Destroy' plan that requires approval. After this time elapses the Job will be stopped and any queued Jobs will start. Setting this will override any default value set on the Module's parent Namespace. If set neither on Module nor on Namespace the Jobs will wait for an approval decision indefinitely.
 - `destroy_after_hook` (String) Shell script that should be executed after the 'Destroy' step of any deployment is run. Setting this will override any default value set on the Module's parent Namespace.
+- `destroy_approval_threshold` (Number) The number of Users (or Service Principals) that need to approve before an 'Destroy' plan is executed. Setting this will override any default value set on the Module's parent Namespace. If set neither on Module nor on Namespace then a threshold of 0 is used.
 - `destroy_before_hook` (String) Shell script that should be executed before the 'Destroy' step of any deployment is run. Setting this will override any default value set on the Module's parent Namespace.
 - `engine` (String) Determines which binary will be used during deployment. Must be one of 'OpenTofu' and 'Terraform'. Setting this to 'OpenTofu' will use `tofu`. Setting it to 'Terraform' will use `terraform`. Setting this will override any default value set on the Module's parent Namespace.
 - `id` (String) Unique ID of the Module.

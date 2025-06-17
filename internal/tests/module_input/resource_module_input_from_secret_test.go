@@ -7,18 +7,27 @@ import (
 	"terraform-provider-snapcd/internal/tests/providerconfig"
 	"terraform-provider-snapcd/internal/tests/secret"
 	"terraform-provider-snapcd/internal/tests/secret_store"
+	"terraform-provider-snapcd/internal/tests/secret_store_assignment"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 )
 
-var ModuleInputFromSecretCreateConfig = secret_store.AwsSecretStoreCreateConfig + secret.SecretScopedToStackCreateConfigDelta + providerconfig.AppendRandomString(`
+var ModuleInputFromSecretCreateConfig = secret_store.AwsSecretStoreCreateConfig + secret_store_assignment.AwsSecretStoreStackAssignmentCreateConfig + secret.SecretScopedToStackCreateConfigDelta + providerconfig.AppendRandomString(`
 resource "snapcd_module_input_from_secret" "this" { 
-  input_kind = "Param"
+  input_kind 	= "Param"
   module_id  = snapcd_module.this.id
-  name  	 = "somevalue%s"
-  secret_id  = snapcd_secret_scoped_to_stack.this.id
-  type 		 = "NotString"
+  name  		= "somevalue%s"
+  secret_id 	= snapcd_secret_scoped_to_stack.this.id
+}
+`)
+
+var ModuleInputFromSecretCreateConfigNew = secret_store.AwsSecretStoreCreateConfig + secret_store_assignment.AwsSecretStoreStackAssignmentCreateConfig + secret.SecretScopedToStackCreateConfigDelta + providerconfig.AppendRandomString(`
+resource "snapcd_module_input_from_secret" "this" { 
+  input_kind 	= "Param"
+  module_id  = snapcd_module.this.id
+  name  		= "someNEWvalue%s"
+  secret_id 	= snapcd_secret_scoped_to_stack.this.id
 }
   
 `)
@@ -49,17 +58,10 @@ func TestAccResourceModuleInputFromSecret_CreateUpdate(t *testing.T) {
 				),
 			},
 			{
-				Config: providerconfig.ProviderConfig + core.ModuleCreateConfig + secret_store.AwsSecretStoreCreateConfig + secret.SecretScopedToStackCreateConfigDelta + providerconfig.AppendRandomString(`
-resource "snapcd_module_input_from_secret" "this" { 
-  input_kind = "Param"
-  module_id  = snapcd_module.this.id
-  name  	 = "somevalue%s"
-  secret_id  = snapcd_simple_secret_scoped_to_stack.this.id
-  type 		 = "NotString"
-}`),
+				Config: providerconfig.ProviderConfig + core.ModuleCreateConfig + ModuleInputFromSecretCreateConfigNew,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_module_input_from_secret.this", "id"),
-					resource.TestCheckResourceAttr("snapcd_module_input_from_secret.this", "type", "NotString"),
+					resource.TestCheckResourceAttr("snapcd_module_input_from_secret.this", "name", providerconfig.AppendRandomString("someNEWvalue%s")),
 				),
 			},
 		},

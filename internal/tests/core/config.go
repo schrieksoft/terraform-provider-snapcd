@@ -71,29 +71,20 @@ resource "snapcd_module" "three" {
 
 var ModuleCreateConfig = NamespaceCreateConfig + ModuleCreateConfigDelta
 
-var NamespaceCreateConfig = providerconfig.AppendRandomString(`
-data "snapcd_stack" "default" {
-  name  = "default"
-}
+var NamespaceCreateConfig = StackCreateConfig + providerconfig.AppendRandomString(`
 
 resource "snapcd_namespace" "this" {
   name                      = "somevalue%s"
-  stack_id			     		    = data.snapcd_stack.default.id
+  stack_id			     		    = snapcd_stack.this.id
   default_init_before_hook  = "foo"
   default_apply_approval_threshold = 1
 }
 `)
 
-var NamespaceUpdateConfig = providerconfig.AppendRandomString(`
-
-
-data "snapcd_stack" "default" {
-  name  = "default"
-}
-
+var NamespaceUpdateConfig = StackCreateConfig + providerconfig.AppendRandomString(`
 resource "snapcd_namespace" "this" {
   name                      = "somevalue%s"
-  stack_id			     		    = data.snapcd_stack.default.id
+  stack_id			     		    = snapcd_stack.this.id
   default_init_before_hook  = "bar"
 }
 

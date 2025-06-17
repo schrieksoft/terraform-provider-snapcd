@@ -57,11 +57,11 @@ func (r *moduleInputFromNamespaceResource) Metadata(ctx context.Context, req res
 }
 
 type moduleInputFromNamespaceModel struct {
-	Name          types.String `tfsdk:"name"`
-	Id            types.String `tfsdk:"id"`
-	ReferenceName types.String `tfsdk:"reference_name"`
-	ModuleId      types.String `tfsdk:"module_id"`
-	InputKind     types.String `tfsdk:"input_kind"`
+	Name             types.String `tfsdk:"name"`
+	Id               types.String `tfsdk:"id"`
+	NamespaceInputId types.String `tfsdk:"namespace_input_id"`
+	ModuleId         types.String `tfsdk:"module_id"`
+	InputKind        types.String `tfsdk:"input_kind"`
 }
 
 func (r *moduleInputFromNamespaceResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
@@ -79,9 +79,9 @@ func (r *moduleInputFromNamespaceResource) Schema(ctx context.Context, req resou
 				Required:    true,
 				Description: DescSharedName1 + "Module Input (From Namespace). " + DescSharedName2,
 			},
-			"reference_name": schema.StringAttribute{
+			"namespace_input_id": schema.StringAttribute{
 				Required:    true,
-				Description: DescSharedReferenceName,
+				Description: DescSharedNamespaceInputId,
 			},
 			"module_id": schema.StringAttribute{
 				Required:    true,
@@ -121,7 +121,7 @@ func (r *moduleInputFromNamespaceResource) Create(ctx context.Context, req resou
 		return
 	}
 
-	result, httpError := r.client.Post(moduleInputFromNamespaceEndpoint+"?InputKind="+data.InputKind.ValueString(), jsonMap)
+	result, httpError := r.client.Post(moduleInputFromNamespaceEndpoint, jsonMap)
 	if httpError != nil && httpError.StatusCode == snapcd.Status442EntityAlreadyExists {
 		resp.Diagnostics.AddError(moduleInputFromNamespaceDefaultError, "The resource you are trying to create already exists. To manage it with terraform you must import it")
 		return
@@ -158,7 +158,7 @@ func (r *moduleInputFromNamespaceResource) Read(ctx context.Context, req resourc
 	}
 
 	// Read API call logic
-	result, httpError := r.client.Get(fmt.Sprintf("%s/%s?InputKind=%s", moduleInputFromNamespaceEndpoint, data.Id.ValueString(), data.InputKind.ValueString()))
+	result, httpError := r.client.Get(fmt.Sprintf("%s/%s", moduleInputFromNamespaceEndpoint, data.Id.ValueString()))
 	if httpError != nil && httpError.StatusCode == snapcd.Status441EntityNotFound {
 		// Resource was not found, so remove it from state
 		resp.State.RemoveResource(ctx)
@@ -207,7 +207,7 @@ func (r *moduleInputFromNamespaceResource) Update(ctx context.Context, req resou
 		resp.Diagnostics.AddError(moduleInputFromNamespaceDefaultError, "Failed to convert json to plan: "+err.Error())
 	}
 
-	result, httpError := r.client.Put(fmt.Sprintf("%s/%s?InputKind=%s", moduleInputFromNamespaceEndpoint, state.Id.ValueString(), data.InputKind.ValueString()), jsonMap)
+	result, httpError := r.client.Put(fmt.Sprintf("%s/%s", moduleInputFromNamespaceEndpoint, state.Id.ValueString()), jsonMap)
 	if httpError != nil {
 		err = httpError.Error
 	} else {
@@ -239,7 +239,7 @@ func (r *moduleInputFromNamespaceResource) Delete(ctx context.Context, req resou
 	}
 
 	// Delete API call logic
-	_, httpError := r.client.Delete(fmt.Sprintf("%s/%s?InputKind=%s", moduleInputFromNamespaceEndpoint, data.Id.ValueString(), data.InputKind.ValueString()))
+	_, httpError := r.client.Delete(fmt.Sprintf("%s/%s", moduleInputFromNamespaceEndpoint, data.Id.ValueString()))
 	if httpError != nil && httpError.StatusCode == snapcd.Status441EntityNotFound {
 		// Resource was not found, so remove it from state
 		resp.State.RemoveResource(ctx)
