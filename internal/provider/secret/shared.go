@@ -8,5 +8,5 @@ const (
 	DescNamespaceId   = "Id of the Namespace to scope the Secret to"
 	DescStackId       = "Id of the Stack to scope the Secret to"
 	DescValue         = "Value of the to store in the Simple Secret Store. NOTE that this value **will** end up in the .tfstate file. If you wish to avoid this, create the secret directly via the API or Dashboard instead."
-	DescRemoteName	  = "Name of the (remote) secret within the Azure Key Vault that backs the Secret Store defined in `secret_store_id`."
+	DescRemoteName    = "Name of the (remote) secret within the Azure Key Vault that backs the Secret Store defined in `secret_store_id`."
 )

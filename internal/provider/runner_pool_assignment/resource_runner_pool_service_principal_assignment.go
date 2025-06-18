@@ -55,14 +55,14 @@ func (r *runnerPoolServicePrincipalAssignmentResource) Metadata(ctx context.Cont
 }
 
 type runnerPoolServicePrincipalAssignmentModel struct {
-	Id           types.String `tfsdk:"id"`
-	ServicePrincipalId      types.String `tfsdk:"service_principal_id"`
-	RunnerPoolId types.String `tfsdk:"runner_pool_id"`
+	Id                 types.String `tfsdk:"id"`
+	ServicePrincipalId types.String `tfsdk:"service_principal_id"`
+	RunnerPoolId       types.String `tfsdk:"runner_pool_id"`
 }
 
 func (r *runnerPoolServicePrincipalAssignmentResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-        MarkdownDescription: "Runner Pools --- Manages a Runner Pool ServicePrincipal Assignment in Snap CD.",
+		MarkdownDescription: "Runner Pools --- Manages a Runner Pool ServicePrincipal Assignment in Snap CD.",
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed: true,
@@ -72,11 +72,11 @@ func (r *runnerPoolServicePrincipalAssignmentResource) Schema(ctx context.Contex
 				Description: "Unique ID of the Runner Pool ServicePrincipal Assignment.",
 			},
 			"service_principal_id": schema.StringAttribute{
-				Required: true,
+				Required:    true,
 				Description: "ID of the ServicePrincipal to which the Runner Pool is assigned.",
 			},
 			"runner_pool_id": schema.StringAttribute{
-				Required: true,
+				Required:    true,
 				Description: "ID of the Runner Pool that is assigned to the ServicePrincipal.",
 			},
 		},

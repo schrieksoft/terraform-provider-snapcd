@@ -3,8 +3,8 @@
 package core
 
 import (
-	"testing"
 	providerconfig "terraform-provider-snapcd/internal/tests/providerconfig"
+	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 )

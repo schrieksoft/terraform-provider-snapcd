@@ -65,7 +65,6 @@ type resourceRoleAssignmentModel struct {
 	RoleName               types.String `tfsdk:"role_name"`
 }
 
-
 func (r *resourceRoleAssignmentResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
 		MarkdownDescription: `Identity Access Management --- Manages a Resource Role Assignment in Snap CD.`,
@@ -78,11 +77,11 @@ func (r *resourceRoleAssignmentResource) Schema(ctx context.Context, req resourc
 				Description: SharedId + "Resource Role Assignment.",
 			},
 			"resource_id": schema.StringAttribute{
-				Required: true,
+				Required:    true,
 				Description: SharedResourceId,
 			},
 			"principal_id": schema.StringAttribute{
-				Required: true,
+				Required:    true,
 				Description: SharedPrincipalId,
 			},
 			"principal_discriminator": schema.StringAttribute{
@@ -104,12 +103,11 @@ func (r *resourceRoleAssignmentResource) Schema(ctx context.Context, req resourc
 				Validators: []validator.String{
 					stringvalidator.OneOf("Owner", "Contributor", "Reader"),
 				},
-				Description: SharedRoleName  + "Must be one of 'Owner', 'Contributor' and 'Reader'",
+				Description: SharedRoleName + "Must be one of 'Owner', 'Contributor' and 'Reader'",
 			},
 		},
 	}
 }
-
 
 func (r *resourceRoleAssignmentResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
 	var data resourceRoleAssignmentModel

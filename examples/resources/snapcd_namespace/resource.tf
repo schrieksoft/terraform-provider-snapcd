@@ -36,7 +36,8 @@ resource "snapcd_module" "mymodule" {
 // Note that you can do this mapping irrespective of whether the Namespace Param's "Usage Mode" was set to "UseByDefault" or "UseIfSelected". 
 // However, it it was set to "UseByDefault", both "var.myvar_declared_on_namespace" and "var.myvar" will be provided as input variables
 // when the Module executes
-resource "snapcd_module_param_from_namespace" "myparam" {
+resource "snapcd_module_input_from_namespace" "myparam" {
+  input_kind     = "Param"
   name           = "myvar"
   reference_name = "myvar_declared_on_namespace"
   module_id      = snapcd_module.mymodule.id

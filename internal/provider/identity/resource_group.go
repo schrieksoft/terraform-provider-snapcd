@@ -78,11 +78,11 @@ func (r *groupResource) Schema(ctx context.Context, req resource.SchemaRequest, 
 				Description: DescGroupId,
 			},
 			"name": schema.StringAttribute{
-				Required: true,
+				Required:    true,
 				Description: DescGroupName,
 			},
 			"description": schema.StringAttribute{
-				Optional: true,
+				Optional:    true,
 				Description: DescGroupDescription,
 			},
 		},

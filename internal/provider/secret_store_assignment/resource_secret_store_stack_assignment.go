@@ -62,7 +62,7 @@ type secretStoreStackAssignmentModel struct {
 
 func (r *secretStoreStackAssignmentResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-        MarkdownDescription: "Secret Stores --- Manages an Secret Store Stack Assignment in Snap CD.",
+		MarkdownDescription: "Secret Stores --- Manages an Secret Store Stack Assignment in Snap CD.",
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed: true,
@@ -72,11 +72,11 @@ func (r *secretStoreStackAssignmentResource) Schema(ctx context.Context, req res
 				Description: DescId,
 			},
 			"stack_id": schema.StringAttribute{
-				Required: true,
+				Required:    true,
 				Description: "ID of the Stack to which to assign the Secret Store",
 			},
 			"secret_store_id": schema.StringAttribute{
-				Required: true,
+				Required:    true,
 				Description: DescSecretStoreId + "Stack",
 			},
 		},

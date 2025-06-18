@@ -24,7 +24,6 @@ func TestAccResourceRunnerPoolNamespaceAssignment_Create(t *testing.T) {
 	})
 }
 
-
 func TestAccResourceRunnerPoolNamespaceAssignment_Import(t *testing.T) {
 	resource.UnitTest(t, resource.TestCase{
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,

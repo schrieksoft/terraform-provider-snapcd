@@ -18,7 +18,6 @@ resource "snapcd_runner_pool_module_assignment" "this" {
   module_id        = snapcd_module.this.id
 }`
 
-
 var RunnerPoolServicePrincipalAssignmentCreateConfig = `
 data "snapcd_service_principal" "this" {
 	client_id = "IntegratedRunner"

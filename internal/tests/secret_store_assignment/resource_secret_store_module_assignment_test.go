@@ -16,7 +16,7 @@ func TestAccResourceSecretStoreModuleAssignment_Create(t *testing.T) {
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + core.ModuleCreateConfig + secret_store.AzureKeyVaultSecretStoreCreateConfig + AzureKeyVaultSecretStoreModuleAssignmentCreateConfig,
+				Config: providerconfig.ProviderConfig + core.ModuleCreateConfig + secret_store.AzureSecretStoreCreateConfig + AzureSecretStoreModuleAssignmentCreateConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_secret_store_module_assignment.this", "id"),
 				),
@@ -30,7 +30,7 @@ func TestAccResourceSecretStoreModuleAssignment_Import(t *testing.T) {
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + core.ModuleCreateConfig + secret_store.AzureKeyVaultSecretStoreCreateConfig + AzureKeyVaultSecretStoreModuleAssignmentCreateConfig,
+				Config: providerconfig.ProviderConfig + core.ModuleCreateConfig + secret_store.AzureSecretStoreCreateConfig + AzureSecretStoreModuleAssignmentCreateConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_secret_store_module_assignment.this", "id"),
 				),
