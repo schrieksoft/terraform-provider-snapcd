@@ -70,10 +70,6 @@ func (d *namespaceDataSource) Schema(ctx context.Context, req datasource.SchemaR
 				Computed:    true,
 				Description: DescNamespaceDefaultInitAfterHook,
 			},
-			"default_init_backend_args": schema.StringAttribute{
-				Computed:    true,
-				Description: DescNamespaceDefaultInitBackendArgs,
-			},
 			"default_plan_before_hook": schema.StringAttribute{
 				Computed:    true,
 				Description: DescNamespaceDefaultPlanBeforeHook,
@@ -113,6 +109,22 @@ func (d *namespaceDataSource) Schema(ctx context.Context, req datasource.SchemaR
 			"default_output_after_hook": schema.StringAttribute{
 				Computed:    true,
 				Description: DescNamespaceDefaultOutputAfterHook,
+			},
+			"default_auto_upgrade_enabled": schema.BoolAttribute{
+				Computed:    true,
+				Description: DescNamespaceAutoUpgradeEnabled,
+			},
+			"default_auto_reconfigure_enabled": schema.BoolAttribute{
+				Computed:    true,
+				Description: DescNamespaceAutoReconfigureEnabled,
+			},
+			"default_auto_migrate_enabled": schema.BoolAttribute{
+				Computed:    true,
+				Description: DescNamespaceAutoMigrateEnabled,
+			},
+			"default_clean_init_enabled": schema.BoolAttribute{
+				Computed:    true,
+				Description: DescNamespaceCleanInitEnabled,
 			},
 			"default_engine": schema.StringAttribute{
 				Computed:    true,

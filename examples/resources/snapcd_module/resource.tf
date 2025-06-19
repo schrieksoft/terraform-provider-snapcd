@@ -21,14 +21,4 @@ resource "snapcd_module" "mymodule" {
   runner_pool_id      = data.snapcd_runner_pool.default.id
   engine              = "OpenTofu"
 
-  // example of how to set optional backend args for "init"
-  init_backend_args = <<EOT
-    -backend-config="storage_account_name=somestorageaccount" \
-    -backend-config="container_name=terraform-states" \
-    -backend-config="key=mystatefile.tfstate" \
-    -backend-config="resource_group_name=someresourcegroup" \
-    -backend-config="subscription_id=xxxx-xxx-xxx-xxx-xxxx" \
-    -backend-config="tenant_id=zzzz-zzz-zzz-zzz-zzzzzz"
-  EOT
-
 }

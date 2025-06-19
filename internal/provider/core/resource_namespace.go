@@ -60,7 +60,6 @@ type namespaceModel struct {
 	StackId                         types.String `tfsdk:"stack_id"`
 	DefaultInitBeforeHook           types.String `tfsdk:"default_init_before_hook"`
 	DefaultInitAfterHook            types.String `tfsdk:"default_init_after_hook"`
-	DefaultInitBackendArgs          types.String `tfsdk:"default_init_backend_args"`
 	DefaultPlanBeforeHook           types.String `tfsdk:"default_plan_before_hook"`
 	DefaultPlanAfterHook            types.String `tfsdk:"default_plan_after_hook"`
 	DefaultApplyBeforeHook          types.String `tfsdk:"default_apply_before_hook"`
@@ -76,6 +75,10 @@ type namespaceModel struct {
 	DefaultApplyApprovalThreshold   types.Int64  `tfsdk:"default_apply_approval_threshold"`
 	DefaultDestroyApprovalThreshold types.Int64  `tfsdk:"default_destroy_approval_threshold"`
 	DefaultApprovalTimeoutMinutes   types.Int64  `tfsdk:"default_approval_timeout_minutes"`
+	DefaultAutoUpgradeEnabled       types.Bool   `tfsdk:"default_auto_upgrade_enabled"`
+	DefaultAutoReconfigureEnabled   types.Bool   `tfsdk:"default_auto_reconfigure_enabled"`
+	DefaultAutoMigrateEnabled       types.Bool   `tfsdk:"default_auto_migrate_enabled"`
+	DefaultCleanInitEnabled         types.Bool   `tfsdk:"default_clean_init_enabled"`
 
 	TriggerBehaviourOnModified types.String `tfsdk:"trigger_behaviour_on_modified"`
 }
@@ -104,6 +107,10 @@ const (
 	DescNamespaceDefaultOutputSecretStoreId      = DescSharedOutputSecretStoreId + DescNamespaceDefault
 	DescNamespaceDefaultApplyApprovalThreshold   = DescSharedApplyApprovalThreshold + DescNamespaceDefault + DescZeroThreshold
 	DescNamespaceDefaultDestroyApprovalThreshold = DescSharedDestroyApprovalThreshold + DescNamespaceDefault + DescZeroThreshold
+	DescNamespaceAutoUpgradeEnabled              = DescSharedAutoUpgradeEnabled + DescNamespaceDefault
+	DescNamespaceAutoReconfigureEnabled          = DescSharedAutoReconfigureEnabled + DescNamespaceDefault
+	DescNamespaceAutoMigrateEnabled              = DescSharedAutoMigrateEnabled + DescNamespaceDefault
+	DescNamespaceCleanInitEnabled                = DescSharedCleanInitEnabled + DescNamespaceDefault
 
 	DescNamespaceDefaultApprovalTimeoutMinutes = DescSharedApprovalTimeoutMinutes + DescNamespaceDefault + DescZeroTimeout
 
@@ -132,10 +139,6 @@ func (r *namespaceResource) Schema(ctx context.Context, req resource.SchemaReque
 			"stack_id": schema.StringAttribute{
 				Required:    true,
 				Description: DescNamespaceStackId,
-			},
-			"default_init_backend_args": schema.StringAttribute{
-				Optional:    true,
-				Description: DescNamespaceDefaultInitBackendArgs,
 			},
 			"default_init_before_hook": schema.StringAttribute{
 				Optional:    true,
@@ -185,6 +188,23 @@ func (r *namespaceResource) Schema(ctx context.Context, req resource.SchemaReque
 				Optional:    true,
 				Description: DescNamespaceDefaultOutputAfterHook,
 			},
+			"default_auto_upgrade_enabled": schema.BoolAttribute{
+				Optional:    true,
+				Description: DescNamespaceAutoUpgradeEnabled,
+			},
+			"default_auto_reconfigure_enabled": schema.BoolAttribute{
+				Optional:    true,
+				Description: DescNamespaceAutoReconfigureEnabled,
+			},
+			"default_auto_migrate_enabled": schema.BoolAttribute{
+				Optional:    true,
+				Description: DescNamespaceAutoMigrateEnabled,
+			},
+			"default_clean_init_enabled": schema.BoolAttribute{
+				Optional:    true,
+				Description: DescNamespaceCleanInitEnabled,
+			},
+
 			"default_engine": schema.StringAttribute{
 				Optional: true,
 				Validators: []validator.String{

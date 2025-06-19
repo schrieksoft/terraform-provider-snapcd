@@ -34,16 +34,6 @@ resource "snapcd_module" "mymodule" {
   source_subdirectory = "getting-started/two-module-dag/module2"
   runner_pool_id      = data.snapcd_runner_pool.default.id
   default_engine      = "OpenTofu"
-
-  // example of how to set optional (default) backend args for "init"
-  default_init_backend_args = <<EOT
-    -backend-config="storage_account_name=somestorageaccount" \
-    -backend-config="container_name=terraform-states" \
-    -backend-config="key=mystatefile.tfstate" \
-    -backend-config="resource_group_name=someresourcegroup" \
-    -backend-config="subscription_id=xxxx-xxx-xxx-xxx-xxxx" \
-    -backend-config="tenant_id=zzzz-zzz-zzz-zzz-zzzzzz"
-  EOT
 }
 
 
@@ -73,12 +63,15 @@ resource "snapcd_module_input_from_namespace" "myparam" {
 - `default_apply_approval_threshold` (Number) The number of Users (or Service Principals) that need to approve before an 'Apply' plan is executed. All modules in this Namespace will use this value, unless explicitly overriden on the Module itself. If set neither on Module nor on Namespace then a threshold of 0 is used.
 - `default_apply_before_hook` (String) Shell script that should be executed before the 'Apply' step of any deployment is run. All modules in this Namespace will use this value, unless explicitly overriden on the Module itself.
 - `default_approval_timeout_minutes` (Number) The number of minutes a Job should remain in the 'WaitingForApproval' in the case of an 'Apply' or 'Destroy' plan that requires approval. After this time elapses the Job will be stopped and any queued Jobs will start. All modules in this Namespace will use this value, unless explicitly overriden on the Module itself. If set neither on Module nor on Namespace the Jobs will wait for an approval decision indefinitely.
+- `default_auto_migrate_enabled` (Boolean) Setting this to true will add the `-migrate-state` flag whenever `init` is called. All modules in this Namespace will use this value, unless explicitly overriden on the Module itself.
+- `default_auto_reconfigure_enabled` (Boolean) Setting this to true will add the `-reconfigure` flag whenever `init` is called. All modules in this Namespace will use this value, unless explicitly overriden on the Module itself.
+- `default_auto_upgrade_enabled` (Boolean) Setting this to true will add the `-upgrade` flag whenever `init` is called. All modules in this Namespace will use this value, unless explicitly overriden on the Module itself.
+- `default_clean_init_enabled` (Boolean) Setting will remove all .terraform* files and folders (state files, locks, downloaded providers, downloaded modules etc.) and perform a clean init every time the Module is executed. All modules in this Namespace will use this value, unless explicitly overriden on the Module itself.
 - `default_destroy_after_hook` (String) Shell script that should be executed after the 'Destroy' step of any deployment is run. All modules in this Namespace will use this value, unless explicitly overriden on the Module itself.
 - `default_destroy_approval_threshold` (Number) The number of Users (or Service Principals) that need to approve before an 'Destroy' plan is executed. All modules in this Namespace will use this value, unless explicitly overriden on the Module itself. If set neither on Module nor on Namespace then a threshold of 0 is used.
 - `default_destroy_before_hook` (String) Shell script that should be executed before the 'Destroy' step of any deployment is run. All modules in this Namespace will use this value, unless explicitly overriden on the Module itself.
 - `default_engine` (String) Determines which binary will be used during deployment. Must be one of 'OpenTofu' and 'Terraform'. Setting this to 'OpenTofu' will use `tofu`. Setting it to 'Terraform' will use `terraform`. All modules in this Namespace will use this value, unless explicitly overriden on the Module itself.
 - `default_init_after_hook` (String) Shell script that should be executed after the 'Init' step of any deployment is run.All modules in this Namespace will use this value, unless explicitly overriden on the Module itself.
-- `default_init_backend_args` (String) Arguments to pass to the 'init' command in order to set the backend. This should be a text block.All modules in this Namespace will use this value, unless explicitly overriden on the Module itself.
 - `default_init_before_hook` (String) Shell script that should be executed before the 'Init' step of any deployment is run.All modules in this Namespace will use this value, unless explicitly overriden on the Module itself.
 - `default_output_after_hook` (String) Shell script that should be executed after the 'Output' step of any deployment is run. All modules in this Namespace will use this value, unless explicitly overriden on the Module itself.
 - `default_output_before_hook` (String) Shell script that should be executed before the 'Output' step of any deployment is run. All modules in this Namespace will use this value, unless explicitly overriden on the Module itself.

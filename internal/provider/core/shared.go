@@ -18,6 +18,11 @@ const (
 	DescSharedEngine                = "Determines which binary will be used during deployment. Must be one of 'OpenTofu' and 'Terraform'. Setting this to 'OpenTofu' will use `tofu`. Setting it to 'Terraform' will use `terraform`. "
 	DescSharedOutputSecretStoreId   = "The ID of the Secret Store that will be used to store this Module's outputs. Note that for an 'Output' step to successfully use this Secret Store, it must either be deployed as `is_assigned_to_all_scopes=true`, or assigned via module/namespace/stack assignment. "
 
+	DescSharedAutoUpgradeEnabled     = "Setting this to true will add the `-upgrade` flag whenever `init` is called. "
+	DescSharedAutoReconfigureEnabled = "Setting this to true will add the `-reconfigure` flag whenever `init` is called. "
+	DescSharedAutoMigrateEnabled     = "Setting this to true will add the `-migrate-state` flag whenever `init` is called. "
+	DescSharedCleanInitEnabled       = "Setting will remove all .terraform* files and folders (state files, locks, downloaded providers, downloaded modules etc.) and perform a clean init every time the Module is executed. "
+
 	DescSharedApplyApprovalThreshold   = "The number of Users (or Service Principals) that need to approve before an 'Apply' plan is executed. "
 	DescSharedDestroyApprovalThreshold = "The number of Users (or Service Principals) that need to approve before an 'Destroy' plan is executed. "
 	DescSharedApprovalTimeoutMinutes   = "The number of minutes a Job should remain in the 'WaitingForApproval' in the case of an 'Apply' or 'Destroy' plan that requires approval. After this time elapses the Job will be stopped and any queued Jobs will start. "

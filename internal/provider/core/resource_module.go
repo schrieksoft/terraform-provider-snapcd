@@ -72,7 +72,6 @@ type moduleModel struct {
 	RunnerSelfDeclaredName             types.String `tfsdk:"runner_self_declared_name"`
 	InitBeforeHook                     types.String `tfsdk:"init_before_hook"`
 	InitAfterHook                      types.String `tfsdk:"init_after_hook"`
-	InitBackendArgs                    types.String `tfsdk:"init_backend_args"`
 	PlanBeforeHook                     types.String `tfsdk:"plan_before_hook"`
 	PlanAfterHook                      types.String `tfsdk:"plan_after_hook"`
 	ApplyBeforeHook                    types.String `tfsdk:"apply_before_hook"`
@@ -92,40 +91,52 @@ type moduleModel struct {
 	ApplyApprovalThreshold             types.Int64  `tfsdk:"apply_approval_threshold"`
 	DestroyApprovalThreshold           types.Int64  `tfsdk:"destroy_approval_threshold"`
 	ApprovalTimeoutMinutes             types.Int64  `tfsdk:"approval_timeout_minutes"`
+	AutoUpgradeEnabled                 types.Bool   `tfsdk:"auto_upgrade_enabled"`
+	AutoReconfigureEnabled             types.Bool   `tfsdk:"auto_reconfigure_enabled"`
+	AutoMigrateEnabled                 types.Bool   `tfsdk:"auto_migrate_enabled"`
+	CleanInitEnabled                   types.Bool   `tfsdk:"clean_init_enabled"`
+	IgnoreNamespaceBackendConfigs      types.Bool   `tfsdk:"ignore_namespace_backend_configs"`
+	IgnoreNamespaceExtraFiles          types.Bool   `tfsdk:"ignore_namespace_extra_files"`
 }
 
 const (
 	DescModuleOverride = "Setting this will override any default value set on the Module's parent Namespace."
 
-	DescModuleId                       = "Unique ID of the Module."
-	DescModuleName                     = "Name of the Module. Must be unique in combination with `namespace_id`."
-	DescModuleNamespaceId              = "ID of the Module's parent Namespace."
-	DescModuleRunnerPoolId             = "ID of the Runner Pool that will receive the instructions when triggering a deployment on this Module."
-	DescModuleSourceRevision           = "Remote revision (e.g. version number, branch, commit or tag) where the source module code is found."
-	DescModuleSourceUrl                = "Remote URL where the source module code is found."
-	DescModuleSourceSubdirectory       = "Subdirectory where the source module code is found."
-	DescModuleDependsOnModules         = "A list on Snap CD Modules that this Module depends on. Note that Snap CD will automatically discover depedencies based on the Module using as inputs the outputs from another Module, so use `depends_on_modules` where you want to explicitly establish a dependency where outputs are not referenced as inputs."
-	DescModuleSourceType               = "The type of remote module store that the source module code should be retrieved from. Must be one of 'Git' or 'Registry'"
-	DescModuleSourceRevisionType       = "How Snap CD should interpret the `source_revision` field. Must be one of 'Default' or 'SemanticVersionRange'. Setting to 'Default' means Snap CD will interpret the revision type based on the source type (for example, for a 'Git' source type it will automatically figure out whether the `source_revision` refers to a branch, tag or commit). Setting to 'SemanticVersionRange' means that Snap CD will resolve the revision to a semantic version line `vX.Y.Z` (alternatively witout the 'v' prefix of that is how your semantic version are tagged, i.e. 'X.Y.Z'). It will take the highest version within the major or minor version range that you specify. For example, specify `v2.20.*` or `v2.*`. You can also specify a specific semantic version here, e.g. `v2.20.7`. In that case the behaviour is the same as with when using 'Default', except that only valid semantic versions are accepted. NOTE that 'SemanticVersionRange' is currently only supported in combination with the 'Git' `source_type`."
-	DescModuleRunnerSelfDeclaredName   = "Name of the Runner to select (should unique identify the Runner within the Runner Pool). If null a random Runner will be selected from the Runner pool on every deployment."
-	DescModuleInitBackendArgs          = DescSharedInitBackedArgs + DescModuleOverride
-	DescModuleInitBeforeHook           = DescSharedInitBeforeHook + DescModuleOverride
-	DescModuleInitAfterHook            = DescSharedInitAfterHook + DescModuleOverride
-	DescModulePlanBeforeHook           = DescSharedPlanBeforeHook + DescModuleOverride
-	DescModulePlanAfterHook            = DescSharedPlanAfterHook + DescModuleOverride
-	DescModulePlanDestroyBeforeHook    = DescSharedPlanDestroyBeforeHook + DescModuleOverride
-	DescModulePlanDestroyAfterHook     = DescSharedPlanDestroyAfterHook + DescModuleOverride
-	DescModuleApplyBeforeHook          = DescSharedApplyBeforeHook + DescModuleOverride
-	DescModuleApplyAfterHook           = DescSharedApplyAfterHook + DescModuleOverride
-	DescModuleDestroyBeforeHook        = DescSharedDestroyBeforeHook + DescModuleOverride
-	DescModuleDestroyAfterHook         = DescSharedDestroyAfterHook + DescModuleOverride
-	DescModuleOutputBeforeHook         = DescSharedOutputBeforeHook + DescModuleOverride
-	DescModuleOutputAfterHook          = DescSharedOutputAfterHook + DescModuleOverride
-	DescModuleEngine                   = DescSharedEngine + DescModuleOverride
-	DescModuleOutputSecretStoreId      = DescSharedOutputSecretStoreId + DescModuleOverride
-	DescModuleApplyApprovalThreshold   = DescSharedApplyApprovalThreshold + DescModuleOverride + DescZeroThreshold
-	DescModuleDestroyApprovalThreshold = DescSharedDestroyApprovalThreshold + DescModuleOverride + DescZeroThreshold
-	DescModuleApprovalTimeoutMinutes   = DescSharedApprovalTimeoutMinutes + DescModuleOverride + DescZeroTimeout
+	DescModuleId                            = "Unique ID of the Module."
+	DescModuleName                          = "Name of the Module. Must be unique in combination with `namespace_id`."
+	DescModuleNamespaceId                   = "ID of the Module's parent Namespace."
+	DescModuleRunnerPoolId                  = "ID of the Runner Pool that will receive the instructions when triggering a deployment on this Module."
+	DescModuleSourceRevision                = "Remote revision (e.g. version number, branch, commit or tag) where the source module code is found."
+	DescModuleSourceUrl                     = "Remote URL where the source module code is found."
+	DescModuleSourceSubdirectory            = "Subdirectory where the source module code is found."
+	DescModuleDependsOnModules              = "A list on Snap CD Modules that this Module depends on. Note that Snap CD will automatically discover depedencies based on the Module using as inputs the outputs from another Module, so use `depends_on_modules` where you want to explicitly establish a dependency where outputs are not referenced as inputs."
+	DescModuleSourceType                    = "The type of remote module store that the source module code should be retrieved from. Must be one of 'Git' or 'Registry'"
+	DescModuleSourceRevisionType            = "How Snap CD should interpret the `source_revision` field. Must be one of 'Default' or 'SemanticVersionRange'. Setting to 'Default' means Snap CD will interpret the revision type based on the source type (for example, for a 'Git' source type it will automatically figure out whether the `source_revision` refers to a branch, tag or commit). Setting to 'SemanticVersionRange' means that Snap CD will resolve the revision to a semantic version line `vX.Y.Z` (alternatively witout the 'v' prefix of that is how your semantic version are tagged, i.e. 'X.Y.Z'). It will take the highest version within the major or minor version range that you specify. For example, specify `v2.20.*` or `v2.*`. You can also specify a specific semantic version here, e.g. `v2.20.7`. In that case the behaviour is the same as with when using 'Default', except that only valid semantic versions are accepted. NOTE that 'SemanticVersionRange' is currently only supported in combination with the 'Git' `source_type`."
+	DescModuleRunnerSelfDeclaredName        = "Name of the Runner to select (should unique identify the Runner within the Runner Pool). If null a random Runner will be selected from the Runner pool on every deployment."
+	DescModuleInitBackendArgs               = DescSharedInitBackedArgs + DescModuleOverride
+	DescModuleInitBeforeHook                = DescSharedInitBeforeHook + DescModuleOverride
+	DescModuleInitAfterHook                 = DescSharedInitAfterHook + DescModuleOverride
+	DescModulePlanBeforeHook                = DescSharedPlanBeforeHook + DescModuleOverride
+	DescModulePlanAfterHook                 = DescSharedPlanAfterHook + DescModuleOverride
+	DescModulePlanDestroyBeforeHook         = DescSharedPlanDestroyBeforeHook + DescModuleOverride
+	DescModulePlanDestroyAfterHook          = DescSharedPlanDestroyAfterHook + DescModuleOverride
+	DescModuleApplyBeforeHook               = DescSharedApplyBeforeHook + DescModuleOverride
+	DescModuleApplyAfterHook                = DescSharedApplyAfterHook + DescModuleOverride
+	DescModuleDestroyBeforeHook             = DescSharedDestroyBeforeHook + DescModuleOverride
+	DescModuleDestroyAfterHook              = DescSharedDestroyAfterHook + DescModuleOverride
+	DescModuleOutputBeforeHook              = DescSharedOutputBeforeHook + DescModuleOverride
+	DescModuleOutputAfterHook               = DescSharedOutputAfterHook + DescModuleOverride
+	DescModuleEngine                        = DescSharedEngine + DescModuleOverride
+	DescModuleOutputSecretStoreId           = DescSharedOutputSecretStoreId + DescModuleOverride
+	DescModuleApplyApprovalThreshold        = DescSharedApplyApprovalThreshold + DescModuleOverride + DescZeroThreshold
+	DescModuleDestroyApprovalThreshold      = DescSharedDestroyApprovalThreshold + DescModuleOverride + DescZeroThreshold
+	DescModuleApprovalTimeoutMinutes        = DescSharedApprovalTimeoutMinutes + DescModuleOverride + DescZeroTimeout
+	DescModuleAutoUpgradeEnabled            = DescSharedAutoUpgradeEnabled + DescModuleOverride
+	DescModuleAutoReconfigureEnabled        = DescSharedAutoReconfigureEnabled + DescModuleOverride
+	DescModuleAutoMigrateEnabled            = DescSharedAutoMigrateEnabled + DescModuleOverride
+	DescModuleCleanInitEnabled              = DescSharedCleanInitEnabled + DescModuleOverride
+	DescModuleIgnoreNamespaceBackendConfigs = "If this is set to true, any Backend Configs that have been set on Namespace level will not be used on this specific Module."
+	DescModuleIgnoreNamespaceExtraFiles     = "If this is set to true, any Extra Files that have been set on Namespace level will not be used on this specific Module."
 
 	DescTriggerOnSourceChanged             = "Defaults to 'true'. If 'true', the Module will automatically be applied if the source it is referencing has changed. For example, if tracking a Git branch: a new commit would constitute a change."
 	DescTriggerOnSourceChangedNotification = "Defaults to 'false'. If 'true', the Module will automatically be applied if the 'api/Hooks/SourceChanged' endpoint is called for this Module. Use this if you want to use external tooling to inform Snap CD that a source has been changed. Consider setting `trigger_on_definition_changed` to 'false' when setting `trigger_on_definition_changed_hook` to 'true'"
@@ -200,10 +211,6 @@ func (r *moduleResource) Schema(ctx context.Context, req resource.SchemaRequest,
 				Optional:    true,
 				Description: DescModuleInitAfterHook,
 			},
-			"init_backend_args": schema.StringAttribute{
-				Optional:    true,
-				Description: DescModuleInitBackendArgs,
-			},
 			"plan_before_hook": schema.StringAttribute{
 				Optional:    true,
 				Description: DescModulePlanBeforeHook,
@@ -244,6 +251,35 @@ func (r *moduleResource) Schema(ctx context.Context, req resource.SchemaRequest,
 				Optional:    true,
 				Description: DescModuleOutputAfterHook,
 			},
+
+			"auto_upgrade_enabled": schema.BoolAttribute{
+				Optional:    true,
+				Description: DescModuleAutoUpgradeEnabled,
+			},
+			"auto_reconfigure_enabled": schema.BoolAttribute{
+				Optional:    true,
+				Description: DescModuleAutoReconfigureEnabled,
+			},
+			"auto_migrate_enabled": schema.BoolAttribute{
+				Optional:    true,
+				Description: DescModuleAutoMigrateEnabled,
+			},
+			"clean_init_enabled": schema.BoolAttribute{
+				Optional:    true,
+				Description: DescModuleCleanInitEnabled,
+			},
+			"ignore_namespace_extra_files": schema.BoolAttribute{
+				Optional:    true,
+				Computed:    true,
+				Description: DescModuleIgnoreNamespaceExtraFiles,
+				Default:     booldefault.StaticBool(false),
+			},
+			"ignore_namespace_backend_configs": schema.BoolAttribute{
+				Optional:    true,
+				Computed:    true,
+				Description: DescModuleIgnoreNamespaceBackendConfigs,
+				Default:     booldefault.StaticBool(false),
+			},
 			"engine": schema.StringAttribute{
 				Optional: true,
 				Validators: []validator.String{
@@ -255,7 +291,6 @@ func (r *moduleResource) Schema(ctx context.Context, req resource.SchemaRequest,
 				Optional:    true,
 				Description: DescModuleOutputSecretStoreId,
 			},
-
 			"apply_approval_threshold": schema.Int64Attribute{
 				Optional:    true,
 				Description: DescModuleApplyApprovalThreshold,
@@ -265,7 +300,6 @@ func (r *moduleResource) Schema(ctx context.Context, req resource.SchemaRequest,
 				Optional:    true,
 				Description: DescModuleDestroyApprovalThreshold,
 			},
-
 			"approval_timeout_minutes": schema.Int64Attribute{
 				Optional:    true,
 				Description: DescModuleApprovalTimeoutMinutes,

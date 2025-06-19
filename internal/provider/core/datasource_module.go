@@ -106,10 +106,6 @@ func (d *moduleDataSource) Schema(ctx context.Context, req datasource.SchemaRequ
 				Computed:    true,
 				Description: DescModuleInitAfterHook,
 			},
-			"init_backend_args": schema.StringAttribute{
-				Computed:    true,
-				Description: DescModuleInitBackendArgs,
-			},
 			"plan_before_hook": schema.StringAttribute{
 				Computed:    true,
 				Description: DescModulePlanBeforeHook,
@@ -142,6 +138,31 @@ func (d *moduleDataSource) Schema(ctx context.Context, req datasource.SchemaRequ
 				Computed:    true,
 				Description: DescModuleDestroyAfterHook,
 			},
+			"auto_upgrade_enabled": schema.BoolAttribute{
+				Computed:    true,
+				Description: DescModuleAutoUpgradeEnabled,
+			},
+			"auto_reconfigure_enabled": schema.BoolAttribute{
+				Computed:    true,
+				Description: DescModuleAutoReconfigureEnabled,
+			},
+			"auto_migrate_enabled": schema.BoolAttribute{
+				Computed:    true,
+				Description: DescModuleAutoMigrateEnabled,
+			},
+			"clean_init_enabled": schema.BoolAttribute{
+				Computed:    true,
+				Description: DescModuleCleanInitEnabled,
+			},
+			"ignore_namespace_extra_files": schema.BoolAttribute{
+				Computed:    true,
+				Description: DescModuleIgnoreNamespaceExtraFiles,
+			},
+			"ignore_namespace_backend_configs": schema.BoolAttribute{
+				Computed:    true,
+				Description: DescModuleIgnoreNamespaceBackendConfigs,
+			},
+
 			"output_before_hook": schema.StringAttribute{
 				Computed:    true,
 				Description: DescModuleOutputBeforeHook,

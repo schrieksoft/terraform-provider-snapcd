@@ -66,7 +66,7 @@ type moduleExtraFileModel struct {
 const (
 	DescModuleExtraFileId        = "Unique ID of the Module Extra File."
 	DescModuleExtraFileModuleId  = "ID of the Module Extra File's parent Module."
-	DescModuleExtraFileFilename  = "Name of the Module Extra File. This name will be use as the name of the file that is created. Must be unique in combination with `Module_id`."
+	DescModuleExtraFileFilename  = "Name of the Module Extra File. This name will be use as the name of the file that is created. Must be unique in combination with `module_id`."
 	DescModuleExtraFileContents  = "Contents of the Module Extra File"
 	DescModuleExtraFileOverwrite = "If true any pre-existing file with the same name will be overwritten."
 )

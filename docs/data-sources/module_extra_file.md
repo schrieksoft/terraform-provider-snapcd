@@ -36,7 +36,7 @@ data "snapcd_module_extra_file" "myextrafile" {
 
 ### Required
 
-- `file_name` (String) Name of the Module Extra File. This name will be use as the name of the file that is created. Must be unique in combination with `Module_id`.
+- `file_name` (String) Name of the Module Extra File. This name will be use as the name of the file that is created. Must be unique in combination with `module_id`.
 - `module_id` (String) ID of the Module Extra File's parent Module.
 
 ### Optional
