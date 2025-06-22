@@ -6,7 +6,7 @@ import (
 
 var AzureSecretStoreCreateConfig = providerconfig.AppendRandomString(`
 resource "snapcd_azure_secret_store" "this" { 
-  name  = "somevalue%s"
+  name          = "somevalue%s"
   key_vault_url = "https://snapcdlocaltesting.vault.azure.net/"
 }`)
 
@@ -17,6 +17,15 @@ resource "snapcd_simple_secret_store" "this" {
 
 var AwsSecretStoreCreateConfig = providerconfig.AppendRandomString(`
 resource "snapcd_aws_secret_store" "this" { 
-  name  = "somevalue%s"
+  name   = "somevalue%s"
   region = "us-east-1"
+}`)
+
+
+var HcpSecretStoreCreateConfig = providerconfig.AppendRandomString(`
+resource "snapcd_hcp_secret_store" "this" { 
+  name            = "somevalue%s"
+  organization_id = "foo"
+  project_id      = "faz"
+  app_name        = "baz"
 }`)

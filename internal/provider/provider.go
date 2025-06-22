@@ -376,6 +376,7 @@ func (p *snapcdProvider) DataSources(_ context.Context) []func() datasource.Data
 		secret_store.AzureSecretStoreDataSource,
 		secret_store.AwsSecretStoreDataSource,
 		secret_store.SimpleSecretStoreDataSource,
+		secret_store.HcpSecretStoreDataSource,
 
 		secret.SecretScopedToStackDataSource,
 		secret.SecretScopedToNamespaceDataSource,
@@ -421,6 +422,7 @@ func (p *snapcdProvider) Resources(_ context.Context) []func() resource.Resource
 		secret_store.AzureSecretStoreResource,
 		secret_store.SimpleSecretStoreResource,
 		secret_store.AwsSecretStoreResource,
+		secret_store.HcpSecretStoreResource,
 
 		secret.SecretScopedToStackResource,
 		secret.SecretScopedToNamespaceResource,
