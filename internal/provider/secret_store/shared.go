@@ -9,7 +9,7 @@ const (
 	DescRegion                = "Region of the AWS Secrets Manager backing the Secret Store."
 
 	// HCP-specific constants
-	DescProjectId             = "The HCP project ID where the secret store is located."
-	DescOrganizationId        = "The HCP organization ID."
-	DescAppName               = "The HCP application name."
+	DescProjectId      = "The HCP project ID where the secret store is located."
+	DescOrganizationId = "The HCP organization ID."
+	DescAppName        = "The HCP application name."
 )

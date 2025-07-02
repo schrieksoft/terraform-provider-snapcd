@@ -57,15 +57,17 @@ func (r *runnerPoolResource) Metadata(ctx context.Context, req resource.Metadata
 
 // ! Category: Runner Pool
 type runnerPoolModel struct {
-	Name                   types.String `tfsdk:"name"`
-	Id                     types.String `tfsdk:"id"`
-	IsAssignedToAllModules types.Bool   `tfsdk:"is_assigned_to_all_modules"`
+	Name                           types.String `tfsdk:"name"`
+	Id                             types.String `tfsdk:"id"`
+	IsAssignedToAllModules         types.Bool   `tfsdk:"is_assigned_to_all_modules"`
+	CustomCommandApprovalThreshold types.Int64  `tfsdk:"custom_command_approval_threshold"`
 }
 
 const (
-	DescRunnerPoolId           = "Unique ID of the Runner Pool."
-	DescRunnerPoolName         = "Unique name of the Runner Pool."
-	DescIsAssignedToAllModules = "Setting this to 'true' allows this Runner Pool to be selected for deployment by any Module in the system."
+	DescRunnerPoolId                   = "Unique ID of the Runner Pool."
+	DescRunnerPoolName                 = "Unique name of the Runner Pool."
+	DescIsAssignedToAllModules         = "Setting this to 'true' allows this Runner Pool to be selected for deployment by any Module in the system."
+	DescCustomCommandApprovalThreshold = "The number of pre-approvals required for custom commands. Defaults to 0 (no approvals required)."
 )
 
 func (r *runnerPoolResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
@@ -88,6 +90,10 @@ func (r *runnerPoolResource) Schema(ctx context.Context, req resource.SchemaRequ
 				Computed:    true,
 				Description: DescIsAssignedToAllModules,
 				Default:     booldefault.StaticBool(false),
+			},
+			"custom_command_approval_threshold": schema.Int64Attribute{
+				Optional:    true,
+				Description: DescCustomCommandApprovalThreshold,
 			},
 		},
 	}

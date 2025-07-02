@@ -95,6 +95,12 @@ resource "snapcd_runner_pool" "this" {
   name  = "somevalue%s"
 }`)
 
+var RunnerPoolCreateConfigWithThreshold = providerconfig.AppendRandomString(`
+resource "snapcd_runner_pool" "this" {
+  name  = "somevalue%s"
+  custom_command_approval_threshold = 2
+}`)
+
 var StackCreateConfig = providerconfig.AppendRandomString(`
 resource "snapcd_stack" "this" {
   name  = "somevalue%s"
@@ -110,3 +116,17 @@ resource "snapcd_source_refresher_preselection" "this" {
   source_url     = "somevalue%s"
   runner_pool_id = snapcd_runner_pool.this.id
 }`)
+
+var CustomCommandPreApprovalCreateConfig = RunnerPoolCreateConfig + ServicePrincipalDataSourceConfig + `
+
+resource "snapcd_custom_command_pre_approval" "this" {
+  runner_pool_id                   = snapcd_runner_pool.this.id
+  command_text                     = "terraform plan"
+  approver_principal_id            = data.snapcd_service_principal.this.id
+  approver_principal_discriminator = "ServicePrincipal"
+}`
+
+var ServicePrincipalDataSourceConfig = `
+data "snapcd_service_principal" "this" {
+  client_id = "IntegratedRunner"
+}`

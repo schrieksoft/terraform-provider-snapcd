@@ -13,8 +13,15 @@ Manages a Runner Pool in Snap CD.
 ## Example Usage
 
 ```terraform
+# Basic runner pool
 resource "snapcd_runner_pool" "myrunnerpool" {
   name = "myrunnerpool"
+}
+
+# Runner pool with custom command approval threshold
+resource "snapcd_runner_pool" "secure_pool" {
+  name                              = "secure-pool"
+  custom_command_approval_threshold = 2 # Requires 2 pre-approvals for custom commands
 }
 ```
 
@@ -27,6 +34,7 @@ resource "snapcd_runner_pool" "myrunnerpool" {
 
 ### Optional
 
+- `custom_command_approval_threshold` (Number) The number of pre-approvals required for custom commands. Defaults to 0 (no approvals required).
 - `is_assigned_to_all_modules` (Boolean) Setting this to 'true' allows this Runner Pool to be selected for deployment by any Module in the system.
 
 ### Read-Only

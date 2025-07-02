@@ -62,6 +62,10 @@ func (d *runnerPoolDataSource) Schema(ctx context.Context, req datasource.Schema
 				Computed:    true,
 				Description: DescIsAssignedToAllModules,
 			},
+			"custom_command_approval_threshold": schema.Int64Attribute{
+				Computed:    true,
+				Description: DescCustomCommandApprovalThreshold,
+			},
 		},
 	}
 }
