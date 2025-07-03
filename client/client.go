@@ -8,7 +8,6 @@ import (
 	"errors"
 	"fmt"
 	"io"
-	"io/ioutil"
 	"net/http"
 	"net/url"
 	"strconv"
@@ -45,9 +44,9 @@ var (
 func CreateClient(url string, insecure_skip_verify bool, healthCheckIntervalSeconds int, healthCheckTimeoutSeconds int, accessToken string, clientId string, clientSecret string) (*Client, error) {
 
 	if accessToken == "" {
-		tokenResp, err := getAccessToken(url, clientId, clientSecret)
+		tokenResp, err := getAccessToken(url, clientId, clientSecret, insecure_skip_verify)
 		if err != nil {
-			return nil, fmt.Errorf("failed to get access token: %w", err)
+			return nil, fmt.Errorf("failed to get access token: %v", err.Error)
 		}
 		accessToken = tokenResp.AccessToken
 	}
@@ -74,7 +73,7 @@ type TokenResponse struct {
 	ExpiresIn   int    `json:"expires_in"`
 }
 
-func getAccessToken(serverUrl string, clientId string, clientSecret string) (*TokenResponse, *HttpError) {
+func getAccessToken(serverUrl string, clientId string, clientSecret string, insecureSkipVerify bool) (*TokenResponse, *HttpError) {
 	tokenURL := fmt.Sprintf("%s/connect/token", serverUrl)
 
 	// Prepare form data
@@ -84,13 +83,16 @@ func getAccessToken(serverUrl string, clientId string, clientSecret string) (*To
 	data.Set("client_id", clientId)
 	data.Set("client_secret", clientSecret)
 
-	// Create an HTTP client with a timeout
-	client := &http.Client{Timeout: 10 * time.Second}
+	// Create an HTTP client with a timeout and TLS configuration
+	tr := &http.Transport{
+		TLSClientConfig: &tls.Config{InsecureSkipVerify: insecureSkipVerify},
+	}
+	client := &http.Client{Timeout: 10 * time.Second, Transport: tr}
 
 	// Create a new request with form-encoded data
 	req, err := http.NewRequest("POST", tokenURL, bytes.NewBufferString(data.Encode()))
 	if err != nil {
-		return nil, &HttpError{StatusCode: 0, Error: err}
+		return nil, &HttpError{StatusCode: 0, Error: fmt.Errorf("failed to create request: %v", err)}
 	}
 
 	// Set headers
@@ -102,25 +104,25 @@ func getAccessToken(serverUrl string, clientId string, clientSecret string) (*To
 
 	resp, err := client.Do(req.WithContext(ctx))
 	if err != nil {
-		return nil, &HttpError{StatusCode: 0, Error: err}
+		return nil, &HttpError{StatusCode: 0, Error: fmt.Errorf("failed to connect to %s: %v", tokenURL, err)}
 	}
 	defer resp.Body.Close()
 
-	// Ensure success status code
-	if resp.StatusCode != http.StatusOK {
-		return nil, &HttpError{StatusCode: 0, Error: fmt.Errorf("unexpected status code: %d", resp.StatusCode)}
+	// Read response body first for error details
+	body, err := io.ReadAll(resp.Body)
+	if err != nil {
+		return nil, &HttpError{StatusCode: resp.StatusCode, Error: fmt.Errorf("failed to read response body: %v", err)}
 	}
 
-	// Read response body
-	body, err := ioutil.ReadAll(resp.Body)
-	if err != nil {
-		return nil, &HttpError{StatusCode: 0, Error: err}
+	// Ensure success status code
+	if resp.StatusCode != http.StatusOK {
+		return nil, &HttpError{StatusCode: resp.StatusCode, Error: fmt.Errorf("authentication failed with status %d: %s", resp.StatusCode, string(body))}
 	}
 
 	// Parse JSON response
 	var tokenResp TokenResponse
 	if err := json.Unmarshal(body, &tokenResp); err != nil {
-		return nil, &HttpError{StatusCode: 0, Error: err}
+		return nil, &HttpError{StatusCode: resp.StatusCode, Error: fmt.Errorf("failed to parse token response: %v", err)}
 	}
 
 	return &tokenResp, nil
