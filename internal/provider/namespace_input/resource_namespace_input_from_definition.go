@@ -68,7 +68,7 @@ type namespaceInputFromDefinitionModel struct {
 
 func (r *namespaceInputFromDefinitionResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: `Namespace Inputs (Parameters) --- Manages a Namespace Input (From Definition) in Snap CD.`,
+		MarkdownDescription: `Namespace Inputs --- Manages a Namespace Input (From Definition) in Snap CD.`,
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed: true,

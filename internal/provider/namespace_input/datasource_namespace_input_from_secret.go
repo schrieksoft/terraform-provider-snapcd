@@ -31,7 +31,7 @@ func (d *namespaceInputFromSecretDataSource) Metadata(_ context.Context, req dat
 
 func (d *namespaceInputFromSecretDataSource) Schema(_ context.Context, _ datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: `Namespace Inputs (Parameters) --- Retrieves a Namespace Input (From Secret) from Snap CD.`,
+		MarkdownDescription: `Namespace Inputs --- Retrieves a Namespace Input (From Secret) from Snap CD.`,
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed:    true,

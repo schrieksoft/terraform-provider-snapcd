@@ -1,6 +1,6 @@
 ---
 page_title: "snapcd_namespace_input_from_definition Data Source - snapcd"
-subcategory: "Namespace Inputs (Parameters)"
+subcategory: "Namespace Inputs"
 description: |-
   Use this data source to access information about an existing Namesapce Param (From Definition) in Snap CD.
 ---

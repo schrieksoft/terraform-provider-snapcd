@@ -1,6 +1,6 @@
 ---
 page_title: "snapcd_module_input_from_output_set Resource - snapcd"
-subcategory: "Module Inputs (Parameters)"
+subcategory: "Module Inputs"
 description: |-
   Manages a Module Input (From Output Set) in Snap CD.
 ---

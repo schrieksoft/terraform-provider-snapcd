@@ -1,6 +1,6 @@
 ---
 page_title: "snapcd_module_input_from_output_set Data Source - snapcd"
-subcategory: "Module Inputs (Parameters)"
+subcategory: "Module Inputs"
 description: |-
   Use this data source to access information about an existing Module Input (From Output Set) in Snap CD.
 ---

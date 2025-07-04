@@ -1,6 +1,6 @@
 ---
 page_title: "snapcd_namespace_input_from_literal Data Source - snapcd"
-subcategory: "Namespace Inputs (Parameters)"
+subcategory: "Namespace Inputs"
 description: |-
   Use this data source to access information about an existing Namesapce Param (From Literal) in Snap CD.
 ---

@@ -50,7 +50,7 @@ func (d *namespaceInputFromDefinitionDataSource) Metadata(ctx context.Context, r
 
 func (d *namespaceInputFromDefinitionDataSource) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: "Namespace Inputs (Parameters) --- Use this data source to access information about an existing Namesapce Param (From Definition) in Snap CD.",
+		MarkdownDescription: "Namespace Inputs --- Use this data source to access information about an existing Namesapce Param (From Definition) in Snap CD.",
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed:    true,

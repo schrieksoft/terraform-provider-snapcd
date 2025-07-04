@@ -66,7 +66,7 @@ type moduleInputFromDefinitionModel struct {
 
 func (r *moduleInputFromDefinitionResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: `Module Inputs (Parameters) --- Manages a Module Input (From Definition) in Snap CD.`,
+		MarkdownDescription: `Module Inputs --- Manages a Module Input (From Definition) in Snap CD.`,
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed: true,

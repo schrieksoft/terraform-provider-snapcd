@@ -1,6 +1,6 @@
 ---
 page_title: "snapcd_module_input_from_secret Resource - snapcd"
-subcategory: "Module Inputs (Parameters)"
+subcategory: "Module Inputs"
 description: |-
   Manages a Module Input (From Secret) in Snap CD.
 ---

@@ -1,6 +1,6 @@
 ---
 page_title: "snapcd_module_input_from_namespace Resource - snapcd"
-subcategory: "Module Inputs (Parameters)"
+subcategory: "Module Inputs"
 description: |-
   Manages a Module Input (From Namespace) in Snap CD.
 ---

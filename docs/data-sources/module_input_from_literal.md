@@ -1,6 +1,6 @@
 ---
 page_title: "snapcd_module_input_from_literal Data Source - snapcd"
-subcategory: "Module Inputs (Parameters)"
+subcategory: "Module Inputs"
 description: |-
   Use this data source to access information about an existing Module Input (From Literal) in Snap CD.
 ---
