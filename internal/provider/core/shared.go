@@ -28,4 +28,6 @@ const (
 	DescSharedApprovalTimeoutMinutes   = "The number of minutes a Job should remain in the 'WaitingForApproval' in the case of an 'Apply' or 'Destroy' plan that requires approval. After this time elapses the Job will be stopped and any queued Jobs will start. "
 	DescZeroThreshold                  = " If set neither on Module nor on Namespace then a threshold of 0 is used."
 	DescZeroTimeout                    = " If set neither on Module nor on Namespace the Jobs will wait for an approval decision indefinitely."
+
+	DescRunnerPoolIsDisabled = "Indicates whether or not the RunnerPool is disabled"
 )

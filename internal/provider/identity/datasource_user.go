@@ -53,7 +53,7 @@ func (d *userDataSource) Metadata(ctx context.Context, req datasource.MetadataRe
 
 const (
 	DescUserId               = "Unique ID of the User."
-	DescIsActive             = "Indicates whether the user is active."
+	DescIsDisabled           = "Indicates whether the user or not the user has been disabled."
 	DescUserName             = "Unique name of the user."
 	DescNormalizedUserName   = "Normalized user name used for consistency."
 	DescEmail                = "User's email address."
@@ -72,7 +72,7 @@ const (
 
 type userModel struct {
 	Id                   types.String `tfsdk:"id"`
-	IsActive             types.Bool   `tfsdk:"is_active"`
+	IsDisabled           types.Bool   `tfsdk:"is_disabled"`
 	UserName             types.String `tfsdk:"user_name"`
 	NormalizedUserName   types.String `tfsdk:"normalized_user_name"`
 	Email                types.String `tfsdk:"email"`
@@ -97,9 +97,9 @@ func (d *userDataSource) Schema(ctx context.Context, req datasource.SchemaReques
 				Computed:    true,
 				Description: DescUserId,
 			},
-			"is_active": schema.BoolAttribute{
+			"is_disabled": schema.BoolAttribute{
 				Computed:    true,
-				Description: DescIsActive,
+				Description: DescIsDisabled,
 			},
 			"user_name": schema.StringAttribute{
 				Required:    true,

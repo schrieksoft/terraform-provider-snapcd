@@ -28,3 +28,4 @@ data "snapcd_service_principal" "mysp" {
 ### Read-Only
 
 - `id` (String) Unique ID of the Service Principal.
+- `is_disabled` (Boolean) Indicates whether the Service Principal is disabled.

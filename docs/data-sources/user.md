@@ -32,7 +32,7 @@ data "snapcd_user" "myuser" {
 - `email` (String) User's email address.
 - `email_confirmed` (Boolean) Whether the user's email has been confirmed.
 - `id` (String) Unique ID of the User.
-- `is_active` (Boolean) Indicates whether the user is active.
+- `is_disabled` (Boolean) Indicates whether the user or not the user has been disabled.
 - `lockout_enabled` (Boolean) Indicates whether lockout is enabled for the user.
 - `lockout_end` (String) The date and time when the lockout ends (if any).
 - `normalized_email` (String) Normalized email address used for consistency.

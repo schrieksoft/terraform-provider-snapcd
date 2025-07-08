@@ -25,13 +25,15 @@ func ServicePrincipalDataSource() datasource.DataSource {
 }
 
 type servicePrincipalModel struct {
-	Id       types.String `tfsdk:"id"`
-	ClientId types.String `tfsdk:"client_id"`
+	Id         types.String `tfsdk:"id"`
+	ClientId   types.String `tfsdk:"client_id"`
+	IsDisabled types.Bool   `tfsdk:"is_disabled"`
 }
 
 const (
-	DescServicePrincipalId       = "Unique ID of the Service Principal."
-	DescServicePrincipalClientId = "Client Id of the Service Principal. This value must be unique."
+	DescServicePrincipalId         = "Unique ID of the Service Principal."
+	DescServicePrincipalClientId   = "Client Id of the Service Principal. This value must be unique."
+	DescServicePrincipalIsDisabled = "Indicates whether the Service Principal is disabled."
 )
 
 type servicePrincipalDataSource struct {
@@ -72,6 +74,10 @@ func (d *servicePrincipalDataSource) Schema(ctx context.Context, req datasource.
 			"client_id": schema.StringAttribute{
 				Required:    true,
 				Description: DescServicePrincipalClientId,
+			},
+			"is_disabled": schema.BoolAttribute{
+				Computed:    true,
+				Description: DescServicePrincipalIsDisabled,
 			},
 		},
 	}

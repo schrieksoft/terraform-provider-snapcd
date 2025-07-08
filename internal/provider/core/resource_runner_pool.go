@@ -61,6 +61,7 @@ type runnerPoolModel struct {
 	Id                             types.String `tfsdk:"id"`
 	IsAssignedToAllModules         types.Bool   `tfsdk:"is_assigned_to_all_modules"`
 	CustomCommandApprovalThreshold types.Int64  `tfsdk:"custom_command_approval_threshold"`
+	IsDisabled                     types.Bool   `tfsdk:"is_disabled"`
 }
 
 const (
@@ -94,6 +95,11 @@ func (r *runnerPoolResource) Schema(ctx context.Context, req resource.SchemaRequ
 			"custom_command_approval_threshold": schema.Int64Attribute{
 				Optional:    true,
 				Description: DescCustomCommandApprovalThreshold,
+			},
+			"is_disabled": schema.BoolAttribute{
+				Optional:    true,
+				Computed:    true,
+				Description: DescRunnerPoolIsDisabled,
 			},
 		},
 	}

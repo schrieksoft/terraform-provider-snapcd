@@ -66,6 +66,10 @@ func (d *runnerPoolDataSource) Schema(ctx context.Context, req datasource.Schema
 				Computed:    true,
 				Description: DescCustomCommandApprovalThreshold,
 			},
+			"is_disabled": schema.BoolAttribute{
+				Computed:    true,
+				Description: DescRunnerPoolIsDisabled,
+			},
 		},
 	}
 }

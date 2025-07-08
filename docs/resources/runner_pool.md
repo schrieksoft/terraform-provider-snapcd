@@ -36,6 +36,7 @@ resource "snapcd_runner_pool" "secure_pool" {
 
 - `custom_command_approval_threshold` (Number) The number of pre-approvals required for custom commands. Defaults to 0 (no approvals required).
 - `is_assigned_to_all_modules` (Boolean) Setting this to 'true' allows this Runner Pool to be selected for deployment by any Module in the system.
+- `is_disabled` (Boolean) Indicates whether or not the RunnerPool is disabled
 
 ### Read-Only
 
