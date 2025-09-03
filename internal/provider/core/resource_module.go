@@ -97,6 +97,8 @@ type moduleModel struct {
 	CleanInitEnabled                   types.Bool   `tfsdk:"clean_init_enabled"`
 	IgnoreNamespaceBackendConfigs      types.Bool   `tfsdk:"ignore_namespace_backend_configs"`
 	IgnoreNamespaceExtraFiles          types.Bool   `tfsdk:"ignore_namespace_extra_files"`
+	WaitForApplyDependencies           types.String `tfsdk:"wait_for_apply_dependencies"`
+	WaitForDestroyDependencies         types.String `tfsdk:"wait_for_destroy_dependencies"`
 }
 
 const (
@@ -142,6 +144,8 @@ const (
 	DescTriggerOnSourceChangedNotification = "Defaults to 'false'. If 'true', the Module will automatically be applied if the 'api/Hooks/SourceChanged' endpoint is called for this Module. Use this if you want to use external tooling to inform Snap CD that a source has been changed. Consider setting `trigger_on_definition_changed` to 'false' when setting `trigger_on_definition_changed_hook` to 'true'"
 	DescTriggerOnUpstreamOutputChanged     = "Defaults to 'true'. If 'true', the Module will automatically be applied if Outputs from other Modules that it is referencing as Inputs (Param or Env Var) has changed."
 	DescTriggerOnDefinitionChanged         = "Defaults to 'true'. If 'true', the Module will automatically be applied if its definition changes. A definition change results from fields on the Module itself, on any of its Inputs (Param or Env Var) or Extra Files being altered. So too changes to its Namespace (including Inputs and Extra Files) or Stack. Note however that Namespace and Stack changes are not notified by default. This behaviour can be changed in `snapcd_namespace` and `snapcd_stack` resource definitions."
+	DescWaitForApplyDependencies           = "Defaults to 'OnFirstApply'. Controls when the Module should wait for dependencies during apply operations. Valid values are 'Always', 'Never', or 'OnFirstApply'. 'Always' means the Module will always wait for Modules its depends on to reach the 'Applied' state before applying. 'Never' means dependencies are ignored. 'OnFirstApply' means the Module will wait for dependencies only on its first apply."
+	DescWaitForDestroyDependencies         = "Defaults to 'Always'. Controls when the Module should wait for dependencies during destroy operations. Valid values are 'Always' or 'Never'. 'Always' means the Module will always wait Modules that depend on it to reach the 'Destroyed' state before destroying. 'Never' means dependencies are ignored."
 )
 
 func (r *moduleResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
@@ -328,6 +332,24 @@ func (r *moduleResource) Schema(ctx context.Context, req resource.SchemaRequest,
 				Computed:    true,
 				Description: DescTriggerOnSourceChangedNotification,
 				Default:     booldefault.StaticBool(false),
+			},
+			"wait_for_apply_dependencies": schema.StringAttribute{
+				Optional: true,
+				Computed: true,
+				Validators: []validator.String{
+					stringvalidator.OneOf("Always", "Never", "OnFirstApply"),
+				},
+				Default:     stringdefault.StaticString("OnFirstApply"),
+				Description: DescWaitForApplyDependencies,
+			},
+			"wait_for_destroy_dependencies": schema.StringAttribute{
+				Optional: true,
+				Computed: true,
+				Validators: []validator.String{
+					stringvalidator.OneOf("Always", "Never"),
+				},
+				Default:     stringdefault.StaticString("Always"),
+				Description: DescWaitForDestroyDependencies,
 			},
 		},
 	}

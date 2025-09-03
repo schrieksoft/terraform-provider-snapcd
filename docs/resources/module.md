@@ -83,6 +83,8 @@ resource "snapcd_module" "mymodule" {
 - `trigger_on_source_changed` (Boolean) Defaults to 'true'. If 'true', the Module will automatically be applied if the source it is referencing has changed. For example, if tracking a Git branch: a new commit would constitute a change.
 - `trigger_on_source_changed_notification` (Boolean) Defaults to 'false'. If 'true', the Module will automatically be applied if the 'api/Hooks/SourceChanged' endpoint is called for this Module. Use this if you want to use external tooling to inform Snap CD that a source has been changed. Consider setting `trigger_on_definition_changed` to 'false' when setting `trigger_on_definition_changed_hook` to 'true'
 - `trigger_on_upstream_output_changed` (Boolean) Defaults to 'true'. If 'true', the Module will automatically be applied if Outputs from other Modules that it is referencing as Inputs (Param or Env Var) has changed.
+- `wait_for_apply_dependencies` (String) Defaults to 'OnFirstApply'. Controls when the Module should wait for dependencies during apply operations. Valid values are 'Always', 'Never', or 'OnFirstApply'. 'Always' means the Module will always wait for Modules its depends on to reach the 'Applied' state before applying. 'Never' means dependencies are ignored. 'OnFirstApply' means the Module will wait for dependencies only on its first apply.
+- `wait_for_destroy_dependencies` (String) Defaults to 'Always'. Controls when the Module should wait for dependencies during destroy operations. Valid values are 'Always' or 'Never'. 'Always' means the Module will always wait Modules that depend on it to reach the 'Destroyed' state before destroying. 'Never' means dependencies are ignored.
 
 ### Read-Only
 

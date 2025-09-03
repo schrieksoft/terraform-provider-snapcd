@@ -211,6 +211,20 @@ func (d *moduleDataSource) Schema(ctx context.Context, req datasource.SchemaRequ
 				Computed:    true,
 				Description: DescModuleApprovalTimeoutMinutes,
 			},
+			"wait_for_apply_dependencies": schema.StringAttribute{
+				Computed: true,
+				Validators: []validator.String{
+					stringvalidator.OneOf("Always", "Never", "OnFirstApply"),
+				},
+				Description: DescWaitForApplyDependencies,
+			},
+			"wait_for_destroy_dependencies": schema.StringAttribute{
+				Computed: true,
+				Validators: []validator.String{
+					stringvalidator.OneOf("Always", "Never"),
+				},
+				Description: DescWaitForDestroyDependencies,
+			},
 		},
 	}
 }
