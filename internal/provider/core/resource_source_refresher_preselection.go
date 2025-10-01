@@ -18,7 +18,7 @@ import (
 
 var sourceRefresherPreselectionDefaultError = fmt.Sprintf("snapcd_sourceRefresherPreselection error")
 
-var sourceRefresherPreselectionEndpoint = "/api/SourceRefresherPreselection"
+var sourceRefresherPreselectionEndpoint = "/SourceRefresherPreselection"
 
 var _ resource.Resource = (*sourceRefresherPreselectionResource)(nil)
 

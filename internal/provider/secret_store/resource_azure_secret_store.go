@@ -18,7 +18,7 @@ import (
 
 var azureSecretStoreDefaultError = fmt.Sprintf("snapcd_azure_secret_store error")
 
-var azureSecretStoreEndpoint = "/api/AzureSecretStore"
+var azureSecretStoreEndpoint = "/AzureSecretStore"
 
 var _ resource.Resource = (*azureSecretStoreResource)(nil)
 

@@ -21,7 +21,7 @@ import (
 
 var namespaceInputFromSecretDefaultError = fmt.Sprintf("snapcd_namespace_input_from_secret error")
 
-var namespaceInputFromSecretEndpoint = "/api/NamespaceInputFromSecret"
+var namespaceInputFromSecretEndpoint = "/NamespaceInputFromSecret"
 
 var _ resource.Resource = (*namespaceInputFromSecretResource)(nil)
 

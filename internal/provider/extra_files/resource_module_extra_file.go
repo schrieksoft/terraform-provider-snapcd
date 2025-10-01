@@ -19,7 +19,7 @@ import (
 
 var moduleExtraFileDefaultError = fmt.Sprintf("snapcd_moduleExtraFile error")
 
-var moduleExtraFileEndpoint = "/api/ModuleExtraFile"
+var moduleExtraFileEndpoint = "/ModuleExtraFile"
 
 var _ resource.Resource = (*moduleExtraFileResource)(nil)
 

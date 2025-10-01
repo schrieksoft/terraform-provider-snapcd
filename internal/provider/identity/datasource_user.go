@@ -18,7 +18,7 @@ var _ datasource.DataSource = (*userDataSource)(nil)
 
 var userDefaultError = fmt.Sprintf("snapcd_user error")
 
-var userEndpoint = "/api/User"
+var userEndpoint = "/User"
 
 func UserDataSource() datasource.DataSource {
 	return &userDataSource{}

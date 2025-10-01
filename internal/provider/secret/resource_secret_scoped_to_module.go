@@ -18,7 +18,7 @@ import (
 
 var secretScopedToModuleDefaultError = fmt.Sprintf("snapcd_secret_scoped_to_module error")
 
-var secretScopedToModuleEndpoint = "/api/SecretScopedToModule"
+var secretScopedToModuleEndpoint = "/SecretScopedToModule"
 
 var _ resource.Resource = (*secretScopedToModuleResource)(nil)
 

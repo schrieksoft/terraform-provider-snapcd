@@ -19,7 +19,7 @@ import (
 
 var runnerPoolDefaultError = fmt.Sprintf("snapcd_runnerPool error")
 
-var runnerPoolEndpoint = "/api/RunnerPool"
+var runnerPoolEndpoint = "/RunnerPool"
 
 var _ resource.Resource = (*runnerPoolResource)(nil)
 

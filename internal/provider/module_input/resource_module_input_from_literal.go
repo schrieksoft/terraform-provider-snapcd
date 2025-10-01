@@ -21,7 +21,7 @@ import (
 
 var moduleInputFromLiteralDefaultError = fmt.Sprintf("snapcd_module_input_from_literal error")
 
-var moduleInputFromLiteralEndpoint = "/api/ModuleInputFromLiteral"
+var moduleInputFromLiteralEndpoint = "/ModuleInputFromLiteral"
 
 var _ resource.Resource = (*moduleInputFromLiteralResource)(nil)
 

@@ -18,7 +18,7 @@ import (
 
 var secretScopedToNamespaceDefaultError = fmt.Sprintf("snapcd_secret_scoped_to_namespace error")
 
-var secretScopedToNamespaceEndpoint = "/api/SecretScopedToNamespace"
+var secretScopedToNamespaceEndpoint = "/SecretScopedToNamespace"
 
 var _ resource.Resource = (*secretScopedToNamespaceResource)(nil)
 

@@ -18,7 +18,7 @@ import (
 
 var secretScopedToStackDefaultError = fmt.Sprintf("snapcd_secret_scoped_to_stack error")
 
-var secretScopedToStackEndpoint = "/api/SecretScopedToStack"
+var secretScopedToStackEndpoint = "/SecretScopedToStack"
 
 var _ resource.Resource = (*secretScopedToStackResource)(nil)
 

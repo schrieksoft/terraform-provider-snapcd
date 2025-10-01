@@ -16,7 +16,7 @@ import (
 
 var servicePrincipalDefaultError = fmt.Sprintf("snapcd_service_principal error")
 
-var servicePrincipalEndpoint = "/api/ServicePrincipal"
+var servicePrincipalEndpoint = "/ServicePrincipal"
 
 var _ datasource.DataSource = (*servicePrincipalDataSource)(nil)
 

@@ -18,7 +18,7 @@ import (
 
 var dependsOnModuleDefaultError = fmt.Sprintf("snapcd_depends_on_module error")
 
-var dependsOnModuleEndpoint = "/api/DependsOnModule"
+var dependsOnModuleEndpoint = "/DependsOnModule"
 
 var _ resource.Resource = (*dependsOnModuleResource)(nil)
 

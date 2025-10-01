@@ -18,7 +18,7 @@ import (
 
 var runnerPoolModuleAssignmentDefaultError = fmt.Sprintf("snapcd_runner_pool_module_assignment error")
 
-var runnerPoolModuleAssignmentEndpoint = "/api/RunnerPoolModuleAssignment"
+var runnerPoolModuleAssignmentEndpoint = "/RunnerPoolModuleAssignment"
 
 var _ resource.Resource = (*runnerPoolModuleAssignmentResource)(nil)
 

@@ -28,6 +28,7 @@ type Client struct {
 	// AccessToken                azcore.AccessToken
 	AccessToken                string
 	Url                        string
+	OrganizationId             string
 	InsecureSkipVerify         bool
 	HealthCheckIntervalSeconds int
 	HealthCheckTimeoutSeconds  int
@@ -41,7 +42,7 @@ var (
 )
 
 // Initialize bearer token once and reuse
-func CreateClient(url string, insecure_skip_verify bool, healthCheckIntervalSeconds int, healthCheckTimeoutSeconds int, accessToken string, clientId string, clientSecret string) (*Client, error) {
+func CreateClient(url string, organizationId string, insecure_skip_verify bool, healthCheckIntervalSeconds int, healthCheckTimeoutSeconds int, accessToken string, clientId string, clientSecret string) (*Client, error) {
 
 	if accessToken == "" {
 		tokenResp, err := getAccessToken(url, clientId, clientSecret, insecure_skip_verify)
@@ -53,6 +54,7 @@ func CreateClient(url string, insecure_skip_verify bool, healthCheckIntervalSeco
 
 	client := &Client{
 		Url:                        url,
+		OrganizationId:             organizationId,
 		InsecureSkipVerify:         insecure_skip_verify,
 		HealthCheckIntervalSeconds: healthCheckIntervalSeconds,
 		HealthCheckTimeoutSeconds:  healthCheckTimeoutSeconds,
@@ -150,6 +152,11 @@ func getAccessToken(serverUrl string, clientId string, clientSecret string, inse
 // 	}, nil
 // }
 
+// BuildEndpoint constructs the full API endpoint path with organization ID
+func (client *Client) BuildEndpoint(path string) string {
+	return fmt.Sprintf("/api/%s%s", client.OrganizationId, path)
+}
+
 func (client *Client) makeRequest(method string, path string, body []byte) (map[string]interface{}, *HttpError) {
 	ticker := time.Tick(1 * time.Second)
 
@@ -234,11 +241,11 @@ func (client *Client) Post(path string, data interface{}) (map[string]interface{
 		return nil, &HttpError{StatusCode: 0, Error: err}
 	}
 
-	return client.makeRequest(http.MethodPost, path, body)
+	return client.makeRequest(http.MethodPost, client.BuildEndpoint(path), body)
 }
 
 func (client *Client) Get(path string) (map[string]interface{}, *HttpError) {
-	return client.makeRequest(http.MethodGet, path, nil)
+	return client.makeRequest(http.MethodGet, client.BuildEndpoint(path), nil)
 }
 
 func (client *Client) Put(path string, data interface{}) (map[string]interface{}, *HttpError) {
@@ -247,11 +254,11 @@ func (client *Client) Put(path string, data interface{}) (map[string]interface{}
 		return nil, &HttpError{StatusCode: 0, Error: err}
 	}
 
-	return client.makeRequest(http.MethodPut, path, body)
+	return client.makeRequest(http.MethodPut, client.BuildEndpoint(path), body)
 }
 
 func (client *Client) Delete(path string) (map[string]interface{}, *HttpError) {
-	return client.makeRequest(http.MethodDelete, path, nil)
+	return client.makeRequest(http.MethodDelete, client.BuildEndpoint(path), nil)
 }
 
 func (client *Client) checkHealth() bool {

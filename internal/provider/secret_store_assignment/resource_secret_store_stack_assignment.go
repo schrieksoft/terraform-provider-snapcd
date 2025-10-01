@@ -18,7 +18,7 @@ import (
 
 var secretStoreStackAssignmentDefaultError = fmt.Sprintf("snapcd_secret_store_stack_assignment error")
 
-var secretStoreStackAssignmentEndpoint = "/api/SecretStoreStackAssignment"
+var secretStoreStackAssignmentEndpoint = "/SecretStoreStackAssignment"
 
 var _ resource.Resource = (*secretStoreStackAssignmentResource)(nil)
 

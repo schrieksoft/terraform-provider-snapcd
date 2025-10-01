@@ -18,7 +18,7 @@ import (
 
 var awsSecretStoreDefaultError = fmt.Sprintf("snapcd_aws_secret_store error")
 
-var awsSecretStoreEndpoint = "/api/AwsSecretStore"
+var awsSecretStoreEndpoint = "/AwsSecretStore"
 
 var _ resource.Resource = (*awsSecretStoreResource)(nil)
 

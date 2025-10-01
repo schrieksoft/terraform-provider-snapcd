@@ -22,7 +22,7 @@ import (
 
 var moduleDefaultError = fmt.Sprintf("snapcd_module error")
 
-var moduleEndpoint = "/api/Module"
+var moduleEndpoint = "/Module"
 
 var _ resource.Resource = (*moduleResource)(nil)
 

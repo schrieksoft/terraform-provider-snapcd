@@ -20,7 +20,7 @@ import (
 
 var moduleInputFromNamespaceDefaultError = fmt.Sprintf("snapcd_module_input_from_namespace error")
 
-var moduleInputFromNamespaceEndpoint = "/api/ModuleInputFromNamespace"
+var moduleInputFromNamespaceEndpoint = "/ModuleInputFromNamespace"
 
 var _ resource.Resource = (*moduleInputFromNamespaceResource)(nil)
 

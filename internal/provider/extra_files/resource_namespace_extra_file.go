@@ -19,7 +19,7 @@ import (
 
 var namespaceExtraFileDefaultError = fmt.Sprintf("snapcd_namespace_extra_file error")
 
-var namespaceExtraFileEndpoint = "/api/NamespaceExtraFile"
+var namespaceExtraFileEndpoint = "/NamespaceExtraFile"
 
 var _ resource.Resource = (*namespaceExtraFileResource)(nil)
 

@@ -18,7 +18,7 @@ import (
 
 var simpleSecretStoreDefaultError = fmt.Sprintf("snapcd_simple_secret_store error")
 
-var simpleSecretStoreEndpoint = "/api/SimpleSecretStore"
+var simpleSecretStoreEndpoint = "/SimpleSecretStore"
 
 var _ resource.Resource = (*simpleSecretStoreResource)(nil)
 

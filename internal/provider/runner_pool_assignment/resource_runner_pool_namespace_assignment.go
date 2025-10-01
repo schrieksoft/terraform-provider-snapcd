@@ -18,7 +18,7 @@ import (
 
 var runnerPoolNamespaceAssignmentDefaultError = fmt.Sprintf("snapcd_runner_pool_namespace_assignment error")
 
-var runnerPoolNamespaceAssignmentEndpoint = "/api/RunnerPoolNamespaceAssignment"
+var runnerPoolNamespaceAssignmentEndpoint = "/RunnerPoolNamespaceAssignment"
 
 var _ resource.Resource = (*runnerPoolNamespaceAssignmentResource)(nil)
 

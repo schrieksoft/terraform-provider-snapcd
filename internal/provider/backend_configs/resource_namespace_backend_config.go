@@ -18,7 +18,7 @@ import (
 
 var namespaceBackendConfigDefaultError = fmt.Sprintf("snapcd_namespace_backend_config error")
 
-var namespaceBackendConfigEndpoint = "/api/NamespaceBackendConfig"
+var namespaceBackendConfigEndpoint = "/NamespaceBackendConfig"
 
 var _ resource.Resource = (*namespaceBackendConfigResource)(nil)
 

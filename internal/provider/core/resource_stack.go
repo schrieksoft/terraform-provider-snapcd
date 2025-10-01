@@ -21,7 +21,7 @@ import (
 
 var stackDefaultError = fmt.Sprintf("snapcd_stack error")
 
-var stackEndpoint = "/api/Stack"
+var stackEndpoint = "/Stack"
 
 var _ resource.Resource = (*stackResource)(nil)
 

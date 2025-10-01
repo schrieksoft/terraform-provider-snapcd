@@ -31,6 +31,7 @@ provider "snapcd" {
 
 ### Required
 
+- `organization_id` (String) Organization ID for the SnapCd API
 - `url` (String) URL where the Snapcd API is served
 
 ### Optional

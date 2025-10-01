@@ -21,7 +21,7 @@ import (
 
 var namespaceDefaultError = fmt.Sprintf("snapcd_namespace error")
 
-var namespaceEndpoint = "/api/Namespace"
+var namespaceEndpoint = "/Namespace"
 
 var _ resource.Resource = (*namespaceResource)(nil)
 

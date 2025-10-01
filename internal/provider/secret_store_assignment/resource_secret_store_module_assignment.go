@@ -18,7 +18,7 @@ import (
 
 var secretStoreModuleAssignmentDefaultError = fmt.Sprintf("snapcd_secret_store_module_assignment error")
 
-var secretStoreModuleAssignmentEndpoint = "/api/SecretStoreModuleAssignment"
+var secretStoreModuleAssignmentEndpoint = "/SecretStoreModuleAssignment"
 
 var _ resource.Resource = (*secretStoreModuleAssignmentResource)(nil)
 
