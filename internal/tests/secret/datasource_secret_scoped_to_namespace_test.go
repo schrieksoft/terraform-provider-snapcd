@@ -14,16 +14,15 @@ func TestAccDataSourceSecretScopedToNamespace(t *testing.T) {
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + SecretScopedToNamespaceCreateConfig + `
+				Config: providerconfig.ProviderConfig + `
 
 data "snapcd_secret_scoped_to_namespace" "this" {
-	name = snapcd_secret_scoped_to_namespace.this.name
-    namespace_id = snapcd_namespace.this.id
-
+	name 		 = "debug"
+    namespace_id = "10000000-0000-0000-0000-000000000000"
 }`,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("data.snapcd_secret_scoped_to_namespace.this", "id"),
-					resource.TestCheckResourceAttr("data.snapcd_secret_scoped_to_namespace.this", "name", providerconfig.AppendRandomString("somevalue%s")),
+					resource.TestCheckResourceAttr("data.snapcd_secret_scoped_to_namespace.this", "id", "10000000-0000-0000-0000-000000000002"),
 				),
 			},
 		},

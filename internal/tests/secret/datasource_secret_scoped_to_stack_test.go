@@ -14,15 +14,15 @@ func TestAccDataSourceSecretScopedToStack(t *testing.T) {
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + SecretScopedToStackCreateConfig + `
+				Config: providerconfig.ProviderConfig + `
 
 data "snapcd_secret_scoped_to_stack" "this" {
-	name = snapcd_secret_scoped_to_stack.this.name
-    stack_id = snapcd_stack.this.id
+	name 	  = "debug"
+    stack_id  = "10000000-0000-0000-0000-000000000000"
 }`,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("data.snapcd_secret_scoped_to_stack.this", "id"),
-					resource.TestCheckResourceAttr("data.snapcd_secret_scoped_to_stack.this", "name", providerconfig.AppendRandomString("somevalue%s")),
+					resource.TestCheckResourceAttr("data.snapcd_secret_scoped_to_stack.this", "id", "10000000-0000-0000-0000-000000000001"),
 				),
 			},
 		},

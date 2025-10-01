@@ -9,9 +9,20 @@ import (
 	utils "terraform-provider-snapcd/utils"
 
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
+	"github.com/hashicorp/terraform-plugin-framework/types"
 
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
 )
+
+var secretScopedToModuleDefaultError = fmt.Sprintf("snapcd_secret_scoped_to_module error")
+
+var secretScopedToModuleEndpoint = "/SecretScopedToModule"
+
+type secretScopedToModuleModel struct {
+	Name     types.String `tfsdk:"name"`
+	Id       types.String `tfsdk:"id"`
+	ModuleId types.String `tfsdk:"module_id"`
+}
 
 var _ datasource.DataSource = (*secretScopedToModuleDataSource)(nil)
 
@@ -58,17 +69,9 @@ func (d *secretScopedToModuleDataSource) Schema(ctx context.Context, req datasou
 				Required:    true,
 				Description: DescName,
 			},
-			"remote_secret_name": schema.StringAttribute{
-				Computed:    true,
-				Description: DescRemoteName,
-			},
 			"module_id": schema.StringAttribute{
 				Required:    true,
 				Description: DescModuleId,
-			},
-			"secret_store_id": schema.StringAttribute{
-				Computed:    true,
-				Description: DescSecretStoreId,
 			},
 		},
 	}

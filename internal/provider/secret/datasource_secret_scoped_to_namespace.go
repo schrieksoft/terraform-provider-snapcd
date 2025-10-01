@@ -9,9 +9,20 @@ import (
 	utils "terraform-provider-snapcd/utils"
 
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
+	"github.com/hashicorp/terraform-plugin-framework/types"
 
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
 )
+
+var secretScopedToNamespaceDefaultError = fmt.Sprintf("snapcd_secret_scoped_to_namespace error")
+
+var secretScopedToNamespaceEndpoint = "/SecretScopedToNamespace"
+
+type secretScopedToNamespaceModel struct {
+	Name        types.String `tfsdk:"name"`
+	Id          types.String `tfsdk:"id"`
+	NamespaceId types.String `tfsdk:"namespace_id"`
+}
 
 var _ datasource.DataSource = (*secretScopedToNamespaceDataSource)(nil)
 
@@ -58,17 +69,9 @@ func (d *secretScopedToNamespaceDataSource) Schema(ctx context.Context, req data
 				Required:    true,
 				Description: DescName,
 			},
-			"remote_secret_name": schema.StringAttribute{
-				Computed:    true,
-				Description: DescRemoteName,
-			},
 			"namespace_id": schema.StringAttribute{
 				Required:    true,
 				Description: DescNamespaceId,
-			},
-			"secret_store_id": schema.StringAttribute{
-				Computed:    true,
-				Description: DescSecretStoreId,
 			},
 		},
 	}

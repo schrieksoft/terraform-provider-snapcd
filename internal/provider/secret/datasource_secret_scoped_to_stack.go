@@ -9,9 +9,20 @@ import (
 	utils "terraform-provider-snapcd/utils"
 
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
+	"github.com/hashicorp/terraform-plugin-framework/types"
 
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
 )
+
+var secretScopedToStackDefaultError = fmt.Sprintf("snapcd_secret_scoped_to_stack error")
+
+var secretScopedToStackEndpoint = "/SecretScopedToStack"
+
+type secretScopedToStackModel struct {
+	Name    types.String `tfsdk:"name"`
+	Id      types.String `tfsdk:"id"`
+	StackId types.String `tfsdk:"stack_id"`
+}
 
 var _ datasource.DataSource = (*secretScopedToStackDataSource)(nil)
 
@@ -58,17 +69,9 @@ func (d *secretScopedToStackDataSource) Schema(ctx context.Context, req datasour
 				Required:    true,
 				Description: DescName,
 			},
-			"remote_secret_name": schema.StringAttribute{
-				Computed:    true,
-				Description: DescRemoteName,
-			},
 			"stack_id": schema.StringAttribute{
 				Required:    true,
 				Description: DescStackId,
-			},
-			"secret_store_id": schema.StringAttribute{
-				Computed:    true,
-				Description: DescSecretStoreId,
 			},
 		},
 	}
