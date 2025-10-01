@@ -54,7 +54,7 @@ func (d *namespaceInputFromSecretDataSource) Schema(_ context.Context, _ datasou
 				Description: DescSharedUsage,
 			},
 			"namespace_id": schema.StringAttribute{
-				Computed:    true,
+				Required:    true,
 				Description: DescSharedNamespaceId1 + "Namespace Input (From Secret)" + DescSharedNamespaceId2,
 			},
 			"input_kind": schema.StringAttribute{

@@ -128,5 +128,5 @@ resource "snapcd_custom_command_pre_approval" "this" {
 
 var ServicePrincipalDataSourceConfig = `
 data "snapcd_service_principal" "this" {
-  client_id = "IntegratedRunner"
+  client_id = "DefaultRunner"
 }`

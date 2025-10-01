@@ -17,7 +17,6 @@ func TestAccDataSourceNamespaceInputFromLiteral(t *testing.T) {
 			{
 				Config: providerconfig.ProviderConfig + core.NamespaceCreateConfig + NamespaceInputFromLiteralCreateConfig + `
 data "snapcd_namespace_input_from_literal" "this" {
-  	input_kind 	 = "Param"
 	name 		 = snapcd_namespace_input_from_literal.this.name
 	namespace_id = snapcd_namespace_input_from_literal.this.namespace_id
 	input_kind 	 = "Param"

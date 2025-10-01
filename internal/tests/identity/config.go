@@ -18,7 +18,7 @@ resource "snapcd_group" "this" {
 
 var ServicePrincipalDataSourceConfig = `
 data "snapcd_service_principal" "this" {
-	client_id = "IntegratedRunner"
+	client_id = "DefaultRunner"
 }
 `
 

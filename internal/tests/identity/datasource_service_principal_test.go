@@ -17,11 +17,11 @@ func TestAccDataSourceServicePrincipal(t *testing.T) {
 				Config: providerconfig.ProviderConfig + `
 
 data "snapcd_service_principal" "this" {
-	client_id = "IntegratedRunner"
+	client_id = "DefaultRunner"
 }`,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("data.snapcd_service_principal.this", "id"),
-					resource.TestCheckResourceAttr("data.snapcd_service_principal.this", "client_id", "IntegratedRunner"),
+					resource.TestCheckResourceAttr("data.snapcd_service_principal.this", "client_id", "DefaultRunner"),
 				),
 			},
 		},
