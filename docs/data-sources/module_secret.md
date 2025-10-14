@@ -1,11 +1,11 @@
 ---
-page_title: "snapcd_secret_scoped_to_module Data Source - snapcd"
+page_title: "snapcd_module_secret Data Source - snapcd"
 subcategory: "Secrets"
 description: |-
   Use this data source to access information about an existing Secret (Scoped to Module) in Snap CD.
 ---
 
-# snapcd_secret_scoped_to_module (Data Source)
+# snapcd_module_secret (Data Source)
 
 Use this data source to access information about an existing Secret (Scoped to Module) in Snap CD.
 
@@ -27,7 +27,7 @@ data "snapcd_module" "mymodule" {
   namespace_id = data.snapcd_namespace.mynamespace.id
 }
 
-data "snapcd_simple_secret_scoped_to_module" "mysecret" {
+data "snapcd_module_secret" "mysecret" {
   name      = "my-secret"
   module_id = data.snapcd_module.mymodule.id
 }

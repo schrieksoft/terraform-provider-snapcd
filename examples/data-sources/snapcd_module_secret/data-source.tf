@@ -12,7 +12,7 @@ data "snapcd_module" "mymodule" {
   namespace_id = data.snapcd_namespace.mynamespace.id
 }
 
-data "snapcd_simple_secret_scoped_to_module" "mysecret" {
+data "snapcd_module_secret" "mysecret" {
   name      = "my-secret"
   module_id = data.snapcd_module.mymodule.id
 }

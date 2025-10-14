@@ -406,9 +406,9 @@ func (p *snapcdProvider) DataSources(_ context.Context) []func() datasource.Data
 		namespace_input.NamespaceInputFromDefinitionDataSource,
 		namespace_input.NamespaceInputFromSecretDataSource,
 
-		secret.SecretScopedToStackDataSource,
-		secret.SecretScopedToNamespaceDataSource,
-		secret.SecretScopedToModuleDataSource,
+		secret.StackSecretDataSource,
+		secret.NamespaceSecretDataSource,
+		secret.ModuleSecretDataSource,
 
 		extra_files.NamespaceExtraFileDataSource,
 		extra_files.ModuleExtraFileDataSource,

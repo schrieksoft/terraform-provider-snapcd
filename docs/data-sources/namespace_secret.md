@@ -1,11 +1,11 @@
 ---
-page_title: "snapcd_secret_scoped_to_namespace Data Source - snapcd"
+page_title: "snapcd_namespace_secret Data Source - snapcd"
 subcategory: "Secrets"
 description: |-
   Use this data source to access information about an existing Secret (Scoped to Namespace) in Snap CD.
 ---
 
-# snapcd_secret_scoped_to_namespace (Data Source)
+# snapcd_namespace_secret (Data Source)
 
 Use this data source to access information about an existing Secret (Scoped to Namespace) in Snap CD.
 
@@ -22,7 +22,7 @@ data "snapcd_namespace" "mynamespace" {
   stack_id = data.snapcd_stack.default.id
 }
 
-data "snapcd_simple_secret_scoped_to_namespace" "mysecret" {
+data "snapcd_namespace_secret" "mysecret" {
   name         = "my-secret"
   namespace_id = data.snapcd_namespace.mynamespace.id
 }

@@ -9,20 +9,20 @@ import (
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 )
 
-func TestAccDataSourceSecretScopedToModule(t *testing.T) {
+func TestAccDataSourceStackSecret(t *testing.T) {
 	resource.UnitTest(t, resource.TestCase{
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
 				Config: providerconfig.ProviderConfig + `
 
-data "snapcd_secret_scoped_to_module" "this" {
+data "snapcd_stack_secret" "this" {
 	name 	  = "debug"
-    module_id = "10000000-0000-0000-0000-000000000000"
+    stack_id  = "10000000-0000-0000-0000-000000000000"
 }`,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttrSet("data.snapcd_secret_scoped_to_module.this", "id"),
-					resource.TestCheckResourceAttr("data.snapcd_secret_scoped_to_module.this", "id", "10000000-0000-0000-0000-000000000003"),
+					resource.TestCheckResourceAttrSet("data.snapcd_stack_secret.this", "id"),
+					resource.TestCheckResourceAttr("data.snapcd_stack_secret.this", "id", "10000000-0000-0000-0000-000000000001"),
 				),
 			},
 		},

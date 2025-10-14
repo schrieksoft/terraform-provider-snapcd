@@ -14,27 +14,27 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
 )
 
-var secretScopedToNamespaceDefaultError = fmt.Sprintf("snapcd_secret_scoped_to_namespace error")
+var namespaceSecretDefaultError = fmt.Sprintf("snapcd_namespace_secret error")
 
-var secretScopedToNamespaceEndpoint = "/SecretScopedToNamespace"
+var namespaceSecretEndpoint = "/NamespaceSecret"
 
-type secretScopedToNamespaceModel struct {
+type namespaceSecretModel struct {
 	Name        types.String `tfsdk:"name"`
 	Id          types.String `tfsdk:"id"`
 	NamespaceId types.String `tfsdk:"namespace_id"`
 }
 
-var _ datasource.DataSource = (*secretScopedToNamespaceDataSource)(nil)
+var _ datasource.DataSource = (*namespaceSecretDataSource)(nil)
 
-func SecretScopedToNamespaceDataSource() datasource.DataSource {
-	return &secretScopedToNamespaceDataSource{}
+func NamespaceSecretDataSource() datasource.DataSource {
+	return &namespaceSecretDataSource{}
 }
 
-type secretScopedToNamespaceDataSource struct {
+type namespaceSecretDataSource struct {
 	client *snapcd.Client
 }
 
-func (r *secretScopedToNamespaceDataSource) Configure(_ context.Context, req datasource.ConfigureRequest, resp *datasource.ConfigureResponse) {
+func (r *namespaceSecretDataSource) Configure(_ context.Context, req datasource.ConfigureRequest, resp *datasource.ConfigureResponse) {
 	if req.ProviderData == nil {
 		return
 	}
@@ -53,11 +53,11 @@ func (r *secretScopedToNamespaceDataSource) Configure(_ context.Context, req dat
 	r.client = client
 }
 
-func (d *secretScopedToNamespaceDataSource) Metadata(ctx context.Context, req datasource.MetadataRequest, resp *datasource.MetadataResponse) {
-	resp.TypeName = req.ProviderTypeName + "_secret_scoped_to_namespace"
+func (d *namespaceSecretDataSource) Metadata(ctx context.Context, req datasource.MetadataRequest, resp *datasource.MetadataResponse) {
+	resp.TypeName = req.ProviderTypeName + "_namespace_secret"
 }
 
-func (d *secretScopedToNamespaceDataSource) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
+func (d *namespaceSecretDataSource) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = schema.Schema{
 		MarkdownDescription: "Secrets --- Use this data source to access information about an existing Secret (Scoped to Namespace) in Snap CD.",
 		Attributes: map[string]schema.Attribute{
@@ -77,8 +77,8 @@ func (d *secretScopedToNamespaceDataSource) Schema(ctx context.Context, req data
 	}
 }
 
-func (d *secretScopedToNamespaceDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var data secretScopedToNamespaceModel
+func (d *namespaceSecretDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
+	var data namespaceSecretModel
 
 	resp.Diagnostics.Append(req.Config.Get(ctx, &data)...)
 
@@ -86,7 +86,7 @@ func (d *secretScopedToNamespaceDataSource) Read(ctx context.Context, req dataso
 		return
 	}
 
-	result, httpError := d.client.Get(fmt.Sprintf("%s/ByName/%s", secretScopedToNamespaceEndpoint, data.Name.ValueString()))
+	result, httpError := d.client.Get(fmt.Sprintf("%s/ByName/%s", namespaceSecretEndpoint, data.Name.ValueString()))
 	var err error
 	if httpError != nil {
 		err = httpError.Error
@@ -95,14 +95,14 @@ func (d *secretScopedToNamespaceDataSource) Read(ctx context.Context, req dataso
 	}
 
 	if err != nil {
-		resp.Diagnostics.AddError(secretScopedToNamespaceDefaultError, "Error creating calling GET, unexpected error: "+err.Error())
+		resp.Diagnostics.AddError(namespaceSecretDefaultError, "Error creating calling GET, unexpected error: "+err.Error())
 		return
 	}
 
 	err = utils.JsonToPlan(result, &data)
 
 	if err != nil {
-		resp.Diagnostics.AddError(secretScopedToNamespaceDefaultError, "Failed to convert map to struct: "+err.Error())
+		resp.Diagnostics.AddError(namespaceSecretDefaultError, "Failed to convert map to struct: "+err.Error())
 		return
 	}
 

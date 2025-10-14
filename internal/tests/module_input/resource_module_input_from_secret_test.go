@@ -13,21 +13,21 @@ import (
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 )
 
-var ModuleInputFromSecretCreateConfig = secret_store.AwsSecretStoreCreateConfig + secret_store_assignment.AwsSecretStoreStackAssignmentCreateConfig + secret.SecretScopedToStackCreateConfigDelta + providerconfig.AppendRandomString(`
+var ModuleInputFromSecretCreateConfig = secret_store.AwsSecretStoreCreateConfig + secret_store_assignment.AwsSecretStoreStackAssignmentCreateConfig + secret.StackSecretCreateConfigDelta + providerconfig.AppendRandomString(`
 resource "snapcd_module_input_from_secret" "this" { 
   input_kind 	= "Param"
   module_id  = snapcd_module.this.id
   name  		= "somevalue%s"
-  secret_id 	= snapcd_secret_scoped_to_stack.this.id
+  secret_id 	= snapcd_stack_secret.this.id
 }
 `)
 
-var ModuleInputFromSecretCreateConfigNew = secret_store.AwsSecretStoreCreateConfig + secret_store_assignment.AwsSecretStoreStackAssignmentCreateConfig + secret.SecretScopedToStackCreateConfigDelta + providerconfig.AppendRandomString(`
+var ModuleInputFromSecretCreateConfigNew = secret_store.AwsSecretStoreCreateConfig + secret_store_assignment.AwsSecretStoreStackAssignmentCreateConfig + secret.StackSecretCreateConfigDelta + providerconfig.AppendRandomString(`
 resource "snapcd_module_input_from_secret" "this" { 
   input_kind 	= "Param"
   module_id  = snapcd_module.this.id
   name  		= "someNEWvalue%s"
-  secret_id 	= snapcd_secret_scoped_to_stack.this.id
+  secret_id 	= snapcd_stack_secret.this.id
 }
   
 `)

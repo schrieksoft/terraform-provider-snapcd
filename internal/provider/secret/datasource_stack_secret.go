@@ -14,27 +14,27 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
 )
 
-var secretScopedToStackDefaultError = fmt.Sprintf("snapcd_secret_scoped_to_stack error")
+var stackSecretDefaultError = fmt.Sprintf("snapcd_stack_secret error")
 
-var secretScopedToStackEndpoint = "/SecretScopedToStack"
+var stackSecretEndpoint = "/StackSecret"
 
-type secretScopedToStackModel struct {
+type stackSecretModel struct {
 	Name    types.String `tfsdk:"name"`
 	Id      types.String `tfsdk:"id"`
 	StackId types.String `tfsdk:"stack_id"`
 }
 
-var _ datasource.DataSource = (*secretScopedToStackDataSource)(nil)
+var _ datasource.DataSource = (*stackSecretDataSource)(nil)
 
-func SecretScopedToStackDataSource() datasource.DataSource {
-	return &secretScopedToStackDataSource{}
+func StackSecretDataSource() datasource.DataSource {
+	return &stackSecretDataSource{}
 }
 
-type secretScopedToStackDataSource struct {
+type stackSecretDataSource struct {
 	client *snapcd.Client
 }
 
-func (r *secretScopedToStackDataSource) Configure(_ context.Context, req datasource.ConfigureRequest, resp *datasource.ConfigureResponse) {
+func (r *stackSecretDataSource) Configure(_ context.Context, req datasource.ConfigureRequest, resp *datasource.ConfigureResponse) {
 	if req.ProviderData == nil {
 		return
 	}
@@ -53,11 +53,11 @@ func (r *secretScopedToStackDataSource) Configure(_ context.Context, req datasou
 	r.client = client
 }
 
-func (d *secretScopedToStackDataSource) Metadata(ctx context.Context, req datasource.MetadataRequest, resp *datasource.MetadataResponse) {
-	resp.TypeName = req.ProviderTypeName + "_secret_scoped_to_stack"
+func (d *stackSecretDataSource) Metadata(ctx context.Context, req datasource.MetadataRequest, resp *datasource.MetadataResponse) {
+	resp.TypeName = req.ProviderTypeName + "_stack_secret"
 }
 
-func (d *secretScopedToStackDataSource) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
+func (d *stackSecretDataSource) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = schema.Schema{
 		MarkdownDescription: "Secrets --- Use this data source to access information about an existing Secret (Scoped to Stack) in Snap CD.",
 		Attributes: map[string]schema.Attribute{
@@ -77,8 +77,8 @@ func (d *secretScopedToStackDataSource) Schema(ctx context.Context, req datasour
 	}
 }
 
-func (d *secretScopedToStackDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var data secretScopedToStackModel
+func (d *stackSecretDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
+	var data stackSecretModel
 
 	resp.Diagnostics.Append(req.Config.Get(ctx, &data)...)
 
@@ -86,7 +86,7 @@ func (d *secretScopedToStackDataSource) Read(ctx context.Context, req datasource
 		return
 	}
 
-	result, httpError := d.client.Get(fmt.Sprintf("%s/ByName/%s", secretScopedToStackEndpoint, data.Name.ValueString()))
+	result, httpError := d.client.Get(fmt.Sprintf("%s/ByName/%s", stackSecretEndpoint, data.Name.ValueString()))
 	var err error
 	if httpError != nil {
 		err = httpError.Error
@@ -95,14 +95,14 @@ func (d *secretScopedToStackDataSource) Read(ctx context.Context, req datasource
 	}
 
 	if err != nil {
-		resp.Diagnostics.AddError(secretScopedToStackDefaultError, "Error creating calling GET, unexpected error: "+err.Error())
+		resp.Diagnostics.AddError(stackSecretDefaultError, "Error creating calling GET, unexpected error: "+err.Error())
 		return
 	}
 
 	err = utils.JsonToPlan(result, &data)
 
 	if err != nil {
-		resp.Diagnostics.AddError(secretScopedToStackDefaultError, "Failed to convert map to struct: "+err.Error())
+		resp.Diagnostics.AddError(stackSecretDefaultError, "Failed to convert map to struct: "+err.Error())
 		return
 	}
 

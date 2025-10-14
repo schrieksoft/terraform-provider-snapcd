@@ -1,11 +1,11 @@
 ---
-page_title: "snapcd_secret_scoped_to_stack Data Source - snapcd"
+page_title: "snapcd_stack_secret Data Source - snapcd"
 subcategory: "Secrets"
 description: |-
   Use this data source to access information about an existing Secret (Scoped to Stack) in Snap CD.
 ---
 
-# snapcd_secret_scoped_to_stack (Data Source)
+# snapcd_stack_secret (Data Source)
 
 Use this data source to access information about an existing Secret (Scoped to Stack) in Snap CD.
 
@@ -17,7 +17,7 @@ data "snapcd_stack" "default" {
   name = "default"
 }
 
-data "snapcd_simple_secret_scoped_to_stack" "mysecret" {
+data "snapcd_stack_secret" "mysecret" {
   name     = "my-secret"
   stack_id = data.snapcd_stack.default.id
 }
