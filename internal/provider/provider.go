@@ -443,9 +443,10 @@ func (p *snapcdProvider) Resources(_ context.Context) []func() resource.Resource
 		namespace_input.NamespaceInputFromDefinitionResource,
 		namespace_input.NamespaceInputFromSecretResource,
 
-		role_assignment.ResourceRoleAssignmentResource,
-		role_assignment.TypeRoleAssignmentResource,
-		role_assignment.GlobalRoleAssignmentResource,
+		role_assignment.OrganizationRoleAssignmentResource,
+		role_assignment.StackRoleAssignmentResource,
+		role_assignment.NamespaceRoleAssignmentResource,
+		role_assignment.ModuleRoleAssignmentResource,
 
 		runner_pool_assignment.RunnerPoolStackAssignmentResource,
 		runner_pool_assignment.RunnerPoolNamespaceAssignmentResource,

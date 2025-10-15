@@ -1,0 +1,20 @@
+
+data "snapcd_stack" "mystack" {
+  name = "MyStack"
+}
+
+data "snapcd_namespace" "mynamespace" {
+  stack_id = data.snapcd_stack.mystack.id
+  name     = "MyNamespace"
+}
+
+data "snapcd_service_principal" "mysp" {
+  client_id = "MyServicePrincipal"
+}
+
+resource "snapcd_namespace_role_assignment" "mysp_reader" {
+  namespace_id            = data.snapcd_namespace.mynamespace.id
+  principal_id            = data.snapcd_service_principal.mysp.id
+  principal_discriminator = "ServicePrincipal"
+  role_name               = "Reader"
+}
