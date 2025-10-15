@@ -13,14 +13,14 @@ resource "snapcd_depends_on_module" "this" {
 
 var ModuleCreateConfigDelta = providerconfig.AppendRandomString(`
 
-data "snapcd_runner_pool" "default" {
-  name = "default"
+data "snapcd_runner_pool" "debug" {
+  name = "debug"
 }
 
 resource "snapcd_module" "this" {
   name                         	 = "somevalue%s"
   namespace_id                	 = snapcd_namespace.this.id
-  runner_pool_id                 = data.snapcd_runner_pool.default.id
+  runner_pool_id                 = data.snapcd_runner_pool.debug.id
   source_subdirectory  	         = "modules/module1"
   source_url                     = "foo"
   source_revision                = "main"
@@ -38,7 +38,7 @@ var ModuleCreateConfigDeltaTwo = providerconfig.AppendRandomString(`
 resource "snapcd_module" "two" {
   name                         	 = "somevalueTwo%s"
   namespace_id                	 = snapcd_namespace.this.id
-  runner_pool_id                 = data.snapcd_runner_pool.default.id
+  runner_pool_id                 = data.snapcd_runner_pool.debug.id
   source_subdirectory  	         = "modules/module1"
   source_url                     = "foo"
   source_revision                = "main"
@@ -56,7 +56,7 @@ var ModuleCreateConfigDeltaThree = providerconfig.AppendRandomString(`
 resource "snapcd_module" "three" {
   name                         	 = "somevalueThree%s"
   namespace_id                	 = snapcd_namespace.this.id
-  runner_pool_id                 = data.snapcd_runner_pool.default.id
+  runner_pool_id                 = data.snapcd_runner_pool.debug.id
   source_subdirectory  	         = "modules/module1"
   source_url                     = "foo"
   source_revision                = "main"
@@ -108,7 +108,7 @@ resource "snapcd_stack" "this" {
 
 var PrexistingStack = `
 resource "snapcd_stack" "this" {
-  name  = "default"
+  name  = "debug"
 }`
 
 var SourceRefresherPreselectionCreateConfig = providerconfig.AppendRandomString(`

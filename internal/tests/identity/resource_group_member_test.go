@@ -34,11 +34,12 @@ func TestAccResourceGroupMember_CreateUpdate(t *testing.T) {
 				),
 			},
 			{
-				Config: providerconfig.ProviderConfig + GroupCreateConfig + ServicePrincipalDataSourceConfig + `
+				Config: providerconfig.ProviderConfig + GroupCreateConfig + AnotherGroupCreateConfig + ServicePrincipalDataSourceConfig + `
 resource "snapcd_group_member" "this" { 
-  group_id  	 		  = snapcd_group.this.id
-  principal_id   		  = data.snapcd_service_principal.this.id
-  principal_discriminator = "User"
+  group_id  	 		     = snapcd_group.another.id
+  principal_id   		     = data.snapcd_service_principal.this.id
+  group_member_discriminator = "ServicePrincipal"
+
 }`,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_group_member.this", "id"),

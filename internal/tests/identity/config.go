@@ -6,9 +6,9 @@ import (
 
 var GroupMemberCreateConfig = `
 resource "snapcd_group_member" "this" { 
-  group_id  	 		  = snapcd_group.this.id
-  principal_id   		  = data.snapcd_service_principal.this.id
-  principal_discriminator = "ServicePrincipal"
+  group_id  	 		     = snapcd_group.this.id
+  principal_id   		     = data.snapcd_service_principal.this.id
+  group_member_discriminator = "ServicePrincipal"
 }`
 
 var GroupCreateConfig = providerconfig.AppendRandomString(`
@@ -16,9 +16,14 @@ resource "snapcd_group" "this" {
   name  = "somevalue%s"
 }`)
 
+var AnotherGroupCreateConfig = providerconfig.AppendRandomString(`
+resource "snapcd_group" "another" { 
+  name  = "anothervalue%s"
+}`)
+
 var ServicePrincipalDataSourceConfig = `
 data "snapcd_service_principal" "this" {
-	client_id = "DefaultRunner"
+	client_id = "debug"
 }
 `
 
