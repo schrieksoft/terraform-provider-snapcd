@@ -23,11 +23,11 @@ resource "snapcd_group" "another" {
 
 var ServicePrincipalDataSourceConfig = `
 data "snapcd_service_principal" "this" {
-	client_id = "debug"
+	client_id = "debugTestTarget1"
 }
 `
 
 var UserGetConfig = `
 data "snapcd_user" "this" { 
-  user_name  = "kschriek@gmail.com"
+  user_name  = "debug@preseeded.io"
 }`

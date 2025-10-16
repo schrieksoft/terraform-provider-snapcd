@@ -20,7 +20,7 @@ resource "snapcd_runner_pool_module_assignment" "this" {
 
 var RunnerPoolServicePrincipalAssignmentCreateConfig = `
 data "snapcd_service_principal" "this" {
-	client_id = "DefaultRunner"
+	client_id = "debugTestTarget1"
 }
 
 resource "snapcd_runner_pool_service_principal_assignment" "this" { 

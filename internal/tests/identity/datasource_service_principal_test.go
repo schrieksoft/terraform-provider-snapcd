@@ -14,14 +14,10 @@ func TestAccDataSourceServicePrincipal(t *testing.T) {
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + `
-
-data "snapcd_service_principal" "this" {
-	client_id = "DefaultRunner"
-}`,
+				Config: providerconfig.ProviderConfig + ServicePrincipalDataSourceConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("data.snapcd_service_principal.this", "id"),
-					resource.TestCheckResourceAttr("data.snapcd_service_principal.this", "client_id", "DefaultRunner"),
+					resource.TestCheckResourceAttr("data.snapcd_service_principal.this", "client_id", "debugTestTarget1"),
 				),
 			},
 		},

@@ -3,6 +3,7 @@
 package role_assignment
 
 import (
+	"terraform-provider-snapcd/internal/tests/core"
 	"terraform-provider-snapcd/internal/tests/providerconfig"
 	"testing"
 
@@ -14,7 +15,7 @@ func TestAccResourceModuleRoleAssignment_Create(t *testing.T) {
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + StackDataSourceConfig + NamespaceDataSourceConfig + ModuleDataSourceConfig + ServicePrincipalDataSourceConfig + ModuleRoleAssignmentCreateConfig,
+				Config: providerconfig.ProviderConfig + core.ModuleCreateConfig + ServicePrincipalDataSourceConfig + ModuleRoleAssignmentCreateConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_module_role_assignment.this", "id"),
 				),
@@ -28,13 +29,13 @@ func TestAccResourceModuleRoleAssignment_CreateUpdate(t *testing.T) {
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + StackDataSourceConfig + NamespaceDataSourceConfig + ModuleDataSourceConfig + ServicePrincipalDataSourceConfig + ModuleRoleAssignmentCreateConfig,
+				Config: providerconfig.ProviderConfig + core.ModuleCreateConfig + ServicePrincipalDataSourceConfig + ModuleRoleAssignmentCreateConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_module_role_assignment.this", "id"),
 				),
 			},
 			{
-				Config: providerconfig.ProviderConfig + StackDataSourceConfig + NamespaceDataSourceConfig + ModuleDataSourceConfig + ServicePrincipalDataSourceConfig + ModuleRoleAssignmentUpdateConfig,
+				Config: providerconfig.ProviderConfig + core.ModuleCreateConfig + ServicePrincipalDataSourceConfig + ModuleRoleAssignmentUpdateConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_module_role_assignment.this", "id"),
 				),
@@ -48,7 +49,7 @@ func TestAccResourceModuleRoleAssignment_Import(t *testing.T) {
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + StackDataSourceConfig + NamespaceDataSourceConfig + ModuleDataSourceConfig + ServicePrincipalDataSourceConfig + ModuleRoleAssignmentCreateConfig,
+				Config: providerconfig.ProviderConfig + core.ModuleCreateConfig + ServicePrincipalDataSourceConfig + ModuleRoleAssignmentCreateConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_module_role_assignment.this", "id"),
 				),

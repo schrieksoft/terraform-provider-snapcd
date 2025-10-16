@@ -3,6 +3,7 @@
 package role_assignment
 
 import (
+	"terraform-provider-snapcd/internal/tests/core"
 	"terraform-provider-snapcd/internal/tests/providerconfig"
 	"testing"
 
@@ -14,7 +15,7 @@ func TestAccResourceNamespaceRoleAssignment_Create(t *testing.T) {
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + StackDataSourceConfig + NamespaceDataSourceConfig + ServicePrincipalDataSourceConfig + NamespaceRoleAssignmentCreateConfig,
+				Config: providerconfig.ProviderConfig + core.NamespaceCreateConfig + ServicePrincipalDataSourceConfig + NamespaceRoleAssignmentCreateConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_namespace_role_assignment.this", "id"),
 				),
@@ -28,13 +29,13 @@ func TestAccResourceNamespaceRoleAssignment_CreateUpdate(t *testing.T) {
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + StackDataSourceConfig + NamespaceDataSourceConfig + ServicePrincipalDataSourceConfig + NamespaceRoleAssignmentCreateConfig,
+				Config: providerconfig.ProviderConfig + core.NamespaceCreateConfig + ServicePrincipalDataSourceConfig + NamespaceRoleAssignmentCreateConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_namespace_role_assignment.this", "id"),
 				),
 			},
 			{
-				Config: providerconfig.ProviderConfig + StackDataSourceConfig + NamespaceDataSourceConfig + ServicePrincipalDataSourceConfig + NamespaceRoleAssignmentUpdateConfig,
+				Config: providerconfig.ProviderConfig + core.NamespaceCreateConfig + ServicePrincipalDataSourceConfig + NamespaceRoleAssignmentUpdateConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_namespace_role_assignment.this", "id"),
 				),
@@ -48,7 +49,7 @@ func TestAccResourceNamespaceRoleAssignment_Import(t *testing.T) {
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + StackDataSourceConfig + NamespaceDataSourceConfig + ServicePrincipalDataSourceConfig + NamespaceRoleAssignmentCreateConfig,
+				Config: providerconfig.ProviderConfig + core.NamespaceCreateConfig + ServicePrincipalDataSourceConfig + NamespaceRoleAssignmentCreateConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_namespace_role_assignment.this", "id"),
 				),

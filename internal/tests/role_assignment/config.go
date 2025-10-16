@@ -2,33 +2,7 @@ package role_assignment
 
 var ServicePrincipalDataSourceConfig = `
 data "snapcd_service_principal" "this" {
-	client_id = "debug"
-}
-`
-
-var UserDataSourceConfig = `
-data "snapcd_user" "this" {
-  user_name  = "kschriek@gmail.com"
-}
-`
-
-var StackDataSourceConfig = `
-data "snapcd_stack" "this" {
-  name = "debug"
-}
-`
-
-var NamespaceDataSourceConfig = `
-data "snapcd_namespace" "this" {
-  stack_id = data.snapcd_stack.this.id
-  name     = "debug"
-}
-`
-
-var ModuleDataSourceConfig = `
-data "snapcd_module" "this" {
-  namespace_id = data.snapcd_namespace.this.id
-  name         = "debug"
+	client_id = "debugTestTarget1"
 }
 `
 
@@ -52,7 +26,7 @@ resource "snapcd_organization_role_assignment" "this" {
 // Stack Role Assignment Configs
 var StackRoleAssignmentCreateConfig = `
 resource "snapcd_stack_role_assignment" "this" {
-  stack_id                = data.snapcd_stack.this.id
+  stack_id                = snapcd_stack.this.id
   principal_id            = data.snapcd_service_principal.this.id
   principal_discriminator = "ServicePrincipal"
   role_name               = "Owner"
@@ -61,7 +35,7 @@ resource "snapcd_stack_role_assignment" "this" {
 
 var StackRoleAssignmentUpdateConfig = `
 resource "snapcd_stack_role_assignment" "this" {
-  stack_id                = data.snapcd_stack.this.id
+  stack_id                = snapcd_stack.this.id
   principal_id            = data.snapcd_service_principal.this.id
   principal_discriminator = "ServicePrincipal"
   role_name               = "Contributor"
@@ -71,7 +45,7 @@ resource "snapcd_stack_role_assignment" "this" {
 // Namespace Role Assignment Configs
 var NamespaceRoleAssignmentCreateConfig = `
 resource "snapcd_namespace_role_assignment" "this" {
-  namespace_id            = data.snapcd_namespace.this.id
+  namespace_id            = snapcd_namespace.this.id
   principal_id            = data.snapcd_service_principal.this.id
   principal_discriminator = "ServicePrincipal"
   role_name               = "Owner"
@@ -80,7 +54,7 @@ resource "snapcd_namespace_role_assignment" "this" {
 
 var NamespaceRoleAssignmentUpdateConfig = `
 resource "snapcd_namespace_role_assignment" "this" {
-  namespace_id            = data.snapcd_namespace.this.id
+  namespace_id            = snapcd_namespace.this.id
   principal_id            = data.snapcd_service_principal.this.id
   principal_discriminator = "ServicePrincipal"
   role_name               = "Reader"
@@ -90,7 +64,7 @@ resource "snapcd_namespace_role_assignment" "this" {
 // Module Role Assignment Configs
 var ModuleRoleAssignmentCreateConfig = `
 resource "snapcd_module_role_assignment" "this" {
-  module_id               = data.snapcd_module.this.id
+  module_id               = snapcd_module.this.id
   principal_id            = data.snapcd_service_principal.this.id
   principal_discriminator = "ServicePrincipal"
   role_name               = "Owner"
@@ -99,7 +73,7 @@ resource "snapcd_module_role_assignment" "this" {
 
 var ModuleRoleAssignmentUpdateConfig = `
 resource "snapcd_module_role_assignment" "this" {
-  module_id               = data.snapcd_module.this.id
+  module_id               = snapcd_module.this.id
   principal_id            = data.snapcd_service_principal.this.id
   principal_discriminator = "ServicePrincipal"
   role_name               = "IdentityAccessManager"

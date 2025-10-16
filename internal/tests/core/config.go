@@ -1,6 +1,7 @@
 package core
 
 import (
+	"terraform-provider-snapcd/internal/tests/identity"
 	providerconfig "terraform-provider-snapcd/internal/tests/providerconfig"
 )
 
@@ -8,6 +9,32 @@ var DependsOnModuleCreateConfig = `
 resource "snapcd_depends_on_module" "this" { 
   module_id = snapcd_module.this.id
   depends_on_module_id = snapcd_module.two.id
+}
+`
+
+var StackDebugDataSourceDelta = `
+data "snapcd_stack" "debug" {
+  name = "debug"
+}
+`
+var NamespaceDebugDataSourceDelta = `
+data "snapcd_namespace" "debug" {
+  name = "debug"
+  stack_id = data.snapcd_stack.debug.id
+}
+`
+
+var ModuleDebugDataSourceDelta = `
+data "snapcd_module" "debug" {
+  name = "debug"
+  namespace_id = data.snapcd_namespace.debug.id
+}
+`
+
+var StackSecretDebugDataSourceDelta = `
+data "snapcd_stack_secret" "debug" {
+	name 	  = "debug"
+    stack_id = data.snapcd_stack.debug.id
 }
 `
 
@@ -117,16 +144,11 @@ resource "snapcd_source_refresher_preselection" "this" {
   runner_pool_id = snapcd_runner_pool.this.id
 }`)
 
-var CustomCommandPreApprovalCreateConfig = RunnerPoolCreateConfig + ServicePrincipalDataSourceConfig + `
+var CustomCommandPreApprovalCreateConfig = RunnerPoolCreateConfig + identity.ServicePrincipalDataSourceConfig + `
 
 resource "snapcd_custom_command_pre_approval" "this" {
   runner_pool_id                   = snapcd_runner_pool.this.id
   command_text                     = "terraform plan"
   approver_principal_id            = data.snapcd_service_principal.this.id
   approver_principal_discriminator = "ServicePrincipal"
-}`
-
-var ServicePrincipalDataSourceConfig = `
-data "snapcd_service_principal" "this" {
-  client_id = "DefaultRunner"
 }`
