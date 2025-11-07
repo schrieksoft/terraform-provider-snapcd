@@ -134,7 +134,7 @@ resource "snapcd_stack" "this" {
 }`)
 
 var PrexistingStack = `
-resource "snapcd_stack" "this" {
+data "snapcd_stack" "debug" {
   name  = "debug"
 }`
 
