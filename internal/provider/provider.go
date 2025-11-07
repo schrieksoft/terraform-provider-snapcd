@@ -447,6 +447,7 @@ func (p *snapcdProvider) Resources(_ context.Context) []func() resource.Resource
 		role_assignment.StackRoleAssignmentResource,
 		role_assignment.NamespaceRoleAssignmentResource,
 		role_assignment.ModuleRoleAssignmentResource,
+		role_assignment.RunnerPoolRoleAssignmentResource,
 
 		runner_pool_assignment.RunnerPoolStackAssignmentResource,
 		runner_pool_assignment.RunnerPoolNamespaceAssignmentResource,

@@ -79,3 +79,22 @@ resource "snapcd_module_role_assignment" "this" {
   role_name               = "IdentityAccessManager"
 }
 `
+
+// RunnerPool Role Assignment Configs
+var RunnerPoolRoleAssignmentCreateConfig = `
+resource "snapcd_runnerpool_role_assignment" "this" {
+  runner_pool_id          = snapcd_runner_pool.this.id
+  principal_id            = data.snapcd_service_principal.this.id
+  principal_discriminator = "ServicePrincipal"
+  role_name               = "Owner"
+}
+`
+
+var RunnerPoolRoleAssignmentUpdateConfig = `
+resource "snapcd_runnerpool_role_assignment" "this" {
+  runner_pool_id          = snapcd_runner_pool.this.id
+  principal_id            = data.snapcd_service_principal.this.id
+  principal_discriminator = "ServicePrincipal"
+  role_name               = "Runner"
+}
+`
