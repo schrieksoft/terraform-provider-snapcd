@@ -10,12 +10,12 @@ import (
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 )
 
-func TestAccResourceRunnerPoolRoleAssignment_Create(t *testing.T) {
+func TestAccResourceRunnerRoleAssignment_Create(t *testing.T) {
 	resource.UnitTest(t, resource.TestCase{
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + core.RunnerPoolCreateConfig + ServicePrincipalDataSourceConfig + RunnerPoolRoleAssignmentCreateConfig,
+				Config: providerconfig.ProviderConfig + core.RunnerCreateConfig + ServicePrincipalDataSourceConfig + RunnerRoleAssignmentCreateConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_runnerpool_role_assignment.this", "id"),
 				),
@@ -24,18 +24,18 @@ func TestAccResourceRunnerPoolRoleAssignment_Create(t *testing.T) {
 	})
 }
 
-func TestAccResourceRunnerPoolRoleAssignment_CreateUpdate(t *testing.T) {
+func TestAccResourceRunnerRoleAssignment_CreateUpdate(t *testing.T) {
 	resource.UnitTest(t, resource.TestCase{
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + core.RunnerPoolCreateConfig + ServicePrincipalDataSourceConfig + RunnerPoolRoleAssignmentCreateConfig,
+				Config: providerconfig.ProviderConfig + core.RunnerCreateConfig + ServicePrincipalDataSourceConfig + RunnerRoleAssignmentCreateConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_runnerpool_role_assignment.this", "id"),
 				),
 			},
 			{
-				Config: providerconfig.ProviderConfig + core.RunnerPoolCreateConfig + ServicePrincipalDataSourceConfig + RunnerPoolRoleAssignmentUpdateConfig,
+				Config: providerconfig.ProviderConfig + core.RunnerCreateConfig + ServicePrincipalDataSourceConfig + RunnerRoleAssignmentUpdateConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_runnerpool_role_assignment.this", "id"),
 				),
@@ -44,12 +44,12 @@ func TestAccResourceRunnerPoolRoleAssignment_CreateUpdate(t *testing.T) {
 	})
 }
 
-func TestAccResourceRunnerPoolRoleAssignment_Import(t *testing.T) {
+func TestAccResourceRunnerRoleAssignment_Import(t *testing.T) {
 	resource.UnitTest(t, resource.TestCase{
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + core.RunnerPoolCreateConfig + ServicePrincipalDataSourceConfig + RunnerPoolRoleAssignmentCreateConfig,
+				Config: providerconfig.ProviderConfig + core.RunnerCreateConfig + ServicePrincipalDataSourceConfig + RunnerRoleAssignmentCreateConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_runnerpool_role_assignment.this", "id"),
 				),

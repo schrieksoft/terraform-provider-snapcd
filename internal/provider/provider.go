@@ -15,7 +15,7 @@ import (
 	"terraform-provider-snapcd/internal/provider/module_input"
 	"terraform-provider-snapcd/internal/provider/namespace_input"
 	"terraform-provider-snapcd/internal/provider/role_assignment"
-	"terraform-provider-snapcd/internal/provider/runner_pool_assignment"
+	"terraform-provider-snapcd/internal/provider/runner_assignment"
 	"terraform-provider-snapcd/internal/provider/secret"
 	"terraform-provider-snapcd/utils"
 
@@ -387,7 +387,7 @@ func (p *snapcdProvider) DataSources(_ context.Context) []func() datasource.Data
 		core.NamespaceDataSource,
 		core.ModuleDataSource,
 		core.StackDataSource,
-		core.RunnerPoolDataSource,
+		core.RunnerDataSource,
 		core.SourceRefresherPreselectionDataSource,
 		core.DependsOnModuleDataSource,
 
@@ -425,7 +425,7 @@ func (p *snapcdProvider) Resources(_ context.Context) []func() resource.Resource
 		core.NamespaceResource,
 		core.ModuleResource,
 		core.StackResource,
-		core.RunnerPoolResource,
+		core.RunnerResource,
 		core.SourceRefresherPreselectionResource,
 		core.DependsOnModuleResource,
 
@@ -447,11 +447,11 @@ func (p *snapcdProvider) Resources(_ context.Context) []func() resource.Resource
 		role_assignment.StackRoleAssignmentResource,
 		role_assignment.NamespaceRoleAssignmentResource,
 		role_assignment.ModuleRoleAssignmentResource,
-		role_assignment.RunnerPoolRoleAssignmentResource,
+		role_assignment.RunnerRoleAssignmentResource,
 
-		runner_pool_assignment.RunnerPoolStackAssignmentResource,
-		runner_pool_assignment.RunnerPoolNamespaceAssignmentResource,
-		runner_pool_assignment.RunnerPoolModuleAssignmentResource,
+		runner_assignment.RunnerStackAssignmentResource,
+		runner_assignment.RunnerNamespaceAssignmentResource,
+		runner_assignment.RunnerModuleAssignmentResource,
 
 		extra_files.NamespaceExtraFileResource,
 		extra_files.ModuleExtraFileResource,

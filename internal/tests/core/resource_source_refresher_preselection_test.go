@@ -14,7 +14,7 @@ func TestAccResourceSourceRefresherPreselection_Create(t *testing.T) {
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + RunnerPoolCreateConfig + SourceRefresherPreselectionCreateConfig,
+				Config: providerconfig.ProviderConfig + RunnerCreateConfig + SourceRefresherPreselectionCreateConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_source_refresher_preselection.this", "id"),
 				),
@@ -28,17 +28,17 @@ func TestAccResourceSourceRefresherPreselection_CreateUpdate(t *testing.T) {
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + RunnerPoolCreateConfig + SourceRefresherPreselectionCreateConfig,
+				Config: providerconfig.ProviderConfig + RunnerCreateConfig + SourceRefresherPreselectionCreateConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_source_refresher_preselection.this", "id"),
 					resource.TestCheckResourceAttr("snapcd_source_refresher_preselection.this", "source_url", providerconfig.AppendRandomString("somevalue%s")),
 				),
 			},
 			{
-				Config: providerconfig.ProviderConfig + RunnerPoolCreateConfig + providerconfig.AppendRandomString(`
+				Config: providerconfig.ProviderConfig + RunnerCreateConfig + providerconfig.AppendRandomString(`
 resource "snapcd_source_refresher_preselection" "this" { 
   source_url = "someNEWvalue%s"
-  runner_pool_id = snapcd_runner_pool.this.id
+  runner_id = snapcd_runner.this.id
 }`),
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_source_refresher_preselection.this", "id"),
@@ -54,7 +54,7 @@ func TestAccResourceSourceRefresherPreselection_Import(t *testing.T) {
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + RunnerPoolCreateConfig + SourceRefresherPreselectionCreateConfig,
+				Config: providerconfig.ProviderConfig + RunnerCreateConfig + SourceRefresherPreselectionCreateConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_source_refresher_preselection.this", "id"),
 				),

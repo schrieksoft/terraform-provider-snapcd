@@ -18,22 +18,22 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 )
 
-var runnerPoolRoleAssignmentDefaultError = fmt.Sprintf("snapcd_runnerpool_role_assignment error")
+var runnerRoleAssignmentDefaultError = fmt.Sprintf("snapcd_runnerpool_role_assignment error")
 
-var runnerPoolRoleAssignmentEndpoint = "/RunnerPoolRoleAssignment"
+var runnerRoleAssignmentEndpoint = "/RunnerRoleAssignment"
 
-var _ resource.Resource = (*runnerPoolRoleAssignmentResource)(nil)
+var _ resource.Resource = (*runnerRoleAssignmentResource)(nil)
 
-func RunnerPoolRoleAssignmentResource() resource.Resource {
-	return &runnerPoolRoleAssignmentResource{}
+func RunnerRoleAssignmentResource() resource.Resource {
+	return &runnerRoleAssignmentResource{}
 }
 
-type runnerPoolRoleAssignmentResource struct {
+type runnerRoleAssignmentResource struct {
 	client *snapcd.Client
 }
 
 // Configure adds the provider configured client to the resource.
-func (r *runnerPoolRoleAssignmentResource) Configure(_ context.Context, req resource.ConfigureRequest, resp *resource.ConfigureResponse) {
+func (r *runnerRoleAssignmentResource) Configure(_ context.Context, req resource.ConfigureRequest, resp *resource.ConfigureResponse) {
 	if req.ProviderData == nil {
 		return
 	}
@@ -52,65 +52,65 @@ func (r *runnerPoolRoleAssignmentResource) Configure(_ context.Context, req reso
 	r.client = client
 }
 
-func (r *runnerPoolRoleAssignmentResource) Metadata(ctx context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
+func (r *runnerRoleAssignmentResource) Metadata(ctx context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
 	resp.TypeName = req.ProviderTypeName + "_runnerpool_role_assignment"
 }
 
-type runnerPoolRoleAssignmentModel struct {
+type runnerRoleAssignmentModel struct {
 	Id                     types.String `tfsdk:"id"`
-	RunnerPoolId           types.String `tfsdk:"runner_pool_id"`
+	RunnerId           types.String `tfsdk:"runner_id"`
 	PrincipalId            types.String `tfsdk:"principal_id"`
 	PrincipalDiscriminator types.String `tfsdk:"principal_discriminator"`
 	RoleName               types.String `tfsdk:"role_name"`
 }
 
 const (
-	DescRunnerPoolRoleAssignmentId                     = "Unique ID of the RunnerPool Role Assignment."
-	DescRunnerPoolRoleAssignmentRunnerPoolId           = "ID of the RunnerPool on which the role applies."
-	DescRunnerPoolRoleAssignmentPrincipalId            = "ID of the Principal to which the role is assigned."
-	DescRunnerPoolRoleAssignmentPrincipalDiscriminator = "Type of Principal that the `principal_id` identifies. Must be one of 'User', 'ServicePrincipal' and 'Group'"
-	DescRunnerPoolRoleAssignmentRoleName               = "Name of the Role that is assigned. Must be one of 'Owner', 'Contributor', 'Reader', 'IdentityAccessManager', 'JobManager' and 'Runner'"
+	DescRunnerRoleAssignmentId                     = "Unique ID of the Runner Role Assignment."
+	DescRunnerRoleAssignmentRunnerId           = "ID of the Runner on which the role applies."
+	DescRunnerRoleAssignmentPrincipalId            = "ID of the Principal to which the role is assigned."
+	DescRunnerRoleAssignmentPrincipalDiscriminator = "Type of Principal that the `principal_id` identifies. Must be one of 'User', 'ServicePrincipal' and 'Group'"
+	DescRunnerRoleAssignmentRoleName               = "Name of the Role that is assigned. Must be one of 'Owner', 'Contributor', 'Reader', 'IdentityAccessManager', 'JobManager' and 'Runner'"
 )
 
-func (r *runnerPoolRoleAssignmentResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
+func (r *runnerRoleAssignmentResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: `Identity Access Management --- Manages a RunnerPool Role Assignment in Snap CD.`,
+		MarkdownDescription: `Identity Access Management --- Manages a Runner Role Assignment in Snap CD.`,
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
-				Description: DescRunnerPoolRoleAssignmentId,
+				Description: DescRunnerRoleAssignmentId,
 			},
-			"runner_pool_id": schema.StringAttribute{
+			"runner_id": schema.StringAttribute{
 				Required:    true,
-				Description: DescRunnerPoolRoleAssignmentRunnerPoolId,
+				Description: DescRunnerRoleAssignmentRunnerId,
 			},
 			"principal_id": schema.StringAttribute{
 				Required:    true,
-				Description: DescRunnerPoolRoleAssignmentPrincipalId,
+				Description: DescRunnerRoleAssignmentPrincipalId,
 			},
 			"principal_discriminator": schema.StringAttribute{
 				Required: true,
 				Validators: []validator.String{
 					stringvalidator.OneOf("User", "ServicePrincipal", "Group"),
 				},
-				Description: DescRunnerPoolRoleAssignmentPrincipalDiscriminator,
+				Description: DescRunnerRoleAssignmentPrincipalDiscriminator,
 			},
 			"role_name": schema.StringAttribute{
 				Required: true,
 				Validators: []validator.String{
 					stringvalidator.OneOf("Owner", "Contributor", "Reader", "IdentityAccessManager", "JobManager", "Runner"),
 				},
-				Description: DescRunnerPoolRoleAssignmentRoleName,
+				Description: DescRunnerRoleAssignmentRoleName,
 			},
 		},
 	}
 }
 
-func (r *runnerPoolRoleAssignmentResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
-	var data runnerPoolRoleAssignmentModel
+func (r *runnerRoleAssignmentResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
+	var data runnerRoleAssignmentModel
 
 	// Read Terraform plan data into the model
 	resp.Diagnostics.Append(req.Plan.Get(ctx, &data)...)
@@ -121,17 +121,17 @@ func (r *runnerPoolRoleAssignmentResource) Create(ctx context.Context, req resou
 
 	jsonMap, err := utils.PlanToJson(data, []string{"id"})
 	if err != nil {
-		resp.Diagnostics.AddError(runnerPoolRoleAssignmentDefaultError, "Failed to convert json to plan: "+err.Error())
+		resp.Diagnostics.AddError(runnerRoleAssignmentDefaultError, "Failed to convert json to plan: "+err.Error())
 	}
 
 	if err != nil {
-		resp.Diagnostics.AddError(runnerPoolRoleAssignmentDefaultError, "Failed to convert plan to json: "+err.Error())
+		resp.Diagnostics.AddError(runnerRoleAssignmentDefaultError, "Failed to convert plan to json: "+err.Error())
 		return
 	}
 
-	result, httpError := r.client.Post(runnerPoolRoleAssignmentEndpoint, jsonMap)
+	result, httpError := r.client.Post(runnerRoleAssignmentEndpoint, jsonMap)
 	if httpError != nil && httpError.StatusCode == snapcd.Status442EntityAlreadyExists {
-		resp.Diagnostics.AddError(runnerPoolRoleAssignmentDefaultError, "The resource you are trying to create already exists. To manage it with terraform you must import it")
+		resp.Diagnostics.AddError(runnerRoleAssignmentDefaultError, "The resource you are trying to create already exists. To manage it with terraform you must import it")
 		return
 	}
 	if httpError != nil {
@@ -140,14 +140,14 @@ func (r *runnerPoolRoleAssignmentResource) Create(ctx context.Context, req resou
 		err = nil
 	}
 	if err != nil {
-		resp.Diagnostics.AddError(runnerPoolRoleAssignmentDefaultError, "Error calling POST, unexpected error: "+err.Error())
+		resp.Diagnostics.AddError(runnerRoleAssignmentDefaultError, "Error calling POST, unexpected error: "+err.Error())
 		return
 	}
 
 	err = utils.JsonToPlan(result, &data, []string{"client_secret"})
 
 	if err != nil {
-		resp.Diagnostics.AddError(runnerPoolRoleAssignmentDefaultError, "Failed to convert json to plan: "+err.Error())
+		resp.Diagnostics.AddError(runnerRoleAssignmentDefaultError, "Failed to convert json to plan: "+err.Error())
 		return
 	}
 
@@ -155,8 +155,8 @@ func (r *runnerPoolRoleAssignmentResource) Create(ctx context.Context, req resou
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
 
-func (r *runnerPoolRoleAssignmentResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
-	var data runnerPoolRoleAssignmentModel
+func (r *runnerRoleAssignmentResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
+	var data runnerRoleAssignmentModel
 
 	// Read Terraform prior state data into the model
 	resp.Diagnostics.Append(req.State.Get(ctx, &data)...)
@@ -166,7 +166,7 @@ func (r *runnerPoolRoleAssignmentResource) Read(ctx context.Context, req resourc
 	}
 
 	// Read API call logic
-	result, httpError := r.client.Get(fmt.Sprintf("%s/%s", runnerPoolRoleAssignmentEndpoint, data.Id.ValueString()))
+	result, httpError := r.client.Get(fmt.Sprintf("%s/%s", runnerRoleAssignmentEndpoint, data.Id.ValueString()))
 	if httpError != nil && httpError.StatusCode == snapcd.Status441EntityNotFound {
 		// Resource was not found, so remove it from state
 		resp.State.RemoveResource(ctx)
@@ -179,14 +179,14 @@ func (r *runnerPoolRoleAssignmentResource) Read(ctx context.Context, req resourc
 		err = nil
 	}
 	if err != nil {
-		resp.Diagnostics.AddError(runnerPoolRoleAssignmentDefaultError, "Error calling GET, unexpected error: "+err.Error())
+		resp.Diagnostics.AddError(runnerRoleAssignmentDefaultError, "Error calling GET, unexpected error: "+err.Error())
 		return
 	}
 
 	err = utils.JsonToPlan(result, &data)
 
 	if err != nil {
-		resp.Diagnostics.AddError(runnerPoolRoleAssignmentDefaultError, "Failed to convert json to plan: "+err.Error())
+		resp.Diagnostics.AddError(runnerRoleAssignmentDefaultError, "Failed to convert json to plan: "+err.Error())
 		return
 	}
 
@@ -194,9 +194,9 @@ func (r *runnerPoolRoleAssignmentResource) Read(ctx context.Context, req resourc
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
 
-func (r *runnerPoolRoleAssignmentResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
-	var data runnerPoolRoleAssignmentModel
-	var state runnerPoolRoleAssignmentModel
+func (r *runnerRoleAssignmentResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
+	var data runnerRoleAssignmentModel
+	var state runnerRoleAssignmentModel
 
 	// Read Terraform prior state data into the model
 	resp.Diagnostics.Append(req.State.Get(ctx, &state)...)
@@ -212,23 +212,23 @@ func (r *runnerPoolRoleAssignmentResource) Update(ctx context.Context, req resou
 
 	jsonMap, err := utils.PlanToJson(data)
 	if err != nil {
-		resp.Diagnostics.AddError(runnerPoolRoleAssignmentDefaultError, "Failed to convert json to plan: "+err.Error())
+		resp.Diagnostics.AddError(runnerRoleAssignmentDefaultError, "Failed to convert json to plan: "+err.Error())
 	}
 
-	result, httpError := r.client.Put(fmt.Sprintf("%s/%s", runnerPoolRoleAssignmentEndpoint, state.Id.ValueString()), jsonMap)
+	result, httpError := r.client.Put(fmt.Sprintf("%s/%s", runnerRoleAssignmentEndpoint, state.Id.ValueString()), jsonMap)
 	if httpError != nil {
 		err = httpError.Error
 	} else {
 		err = nil
 	}
 	if err != nil {
-		resp.Diagnostics.AddError(runnerPoolRoleAssignmentDefaultError, "Error calling PUT, unexpected error: "+err.Error())
+		resp.Diagnostics.AddError(runnerRoleAssignmentDefaultError, "Error calling PUT, unexpected error: "+err.Error())
 		return
 	}
 
 	err = utils.JsonToPlan(result, &data, []string{"client_secret"})
 	if err != nil {
-		resp.Diagnostics.AddError(runnerPoolRoleAssignmentDefaultError, "Failed to convert json to plan: "+err.Error())
+		resp.Diagnostics.AddError(runnerRoleAssignmentDefaultError, "Failed to convert json to plan: "+err.Error())
 		return
 	}
 
@@ -236,8 +236,8 @@ func (r *runnerPoolRoleAssignmentResource) Update(ctx context.Context, req resou
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
 }
 
-func (r *runnerPoolRoleAssignmentResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
-	var data runnerPoolRoleAssignmentModel
+func (r *runnerRoleAssignmentResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
+	var data runnerRoleAssignmentModel
 
 	// Read Terraform prior state data into the model
 	resp.Diagnostics.Append(req.State.Get(ctx, &data)...)
@@ -247,7 +247,7 @@ func (r *runnerPoolRoleAssignmentResource) Delete(ctx context.Context, req resou
 	}
 
 	// Delete API call logic
-	_, httpError := r.client.Delete(fmt.Sprintf("%s/%s", runnerPoolRoleAssignmentEndpoint, data.Id.ValueString()))
+	_, httpError := r.client.Delete(fmt.Sprintf("%s/%s", runnerRoleAssignmentEndpoint, data.Id.ValueString()))
 	if httpError != nil && httpError.StatusCode == snapcd.Status441EntityNotFound {
 		// Resource was not found, so remove it from state
 		resp.State.RemoveResource(ctx)
@@ -260,15 +260,15 @@ func (r *runnerPoolRoleAssignmentResource) Delete(ctx context.Context, req resou
 		err = nil
 	}
 	if err != nil {
-		resp.Diagnostics.AddError(runnerPoolRoleAssignmentDefaultError, "Error calling DELETE, unexpected error: "+err.Error())
+		resp.Diagnostics.AddError(runnerRoleAssignmentDefaultError, "Error calling DELETE, unexpected error: "+err.Error())
 		return
 	}
 }
 
-func (r *runnerPoolRoleAssignmentResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
-	var data runnerPoolRoleAssignmentModel
+func (r *runnerRoleAssignmentResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
+	var data runnerRoleAssignmentModel
 
-	result, httpError := r.client.Get(fmt.Sprintf("%s/%s", runnerPoolRoleAssignmentEndpoint, req.ID))
+	result, httpError := r.client.Get(fmt.Sprintf("%s/%s", runnerRoleAssignmentEndpoint, req.ID))
 	var err error
 	if httpError != nil {
 		err = httpError.Error
@@ -276,13 +276,13 @@ func (r *runnerPoolRoleAssignmentResource) ImportState(ctx context.Context, req 
 		err = nil
 	}
 	if err != nil {
-		resp.Diagnostics.AddError(runnerPoolRoleAssignmentDefaultError, "Error calling GET, unexpected error: "+err.Error())
+		resp.Diagnostics.AddError(runnerRoleAssignmentDefaultError, "Error calling GET, unexpected error: "+err.Error())
 		return
 	}
 
 	err = utils.JsonToPlan(result, &data, []string{"client_secret"})
 	if err != nil {
-		resp.Diagnostics.AddError(runnerPoolRoleAssignmentDefaultError, "Failed to convert json to plan: "+err.Error())
+		resp.Diagnostics.AddError(runnerRoleAssignmentDefaultError, "Failed to convert json to plan: "+err.Error())
 		return
 	}
 

@@ -17,7 +17,7 @@ data "snapcd_stack" "default" {
   name = "default"
 }
 
-data "snapcd_runner_pool" "default" {
+data "snapcd_runner" "default" {
   name = "default"
 }
 
@@ -33,7 +33,7 @@ resource "snapcd_module" "mymodule" {
   source_revision     = "main"
   source_url          = "https://github.com/schrieksoft/snapcd-samples.git"
   source_subdirectory = "getting-started/two-module-dag/module2"
-  runner_pool_id      = data.snapcd_runner_pool.default.id
+  runner_id           = data.snapcd_runner.default.id
   engine              = "OpenTofu"
 
 }
@@ -46,7 +46,7 @@ resource "snapcd_module" "mymodule" {
 
 - `name` (String) Name of the Module. Must be unique in combination with `namespace_id`.
 - `namespace_id` (String) ID of the Module's parent Namespace.
-- `runner_pool_id` (String) ID of the Runner Pool that will receive the instructions when triggering a deployment on this Module.
+- `runner_id` (String) ID of the Runner that will receive the instructions when triggering a deployment on this Module.
 - `source_revision` (String) Remote revision (e.g. version number, branch, commit or tag) where the source module code is found.
 - `source_url` (String) Remote URL where the source module code is found.
 
@@ -75,7 +75,7 @@ resource "snapcd_module" "mymodule" {
 - `plan_before_hook` (String) Shell script that should be executed before the 'Plan' step of any deployment is run. Setting this will override any default value set on the Module's parent Namespace.
 - `plan_destroy_after_hook` (String) Shell script that should be executed after the 'Destroy' step of any deployment is run. Setting this will override any default value set on the Module's parent Namespace.
 - `plan_destroy_before_hook` (String) Shell script that should be executed before the 'Destroy' step of any deployment is run. Setting this will override any default value set on the Module's parent Namespace.
-- `runner_self_declared_name` (String) Name of the Runner to select (should unique identify the Runner within the Runner Pool). If null a random Runner will be selected from the Runner pool on every deployment.
+- `runner_instance_name` (String) Name a specific runner instance to select (should unique identify the the instance). Use this if you have enabled multiple instances on your runner, but want all jobs for this Module to go to a specific instance.
 - `source_revision_type` (String) How Snap CD should interpret the `source_revision` field. Must be one of 'Default' or 'SemanticVersionRange'. Setting to 'Default' means Snap CD will interpret the revision type based on the source type (for example, for a 'Git' source type it will automatically figure out whether the `source_revision` refers to a branch, tag or commit). Setting to 'SemanticVersionRange' means that Snap CD will resolve the revision to a semantic version line `vX.Y.Z` (alternatively witout the 'v' prefix of that is how your semantic version are tagged, i.e. 'X.Y.Z'). It will take the highest version within the major or minor version range that you specify. For example, specify `v2.20.*` or `v2.*`. You can also specify a specific semantic version here, e.g. `v2.20.7`. In that case the behaviour is the same as with when using 'Default', except that only valid semantic versions are accepted. NOTE that 'SemanticVersionRange' is currently only supported in combination with the 'Git' `source_type`.
 - `source_subdirectory` (String) Subdirectory where the source module code is found.
 - `source_type` (String) The type of remote module store that the source module code should be retrieved from. Must be one of 'Git' or 'Registry'

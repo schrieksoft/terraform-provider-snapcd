@@ -40,14 +40,14 @@ data "snapcd_stack_secret" "debug" {
 
 var ModuleCreateConfigDelta = providerconfig.AppendRandomString(`
 
-data "snapcd_runner_pool" "debug" {
+data "snapcd_runner" "debug" {
   name = "debug"
 }
 
 resource "snapcd_module" "this" {
   name                         	 = "somevalue%s"
   namespace_id                	 = snapcd_namespace.this.id
-  runner_pool_id                 = data.snapcd_runner_pool.debug.id
+  runner_id                 = data.snapcd_runner.debug.id
   source_subdirectory  	         = "modules/module1"
   source_url                     = "foo"
   source_revision                = "main"
@@ -65,7 +65,7 @@ var ModuleCreateConfigDeltaTwo = providerconfig.AppendRandomString(`
 resource "snapcd_module" "two" {
   name                         	 = "somevalueTwo%s"
   namespace_id                	 = snapcd_namespace.this.id
-  runner_pool_id                 = data.snapcd_runner_pool.debug.id
+  runner_id                 = data.snapcd_runner.debug.id
   source_subdirectory  	         = "modules/module1"
   source_url                     = "foo"
   source_revision                = "main"
@@ -83,7 +83,7 @@ var ModuleCreateConfigDeltaThree = providerconfig.AppendRandomString(`
 resource "snapcd_module" "three" {
   name                         	 = "somevalueThree%s"
   namespace_id                	 = snapcd_namespace.this.id
-  runner_pool_id                 = data.snapcd_runner_pool.debug.id
+  runner_id                 = data.snapcd_runner.debug.id
   source_subdirectory  	         = "modules/module1"
   source_url                     = "foo"
   source_revision                = "main"
@@ -117,13 +117,13 @@ resource "snapcd_namespace" "this" {
 
 `)
 
-var RunnerPoolCreateConfig = providerconfig.AppendRandomString(`
-resource "snapcd_runner_pool" "this" {
+var RunnerCreateConfig = providerconfig.AppendRandomString(`
+resource "snapcd_runner" "this" {
   name  = "somevalue%s"
 }`)
 
-var RunnerPoolCreateConfigWithThreshold = providerconfig.AppendRandomString(`
-resource "snapcd_runner_pool" "this" {
+var RunnerCreateConfigWithThreshold = providerconfig.AppendRandomString(`
+resource "snapcd_runner" "this" {
   name  = "somevalue%s"
   custom_command_approval_threshold = 2
 }`)
@@ -141,13 +141,13 @@ data "snapcd_stack" "debug" {
 var SourceRefresherPreselectionCreateConfig = providerconfig.AppendRandomString(`
 resource "snapcd_source_refresher_preselection" "this" {
   source_url     = "somevalue%s"
-  runner_pool_id = snapcd_runner_pool.this.id
+  runner_id = snapcd_runner.this.id
 }`)
 
-var CustomCommandPreApprovalCreateConfig = RunnerPoolCreateConfig + identity.ServicePrincipalDataSourceConfig + `
+var CustomCommandPreApprovalCreateConfig = RunnerCreateConfig + identity.ServicePrincipalDataSourceConfig + `
 
 resource "snapcd_custom_command_pre_approval" "this" {
-  runner_pool_id                   = snapcd_runner_pool.this.id
+  runner_id                   = snapcd_runner.this.id
   command_text                     = "terraform plan"
   approver_principal_id            = data.snapcd_service_principal.this.id
   approver_principal_discriminator = "ServicePrincipal"

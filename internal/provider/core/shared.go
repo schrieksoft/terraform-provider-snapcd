@@ -29,5 +29,5 @@ const (
 	DescZeroThreshold                  = " If set neither on Module nor on Namespace then a threshold of 0 is used."
 	DescZeroTimeout                    = " If set neither on Module nor on Namespace the Jobs will wait for an approval decision indefinitely."
 
-	DescRunnerPoolIsDisabled = "Indicates whether or not the RunnerPool is disabled"
+	DescRunnerIsDisabled = "Indicates whether or not the Runner is disabled"
 )

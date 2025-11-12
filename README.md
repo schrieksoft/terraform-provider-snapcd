@@ -14,7 +14,7 @@ go test -timeout 30m terraform-provider-snapcd/internal/tests/module_param -v -t
 go test -timeout 30m terraform-provider-snapcd/internal/tests/namespace_env_var -v -tags=all -args -test.v
 go test -timeout 30m terraform-provider-snapcd/internal/tests/namespace_param -v -tags=all -args -test.v
 go test -timeout 30m terraform-provider-snapcd/internal/tests/role_assignment -v -tags=all -args -test.v
-go test -timeout 30m terraform-provider-snapcd/internal/tests/runner_pool_assignment -v -tags=all -args -test.v
+go test -timeout 30m terraform-provider-snapcd/internal/tests/runner_assignment -v -tags=all -args -test.v
 go test -timeout 30m terraform-provider-snapcd/internal/tests/secret -v -tags=all -args -test.v
 go test -timeout 30m terraform-provider-snapcd/internal/tests/secret_store -v -tags=all -args -test.v
 go test -timeout 30m terraform-provider-snapcd/internal/tests/secret_store_assignment -v -tags=all -args -test.v

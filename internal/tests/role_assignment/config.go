@@ -80,19 +80,19 @@ resource "snapcd_module_role_assignment" "this" {
 }
 `
 
-// RunnerPool Role Assignment Configs
-var RunnerPoolRoleAssignmentCreateConfig = `
+// Runner Role Assignment Configs
+var RunnerRoleAssignmentCreateConfig = `
 resource "snapcd_runnerpool_role_assignment" "this" {
-  runner_pool_id          = snapcd_runner_pool.this.id
+  runner_id          = snapcd_runner.this.id
   principal_id            = data.snapcd_service_principal.this.id
   principal_discriminator = "ServicePrincipal"
   role_name               = "Owner"
 }
 `
 
-var RunnerPoolRoleAssignmentUpdateConfig = `
+var RunnerRoleAssignmentUpdateConfig = `
 resource "snapcd_runnerpool_role_assignment" "this" {
-  runner_pool_id          = snapcd_runner_pool.this.id
+  runner_id          = snapcd_runner.this.id
   principal_id            = data.snapcd_service_principal.this.id
   principal_discriminator = "ServicePrincipal"
   role_name               = "Runner"

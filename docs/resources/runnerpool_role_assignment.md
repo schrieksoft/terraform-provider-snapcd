@@ -2,12 +2,12 @@
 page_title: "snapcd_runnerpool_role_assignment Resource - snapcd"
 subcategory: "Identity Access Management"
 description: |-
-  Manages a RunnerPool Role Assignment in Snap CD.
+  Manages a Runner Role Assignment in Snap CD.
 ---
 
 # snapcd_runnerpool_role_assignment (Resource)
 
-Manages a RunnerPool Role Assignment in Snap CD.
+Manages a Runner Role Assignment in Snap CD.
 
 
 
@@ -20,8 +20,8 @@ Manages a RunnerPool Role Assignment in Snap CD.
 - `principal_discriminator` (String) Type of Principal that the `principal_id` identifies. Must be one of 'User', 'ServicePrincipal' and 'Group'
 - `principal_id` (String) ID of the Principal to which the role is assigned.
 - `role_name` (String) Name of the Role that is assigned. Must be one of 'Owner', 'Contributor', 'Reader', 'IdentityAccessManager', 'JobManager' and 'Runner'
-- `runner_pool_id` (String) ID of the RunnerPool on which the role applies.
+- `runner_id` (String) ID of the Runner on which the role applies.
 
 ### Read-Only
 
-- `id` (String) Unique ID of the RunnerPool Role Assignment.
+- `id` (String) Unique ID of the Runner Role Assignment.
