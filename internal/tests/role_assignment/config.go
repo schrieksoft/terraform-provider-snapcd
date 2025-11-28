@@ -82,8 +82,8 @@ resource "snapcd_module_role_assignment" "this" {
 
 // Runner Role Assignment Configs
 var RunnerRoleAssignmentCreateConfig = `
-resource "snapcd_runnerpool_role_assignment" "this" {
-  runner_id          = snapcd_runner.this.id
+resource "snapcd_runner_role_assignment" "this" {
+  runner_id          	 = snapcd_runner.this.id
   principal_id            = data.snapcd_service_principal.this.id
   principal_discriminator = "ServicePrincipal"
   role_name               = "Owner"
@@ -91,10 +91,10 @@ resource "snapcd_runnerpool_role_assignment" "this" {
 `
 
 var RunnerRoleAssignmentUpdateConfig = `
-resource "snapcd_runnerpool_role_assignment" "this" {
-  runner_id          = snapcd_runner.this.id
+resource "snapcd_runner_role_assignment" "this" {
+  runner_id          	  = snapcd_runner.this.id
   principal_id            = data.snapcd_service_principal.this.id
   principal_discriminator = "ServicePrincipal"
-  role_name               = "Runner"
+  role_name               = "Reader"
 }
 `

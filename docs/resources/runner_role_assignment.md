@@ -1,11 +1,11 @@
 ---
-page_title: "snapcd_runnerpool_role_assignment Resource - snapcd"
+page_title: "snapcd_runner_role_assignment Resource - snapcd"
 subcategory: "Identity Access Management"
 description: |-
   Manages a Runner Role Assignment in Snap CD.
 ---
 
-# snapcd_runnerpool_role_assignment (Resource)
+# snapcd_runner_role_assignment (Resource)
 
 Manages a Runner Role Assignment in Snap CD.
 

@@ -1,7 +1,6 @@
 package core
 
 import (
-	"terraform-provider-snapcd/internal/tests/identity"
 	providerconfig "terraform-provider-snapcd/internal/tests/providerconfig"
 )
 
@@ -35,6 +34,18 @@ var StackSecretDebugDataSourceDelta = `
 data "snapcd_stack_secret" "debug" {
 	name 	  = "debug"
     stack_id = data.snapcd_stack.debug.id
+}
+`
+
+var DebugServicePrincipalConfig = `
+data "snapcd_service_principal" "debug" {
+	client_id  = "debug"
+}
+`
+
+var RunnerServicePrincipalConfig = `
+data "snapcd_service_principal" "runner" {
+	client_id  = "debug"
 }
 `
 
@@ -118,14 +129,13 @@ resource "snapcd_namespace" "this" {
 `)
 
 var RunnerCreateConfig = providerconfig.AppendRandomString(`
-resource "snapcd_runner" "this" {
-  name  = "somevalue%s"
-}`)
+data "snapcd_service_principal" "runner" {
+	client_id  = "debug"
+}
 
-var RunnerCreateConfigWithThreshold = providerconfig.AppendRandomString(`
 resource "snapcd_runner" "this" {
-  name  = "somevalue%s"
-  custom_command_approval_threshold = 2
+  name  			   = "somevalue%s"
+  service_principal_id = data.snapcd_service_principal.runner.id
 }`)
 
 var StackCreateConfig = providerconfig.AppendRandomString(`
@@ -143,12 +153,3 @@ resource "snapcd_source_refresher_preselection" "this" {
   source_url     = "somevalue%s"
   runner_id = snapcd_runner.this.id
 }`)
-
-var CustomCommandPreApprovalCreateConfig = RunnerCreateConfig + identity.ServicePrincipalDataSourceConfig + `
-
-resource "snapcd_custom_command_pre_approval" "this" {
-  runner_id                   = snapcd_runner.this.id
-  command_text                     = "terraform plan"
-  approver_principal_id            = data.snapcd_service_principal.this.id
-  approver_principal_discriminator = "ServicePrincipal"
-}`

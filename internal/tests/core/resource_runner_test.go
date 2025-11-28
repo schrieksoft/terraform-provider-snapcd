@@ -35,9 +35,10 @@ func TestAccResourceRunner_CreateUpdate(t *testing.T) {
 				),
 			},
 			{
-				Config: providerconfig.ProviderConfig + providerconfig.AppendRandomString(`
+				Config: providerconfig.ProviderConfig + RunnerServicePrincipalConfig + providerconfig.AppendRandomString(`
 resource "snapcd_runner" "this" { 
   name = "someNEWvalue%s"
+  service_principal_id = data.snapcd_service_principal.runner.id
 }`),
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_runner.this", "id"),

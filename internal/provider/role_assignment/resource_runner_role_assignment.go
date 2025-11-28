@@ -18,7 +18,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 )
 
-var runnerRoleAssignmentDefaultError = fmt.Sprintf("snapcd_runnerpool_role_assignment error")
+var runnerRoleAssignmentDefaultError = fmt.Sprintf("snapcd_runner_role_assignment error")
 
 var runnerRoleAssignmentEndpoint = "/RunnerRoleAssignment"
 
@@ -53,12 +53,12 @@ func (r *runnerRoleAssignmentResource) Configure(_ context.Context, req resource
 }
 
 func (r *runnerRoleAssignmentResource) Metadata(ctx context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
-	resp.TypeName = req.ProviderTypeName + "_runnerpool_role_assignment"
+	resp.TypeName = req.ProviderTypeName + "_runner_role_assignment"
 }
 
 type runnerRoleAssignmentModel struct {
 	Id                     types.String `tfsdk:"id"`
-	RunnerId           types.String `tfsdk:"runner_id"`
+	RunnerId               types.String `tfsdk:"runner_id"`
 	PrincipalId            types.String `tfsdk:"principal_id"`
 	PrincipalDiscriminator types.String `tfsdk:"principal_discriminator"`
 	RoleName               types.String `tfsdk:"role_name"`
@@ -66,7 +66,7 @@ type runnerRoleAssignmentModel struct {
 
 const (
 	DescRunnerRoleAssignmentId                     = "Unique ID of the Runner Role Assignment."
-	DescRunnerRoleAssignmentRunnerId           = "ID of the Runner on which the role applies."
+	DescRunnerRoleAssignmentRunnerId               = "ID of the Runner on which the role applies."
 	DescRunnerRoleAssignmentPrincipalId            = "ID of the Principal to which the role is assigned."
 	DescRunnerRoleAssignmentPrincipalDiscriminator = "Type of Principal that the `principal_id` identifies. Must be one of 'User', 'ServicePrincipal' and 'Group'"
 	DescRunnerRoleAssignmentRoleName               = "Name of the Role that is assigned. Must be one of 'Owner', 'Contributor', 'Reader', 'IdentityAccessManager', 'JobManager' and 'Runner'"
@@ -101,7 +101,7 @@ func (r *runnerRoleAssignmentResource) Schema(ctx context.Context, req resource.
 			"role_name": schema.StringAttribute{
 				Required: true,
 				Validators: []validator.String{
-					stringvalidator.OneOf("Owner", "Contributor", "Reader", "IdentityAccessManager", "JobManager", "Runner"),
+					stringvalidator.OneOf("Owner", "Contributor", "Reader", "IdentityAccessManager"),
 				},
 				Description: DescRunnerRoleAssignmentRoleName,
 			},

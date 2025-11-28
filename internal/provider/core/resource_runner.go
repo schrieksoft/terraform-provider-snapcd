@@ -59,14 +59,18 @@ func (r *runnerResource) Metadata(ctx context.Context, req resource.MetadataRequ
 type runnerModel struct {
 	Name                   types.String `tfsdk:"name"`
 	Id                     types.String `tfsdk:"id"`
+	ServicePrincipalId     types.String `tfsdk:"service_principal_id"`
 	IsAssignedToAllModules types.Bool   `tfsdk:"is_assigned_to_all_modules"`
 	IsDisabled             types.Bool   `tfsdk:"is_disabled"`
+	AllowMultipleInstances types.Bool   `tfsdk:"allow_multiple_instances"`
 }
 
 const (
-	DescRunnerId               = "Unique ID of the Runner."
-	DescRunnerName             = "Unique name of the Runner."
-	DescIsAssignedToAllModules = "Setting this to 'true' allows this Runner to be selected for deployment by any Module in the system."
+	DescRunnerId                 = "Unique ID of the Runner."
+	DescRunnerName               = "Unique name of the Runner."
+	DescIsAssignedToAllModules   = "Setting this to 'true' allows this Runner to be selected for deployment by any Module in the system."
+	DescRunnerServicePrincipalId = "ID of the Service Principal associated with the Runner."
+	DescAllowMultipleInstances   = "Setting this to 'true' allows you to connect multiple instances of this Runner (for example a StatefulSet with multiple replicas) simultaneously."
 )
 
 func (r *runnerResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
@@ -84,6 +88,10 @@ func (r *runnerResource) Schema(ctx context.Context, req resource.SchemaRequest,
 				Required:    true,
 				Description: DescRunnerName,
 			},
+			"service_principal_id": schema.StringAttribute{
+				Required:    true,
+				Description: DescRunnerServicePrincipalId,
+			},
 			"is_assigned_to_all_modules": schema.BoolAttribute{
 				Optional:    true,
 				Computed:    true,
@@ -91,6 +99,11 @@ func (r *runnerResource) Schema(ctx context.Context, req resource.SchemaRequest,
 				Default:     booldefault.StaticBool(false),
 			},
 			"is_disabled": schema.BoolAttribute{
+				Optional:    true,
+				Computed:    true,
+				Description: DescRunnerIsDisabled,
+			},
+			"allow_multiple_instances": schema.BoolAttribute{
 				Optional:    true,
 				Computed:    true,
 				Description: DescRunnerIsDisabled,

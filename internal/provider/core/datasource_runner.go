@@ -58,11 +58,19 @@ func (d *runnerDataSource) Schema(ctx context.Context, req datasource.SchemaRequ
 				Required:    true,
 				Description: DescRunnerName,
 			},
+			"service_principal_id": schema.StringAttribute{
+				Computed:    true,
+				Description: DescRunnerServicePrincipalId,
+			},
 			"is_assigned_to_all_modules": schema.BoolAttribute{
 				Computed:    true,
 				Description: DescIsAssignedToAllModules,
 			},
 			"is_disabled": schema.BoolAttribute{
+				Computed:    true,
+				Description: DescRunnerIsDisabled,
+			},
+			"allow_multiple_instances": schema.BoolAttribute{
 				Computed:    true,
 				Description: DescRunnerIsDisabled,
 			},

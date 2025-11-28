@@ -17,7 +17,7 @@ func TestAccResourceRunnerRoleAssignment_Create(t *testing.T) {
 			{
 				Config: providerconfig.ProviderConfig + core.RunnerCreateConfig + ServicePrincipalDataSourceConfig + RunnerRoleAssignmentCreateConfig,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttrSet("snapcd_runnerpool_role_assignment.this", "id"),
+					resource.TestCheckResourceAttrSet("snapcd_runner_role_assignment.this", "id"),
 				),
 			},
 		},
@@ -31,13 +31,13 @@ func TestAccResourceRunnerRoleAssignment_CreateUpdate(t *testing.T) {
 			{
 				Config: providerconfig.ProviderConfig + core.RunnerCreateConfig + ServicePrincipalDataSourceConfig + RunnerRoleAssignmentCreateConfig,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttrSet("snapcd_runnerpool_role_assignment.this", "id"),
+					resource.TestCheckResourceAttrSet("snapcd_runner_role_assignment.this", "id"),
 				),
 			},
 			{
 				Config: providerconfig.ProviderConfig + core.RunnerCreateConfig + ServicePrincipalDataSourceConfig + RunnerRoleAssignmentUpdateConfig,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttrSet("snapcd_runnerpool_role_assignment.this", "id"),
+					resource.TestCheckResourceAttrSet("snapcd_runner_role_assignment.this", "id"),
 				),
 			},
 		},
@@ -51,11 +51,11 @@ func TestAccResourceRunnerRoleAssignment_Import(t *testing.T) {
 			{
 				Config: providerconfig.ProviderConfig + core.RunnerCreateConfig + ServicePrincipalDataSourceConfig + RunnerRoleAssignmentCreateConfig,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttrSet("snapcd_runnerpool_role_assignment.this", "id"),
+					resource.TestCheckResourceAttrSet("snapcd_runner_role_assignment.this", "id"),
 				),
 			},
 			{
-				ResourceName:      "snapcd_runnerpool_role_assignment.this",
+				ResourceName:      "snapcd_runner_role_assignment.this",
 				ImportState:       true,
 				ImportStateVerify: true,
 			},
