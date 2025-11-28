@@ -64,9 +64,9 @@ func (d *moduleDataSource) Schema(ctx context.Context, req datasource.SchemaRequ
 				Required:    true,
 				Description: DescModuleNamespaceId,
 			},
-			"runner_pool_id": schema.StringAttribute{
+			"runner_id": schema.StringAttribute{
 				Computed:    true,
-				Description: DescModuleRunnerPoolId,
+				Description: DescModuleRunnerId,
 			},
 			"source_revision": schema.StringAttribute{
 				Computed:    true,
@@ -94,9 +94,9 @@ func (d *moduleDataSource) Schema(ctx context.Context, req datasource.SchemaRequ
 				},
 				Description: DescModuleSourceRevisionType,
 			},
-			"runner_self_declared_name": schema.StringAttribute{
+			"runner_instance_name": schema.StringAttribute{
 				Computed:    true,
-				Description: DescModuleRunnerSelfDeclaredName,
+				Description: DescModuleRunnerInstanceName,
 			},
 			"init_before_hook": schema.StringAttribute{
 				Computed:    true,

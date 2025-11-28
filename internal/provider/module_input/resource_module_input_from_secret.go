@@ -21,7 +21,7 @@ import (
 
 var moduleInputFromSecretDefaultError = fmt.Sprintf("snapcd_module_input_from_secret error")
 
-var moduleInputFromSecretEndpoint = "/api/ModuleInputFromSecret"
+var moduleInputFromSecretEndpoint = "/ModuleInputFromSecret"
 
 var _ resource.Resource = (*moduleInputFromSecretResource)(nil)
 

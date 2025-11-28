@@ -20,7 +20,7 @@ import (
 
 var moduleInputFromOutputSetDefaultError = fmt.Sprintf("snapcd_module_input_from_output_set error")
 
-var moduleInputFromOutputSetEndpoint = "/api/ModuleInputFromOutputSet"
+var moduleInputFromOutputSetEndpoint = "/ModuleInputFromOutputSet"
 
 var _ resource.Resource = (*moduleInputFromOutputSetResource)(nil)
 

@@ -17,10 +17,10 @@ Use this data source to access information about an existing Source Refresher Pr
 
 ### Required
 
-- `source_url` (String) Unique Source URL to which a Runner Pool (or specific Runner within the Runner Pool based on `runner_self_declared_name`) is assigned as the preselected 'refresher'.
+- `source_url` (String) Unique Source URL to which a Runner (or specific Runner within the Runner based on `runner_instance_name`) is assigned as the preselected 'refresher'.
 
 ### Read-Only
 
 - `id` (String) Unique ID of the Source Refresher Preselection.
-- `runner_pool_id` (String) ID of the Runner Pool to preselect as 'refresher' for the given Source URL. Messages requesting a source refresh will be sent to this Runner Pool's service bus endpoint.
-- `runner_self_declared_name` (String) Self-declared name of a Runner (within the Runner Pool defined by `runner_pool_id`) to preselect as 'refresher'. If this is set, then messages will be sent to this Runner's specifc service bus endpoint, instead of sending to the Runner Pool's shared endpoint.
+- `runner_id` (String) ID of the Runner to preselect as 'refresher' for the given Source URL. Messages requesting a source refresh will always be sent to this Runner's
+- `runner_instance_name` (String) Name a specific runner instance to select (should unique identify the the instance). Use this if you have enabled multiple instances on your runner, but want all refresh requests for this source to go to a specific instance.

@@ -58,14 +58,14 @@ func (d *sourceRefresherPreselectionDataSource) Schema(ctx context.Context, req 
 				Required:    true,
 				Description: DescSourceRefresherPreselectionSourceUrl,
 			},
-			"runner_pool_id": schema.StringAttribute{
+			"runner_id": schema.StringAttribute{
 				Computed:    true,
-				Description: DescSourceRefresherPreselectionRunnerPoolId,
+				Description: DescSourceRefresherPreselectionRunnerId,
 			},
 
-			"runner_self_declared_name": schema.StringAttribute{
+			"runner_instance_name": schema.StringAttribute{
 				Computed:    true,
-				Description: DescSourceRefresherPreselectionRunnerPoolSelfDeclaredName,
+				Description: DescSourceRefresherPreselectionRunnerInstanceName,
 			},
 		},
 	}

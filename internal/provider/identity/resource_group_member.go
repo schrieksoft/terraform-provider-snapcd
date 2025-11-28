@@ -20,7 +20,7 @@ import (
 
 var groupMemberDefaultError = fmt.Sprintf("snapcd_group_member error")
 
-var groupMemberEndpoint = "/api/GroupMember"
+var groupMemberEndpoint = "/GroupMember"
 
 var _ resource.Resource = (*groupMemberResource)(nil)
 
@@ -57,17 +57,17 @@ func (r *groupMemberResource) Metadata(ctx context.Context, req resource.Metadat
 }
 
 type groupMemberModel struct {
-	Id                     types.String `tfsdk:"id"`
-	GroupId                types.String `tfsdk:"group_id"`
-	PrincipalId            types.String `tfsdk:"principal_id"`
-	PrincipalDiscriminator types.String `tfsdk:"principal_discriminator"`
+	Id                       types.String `tfsdk:"id"`
+	GroupId                  types.String `tfsdk:"group_id"`
+	PrincipalId              types.String `tfsdk:"principal_id"`
+	GroupMemberDiscriminator types.String `tfsdk:"group_member_discriminator"`
 }
 
 const (
-	DescGroupMemberId                     = "Unique ID of the Group Member."
-	DescGroupMemberGroupId                = "ID of the Group to assign membership of."
-	DescGroupMemberPrincipalId            = "ID of the Principal to assign to the Group."
-	DescGroupMemberPrincipalDiscriminator = "Type of Principal to assign to the Group. Must be one of 'User' and 'ServicePrincipal'"
+	DescGroupMemberId            = "Unique ID of the Group Member."
+	DescGroupMemberGroupId       = "ID of the Group to assign membership of."
+	DescGroupMemberPrincipalId   = "ID of the Principal to assign to the Group."
+	DescGroupMemberDiscriminator = "Type of Principal to assign to the Group. Must be one of 'User' and 'ServicePrincipal'"
 )
 
 func (r *groupMemberResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
@@ -89,12 +89,12 @@ func (r *groupMemberResource) Schema(ctx context.Context, req resource.SchemaReq
 				Required:    true,
 				Description: DescGroupMemberPrincipalId,
 			},
-			"principal_discriminator": schema.StringAttribute{
+			"group_member_discriminator": schema.StringAttribute{
 				Required: true,
 				Validators: []validator.String{
-					stringvalidator.OneOf("User", "ServicePrincipal"),
+					stringvalidator.OneOf("User", "ServicePrincipal", "Group"),
 				},
-				Description: DescGroupMemberPrincipalDiscriminator,
+				Description: DescGroupMemberDiscriminator,
 			},
 		},
 	}

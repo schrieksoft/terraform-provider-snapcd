@@ -17,7 +17,7 @@ func TestAccDataSourceUser(t *testing.T) {
 				Config: providerconfig.ProviderConfig + UserGetConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("data.snapcd_user.this", "id"),
-					resource.TestCheckResourceAttr("data.snapcd_user.this", "user_name", "kschriek@gmail.com"),
+					resource.TestCheckResourceAttr("data.snapcd_user.this", "user_name", "debug@preseeded.io"),
 				),
 			},
 		},

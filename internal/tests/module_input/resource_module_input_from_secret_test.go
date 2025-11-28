@@ -5,31 +5,29 @@ package tests
 import (
 	"terraform-provider-snapcd/internal/tests/core"
 	"terraform-provider-snapcd/internal/tests/providerconfig"
-	"terraform-provider-snapcd/internal/tests/secret"
-	"terraform-provider-snapcd/internal/tests/secret_store"
-	"terraform-provider-snapcd/internal/tests/secret_store_assignment"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 )
 
-var ModuleInputFromSecretCreateConfig = secret_store.AwsSecretStoreCreateConfig + secret_store_assignment.AwsSecretStoreStackAssignmentCreateConfig + secret.SecretScopedToStackCreateConfigDelta + providerconfig.AppendRandomString(`
+var ModuleInputFromSecretCreateConfig = core.StackDebugDataSourceDelta + core.NamespaceDebugDataSourceDelta + core.ModuleDebugDataSourceDelta + core.StackSecretDebugDataSourceDelta + providerconfig.AppendRandomString(`
+
 resource "snapcd_module_input_from_secret" "this" { 
   input_kind 	= "Param"
-  module_id  = snapcd_module.this.id
+  module_id  	= data.snapcd_module.debug.id
   name  		= "somevalue%s"
-  secret_id 	= snapcd_secret_scoped_to_stack.this.id
+  secret_id 	= data.snapcd_stack_secret.debug.id
 }
 `)
 
-var ModuleInputFromSecretCreateConfigNew = secret_store.AwsSecretStoreCreateConfig + secret_store_assignment.AwsSecretStoreStackAssignmentCreateConfig + secret.SecretScopedToStackCreateConfigDelta + providerconfig.AppendRandomString(`
+var ModuleInputFromSecretCreateConfigNew = core.StackDebugDataSourceDelta + core.NamespaceDebugDataSourceDelta + core.ModuleDebugDataSourceDelta + core.StackSecretDebugDataSourceDelta + providerconfig.AppendRandomString(`
+
 resource "snapcd_module_input_from_secret" "this" { 
   input_kind 	= "Param"
-  module_id  = snapcd_module.this.id
+  module_id  	= data.snapcd_module.debug.id
   name  		= "someNEWvalue%s"
-  secret_id 	= snapcd_secret_scoped_to_stack.this.id
+  secret_id 	= data.snapcd_stack_secret.debug.id
 }
-  
 `)
 
 func TestAccResourceModuleInputFromSecret_Create(t *testing.T) {
@@ -37,7 +35,7 @@ func TestAccResourceModuleInputFromSecret_Create(t *testing.T) {
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + core.ModuleCreateConfig + ModuleInputFromSecretCreateConfig,
+				Config: providerconfig.ProviderConfig + ModuleInputFromSecretCreateConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_module_input_from_secret.this", "id"),
 				),
@@ -51,14 +49,14 @@ func TestAccResourceModuleInputFromSecret_CreateUpdate(t *testing.T) {
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + core.ModuleCreateConfig + ModuleInputFromSecretCreateConfig,
+				Config: providerconfig.ProviderConfig + ModuleInputFromSecretCreateConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_module_input_from_secret.this", "id"),
 					resource.TestCheckResourceAttr("snapcd_module_input_from_secret.this", "name", providerconfig.AppendRandomString("somevalue%s")),
 				),
 			},
 			{
-				Config: providerconfig.ProviderConfig + core.ModuleCreateConfig + ModuleInputFromSecretCreateConfigNew,
+				Config: providerconfig.ProviderConfig + ModuleInputFromSecretCreateConfigNew,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_module_input_from_secret.this", "id"),
 					resource.TestCheckResourceAttr("snapcd_module_input_from_secret.this", "name", providerconfig.AppendRandomString("someNEWvalue%s")),
@@ -73,7 +71,7 @@ func TestAccResourceModuleInputFromSecret_Import(t *testing.T) {
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + core.ModuleCreateConfig + ModuleInputFromSecretCreateConfig,
+				Config: providerconfig.ProviderConfig + ModuleInputFromSecretCreateConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_module_input_from_secret.this", "id"),
 				),

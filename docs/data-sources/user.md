@@ -14,7 +14,7 @@ Use this data source to access information about an existing User in Snap CD.
 
 ```terraform
 data "snapcd_user" "myuser" {
-  name = "somebody@somewhere.com"
+  user_name = "somebody@somewhere.com"
 }
 ```
 
@@ -23,22 +23,8 @@ data "snapcd_user" "myuser" {
 
 ### Required
 
-- `user_name` (String) Unique name of the user.
+- `user_name` (String) Unique username (email) of the user.
 
 ### Read-Only
 
-- `access_failed_count` (Number) The number of failed access attempts.
-- `concurrency_stamp` (String) Used to handle concurrency checks.
-- `email` (String) User's email address.
-- `email_confirmed` (Boolean) Whether the user's email has been confirmed.
 - `id` (String) Unique ID of the User.
-- `is_disabled` (Boolean) Indicates whether the user or not the user has been disabled.
-- `lockout_enabled` (Boolean) Indicates whether lockout is enabled for the user.
-- `lockout_end` (String) The date and time when the lockout ends (if any).
-- `normalized_email` (String) Normalized email address used for consistency.
-- `normalized_user_name` (String) Normalized user name used for consistency.
-- `password_hash` (String, Sensitive) Hashed password of the user.
-- `phone_number` (String) Phone number of the user.
-- `phone_number_confirmed` (Boolean) Whether the phone number is confirmed.
-- `security_stamp` (String) Security stamp used to identify changes to the user's security info.
-- `two_factor_enabled` (Boolean) Indicates if two-factor authentication is enabled.

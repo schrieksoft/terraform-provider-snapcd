@@ -22,7 +22,7 @@ import (
 
 var moduleDefaultError = fmt.Sprintf("snapcd_module error")
 
-var moduleEndpoint = "/api/Module"
+var moduleEndpoint = "/Module"
 
 var _ resource.Resource = (*moduleResource)(nil)
 
@@ -63,13 +63,13 @@ type moduleModel struct {
 	Id                                 types.String `tfsdk:"id"`
 	Name                               types.String `tfsdk:"name"`
 	NamespaceId                        types.String `tfsdk:"namespace_id"`
-	RunnerPoolId                       types.String `tfsdk:"runner_pool_id"`
+	RunnerId                       types.String `tfsdk:"runner_id"`
 	SourceRevision                     types.String `tfsdk:"source_revision"`
 	SourceUrl                          types.String `tfsdk:"source_url"`
 	SourceSubdirectory                 types.String `tfsdk:"source_subdirectory"`
 	SourceType                         types.String `tfsdk:"source_type"`
 	SourceRevisionType                 types.String `tfsdk:"source_revision_type"`
-	RunnerSelfDeclaredName             types.String `tfsdk:"runner_self_declared_name"`
+	RunnerInstanceName             types.String `tfsdk:"runner_instance_name"`
 	InitBeforeHook                     types.String `tfsdk:"init_before_hook"`
 	InitAfterHook                      types.String `tfsdk:"init_after_hook"`
 	PlanBeforeHook                     types.String `tfsdk:"plan_before_hook"`
@@ -107,14 +107,14 @@ const (
 	DescModuleId                            = "Unique ID of the Module."
 	DescModuleName                          = "Name of the Module. Must be unique in combination with `namespace_id`."
 	DescModuleNamespaceId                   = "ID of the Module's parent Namespace."
-	DescModuleRunnerPoolId                  = "ID of the Runner Pool that will receive the instructions when triggering a deployment on this Module."
+	DescModuleRunnerId                  	= "ID of the Runner that will receive the instructions when triggering a deployment on this Module."
 	DescModuleSourceRevision                = "Remote revision (e.g. version number, branch, commit or tag) where the source module code is found."
 	DescModuleSourceUrl                     = "Remote URL where the source module code is found."
 	DescModuleSourceSubdirectory            = "Subdirectory where the source module code is found."
 	DescModuleDependsOnModules              = "A list on Snap CD Modules that this Module depends on. Note that Snap CD will automatically discover depedencies based on the Module using as inputs the outputs from another Module, so use `depends_on_modules` where you want to explicitly establish a dependency where outputs are not referenced as inputs."
 	DescModuleSourceType                    = "The type of remote module store that the source module code should be retrieved from. Must be one of 'Git' or 'Registry'"
 	DescModuleSourceRevisionType            = "How Snap CD should interpret the `source_revision` field. Must be one of 'Default' or 'SemanticVersionRange'. Setting to 'Default' means Snap CD will interpret the revision type based on the source type (for example, for a 'Git' source type it will automatically figure out whether the `source_revision` refers to a branch, tag or commit). Setting to 'SemanticVersionRange' means that Snap CD will resolve the revision to a semantic version line `vX.Y.Z` (alternatively witout the 'v' prefix of that is how your semantic version are tagged, i.e. 'X.Y.Z'). It will take the highest version within the major or minor version range that you specify. For example, specify `v2.20.*` or `v2.*`. You can also specify a specific semantic version here, e.g. `v2.20.7`. In that case the behaviour is the same as with when using 'Default', except that only valid semantic versions are accepted. NOTE that 'SemanticVersionRange' is currently only supported in combination with the 'Git' `source_type`."
-	DescModuleRunnerSelfDeclaredName        = "Name of the Runner to select (should unique identify the Runner within the Runner Pool). If null a random Runner will be selected from the Runner pool on every deployment."
+	DescModuleRunnerInstanceName        	= "Name a specific runner instance to select (should unique identify the the instance). Use this if you have enabled multiple instances on your runner, but want all jobs for this Module to go to a specific instance."
 	DescModuleInitBackendArgs               = DescSharedInitBackedArgs + DescModuleOverride
 	DescModuleInitBeforeHook                = DescSharedInitBeforeHook + DescModuleOverride
 	DescModuleInitAfterHook                 = DescSharedInitAfterHook + DescModuleOverride
@@ -167,9 +167,9 @@ func (r *moduleResource) Schema(ctx context.Context, req resource.SchemaRequest,
 				Required:    true,
 				Description: DescModuleNamespaceId,
 			},
-			"runner_pool_id": schema.StringAttribute{
+			"runner_id": schema.StringAttribute{
 				Required:    true,
-				Description: DescModuleRunnerPoolId,
+				Description: DescModuleRunnerId,
 			},
 			"source_revision": schema.StringAttribute{
 				Required:    true,
@@ -203,9 +203,9 @@ func (r *moduleResource) Schema(ctx context.Context, req resource.SchemaRequest,
 				Default:     stringdefault.StaticString(""),
 				Description: DescModuleSourceSubdirectory,
 			},
-			"runner_self_declared_name": schema.StringAttribute{
+			"runner_instance_name": schema.StringAttribute{
 				Optional:    true,
-				Description: DescModuleRunnerSelfDeclaredName,
+				Description: DescModuleRunnerInstanceName,
 			},
 			"init_before_hook": schema.StringAttribute{
 				Optional:    true,

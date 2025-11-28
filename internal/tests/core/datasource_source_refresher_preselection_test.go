@@ -14,7 +14,7 @@ func TestAccDataSourceSourceRefresherPreselection(t *testing.T) {
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + RunnerPoolCreateConfig + SourceRefresherPreselectionCreateConfig + `
+				Config: providerconfig.ProviderConfig + RunnerCreateConfig + SourceRefresherPreselectionCreateConfig + `
 
 data "snapcd_source_refresher_preselection" "this" {
 	source_url = snapcd_source_refresher_preselection.this.source_url

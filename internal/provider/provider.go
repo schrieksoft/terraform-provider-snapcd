@@ -15,10 +15,8 @@ import (
 	"terraform-provider-snapcd/internal/provider/module_input"
 	"terraform-provider-snapcd/internal/provider/namespace_input"
 	"terraform-provider-snapcd/internal/provider/role_assignment"
-	"terraform-provider-snapcd/internal/provider/runner_pool_assignment"
+	"terraform-provider-snapcd/internal/provider/runner_assignment"
 	"terraform-provider-snapcd/internal/provider/secret"
-	"terraform-provider-snapcd/internal/provider/secret_store"
-	"terraform-provider-snapcd/internal/provider/secret_store_assignment"
 	"terraform-provider-snapcd/utils"
 
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
@@ -55,6 +53,7 @@ type snapcdProvider struct {
 // snapcdProviderModel maps provider schema data to a Go type.
 type snapcdProviderModel struct {
 	Url                        types.String `tfsdk:"url"`
+	OrganizationId             types.String `tfsdk:"organization_id"`
 	InsecureSkipVerify         types.Bool   `tfsdk:"insecure_skip_verify"`
 	HealthCheckIntervalSeconds types.Int64  `tfsdk:"health_check_interval_seconds"`
 	HealthCheckTimeoutSeconds  types.Int64  `tfsdk:"health_check_timeout_seconds"`
@@ -76,6 +75,10 @@ func (p *snapcdProvider) Schema(_ context.Context, _ provider.SchemaRequest, res
 		Attributes: map[string]schema.Attribute{
 			"url": schema.StringAttribute{
 				Description: "URL where the Snapcd API is served",
+				Required:    true,
+			},
+			"organization_id": schema.StringAttribute{
+				Description: "Organization ID for the SnapCd API",
 				Required:    true,
 			},
 			"access_token": schema.StringAttribute{
@@ -162,6 +165,35 @@ func (p *snapcdProvider) Configure(ctx context.Context, req provider.ConfigureRe
 			"Missing Snapcd API URL",
 			"The provider cannot create the Snapcd API client as there is a missing or empty value for the Snapcd API URL. "+
 				"Set the url value in the configuration or use the SNAPCD_URL environment variable. "+
+				"If either is already set, ensure the value is not empty.",
+		)
+	}
+
+	//////
+	// organization_id
+	//////
+
+	if config.OrganizationId.IsUnknown() {
+		resp.Diagnostics.AddAttributeError(
+			path.Root("organization_id"),
+			"Unknown Snapcd Organization ID",
+			"The provider cannot create the Snapcd API client as there is an unknown configuration value for the Snapcd Organization ID. "+
+				"Either target apply the source of the value first, set the value statically in the configuration, or use the SNAPCD_ORGANIZATION_ID environment variable.",
+		)
+	}
+
+	organization_id := os.Getenv("SNAPCD_ORGANIZATION_ID")
+
+	if !config.OrganizationId.IsNull() {
+		organization_id = config.OrganizationId.ValueString()
+	}
+
+	if organization_id == "" {
+		resp.Diagnostics.AddAttributeError(
+			path.Root("organization_id"),
+			"Missing Snapcd Organization ID",
+			"The provider cannot create the Snapcd API client as there is a missing or empty value for the Snapcd Organization ID. "+
+				"Set the organization_id value in the configuration or use the SNAPCD_ORGANIZATION_ID environment variable. "+
 				"If either is already set, ensure the value is not empty.",
 		)
 	}
@@ -319,6 +351,7 @@ func (p *snapcdProvider) Configure(ctx context.Context, req provider.ConfigureRe
 	// set fields in context
 	ctx = tflog.SetField(ctx, "insecure_skip_verify", insecure_skip_verify)
 	ctx = tflog.SetField(ctx, "snapcd_url", url)
+	ctx = tflog.SetField(ctx, "organization_id", organization_id)
 	ctx = tflog.SetField(ctx, "health_check_interval_seconds", health_check_interval_seconds)
 	ctx = tflog.SetField(ctx, "health_check_timeout_seconds", health_check_timeout_seconds)
 	ctx = tflog.SetField(ctx, "access_token", access_token)
@@ -328,7 +361,7 @@ func (p *snapcdProvider) Configure(ctx context.Context, req provider.ConfigureRe
 	tflog.Debug(ctx, "Creating Snapcd client")
 
 	// Create a new Snapcd client using the configuration values
-	client, err := snapcd.CreateClient(url, insecure_skip_verify, health_check_interval_seconds, health_check_timeout_seconds, access_token, client_id, client_secret)
+	client, err := snapcd.CreateClient(url, organization_id, insecure_skip_verify, health_check_interval_seconds, health_check_timeout_seconds, access_token, client_id, client_secret)
 	if err != nil {
 		resp.Diagnostics.AddError(
 			"Unable to Create Snapcd API Client",
@@ -354,7 +387,7 @@ func (p *snapcdProvider) DataSources(_ context.Context) []func() datasource.Data
 		core.NamespaceDataSource,
 		core.ModuleDataSource,
 		core.StackDataSource,
-		core.RunnerPoolDataSource,
+		core.RunnerDataSource,
 		core.SourceRefresherPreselectionDataSource,
 		core.DependsOnModuleDataSource,
 
@@ -373,13 +406,9 @@ func (p *snapcdProvider) DataSources(_ context.Context) []func() datasource.Data
 		namespace_input.NamespaceInputFromDefinitionDataSource,
 		namespace_input.NamespaceInputFromSecretDataSource,
 
-		secret_store.AzureSecretStoreDataSource,
-		secret_store.AwsSecretStoreDataSource,
-		secret_store.SimpleSecretStoreDataSource,
-
-		secret.SecretScopedToStackDataSource,
-		secret.SecretScopedToNamespaceDataSource,
-		secret.SecretScopedToModuleDataSource,
+		secret.StackSecretDataSource,
+		secret.NamespaceSecretDataSource,
+		secret.ModuleSecretDataSource,
 
 		extra_files.NamespaceExtraFileDataSource,
 		extra_files.ModuleExtraFileDataSource,
@@ -396,7 +425,7 @@ func (p *snapcdProvider) Resources(_ context.Context) []func() resource.Resource
 		core.NamespaceResource,
 		core.ModuleResource,
 		core.StackResource,
-		core.RunnerPoolResource,
+		core.RunnerResource,
 		core.SourceRefresherPreselectionResource,
 		core.DependsOnModuleResource,
 
@@ -414,26 +443,15 @@ func (p *snapcdProvider) Resources(_ context.Context) []func() resource.Resource
 		namespace_input.NamespaceInputFromDefinitionResource,
 		namespace_input.NamespaceInputFromSecretResource,
 
-		role_assignment.ResourceRoleAssignmentResource,
-		role_assignment.TypeRoleAssignmentResource,
-		role_assignment.GlobalRoleAssignmentResource,
+		role_assignment.OrganizationRoleAssignmentResource,
+		role_assignment.StackRoleAssignmentResource,
+		role_assignment.NamespaceRoleAssignmentResource,
+		role_assignment.ModuleRoleAssignmentResource,
+		role_assignment.RunnerRoleAssignmentResource,
 
-		secret_store.AzureSecretStoreResource,
-		secret_store.SimpleSecretStoreResource,
-		secret_store.AwsSecretStoreResource,
-
-		secret.SecretScopedToStackResource,
-		secret.SecretScopedToNamespaceResource,
-		secret.SecretScopedToModuleResource,
-
-		secret_store_assignment.SecretStoreStackAssignmentResource,
-		secret_store_assignment.SecretStoreNamespaceAssignmentResource,
-		secret_store_assignment.SecretStoreModuleAssignmentResource,
-
-		runner_pool_assignment.RunnerPoolStackAssignmentResource,
-		runner_pool_assignment.RunnerPoolNamespaceAssignmentResource,
-		runner_pool_assignment.RunnerPoolModuleAssignmentResource,
-		runner_pool_assignment.RunnerPoolServicePrincipalAssignmentResource,
+		runner_assignment.RunnerStackAssignmentResource,
+		runner_assignment.RunnerNamespaceAssignmentResource,
+		runner_assignment.RunnerModuleAssignmentResource,
 
 		extra_files.NamespaceExtraFileResource,
 		extra_files.ModuleExtraFileResource,

@@ -18,7 +18,7 @@ import (
 
 var sourceRefresherPreselectionDefaultError = fmt.Sprintf("snapcd_sourceRefresherPreselection error")
 
-var sourceRefresherPreselectionEndpoint = "/api/SourceRefresherPreselection"
+var sourceRefresherPreselectionEndpoint = "/SourceRefresherPreselection"
 
 var _ resource.Resource = (*sourceRefresherPreselectionResource)(nil)
 
@@ -57,16 +57,16 @@ func (r *sourceRefresherPreselectionResource) Metadata(ctx context.Context, req 
 // ! Category: Source Refresher Preselection
 type sourceRefresherPreselectionModel struct {
 	Id                     types.String `tfsdk:"id"`
-	RunnerPoolId           types.String `tfsdk:"runner_pool_id"`
-	RunnerSelfDeclaredName types.String `tfsdk:"runner_self_declared_name"`
+	RunnerId           types.String `tfsdk:"runner_id"`
+	RunnerInstanceName types.String `tfsdk:"runner_instance_name"`
 	SourceUrl              types.String `tfsdk:"source_url"`
 }
 
 const (
-	DescSourceRefresherPreselectionId                         = "Unique ID of the Source Refresher Preselection."
-	DescSourceRefresherPreselectionSourceUrl                  = "Unique Source URL to which a Runner Pool (or specific Runner within the Runner Pool based on `runner_self_declared_name`) is assigned as the preselected 'refresher'."
-	DescSourceRefresherPreselectionRunnerPoolId               = "ID of the Runner Pool to preselect as 'refresher' for the given Source URL. Messages requesting a source refresh will be sent to this Runner Pool's service bus endpoint."
-	DescSourceRefresherPreselectionRunnerPoolSelfDeclaredName = "Self-declared name of a Runner (within the Runner Pool defined by `runner_pool_id`) to preselect as 'refresher'. If this is set, then messages will be sent to this Runner's specifc service bus endpoint, instead of sending to the Runner Pool's shared endpoint."
+	DescSourceRefresherPreselectionId                    = "Unique ID of the Source Refresher Preselection."
+	DescSourceRefresherPreselectionSourceUrl             = "Unique Source URL to which a Runner (or specific Runner within the Runner based on `runner_instance_name`) is assigned as the preselected 'refresher'."
+	DescSourceRefresherPreselectionRunnerId              = "ID of the Runner to preselect as 'refresher' for the given Source URL. Messages requesting a source refresh will always be sent to this Runner's"
+	DescSourceRefresherPreselectionRunnerInstanceName	 = "Name a specific runner instance to select (should unique identify the the instance). Use this if you have enabled multiple instances on your runner, but want all refresh requests for this source to go to a specific instance."
 )
 
 func (r *sourceRefresherPreselectionResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
@@ -84,13 +84,13 @@ func (r *sourceRefresherPreselectionResource) Schema(ctx context.Context, req re
 				Required:    true,
 				Description: DescSourceRefresherPreselectionSourceUrl,
 			},
-			"runner_pool_id": schema.StringAttribute{
+			"runner_id": schema.StringAttribute{
 				Required:    true,
-				Description: DescSourceRefresherPreselectionRunnerPoolId,
+				Description: DescSourceRefresherPreselectionRunnerId,
 			},
-			"runner_self_declared_name": schema.StringAttribute{
+			"runner_instance_name": schema.StringAttribute{
 				Optional:    true,
-				Description: DescSourceRefresherPreselectionRunnerPoolSelfDeclaredName,
+				Description: DescSourceRefresherPreselectionRunnerInstanceName,
 			},
 		},
 	}

@@ -18,7 +18,7 @@ import (
 
 var moduleBackendConfigDefaultError = fmt.Sprintf("snapcd_moduleBackendConfig error")
 
-var moduleBackendConfigEndpoint = "/api/ModuleBackendConfig"
+var moduleBackendConfigEndpoint = "/ModuleBackendConfig"
 
 var _ resource.Resource = (*moduleBackendConfigResource)(nil)
 

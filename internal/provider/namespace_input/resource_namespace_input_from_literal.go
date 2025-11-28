@@ -21,7 +21,7 @@ import (
 
 var namespaceInputFromLiteralDefaultError = fmt.Sprintf("snapcd_namespace_input_from_literal error")
 
-var namespaceInputFromLiteralEndpoint = "/api/NamespaceInputFromLiteral"
+var namespaceInputFromLiteralEndpoint = "/NamespaceInputFromLiteral"
 
 var _ resource.Resource = (*namespaceInputFromLiteralResource)(nil)
 

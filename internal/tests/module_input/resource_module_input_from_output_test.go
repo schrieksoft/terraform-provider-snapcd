@@ -52,8 +52,8 @@ resource "snapcd_module_input_from_output" "this" {
   input_kind 		= "Param"
   module_id 		= snapcd_module.this.id
   name  			= "somevalue%s"
-  output_module_id  = snapcd_module.this.id
-  output_name   	= "bar"
+  output_module_id  = snapcd_module.two.id
+  output_name   	= "bar2"
 }`),
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_module_input_from_output.this", "id"),

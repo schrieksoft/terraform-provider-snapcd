@@ -1,4 +1,4 @@
 
 data "snapcd_user" "myuser" {
-  name = "somebody@somewhere.com"
+  user_name = "somebody@somewhere.com"
 }
