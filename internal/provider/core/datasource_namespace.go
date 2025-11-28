@@ -110,6 +110,14 @@ func (d *namespaceDataSource) Schema(ctx context.Context, req datasource.SchemaR
 				Computed:    true,
 				Description: DescNamespaceDefaultOutputAfterHook,
 			},
+			"default_validate_before_hook": schema.StringAttribute{
+				Computed:    true,
+				Description: DescNamespaceDefaultValidateBeforeHook,
+			},
+			"default_validate_after_hook": schema.StringAttribute{
+				Computed:    true,
+				Description: DescNamespaceDefaultValidateAfterHook,
+			},
 			"default_auto_upgrade_enabled": schema.BoolAttribute{
 				Computed:    true,
 				Description: DescNamespaceAutoUpgradeEnabled,

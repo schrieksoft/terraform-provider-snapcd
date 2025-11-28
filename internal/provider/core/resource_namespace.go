@@ -70,6 +70,8 @@ type namespaceModel struct {
 	DefaultDestroyAfterHook         types.String `tfsdk:"default_destroy_after_hook"`
 	DefaultOutputBeforeHook         types.String `tfsdk:"default_output_before_hook"`
 	DefaultOutputAfterHook          types.String `tfsdk:"default_output_after_hook"`
+	DefaultValidateBeforeHook       types.String `tfsdk:"default_validate_before_hook"`
+	DefaultValidateAfterHook        types.String `tfsdk:"default_validate_after_hook"`
 	DefaultEngine                   types.String `tfsdk:"default_engine"`
 	DefaultOutputSecretStoreId      types.String `tfsdk:"default_output_secret_store_id"`
 	DefaultApplyApprovalThreshold   types.Int64  `tfsdk:"default_apply_approval_threshold"`
@@ -103,6 +105,8 @@ const (
 	DescNamespaceDefaultDestroyAfterHook         = DescSharedDestroyAfterHook + DescNamespaceDefault
 	DescNamespaceDefaultOutputBeforeHook         = DescSharedOutputBeforeHook + DescNamespaceDefault
 	DescNamespaceDefaultOutputAfterHook          = DescSharedOutputAfterHook + DescNamespaceDefault
+	DescNamespaceDefaultValidateBeforeHook       = DescSharedValidateBeforeHook + DescNamespaceDefault
+	DescNamespaceDefaultValidateAfterHook        = DescSharedValidateAfterHook + DescNamespaceDefault
 	DescNamespaceDefaultEngine                   = DescSharedEngine + DescNamespaceDefault
 	DescNamespaceDefaultOutputSecretStoreId      = DescSharedOutputSecretStoreId + DescNamespaceDefault
 	DescNamespaceDefaultApplyApprovalThreshold   = DescSharedApplyApprovalThreshold + DescNamespaceDefault + DescZeroThreshold
@@ -187,6 +191,14 @@ func (r *namespaceResource) Schema(ctx context.Context, req resource.SchemaReque
 			"default_output_after_hook": schema.StringAttribute{
 				Optional:    true,
 				Description: DescNamespaceDefaultOutputAfterHook,
+			},
+			"default_validate_before_hook": schema.StringAttribute{
+				Optional:    true,
+				Description: DescNamespaceDefaultValidateBeforeHook,
+			},
+			"default_validate_after_hook": schema.StringAttribute{
+				Optional:    true,
+				Description: DescNamespaceDefaultValidateAfterHook,
 			},
 			"default_auto_upgrade_enabled": schema.BoolAttribute{
 				Optional:    true,

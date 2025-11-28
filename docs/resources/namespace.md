@@ -80,6 +80,8 @@ resource "snapcd_module_input_from_namespace" "myparam" {
 - `default_plan_before_hook` (String) Shell script that should be executed before the 'Plan' step of any deployment is run. All modules in this Namespace will use this value, unless explicitly overriden on the Module itself.
 - `default_plan_destroy_after_hook` (String) Shell script that should be executed after the 'PlanDestroy' step of any deployment is run. All modules in this Namespace will use this value, unless explicitly overriden on the Module itself.
 - `default_plan_destroy_before_hook` (String) Shell script that should be executed before the 'PlanDestroy' step of any deployment is run. All modules in this Namespace will use this value, unless explicitly overriden on the Module itself.
+- `default_validate_after_hook` (String) Shell script that should be executed after the 'Validate' step of any deployment is run. All modules in this Namespace will use this value, unless explicitly overriden on the Module itself.
+- `default_validate_before_hook` (String) Shell script that should be executed before the 'Validate' step of any deployment is run. All modules in this Namespace will use this value, unless explicitly overriden on the Module itself.
 - `trigger_behaviour_on_modified` (String) Behaviour with respect to applying modules within the Stack if any of the fields on the Stack resource has changed. Must be one of 'TriggerAllImmediately' or 'DoNotTrigger'. Setting to 'TriggerAllImmediately' will trigger *all* Modules within the Stack to run an apply Job simultaneously. Setting to 'DoNotTrigger' will do nothing. The default (and recommended) setting is 'DoNotTrigger'.
 
 ### Read-Only

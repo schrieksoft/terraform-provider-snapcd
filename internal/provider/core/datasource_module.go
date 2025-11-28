@@ -171,6 +171,14 @@ func (d *moduleDataSource) Schema(ctx context.Context, req datasource.SchemaRequ
 				Computed:    true,
 				Description: DescModuleOutputAfterHook,
 			},
+			"validate_before_hook": schema.StringAttribute{
+				Computed:    true,
+				Description: DescModuleValidateBeforeHook,
+			},
+			"validate_after_hook": schema.StringAttribute{
+				Computed:    true,
+				Description: DescModuleValidateAfterHook,
+			},
 			"engine": schema.StringAttribute{
 				Computed: true,
 				Validators: []validator.String{
