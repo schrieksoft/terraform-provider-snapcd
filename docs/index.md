@@ -32,7 +32,6 @@ provider "snapcd" {
 ### Required
 
 - `organization_id` (String) Organization ID for the SnapCd API
-- `url` (String) URL where the Snapcd API is served
 
 ### Optional
 
@@ -42,3 +41,4 @@ provider "snapcd" {
 - `health_check_interval_seconds` (Number) Number of seconds to wait inbetween polling the /health endpoint of the API. Defaults to 15 seconds.
 - `health_check_timeout_seconds` (Number) Number of seconds during which to continuously poll /health endpoint before timing out. Defaults to 900 seconds (15 minutes)
 - `insecure_skip_verify` (Boolean) Skip verifying the HTTPs certificate of the API
+- `url` (String) URL where the Snapcd API is served. Defaults to https://snapcd.io

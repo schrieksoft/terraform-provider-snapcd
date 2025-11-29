@@ -74,8 +74,8 @@ func (p *snapcdProvider) Schema(_ context.Context, _ provider.SchemaRequest, res
 		Description: "Interact with snapcd.",
 		Attributes: map[string]schema.Attribute{
 			"url": schema.StringAttribute{
-				Description: "URL where the Snapcd API is served",
-				Required:    true,
+				Description: "URL where the Snapcd API is served. Defaults to https://snapcd.io",
+				Optional:    true,
 			},
 			"organization_id": schema.StringAttribute{
 				Description: "Organization ID for the SnapCd API",
@@ -153,20 +153,14 @@ func (p *snapcdProvider) Configure(ctx context.Context, req provider.ConfigureRe
 		)
 	}
 
-	url := os.Getenv("SNAPCD_URL")
+	url := "https://snapcd.io"
+
+	if envUrl := os.Getenv("SNAPCD_URL"); envUrl != "" {
+		url = envUrl
+	}
 
 	if !config.Url.IsNull() {
 		url = config.Url.ValueString()
-	}
-
-	if url == "" {
-		resp.Diagnostics.AddAttributeError(
-			path.Root("url"),
-			"Missing Snapcd API URL",
-			"The provider cannot create the Snapcd API client as there is a missing or empty value for the Snapcd API URL. "+
-				"Set the url value in the configuration or use the SNAPCD_URL environment variable. "+
-				"If either is already set, ensure the value is not empty.",
-		)
 	}
 
 	//////
