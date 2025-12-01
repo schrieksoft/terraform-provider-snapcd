@@ -13,13 +13,13 @@ Use this data source to access information about an existing Secret (Scoped to S
 ## Example Usage
 
 ```terraform
-data "snapcd_stack" "default" {
-  name = "default"
+data "snapcd_stack" "mystack" {
+  name = "mystack"
 }
 
 data "snapcd_stack_secret" "mysecret" {
   name     = "my-secret"
-  stack_id = data.snapcd_stack.default.id
+  stack_id = data.snapcd_stack.mystack.id
 }
 ```
 

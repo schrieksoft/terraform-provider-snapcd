@@ -13,8 +13,8 @@ Use this data source to access information about an existing Stack in Snap CD.
 ## Example Usage
 
 ```terraform
-data "snapcd_stack" "default" {
-  name = "default"
+data "snapcd_stack" "mystack" {
+  name = "mystack"
 }
 ```
 

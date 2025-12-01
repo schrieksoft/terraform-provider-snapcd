@@ -13,15 +13,14 @@ Manages a Runner in Snap CD.
 ## Example Usage
 
 ```terraform
-# Basic runner pool
-resource "snapcd_runner" "myrunnerpool" {
-  name = "myrunnerpool"
+// Fetch the Service Principal you created in step 1.
+data "snapcd_service_principal" "my_service_principal" {
+  name = "MyServicePrincipal"
 }
 
-# Runner pool with custom command approval threshold
-resource "snapcd_runner" "secure_pool" {
-  name                              = "secure-pool"
-  custom_command_approval_threshold = 2 # Requires 2 pre-approvals for custom commands
+resource "snapcd_runner" "my_runner" {
+  name                       = "MyGeneralRunner"
+  is_assigned_to_all_modules = true // all modules from all stacks can use this Runner. If you want to restrict this, set to "false" and then use "snapcd_runner_stack_assignment", "snapcd_runner_namespace_assignment" or "snapcd_runner_module_assignment" to assign to a narrower scope.
 }
 ```
 

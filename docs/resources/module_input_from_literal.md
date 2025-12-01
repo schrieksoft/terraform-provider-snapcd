@@ -13,17 +13,17 @@ Manages a Module Input (From Literal) in Snap CD.
 ## Example Usage
 
 ```terraform
-data "snapcd_stack" "default" {
-  name = "default"
+data "snapcd_stack" "mystack" {
+  name = "mystack"
 }
 
 resource "snapcd_namespace" "mynamespace" {
   name     = "mynamespace"
-  stack_id = data.snapcd_stack.default.id
+  stack_id = data.snapcd_stack.mystack.id
 }
 
-resource "snapcd_runner" "myrunnerpool" {
-  name = "myrunnerpool"
+data "snapcd_runner" "myrunner" {
+  name = "myrunner"
 }
 
 resource "snapcd_module" "mymodule" {

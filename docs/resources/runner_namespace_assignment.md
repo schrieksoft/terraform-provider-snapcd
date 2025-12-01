@@ -13,21 +13,21 @@ Manages a Runner Namespace Assignment in Snap CD.
 ## Example Usage
 
 ```terraform
-data "snapcd_stack" "default" {
+data "snapcd_stack" "mystack" {
   name = "default"
 }
 
 resource "snapcd_namespace" "mynamespace" {
   name     = "mynamespace"
-  stack_id = data.snapcd_stack.default.id
+  stack_id = data.snapcd_stack.mystack.id
 }
 
-resource "snapcd_runner" "myrunnerpool" {
-  name = "myrunnerpool"
+data "snapcd_runner" "myrunner" {
+  name = "myrunner"
 }
 
-resource "snapcd_runner_namespace_assignment" "myrunnerpool_mynamespace" {
-  runner_id    = snapcd_runner.myrunnerpool.id
+resource "snapcd_runner_namespace_assignment" "myrunner_mynamespace" {
+  runner_id    = data.snapcd_runner.myrunner.id
   namespace_id = snapcd_namespace.mynamespace.id
 }
 ```

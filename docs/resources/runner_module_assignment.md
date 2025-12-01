@@ -13,17 +13,17 @@ Manages a Runner Module Assignment in Snap CD.
 ## Example Usage
 
 ```terraform
-data "snapcd_stack" "default" {
-  name = "default"
+data "snapcd_stack" "mystack" {
+  name = "mystack"
 }
 
 resource "snapcd_namespace" "mynamespace" {
   name     = "mynamespace"
-  stack_id = data.snapcd_stack.default.id
+  stack_id = data.snapcd_stack.mystack.id
 }
 
-resource "snapcd_runner" "myrunnerpool" {
-  name = "myrunnerpool"
+data "snapcd_runner" "myrunner" {
+  name = "myrunner"
 }
 
 resource "snapcd_module" "mymodule" {
@@ -36,8 +36,8 @@ resource "snapcd_module" "mymodule" {
 }
 
 
-resource "snapcd_runner_module_assignment" "myrunnerpool_mymodule" {
-  runner_id = snapcd_runner.myrunnerpool.id
+resource "snapcd_runner_module_assignment" "myrunner_mymodule" {
+  runner_id = data.snapcd_runner.myrunner.id
   module_id = snapcd_module.mymodule.id
 }
 ```

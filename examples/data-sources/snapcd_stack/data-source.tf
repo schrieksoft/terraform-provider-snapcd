@@ -1,4 +1,4 @@
 
-data "snapcd_stack" "default" {
-  name = "default"
+data "snapcd_stack" "mystack" {
+  name = "mystack"
 }

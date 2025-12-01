@@ -13,17 +13,17 @@ Manages a Module Extra File in Snap CD.
 ## Example Usage
 
 ```terraform
-data "snapcd_stack" "default" {
-  name = "default"
+data "snapcd_stack" "mystack" {
+  name = "mystack"
 }
 
 resource "snapcd_namespace" "mynamespace" {
   name     = "mynamespace"
-  stack_id = data.snapcd_stack.default.id
+  stack_id = data.snapcd_stack.mystack.id
 }
 
-resource "snapcd_runner" "myrunnerpool" {
-  name = "myrunnerpool"
+data "snapcd_runner" "myrunner" {
+  name = "myrunner"
 }
 
 resource "snapcd_module" "mymodule" {
@@ -34,8 +34,6 @@ resource "snapcd_module" "mymodule" {
   source_subdirectory = "getting-started/two-module-dag/module2"
   runner_id           = data.snapcd_runner.default.id
 }
-
-
 
 // Add two "Extra Files" to the module. You can add any files you need here. This specific sample solves the following:
 

@@ -13,14 +13,42 @@ Manages an Organization Role Assignment in Snap CD.
 ## Example Usage
 
 ```terraform
+## Service Principal
+
 data "snapcd_service_principal" "mysp" {
   client_id = "MyServicePrincipal"
 }
 
-resource "snapcd_organization_role_assignment" "mysp_owner" {
+resource "snapcd_organization_role_assignment" "mysp_contributor" {
   principal_id            = data.snapcd_service_principal.mysp.id
   principal_discriminator = "ServicePrincipal"
-  role_name               = "Owner"
+  role_name               = "Contributor"
+}
+
+
+## User
+
+data "snapcd_user" "myuser" {
+  user_name = "myuser@somedomain.com"
+}
+
+resource "snapcd_organization_role_assignment" "myuser_contributor" {
+  principal_id            = data.snapcd_user.myuser.id
+  principal_discriminator = "User"
+  role_name               = "Contributor"
+}
+
+
+## Group
+
+data "snapcd_group" "mygroup" {
+  user_name = "MyGroup"
+}
+
+resource "snapcd_organization_role_assignment" "mygroup_contributor" {
+  principal_id            = data.snapcd_group.mygroup.id
+  principal_discriminator = "Group"
+  role_name               = "Contributor"
 }
 ```
 

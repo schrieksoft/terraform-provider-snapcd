@@ -13,13 +13,13 @@ Manages a Namespace Backend Config in Snap CD.
 ## Example Usage
 
 ```terraform
-data "snapcd_stack" "default" {
-  name = "default"
+data "snapcd_stack" "mystack" {
+  name = "mystack"
 }
 
 resource "snapcd_namespace" "mynamespace" {
   name                = "mynamespace"
-  stack_id            = data.snapcd_stack.default.id
+  stack_id            = data.snapcd_stack.mystack.id
   source_revision     = "main"
   source_url          = "https://github.com/schrieksoft/snapcd-samples.git"
   source_subdirectory = "getting-started/simple-namespace"
