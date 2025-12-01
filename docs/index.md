@@ -13,16 +13,26 @@ Interact with snapcd.
 ## Example Usage
 
 ```terraform
+# Authenticate with Service Princpal
+
 variable "client_id" {}
 variable "client_secret" { sensitive = true }
-variable "snapcd_server_host" {}
-variable "insecure_skip_verify" { default = false }
+variable "organization_id" {}
 
 provider "snapcd" {
-  url                  = "https://${var.snapcd_server_host}"
-  insecure_skip_verify = var.insecure_skip_verify
-  client_id            = var.client_id
-  client_secret        = var.client_secret
+  client_id       = var.client_id
+  client_secret   = var.client_secret
+  organization_id = var.organization_id
+}
+
+# Authenticate with Access Token
+
+variable "access_token" { sensitive = true }
+variable "organization_id" {}
+
+provider "snapcd" {
+  access_token    = var.access_token
+  organization_id = var.organization_id
 }
 ```
 
