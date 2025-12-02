@@ -82,15 +82,15 @@ func (p *snapcdProvider) Schema(_ context.Context, _ provider.SchemaRequest, res
 				Required:    true,
 			},
 			"access_token": schema.StringAttribute{
-				Description: "Access token for the SnapCd API",
+				Description: "Access token for the SnapCd API. Either this or 'client_id'/'client_secret' must be set.",
 				Optional:    true,
 			},
 			"client_id": schema.StringAttribute{
-				Description: "Access token for the SnapCd API",
+				Description: "Client ID for a Service Principal to authenticate API calls with. Either this or 'access_token' must be set.",
 				Optional:    true,
 			},
 			"client_secret": schema.StringAttribute{
-				Description: "Access token for the SnapCd API",
+				Description: "Client Secret for a Service Principal to authenticate API calls with. Either this or 'access_token' must be set.",
 				Optional:    true,
 			},
 			"insecure_skip_verify": schema.BoolAttribute{
@@ -98,11 +98,11 @@ func (p *snapcdProvider) Schema(_ context.Context, _ provider.SchemaRequest, res
 				Optional:    true,
 			},
 			"health_check_interval_seconds": schema.Int64Attribute{
-				Description: "Number of seconds to wait inbetween polling the /health endpoint of the API. Defaults to 15 seconds.",
+				Description: "Number of seconds to wait inbetween polling the /health endpoint of the API. Defaults to 10 seconds.",
 				Optional:    true,
 			},
 			"health_check_timeout_seconds": schema.Int64Attribute{
-				Description: "Number of seconds during which to continuously poll /health endpoint before timing out. Defaults to 900 seconds (15 minutes)",
+				Description: "Number of seconds during which to continuously poll /health endpoint before timing out. Defaults to 60 seconds.",
 				Optional:    true,
 			},
 		},
@@ -278,7 +278,7 @@ func (p *snapcdProvider) Configure(ctx context.Context, req provider.ConfigureRe
 	health_check_interval_seconds_string, exists := os.LookupEnv("SNAPCD_HEALTH_CHECK_INTERVAL_SECONDS")
 
 	if !exists {
-		health_check_interval_seconds_string = "15"
+		health_check_interval_seconds_string = "10"
 	}
 
 	// Try to convert it to an integer
@@ -315,7 +315,7 @@ func (p *snapcdProvider) Configure(ctx context.Context, req provider.ConfigureRe
 	health_check_timeout_seconds_string, exists := os.LookupEnv("SNAPCD_HEALTH_CHECK_TIMEOUT_SECONDS")
 
 	if !exists {
-		health_check_timeout_seconds_string = "900"
+		health_check_timeout_seconds_string = "60"
 	}
 
 	// Try to convert it to an integer

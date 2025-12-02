@@ -45,7 +45,7 @@ var (
 func CreateClient(url string, organizationId string, insecure_skip_verify bool, healthCheckIntervalSeconds int, healthCheckTimeoutSeconds int, accessToken string, clientId string, clientSecret string) (*Client, error) {
 
 	if accessToken == "" {
-		tokenResp, err := getAccessToken(url, clientId, clientSecret, insecure_skip_verify)
+		tokenResp, err := getAccessToken(url, organizationId, clientId, clientSecret, insecure_skip_verify)
 		if err != nil {
 			return nil, fmt.Errorf("failed to get access token: %v", err.Error)
 		}
@@ -75,14 +75,14 @@ type TokenResponse struct {
 	ExpiresIn   int    `json:"expires_in"`
 }
 
-func getAccessToken(serverUrl string, clientId string, clientSecret string, insecureSkipVerify bool) (*TokenResponse, *HttpError) {
+func getAccessToken(serverUrl string, organinzationId string, clientId string, clientSecret string, insecureSkipVerify bool) (*TokenResponse, *HttpError) {
 	tokenURL := fmt.Sprintf("%s/connect/token", serverUrl)
 
 	// Prepare form data
 	data := url.Values{}
 	data.Set("grant_type", "client_credentials")
 	data.Set("scope", "snapcd_scope")
-	data.Set("client_id", clientId)
+	data.Set("client_id", organinzationId+":"+clientId)
 	data.Set("client_secret", clientSecret)
 
 	// Create an HTTP client with a timeout and TLS configuration

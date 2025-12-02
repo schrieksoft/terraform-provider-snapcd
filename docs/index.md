@@ -45,10 +45,10 @@ provider "snapcd" {
 
 ### Optional
 
-- `access_token` (String) Access token for the SnapCd API
-- `client_id` (String) Access token for the SnapCd API
-- `client_secret` (String) Access token for the SnapCd API
-- `health_check_interval_seconds` (Number) Number of seconds to wait inbetween polling the /health endpoint of the API. Defaults to 15 seconds.
-- `health_check_timeout_seconds` (Number) Number of seconds during which to continuously poll /health endpoint before timing out. Defaults to 900 seconds (15 minutes)
+- `access_token` (String) Access token for the SnapCd API. Either this or 'client_id'/'client_secret' must be set.
+- `client_id` (String) Client ID for a Service Principal to authenticate API calls with. Either this or 'access_token' must be set.
+- `client_secret` (String) Client Secret for a Service Principal to authenticate API calls with. Either this or 'access_token' must be set.
+- `health_check_interval_seconds` (Number) Number of seconds to wait inbetween polling the /health endpoint of the API. Defaults to 10 seconds.
+- `health_check_timeout_seconds` (Number) Number of seconds during which to continuously poll /health endpoint before timing out. Defaults to 60 seconds.
 - `insecure_skip_verify` (Boolean) Skip verifying the HTTPs certificate of the API
 - `url` (String) URL where the Snapcd API is served. Defaults to https://snapcd.io
