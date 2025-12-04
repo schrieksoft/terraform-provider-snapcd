@@ -7,6 +7,11 @@ resource "snapcd_namespace" "mynamespace" {
   stack_id = data.snapcd_stack.mystack.id
 }
 
+data "snapcd_module" "outputtig_module" {
+  namespace_id = snapcd_namespace.mynamespace.id // in this example the outputting module is in the same namespace as the one referencing it, but that is not a requirement. They must however be in the same stack.
+  name         = "anothermodule"
+}
+
 data "snapcd_runner" "myrunner" {
   name = "myrunner"
 }
@@ -32,9 +37,8 @@ resource "snapcd_module" "mymodule" {
 // by the runner. In the case of a "from Output Set" Param, this name only acts as unique identifier and plays no further role.
 
 resource "snapcd_module_input_from_output_set" "myparam" {
-  input_kind     = "Param"
-  name           = "from_anothermodule"
-  module_name    = "anothermodule"
-  namespace_name = "anothernamespace"
-  module_id      = snapcd_module.mymodule.id
+  input_kind       = "Param" // Only "Param" is allowed here, unlike other input types that also support "EnvVar"
+  name             = "from_anothermodule"
+  module_id        = snapcd_module.mymodule.id
+  output_module_id = snapcd_module.outputtig_module.id
 }
