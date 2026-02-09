@@ -32,18 +32,26 @@ resource "snapcd_module" "mymodule" {
   source_revision     = "main"
   source_url          = "https://github.com/schrieksoft/snapcd-samples.git"
   source_subdirectory = "getting-started/two-module-dag/module2"
-  runner_id           = data.snapcd_runner.default.id
+  runner_id           = data.snapcd_runner.myrunner.id
 }
 
 
-// If you declare a Namespace Input called "SOME_PARAM_DECLARED_ON_NAMESPACE", you can map it to "var.SOME_PARAM" when this Module executes on the runner as follows:
+// If you declare a Namespace Input called "some_param_declared_on_namespace", you can map it to "var.SOME_PARAM" when this Module executes on the runner as follows:
 // Note that you can do this mapping irrespective of whether the Namespace Input's "Usage Mode" was set to "UseByDefault" or "UseIfSelected". However, if it was set to "UseByDefault", both
-// "var.SOME_PARAM_DECLARED_ON_NAMESPACE" and "var.SOME_PARAM" will be provided as parameters to the runner.
+// "var.some_param_declared_on_namespace" and "var.some_param" will be provided as parameters to the runner.
+resource "snapcd_namespace_input_from_literal" "namespace_param" {
+  input_kind    = "Param"
+  name          = "some_param_declared_on_namespace"
+  literal_value = "some_value"
+  namespace_id  = snapcd_namespace.mynamespace.id
+  usage_mode    = "UseIfSelected"
+}
+
 resource "snapcd_module_input_from_namespace" "myparam" {
-  input_kind     = "Param"
-  name           = "SOME_PARAM"
-  reference_name = "SOME_PARAM_DECLARED_ON_NAMESPACE"
-  module_id      = snapcd_module.mymodule.id
+  input_kind         = "Param"
+  name               = "some_param"
+  namespace_input_id = snapcd_namespace_input_from_literal.namespace_param.id
+  module_id          = snapcd_module.mymodule.id
 }
 ```
 

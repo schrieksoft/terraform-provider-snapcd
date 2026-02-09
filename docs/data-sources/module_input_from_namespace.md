@@ -25,7 +25,7 @@ data "snapcd_module" "mymodule" {
   name         = "mymodule"
   namespace_id = data.snapcd_namespace.mynamespace.id
 }
-data "snapcd_module_env_var_from_namespace" "myvar" {
+data "snapcd_module_input_from_namespace" "myvar" {
   name      = "myvar"
   module_id = data.snapcd_module.mymodule.id
 }

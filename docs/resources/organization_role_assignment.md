@@ -42,7 +42,7 @@ resource "snapcd_organization_role_assignment" "myuser_contributor" {
 ## Group
 
 data "snapcd_group" "mygroup" {
-  user_name = "MyGroup"
+  name = "MyGroup"
 }
 
 resource "snapcd_organization_role_assignment" "mygroup_contributor" {

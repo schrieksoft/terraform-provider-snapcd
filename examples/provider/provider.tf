@@ -1,4 +1,4 @@
-# Authenticate with Service Princpal
+# Authenticate with Service Principal
 
 variable "client_id" {}
 variable "client_secret" { sensitive = true }
@@ -10,12 +10,11 @@ provider "snapcd" {
   organization_id = var.organization_id
 }
 
-# Authenticate with Access Token
-
-variable "access_token" { sensitive = true }
-variable "organization_id" {}
-
-provider "snapcd" {
-  access_token    = var.access_token
-  organization_id = var.organization_id
-}
+# Or alternatively, authenticate with Access Token:
+#
+# variable "access_token" { sensitive = true }
+#
+# provider "snapcd" {
+#   access_token    = var.access_token
+#   organization_id = var.organization_id
+# }

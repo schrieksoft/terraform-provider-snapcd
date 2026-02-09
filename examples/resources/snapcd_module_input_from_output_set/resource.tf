@@ -7,7 +7,7 @@ resource "snapcd_namespace" "mynamespace" {
   stack_id = data.snapcd_stack.mystack.id
 }
 
-data "snapcd_module" "outputtig_module" {
+data "snapcd_module" "outputting_module" {
   namespace_id = snapcd_namespace.mynamespace.id // in this example the outputting module is in the same namespace as the one referencing it, but that is not a requirement. They must however be in the same stack.
   name         = "anothermodule"
 }
@@ -22,11 +22,11 @@ resource "snapcd_module" "mymodule" {
   source_revision     = "main"
   source_url          = "https://github.com/schrieksoft/snapcd-samples.git"
   source_subdirectory = "getting-started/two-module-dag/module2"
-  runner_id           = data.snapcd_runner.default.id
+  runner_id           = data.snapcd_runner.myrunner.id
 }
 
 
-// Provided you have a Module called "anothermodule" within a namespace called "anothernamespace" (within the same Stack as "mymodule"), 
+// Provided you have a Module called "anothermodule" within a namespace called "anothernamespace" (within the same Stack as "mymodule"),
 // you can pull in all outputs from that Module as input Parameters on "mymodule".
 
 // If "anothermodule" has outputs called "some_output" and "another_output", then the Runner will set the Params "var.some_output"
@@ -40,5 +40,5 @@ resource "snapcd_module_input_from_output_set" "myparam" {
   input_kind       = "Param" // Only "Param" is allowed here, unlike other input types that also support "EnvVar"
   name             = "from_anothermodule"
   module_id        = snapcd_module.mymodule.id
-  output_module_id = snapcd_module.outputtig_module.id
+  output_module_id = data.snapcd_module.outputting_module.id
 }

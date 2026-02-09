@@ -24,7 +24,7 @@ data "snapcd_namespace" "mynamespace" {
 data "snapcd_namespace_input_from_literal" "myvar" {
   input_kind   = "Param"
   name         = "myvar"
-  namespace_id = snapcd_namespace.mynamespace.id
+  namespace_id = data.snapcd_namespace.mynamespace.id
 }
 ```
 

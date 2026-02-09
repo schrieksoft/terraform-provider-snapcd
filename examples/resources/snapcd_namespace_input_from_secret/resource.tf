@@ -9,7 +9,7 @@ data "snapcd_namespace" "mynamespace" {
 
 data "snapcd_namespace_secret" "mysecret" {
   name         = "mynamespace"
-  namespace_id = data.snapcd_stack.mynamespace.id
+  namespace_id = data.snapcd_namespace.mynamespace.id
 }
 
 

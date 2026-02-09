@@ -17,7 +17,7 @@ resource "snapcd_module" "mymodule" {
   source_revision     = "main"
   source_url          = "https://github.com/schrieksoft/snapcd-samples.git"
   source_subdirectory = "getting-started/two-module-dag/module2"
-  runner_id           = data.snapcd_runner.default.id
+  runner_id           = data.snapcd_runner.myrunner.id
 }
 
 
