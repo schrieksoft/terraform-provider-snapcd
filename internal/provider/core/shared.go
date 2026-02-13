@@ -17,7 +17,7 @@ const (
 	DescSharedOutputAfterHook       = "Shell script that should be executed after the 'Output' step of any deployment is run. "
 	DescSharedValidateBeforeHook    = "Shell script that should be executed before the 'Validate' step of any deployment is run. "
 	DescSharedValidateAfterHook     = "Shell script that should be executed after the 'Validate' step of any deployment is run. "
-	DescSharedEngine                = "Determines which binary will be used during deployment. Must be one of 'OpenTofu' and 'Terraform'. Setting this to 'OpenTofu' will use `tofu`. Setting it to 'Terraform' will use `terraform`. "
+	DescSharedEngine                = "Determines which binary will be used during deployment. Must be one of 'OpenTofu', 'Terraform' or 'Pulumi'. Setting this to 'OpenTofu' will use `tofu`. Setting it to 'Terraform' will use `terraform`. Setting this to 'Pulumi' will use `pulumi`. "
 	DescSharedOutputSecretStoreId   = "The ID of the Secret Store that will be used to store this Module's outputs. Note that for an 'Output' step to successfully use this Secret Store, it must either be deployed as `is_assigned_to_all_scopes=true`, or assigned via module/namespace/stack assignment. "
 
 	DescSharedAutoUpgradeEnabled     = "Setting this to true will add the `-upgrade` flag whenever `init` is called. "
@@ -32,4 +32,8 @@ const (
 	DescZeroTimeout                    = " If set neither on Module nor on Namespace the Jobs will wait for an approval decision indefinitely."
 
 	DescRunnerIsDisabled = "Indicates whether or not the Runner is disabled"
+
+	DescSharedPulumiLoginType      = "Determines how the Pulumi CLI authenticates with its backend. Must be one of 'None', 'PulumiCloud', 'Local' or 'Custom'. 'None' skips the login step entirely. 'PulumiCloud' runs `pulumi login` (Pulumi Cloud). 'Local' runs `pulumi login --local`. 'Custom' runs `pulumi login <url>` using the value from `pulumi_custom_login_url`. "
+	DescSharedPulumiCustomLoginUrl = "The custom backend URL to use when `pulumi_login_type` is set to 'Custom'. For example, 's3://my-bucket' or 'azblob://my-container'. "
+	DescSharedPulumiStackName      = "The name of the Pulumi stack to select during init. If set, `pulumi stack select <name>` will be run. "
 )

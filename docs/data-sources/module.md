@@ -48,7 +48,7 @@ data "snapcd_module" "mymodule" {
 - `destroy_after_hook` (String) Shell script that should be executed after the 'Destroy' step of any deployment is run. Setting this will override any default value set on the Module's parent Namespace.
 - `destroy_approval_threshold` (Number) The number of Users (or Service Principals) that need to approve before an 'Destroy' plan is executed. Setting this will override any default value set on the Module's parent Namespace. If set neither on Module nor on Namespace then a threshold of 0 is used.
 - `destroy_before_hook` (String) Shell script that should be executed before the 'Destroy' step of any deployment is run. Setting this will override any default value set on the Module's parent Namespace.
-- `engine` (String) Determines which binary will be used during deployment. Must be one of 'OpenTofu' and 'Terraform'. Setting this to 'OpenTofu' will use `tofu`. Setting it to 'Terraform' will use `terraform`. Setting this will override any default value set on the Module's parent Namespace.
+- `engine` (String) Determines which binary will be used during deployment. Must be one of 'OpenTofu', 'Terraform' or 'Pulumi'. Setting this to 'OpenTofu' will use `tofu`. Setting it to 'Terraform' will use `terraform`. Setting this to 'Pulumi' will use `pulumi`. Setting this will override any default value set on the Module's parent Namespace.
 - `id` (String) Unique ID of the Module.
 - `ignore_namespace_backend_configs` (Boolean) If this is set to true, any Backend Configs that have been set on Namespace level will not be used on this specific Module.
 - `ignore_namespace_extra_files` (Boolean) If this is set to true, any Extra Files that have been set on Namespace level will not be used on this specific Module.

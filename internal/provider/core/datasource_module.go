@@ -182,7 +182,7 @@ func (d *moduleDataSource) Schema(ctx context.Context, req datasource.SchemaRequ
 			"engine": schema.StringAttribute{
 				Computed: true,
 				Validators: []validator.String{
-					stringvalidator.OneOf("OpenTofu", "Terraform"),
+					stringvalidator.OneOf("OpenTofu", "Terraform", "Pulumi"),
 				},
 				Description: DescModuleEngine,
 			},

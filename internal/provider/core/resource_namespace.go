@@ -81,6 +81,9 @@ type namespaceModel struct {
 	DefaultAutoReconfigureEnabled   types.Bool   `tfsdk:"default_auto_reconfigure_enabled"`
 	DefaultAutoMigrateEnabled       types.Bool   `tfsdk:"default_auto_migrate_enabled"`
 	DefaultCleanInitEnabled         types.Bool   `tfsdk:"default_clean_init_enabled"`
+	DefaultPulumiLoginType          types.String `tfsdk:"default_pulumi_login_type"`
+	DefaultPulumiCustomLoginUrl     types.String `tfsdk:"default_pulumi_custom_login_url"`
+	DefaultPulumiStackName          types.String `tfsdk:"default_pulumi_stack_name"`
 
 	TriggerBehaviourOnModified types.String `tfsdk:"trigger_behaviour_on_modified"`
 }
@@ -115,6 +118,9 @@ const (
 	DescNamespaceAutoReconfigureEnabled          = DescSharedAutoReconfigureEnabled + DescNamespaceDefault
 	DescNamespaceAutoMigrateEnabled              = DescSharedAutoMigrateEnabled + DescNamespaceDefault
 	DescNamespaceCleanInitEnabled                = DescSharedCleanInitEnabled + DescNamespaceDefault
+	DescNamespaceDefaultPulumiLoginType          = DescSharedPulumiLoginType + DescNamespaceDefault
+	DescNamespaceDefaultPulumiCustomLoginUrl     = DescSharedPulumiCustomLoginUrl + DescNamespaceDefault
+	DescNamespaceDefaultPulumiStackName          = DescSharedPulumiStackName + DescNamespaceDefault
 
 	DescNamespaceDefaultApprovalTimeoutMinutes = DescSharedApprovalTimeoutMinutes + DescNamespaceDefault + DescZeroTimeout
 
@@ -220,9 +226,24 @@ func (r *namespaceResource) Schema(ctx context.Context, req resource.SchemaReque
 			"default_engine": schema.StringAttribute{
 				Optional: true,
 				Validators: []validator.String{
-					stringvalidator.OneOf("OpenTofu", "Terraform"),
+					stringvalidator.OneOf("OpenTofu", "Terraform", "Pulumi"),
 				},
 				Description: DescNamespaceDefaultEngine,
+			},
+			"default_pulumi_login_type": schema.StringAttribute{
+				Optional: true,
+				Validators: []validator.String{
+					stringvalidator.OneOf("None", "PulumiCloud", "Local", "Custom"),
+				},
+				Description: DescNamespaceDefaultPulumiLoginType,
+			},
+			"default_pulumi_custom_login_url": schema.StringAttribute{
+				Optional:    true,
+				Description: DescNamespaceDefaultPulumiCustomLoginUrl,
+			},
+			"default_pulumi_stack_name": schema.StringAttribute{
+				Optional:    true,
+				Description: DescNamespaceDefaultPulumiStackName,
 			},
 			"default_output_secret_store_id": schema.StringAttribute{
 				Optional:    true,
