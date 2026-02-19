@@ -80,7 +80,9 @@ type namespaceModel struct {
 	DefaultAutoUpgradeEnabled       types.Bool   `tfsdk:"default_auto_upgrade_enabled"`
 	DefaultAutoReconfigureEnabled   types.Bool   `tfsdk:"default_auto_reconfigure_enabled"`
 	DefaultAutoMigrateEnabled       types.Bool   `tfsdk:"default_auto_migrate_enabled"`
-	DefaultCleanInitEnabled         types.Bool   `tfsdk:"default_clean_init_enabled"`
+	DefaultCleanInitEnabled              types.Bool   `tfsdk:"default_clean_init_enabled"`
+	DefaultDriftCheckEnabled             types.Bool   `tfsdk:"default_drift_check_enabled"`
+	DefaultDriftCheckIntervalMinutes     types.Int64  `tfsdk:"default_drift_check_interval_minutes"`
 
 	TriggerBehaviourOnModified types.String `tfsdk:"trigger_behaviour_on_modified"`
 }
@@ -114,7 +116,9 @@ const (
 	DescNamespaceAutoUpgradeEnabled              = DescSharedAutoUpgradeEnabled + DescNamespaceDefault
 	DescNamespaceAutoReconfigureEnabled          = DescSharedAutoReconfigureEnabled + DescNamespaceDefault
 	DescNamespaceAutoMigrateEnabled              = DescSharedAutoMigrateEnabled + DescNamespaceDefault
-	DescNamespaceCleanInitEnabled                = DescSharedCleanInitEnabled + DescNamespaceDefault
+	DescNamespaceCleanInitEnabled                    = DescSharedCleanInitEnabled + DescNamespaceDefault
+	DescNamespaceDefaultDriftCheckEnabled            = DescSharedDriftCheckEnabled + DescNamespaceDefault
+	DescNamespaceDefaultDriftCheckIntervalMinutes    = DescSharedDriftCheckIntervalMinutes + DescNamespaceDefault
 
 	DescNamespaceDefaultApprovalTimeoutMinutes = DescSharedApprovalTimeoutMinutes + DescNamespaceDefault + DescZeroTimeout
 
@@ -215,6 +219,14 @@ func (r *namespaceResource) Schema(ctx context.Context, req resource.SchemaReque
 			"default_clean_init_enabled": schema.BoolAttribute{
 				Optional:    true,
 				Description: DescNamespaceCleanInitEnabled,
+			},
+			"default_drift_check_enabled": schema.BoolAttribute{
+				Optional:    true,
+				Description: DescNamespaceDefaultDriftCheckEnabled,
+			},
+			"default_drift_check_interval_minutes": schema.Int64Attribute{
+				Optional:    true,
+				Description: DescNamespaceDefaultDriftCheckIntervalMinutes,
 			},
 
 			"default_engine": schema.StringAttribute{

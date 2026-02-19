@@ -97,6 +97,8 @@ type moduleModel struct {
 	AutoReconfigureEnabled             types.Bool   `tfsdk:"auto_reconfigure_enabled"`
 	AutoMigrateEnabled                 types.Bool   `tfsdk:"auto_migrate_enabled"`
 	CleanInitEnabled                   types.Bool   `tfsdk:"clean_init_enabled"`
+	DriftCheckEnabled                  types.Bool   `tfsdk:"drift_check_enabled"`
+	DriftCheckIntervalMinutes          types.Int64  `tfsdk:"drift_check_interval_minutes"`
 	IgnoreNamespaceBackendConfigs      types.Bool   `tfsdk:"ignore_namespace_backend_configs"`
 	IgnoreNamespaceExtraFiles          types.Bool   `tfsdk:"ignore_namespace_extra_files"`
 	WaitForApplyDependencies           types.String `tfsdk:"wait_for_apply_dependencies"`
@@ -141,6 +143,8 @@ const (
 	DescModuleAutoReconfigureEnabled        = DescSharedAutoReconfigureEnabled + DescModuleOverride
 	DescModuleAutoMigrateEnabled            = DescSharedAutoMigrateEnabled + DescModuleOverride
 	DescModuleCleanInitEnabled              = DescSharedCleanInitEnabled + DescModuleOverride
+	DescModuleDriftCheckEnabled             = DescSharedDriftCheckEnabled + DescModuleOverride
+	DescModuleDriftCheckIntervalMinutes     = DescSharedDriftCheckIntervalMinutes + DescModuleOverride
 	DescModuleIgnoreNamespaceBackendConfigs = "If this is set to true, any Backend Configs that have been set on Namespace level will not be used on this specific Module."
 	DescModuleIgnoreNamespaceExtraFiles     = "If this is set to true, any Extra Files that have been set on Namespace level will not be used on this specific Module."
 
@@ -283,6 +287,14 @@ func (r *moduleResource) Schema(ctx context.Context, req resource.SchemaRequest,
 			"clean_init_enabled": schema.BoolAttribute{
 				Optional:    true,
 				Description: DescModuleCleanInitEnabled,
+			},
+			"drift_check_enabled": schema.BoolAttribute{
+				Optional:    true,
+				Description: DescModuleDriftCheckEnabled,
+			},
+			"drift_check_interval_minutes": schema.Int64Attribute{
+				Optional:    true,
+				Description: DescModuleDriftCheckIntervalMinutes,
 			},
 			"ignore_namespace_extra_files": schema.BoolAttribute{
 				Optional:    true,
