@@ -32,8 +32,4 @@ const (
 	DescZeroTimeout                    = " If set neither on Module nor on Namespace the Jobs will wait for an approval decision indefinitely."
 
 	DescRunnerIsDisabled = "Indicates whether or not the Runner is disabled"
-
-	DescSharedPulumiLoginType      = "Determines how the Pulumi CLI authenticates with its backend. Must be one of 'None', 'PulumiCloud', 'Local' or 'Custom'. 'None' skips the login step entirely. 'PulumiCloud' runs `pulumi login` (Pulumi Cloud). 'Local' runs `pulumi login --local`. 'Custom' runs `pulumi login <url>` using the value from `pulumi_custom_login_url`. "
-	DescSharedPulumiCustomLoginUrl = "The custom backend URL to use when `pulumi_login_type` is set to 'Custom'. For example, 's3://my-bucket' or 'azblob://my-container'. "
-	DescSharedPulumiStackName      = "The name of the Pulumi stack to select during init. If set, `pulumi stack select <name>` will be run. "
 )

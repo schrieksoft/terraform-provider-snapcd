@@ -101,9 +101,6 @@ type moduleModel struct {
 	IgnoreNamespaceExtraFiles          types.Bool   `tfsdk:"ignore_namespace_extra_files"`
 	WaitForApplyDependencies           types.String `tfsdk:"wait_for_apply_dependencies"`
 	WaitForDestroyDependencies         types.String `tfsdk:"wait_for_destroy_dependencies"`
-	PulumiLoginType                    types.String `tfsdk:"pulumi_login_type"`
-	PulumiCustomLoginUrl               types.String `tfsdk:"pulumi_custom_login_url"`
-	PulumiStackName                    types.String `tfsdk:"pulumi_stack_name"`
 }
 
 const (
@@ -146,10 +143,6 @@ const (
 	DescModuleCleanInitEnabled              = DescSharedCleanInitEnabled + DescModuleOverride
 	DescModuleIgnoreNamespaceBackendConfigs = "If this is set to true, any Backend Configs that have been set on Namespace level will not be used on this specific Module."
 	DescModuleIgnoreNamespaceExtraFiles     = "If this is set to true, any Extra Files that have been set on Namespace level will not be used on this specific Module."
-	DescModulePulumiLoginType               = DescSharedPulumiLoginType + DescModuleOverride
-	DescModulePulumiCustomLoginUrl          = DescSharedPulumiCustomLoginUrl + DescModuleOverride
-	DescModulePulumiStackName               = DescSharedPulumiStackName + DescModuleOverride
-
 	DescTriggerOnSourceChanged             = "Defaults to 'true'. If 'true', the Module will automatically be applied when the source it is referencing has changed. For example, if tracking a Git branch: a new commit would constitute a change."
 	DescTriggerOnSourceChangedNotification = "Defaults to 'false'. If 'true', the Module will automatically be applied when the 'api/Hooks/SourceChanged' endpoint is called for this Module. Use this if you want to use external tooling to inform Snap CD that a source has been changed. Consider setting `trigger_on_definition_changed` to 'false' when setting `trigger_on_definition_changed_hook` to 'true'"
 	DescTriggerOnUpstreamOutputChanged     = "Defaults to 'true'. If 'true', the Module will automatically be applied when any Outputs from other Modules that it references as Inputs (Param or Env Var) have changed."
@@ -308,21 +301,6 @@ func (r *moduleResource) Schema(ctx context.Context, req resource.SchemaRequest,
 					stringvalidator.OneOf("OpenTofu", "Terraform", "Pulumi"),
 				},
 				Description: DescModuleEngine,
-			},
-			"pulumi_login_type": schema.StringAttribute{
-				Optional: true,
-				Validators: []validator.String{
-					stringvalidator.OneOf("None", "PulumiCloud", "Local", "Custom"),
-				},
-				Description: DescModulePulumiLoginType,
-			},
-			"pulumi_custom_login_url": schema.StringAttribute{
-				Optional:    true,
-				Description: DescModulePulumiCustomLoginUrl,
-			},
-			"pulumi_stack_name": schema.StringAttribute{
-				Optional:    true,
-				Description: DescModulePulumiStackName,
 			},
 			"output_secret_store_id": schema.StringAttribute{
 				Optional:    true,

@@ -81,10 +81,6 @@ type namespaceModel struct {
 	DefaultAutoReconfigureEnabled   types.Bool   `tfsdk:"default_auto_reconfigure_enabled"`
 	DefaultAutoMigrateEnabled       types.Bool   `tfsdk:"default_auto_migrate_enabled"`
 	DefaultCleanInitEnabled         types.Bool   `tfsdk:"default_clean_init_enabled"`
-	DefaultPulumiLoginType          types.String `tfsdk:"default_pulumi_login_type"`
-	DefaultPulumiCustomLoginUrl     types.String `tfsdk:"default_pulumi_custom_login_url"`
-	DefaultPulumiStackName          types.String `tfsdk:"default_pulumi_stack_name"`
-
 	TriggerBehaviourOnModified types.String `tfsdk:"trigger_behaviour_on_modified"`
 }
 
@@ -118,10 +114,6 @@ const (
 	DescNamespaceAutoReconfigureEnabled          = DescSharedAutoReconfigureEnabled + DescNamespaceDefault
 	DescNamespaceAutoMigrateEnabled              = DescSharedAutoMigrateEnabled + DescNamespaceDefault
 	DescNamespaceCleanInitEnabled                = DescSharedCleanInitEnabled + DescNamespaceDefault
-	DescNamespaceDefaultPulumiLoginType          = DescSharedPulumiLoginType + DescNamespaceDefault
-	DescNamespaceDefaultPulumiCustomLoginUrl     = DescSharedPulumiCustomLoginUrl + DescNamespaceDefault
-	DescNamespaceDefaultPulumiStackName          = DescSharedPulumiStackName + DescNamespaceDefault
-
 	DescNamespaceDefaultApprovalTimeoutMinutes = DescSharedApprovalTimeoutMinutes + DescNamespaceDefault + DescZeroTimeout
 
 	DescNamespaceTriggerBehaviourOnModified = "Behaviour with respect to applying modules within the Namespace if any of the fields on the Namespace resource (or any of its Param, Env Var or Extra File resources) has changed. Must be one of 'TriggerAllImmediately' or 'DoNotTrigger'. Setting to 'TriggerAllImmediately' will trigger *all* Modules within the Stack to run an apply Job simultaneously. Setting to 'DoNotTrigger' will do nothing. The default (and recommended) setting is 'DoNotTrigger'."
@@ -229,21 +221,6 @@ func (r *namespaceResource) Schema(ctx context.Context, req resource.SchemaReque
 					stringvalidator.OneOf("OpenTofu", "Terraform", "Pulumi"),
 				},
 				Description: DescNamespaceDefaultEngine,
-			},
-			"default_pulumi_login_type": schema.StringAttribute{
-				Optional: true,
-				Validators: []validator.String{
-					stringvalidator.OneOf("None", "PulumiCloud", "Local", "Custom"),
-				},
-				Description: DescNamespaceDefaultPulumiLoginType,
-			},
-			"default_pulumi_custom_login_url": schema.StringAttribute{
-				Optional:    true,
-				Description: DescNamespaceDefaultPulumiCustomLoginUrl,
-			},
-			"default_pulumi_stack_name": schema.StringAttribute{
-				Optional:    true,
-				Description: DescNamespaceDefaultPulumiStackName,
 			},
 			"default_output_secret_store_id": schema.StringAttribute{
 				Optional:    true,
