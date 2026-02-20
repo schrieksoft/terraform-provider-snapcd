@@ -1,29 +1,29 @@
 ---
-page_title: "snapcd_namespace_pulumi_flag Resource - snapcd"
+page_title: "snapcd_namespace_terraform_flag Resource - snapcd"
 subcategory: "Engine Flags"
 description: |-
-  Manages a Namespace Pulumi Flag in Snap CD.
+  Manages a Namespace Terraform Flag in Snap CD.
 ---
 
-# snapcd_namespace_pulumi_flag (Resource)
+# snapcd_namespace_terraform_flag (Resource)
 
-Manages a Namespace Pulumi Flag in Snap CD.
+Manages a Namespace Terraform Flag in Snap CD.
 
 
 ## Example Usage
 
 ```terraform
-resource "snapcd_namespace_pulumi_flag" "refresh" {
+resource "snapcd_namespace_terraform_flag" "refresh" {
   namespace_id = snapcd_namespace.mynamespace.id
   task         = "Plan"
   flag         = "Refresh"
-  value        = "true"
+  value        = "false"
 }
 
-resource "snapcd_namespace_pulumi_flag" "debug" {
+resource "snapcd_namespace_terraform_flag" "no_color" {
   namespace_id = snapcd_namespace.mynamespace.id
   task         = "Plan"
-  flag         = "Debug"
+  flag         = "NoColor"
 }
 ```
 
@@ -32,7 +32,7 @@ resource "snapcd_namespace_pulumi_flag" "debug" {
 
 ### Required
 
-- `flag` (String) The Pulumi CLI flag name.
+- `flag` (String) The Terraform CLI flag name.
 - `namespace_id` (String) ID of the parent Namespace.
 - `task` (String) The command task this flag applies to. Valid values: `Init`, `Plan`, `Apply`, `Destroy`, `Output`.
 
@@ -42,12 +42,12 @@ resource "snapcd_namespace_pulumi_flag" "debug" {
 
 ### Read-Only
 
-- `id` (String) Unique ID of the Namespace Pulumi Flag.
+- `id` (String) Unique ID of the Namespace Terraform Flag.
 
 ## Import
 
 Import is supported using the following syntax:
 
 ```shell
-terraform import snapcd_namespace_pulumi_flag.refresh "00000000-0000-0000-0000-000000000000"
+terraform import snapcd_namespace_terraform_flag.refresh "00000000-0000-0000-0000-000000000000"
 ```

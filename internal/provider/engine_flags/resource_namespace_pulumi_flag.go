@@ -1,4 +1,4 @@
-package pulumi_flags
+package engine_flags
 
 import (
 	"fmt"
@@ -73,7 +73,7 @@ const (
 
 func (r *namespacePulumiFlagResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: `Pulumi Flags --- Manages a Namespace Pulumi Flag in Snap CD.`,
+		MarkdownDescription: `Engine Flags --- Manages a Namespace Pulumi Flag in Snap CD.`,
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed: true,

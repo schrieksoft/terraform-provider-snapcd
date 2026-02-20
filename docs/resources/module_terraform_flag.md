@@ -1,29 +1,29 @@
 ---
-page_title: "snapcd_module_pulumi_flag Resource - snapcd"
+page_title: "snapcd_module_terraform_flag Resource - snapcd"
 subcategory: "Engine Flags"
 description: |-
-  Manages a Module Pulumi Flag in Snap CD.
+  Manages a Module Terraform Flag in Snap CD.
 ---
 
-# snapcd_module_pulumi_flag (Resource)
+# snapcd_module_terraform_flag (Resource)
 
-Manages a Module Pulumi Flag in Snap CD.
+Manages a Module Terraform Flag in Snap CD.
 
 
 ## Example Usage
 
 ```terraform
-resource "snapcd_module_pulumi_flag" "refresh" {
+resource "snapcd_module_terraform_flag" "refresh" {
   module_id = snapcd_module.mymodule.id
   task      = "Plan"
   flag      = "Refresh"
-  value     = "true"
+  value     = "false"
 }
 
-resource "snapcd_module_pulumi_flag" "debug" {
+resource "snapcd_module_terraform_flag" "no_color" {
   module_id = snapcd_module.mymodule.id
   task      = "Plan"
-  flag      = "Debug"
+  flag      = "NoColor"
 }
 ```
 
@@ -32,7 +32,7 @@ resource "snapcd_module_pulumi_flag" "debug" {
 
 ### Required
 
-- `flag` (String) The Pulumi CLI flag name.
+- `flag` (String) The Terraform CLI flag name.
 - `module_id` (String) ID of the parent Module.
 - `task` (String) The command task this flag applies to. Valid values: `Init`, `Plan`, `Apply`, `Destroy`, `Output`.
 
@@ -42,12 +42,12 @@ resource "snapcd_module_pulumi_flag" "debug" {
 
 ### Read-Only
 
-- `id` (String) Unique ID of the Module Pulumi Flag.
+- `id` (String) Unique ID of the Module Terraform Flag.
 
 ## Import
 
 Import is supported using the following syntax:
 
 ```shell
-terraform import snapcd_module_pulumi_flag.refresh "00000000-0000-0000-0000-000000000000"
+terraform import snapcd_module_terraform_flag.refresh "00000000-0000-0000-0000-000000000000"
 ```

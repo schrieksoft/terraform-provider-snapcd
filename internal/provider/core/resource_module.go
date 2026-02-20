@@ -143,12 +143,12 @@ const (
 	DescModuleCleanInitEnabled              = DescSharedCleanInitEnabled + DescModuleOverride
 	DescModuleIgnoreNamespaceBackendConfigs = "If this is set to true, any Backend Configs that have been set on Namespace level will not be used on this specific Module."
 	DescModuleIgnoreNamespaceExtraFiles     = "If this is set to true, any Extra Files that have been set on Namespace level will not be used on this specific Module."
-	DescTriggerOnSourceChanged             = "Defaults to 'true'. If 'true', the Module will automatically be applied when the source it is referencing has changed. For example, if tracking a Git branch: a new commit would constitute a change."
-	DescTriggerOnSourceChangedNotification = "Defaults to 'false'. If 'true', the Module will automatically be applied when the 'api/Hooks/SourceChanged' endpoint is called for this Module. Use this if you want to use external tooling to inform Snap CD that a source has been changed. Consider setting `trigger_on_definition_changed` to 'false' when setting `trigger_on_definition_changed_hook` to 'true'"
-	DescTriggerOnUpstreamOutputChanged     = "Defaults to 'true'. If 'true', the Module will automatically be applied when any Outputs from other Modules that it references as Inputs (Param or Env Var) have changed."
-	DescTriggerOnDefinitionChanged         = "Defaults to 'true'. If 'true', the Module will automatically be applied when its definition changes. A definition change results from fields on the Module itself, on any of its Inputs (Param or Env Var) or Extra Files being altered. So too changes to its Namespace (including Inputs and Extra Files) or Stack. Note however that Namespace and Stack changes are not notified by default. This behaviour can be changed in `snapcd_namespace` and `snapcd_stack` resource definitions."
-	DescWaitForApplyDependencies           = "Defaults to 'OnFirstApply'. Controls when the Module should wait for dependencies during apply operations. Valid values are 'Always', 'Never', or 'OnFirstApply'. 'Always' means the Module will always wait for Modules its depends on to reach the 'Applied' state before applying. 'Never' means dependencies are ignored. 'OnFirstApply' means the Module will wait for dependencies only on its first apply."
-	DescWaitForDestroyDependencies         = "Defaults to 'Always'. Controls when the Module should wait for dependencies during destroy operations. Valid values are 'Always' or 'Never'. 'Always' means the Module will always wait Modules that depend on it to reach the 'Destroyed' state before destroying. 'Never' means dependencies are ignored."
+	DescTriggerOnSourceChanged              = "Defaults to 'true'. If 'true', the Module will automatically be applied when the source it is referencing has changed. For example, if tracking a Git branch: a new commit would constitute a change."
+	DescTriggerOnSourceChangedNotification  = "Defaults to 'false'. If 'true', the Module will automatically be applied when the 'api/Hooks/SourceChanged' endpoint is called for this Module. Use this if you want to use external tooling to inform Snap CD that a source has been changed. Consider setting `trigger_on_definition_changed` to 'false' when setting `trigger_on_definition_changed_hook` to 'true'"
+	DescTriggerOnUpstreamOutputChanged      = "Defaults to 'true'. If 'true', the Module will automatically be applied when any Outputs from other Modules that it references as Inputs (Param or Env Var) have changed."
+	DescTriggerOnDefinitionChanged          = "Defaults to 'true'. If 'true', the Module will automatically be applied when its definition changes. A definition change results from fields on the Module itself, on any of its Inputs (Param or Env Var) or Extra Files being altered. So too changes to its Namespace (including Inputs and Extra Files) or Stack. Note however that Namespace and Stack changes are not notified by default. This behaviour can be changed in `snapcd_namespace` and `snapcd_stack` resource definitions."
+	DescWaitForApplyDependencies            = "Defaults to 'OnFirstApply'. Controls when the Module should wait for dependencies during apply operations. Valid values are 'Always', 'Never', or 'OnFirstApply'. 'Always' means the Module will always wait for Modules its depends on to reach the 'Applied' state before applying. 'Never' means dependencies are ignored. 'OnFirstApply' means the Module will wait for dependencies only on its first apply."
+	DescWaitForDestroyDependencies          = "Defaults to 'Always'. Controls when the Module should wait for dependencies during destroy operations. Valid values are 'Always' or 'Never'. 'Always' means the Module will always wait Modules that depend on it to reach the 'Destroyed' state before destroying. 'Never' means dependencies are ignored."
 )
 
 func (r *moduleResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
@@ -268,16 +268,19 @@ func (r *moduleResource) Schema(ctx context.Context, req resource.SchemaRequest,
 			},
 
 			"auto_upgrade_enabled": schema.BoolAttribute{
-				Optional:    true,
-				Description: DescModuleAutoUpgradeEnabled,
+				Optional:          true,
+				Description:       DescModuleAutoUpgradeEnabled,
+				DeprecationMessage: "Use snapcd_module_terraform_flag with Flag='Upgrade' and Task='Init' instead.",
 			},
 			"auto_reconfigure_enabled": schema.BoolAttribute{
-				Optional:    true,
-				Description: DescModuleAutoReconfigureEnabled,
+				Optional:          true,
+				Description:       DescModuleAutoReconfigureEnabled,
+				DeprecationMessage: "Use snapcd_module_terraform_flag with Flag='Reconfigure' and Task='Init' instead.",
 			},
 			"auto_migrate_enabled": schema.BoolAttribute{
-				Optional:    true,
-				Description: DescModuleAutoMigrateEnabled,
+				Optional:          true,
+				Description:       DescModuleAutoMigrateEnabled,
+				DeprecationMessage: "Use snapcd_module_terraform_flag with Flag='MigrateState' and Task='Init' instead.",
 			},
 			"clean_init_enabled": schema.BoolAttribute{
 				Optional:    true,
@@ -290,10 +293,11 @@ func (r *moduleResource) Schema(ctx context.Context, req resource.SchemaRequest,
 				Default:     booldefault.StaticBool(false),
 			},
 			"ignore_namespace_backend_configs": schema.BoolAttribute{
-				Optional:    true,
-				Computed:    true,
-				Description: DescModuleIgnoreNamespaceBackendConfigs,
-				Default:     booldefault.StaticBool(false),
+				Optional:          true,
+				Computed:          true,
+				Description:       DescModuleIgnoreNamespaceBackendConfigs,
+				Default:           booldefault.StaticBool(false),
+				DeprecationMessage: "Backend configs are deprecated. Use snapcd_module_terraform_flag with Flag='BackendConfig' and Task='Init' instead.",
 			},
 			"engine": schema.StringAttribute{
 				Optional: true,

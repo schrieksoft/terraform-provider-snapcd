@@ -1,4 +1,6 @@
-package pulumi_flags
+package engine_flags
+
+// Pulumi flags
 
 var pulumiCommandTaskValues = []string{
 	"Init",
@@ -63,4 +65,46 @@ var pulumiArrayFlagValues = []string{
 	"Exclude",
 	"TargetReplace",
 	"Config",
+}
+
+// Terraform flags
+
+var terraformCommandTaskValues = []string{
+	"Init",
+	"Plan",
+	"Apply",
+	"Destroy",
+	"Output",
+}
+
+var terraformFlagValues = []string{
+	"ForceCopy",
+	"FromModule",
+	"GetPlugins",
+	"LockTimeout",
+	"Lockfile",
+	"MigrateState",
+	"Plugin",
+	"Reconfigure",
+	"TestDirectory",
+	"Upgrade",
+	"CompactWarnings",
+	"Concurrency",
+	"Lock",
+	"NoColor",
+	"Parallelism",
+	"Refresh",
+	"RefreshOnly",
+	"DetailedExitcode",
+	"GenerateConfigOut",
+	"CreateBeforeDestroy",
+	"Raw",
+}
+
+var terraformArrayFlagValues = []string{
+	"Target",
+	"Replace",
+	"Exclude",
+	"Var",
+	"BackendConfig",
 }

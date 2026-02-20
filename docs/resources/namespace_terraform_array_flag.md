@@ -1,19 +1,19 @@
 ---
-page_title: "snapcd_namespace_pulumi_array_flag Resource - snapcd"
+page_title: "snapcd_namespace_terraform_array_flag Resource - snapcd"
 subcategory: "Engine Flags"
 description: |-
-  Manages a Namespace Pulumi Array Flag in Snap CD.
+  Manages a Namespace Terraform Array Flag in Snap CD.
 ---
 
-# snapcd_namespace_pulumi_array_flag (Resource)
+# snapcd_namespace_terraform_array_flag (Resource)
 
-Manages a Namespace Pulumi Array Flag in Snap CD.
+Manages a Namespace Terraform Array Flag in Snap CD.
 
 
 ## Example Usage
 
 ```terraform
-resource "snapcd_namespace_pulumi_array_flag" "targets" {
+resource "snapcd_namespace_terraform_array_flag" "targets" {
   for_each     = toset(["aws_vpc.main", "aws_subnet.main"])
   namespace_id = snapcd_namespace.mynamespace.id
   task         = "Plan"
@@ -27,19 +27,19 @@ resource "snapcd_namespace_pulumi_array_flag" "targets" {
 
 ### Required
 
-- `flag` (String) The Pulumi CLI array flag name.
+- `flag` (String) The Terraform CLI array flag name.
 - `namespace_id` (String) ID of the parent Namespace.
 - `task` (String) The command task this flag applies to. Valid values: `Init`, `Plan`, `Apply`, `Destroy`, `Output`.
 - `value` (String) The value for the flag.
 
 ### Read-Only
 
-- `id` (String) Unique ID of the Namespace Pulumi Array Flag.
+- `id` (String) Unique ID of the Namespace Terraform Array Flag.
 
 ## Import
 
 Import is supported using the following syntax:
 
 ```shell
-terraform import snapcd_namespace_pulumi_array_flag.target_vpc "00000000-0000-0000-0000-000000000000"
+terraform import snapcd_namespace_terraform_array_flag.target_vpc "00000000-0000-0000-0000-000000000000"
 ```

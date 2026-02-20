@@ -56,17 +56,17 @@ func (r *sourceRefresherPreselectionResource) Metadata(ctx context.Context, req 
 
 // ! Category: Source Refresher Preselection
 type sourceRefresherPreselectionModel struct {
-	Id                     types.String `tfsdk:"id"`
+	Id                 types.String `tfsdk:"id"`
 	RunnerId           types.String `tfsdk:"runner_id"`
 	RunnerInstanceName types.String `tfsdk:"runner_instance_name"`
-	SourceUrl              types.String `tfsdk:"source_url"`
+	SourceUrl          types.String `tfsdk:"source_url"`
 }
 
 const (
-	DescSourceRefresherPreselectionId                    = "Unique ID of the Source Refresher Preselection."
-	DescSourceRefresherPreselectionSourceUrl             = "Unique Source URL to which a Runner (or specific Runner within the Runner based on `runner_instance_name`) is assigned as the preselected 'refresher'."
-	DescSourceRefresherPreselectionRunnerId              = "ID of the Runner to preselect as 'refresher' for the given Source URL. Messages requesting a source refresh will always be sent to this Runner's"
-	DescSourceRefresherPreselectionRunnerInstanceName	 = "Name a specific runner instance to select (should unique identify the the instance). Use this if you have enabled multiple instances on your runner, but want all refresh requests for this source to go to a specific instance."
+	DescSourceRefresherPreselectionId                 = "Unique ID of the Source Refresher Preselection."
+	DescSourceRefresherPreselectionSourceUrl          = "Unique Source URL to which a Runner (or specific Runner within the Runner based on `runner_instance_name`) is assigned as the preselected 'refresher'."
+	DescSourceRefresherPreselectionRunnerId           = "ID of the Runner to preselect as 'refresher' for the given Source URL. Messages requesting a source refresh will always be sent to this Runner's"
+	DescSourceRefresherPreselectionRunnerInstanceName = "Name a specific runner instance to select (should unique identify the the instance). Use this if you have enabled multiple instances on your runner, but want all refresh requests for this source to go to a specific instance."
 )
 
 func (r *sourceRefresherPreselectionResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {

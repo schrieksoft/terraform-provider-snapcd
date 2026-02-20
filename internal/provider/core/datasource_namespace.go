@@ -119,16 +119,19 @@ func (d *namespaceDataSource) Schema(ctx context.Context, req datasource.SchemaR
 				Description: DescNamespaceDefaultValidateAfterHook,
 			},
 			"default_auto_upgrade_enabled": schema.BoolAttribute{
-				Computed:    true,
-				Description: DescNamespaceAutoUpgradeEnabled,
+				Computed:          true,
+				Description:       DescNamespaceAutoUpgradeEnabled,
+				DeprecationMessage: "Use snapcd_namespace_terraform_flag with Flag='Upgrade' and Task='Init' instead.",
 			},
 			"default_auto_reconfigure_enabled": schema.BoolAttribute{
-				Computed:    true,
-				Description: DescNamespaceAutoReconfigureEnabled,
+				Computed:          true,
+				Description:       DescNamespaceAutoReconfigureEnabled,
+				DeprecationMessage: "Use snapcd_namespace_terraform_flag with Flag='Reconfigure' and Task='Init' instead.",
 			},
 			"default_auto_migrate_enabled": schema.BoolAttribute{
-				Computed:    true,
-				Description: DescNamespaceAutoMigrateEnabled,
+				Computed:          true,
+				Description:       DescNamespaceAutoMigrateEnabled,
+				DeprecationMessage: "Use snapcd_namespace_terraform_flag with Flag='MigrateState' and Task='Init' instead.",
 			},
 			"default_clean_init_enabled": schema.BoolAttribute{
 				Computed:    true,

@@ -55,8 +55,8 @@ func (r *runnerStackAssignmentResource) Metadata(ctx context.Context, req resour
 }
 
 type runnerStackAssignmentModel struct {
-	Id           types.String `tfsdk:"id"`
-	StackId      types.String `tfsdk:"stack_id"`
+	Id       types.String `tfsdk:"id"`
+	StackId  types.String `tfsdk:"stack_id"`
 	RunnerId types.String `tfsdk:"runner_id"`
 }
 

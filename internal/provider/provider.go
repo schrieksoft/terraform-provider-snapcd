@@ -14,7 +14,7 @@ import (
 	"terraform-provider-snapcd/internal/provider/identity"
 	"terraform-provider-snapcd/internal/provider/module_input"
 	"terraform-provider-snapcd/internal/provider/namespace_input"
-	"terraform-provider-snapcd/internal/provider/pulumi_flags"
+	"terraform-provider-snapcd/internal/provider/engine_flags"
 	"terraform-provider-snapcd/internal/provider/role_assignment"
 	"terraform-provider-snapcd/internal/provider/runner_assignment"
 	"terraform-provider-snapcd/internal/provider/secret"
@@ -454,9 +454,14 @@ func (p *snapcdProvider) Resources(_ context.Context) []func() resource.Resource
 		backend_configs.NamespaceBackendConfigResource,
 		backend_configs.ModuleBackendConfigResource,
 
-		pulumi_flags.NamespacePulumiFlagResource,
-		pulumi_flags.NamespacePulumiArrayFlagResource,
-		pulumi_flags.ModulePulumiFlagResource,
-		pulumi_flags.ModulePulumiArrayFlagResource,
+		engine_flags.NamespacePulumiFlagResource,
+		engine_flags.NamespacePulumiArrayFlagResource,
+		engine_flags.ModulePulumiFlagResource,
+		engine_flags.ModulePulumiArrayFlagResource,
+
+		engine_flags.NamespaceTerraformFlagResource,
+		engine_flags.NamespaceTerraformArrayFlagResource,
+		engine_flags.ModuleTerraformFlagResource,
+		engine_flags.ModuleTerraformArrayFlagResource,
 	}
 }

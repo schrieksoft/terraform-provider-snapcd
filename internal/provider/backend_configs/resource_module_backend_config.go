@@ -71,6 +71,7 @@ const (
 func (r *moduleBackendConfigResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
 		MarkdownDescription: `Backend Configs --- Manages a Module Backend Config in Snap CD.`,
+		DeprecationMessage:  "Use snapcd_module_terraform_array_flag with Flag='BackendConfig' and Task='Init' instead.",
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed: true,
