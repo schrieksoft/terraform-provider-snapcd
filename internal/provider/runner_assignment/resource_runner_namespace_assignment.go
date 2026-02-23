@@ -55,9 +55,9 @@ func (r *runnerNamespaceAssignmentResource) Metadata(ctx context.Context, req re
 }
 
 type runnerNamespaceAssignmentModel struct {
-	Id           types.String `tfsdk:"id"`
-	NamespaceId  types.String `tfsdk:"namespace_id"`
-	RunnerId types.String `tfsdk:"runner_id"`
+	Id          types.String `tfsdk:"id"`
+	NamespaceId types.String `tfsdk:"namespace_id"`
+	RunnerId    types.String `tfsdk:"runner_id"`
 }
 
 func (r *runnerNamespaceAssignmentResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {

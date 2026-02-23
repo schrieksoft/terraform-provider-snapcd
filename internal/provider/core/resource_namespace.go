@@ -55,36 +55,35 @@ func (r *namespaceResource) Configure(_ context.Context, req resource.ConfigureR
 
 // ! Category: Namespace
 type namespaceModel struct {
-	Name                            types.String `tfsdk:"name"`
-	Id                              types.String `tfsdk:"id"`
-	StackId                         types.String `tfsdk:"stack_id"`
-	DefaultInitBeforeHook           types.String `tfsdk:"default_init_before_hook"`
-	DefaultInitAfterHook            types.String `tfsdk:"default_init_after_hook"`
-	DefaultPlanBeforeHook           types.String `tfsdk:"default_plan_before_hook"`
-	DefaultPlanAfterHook            types.String `tfsdk:"default_plan_after_hook"`
-	DefaultApplyBeforeHook          types.String `tfsdk:"default_apply_before_hook"`
-	DefaultApplyAfterHook           types.String `tfsdk:"default_apply_after_hook"`
-	DefaultPlanDestroyBeforeHook    types.String `tfsdk:"default_plan_destroy_before_hook"`
-	DefaultPlanDestroyAfterHook     types.String `tfsdk:"default_plan_destroy_after_hook"`
-	DefaultDestroyBeforeHook        types.String `tfsdk:"default_destroy_before_hook"`
-	DefaultDestroyAfterHook         types.String `tfsdk:"default_destroy_after_hook"`
-	DefaultOutputBeforeHook         types.String `tfsdk:"default_output_before_hook"`
-	DefaultOutputAfterHook          types.String `tfsdk:"default_output_after_hook"`
-	DefaultValidateBeforeHook       types.String `tfsdk:"default_validate_before_hook"`
-	DefaultValidateAfterHook        types.String `tfsdk:"default_validate_after_hook"`
-	DefaultEngine                   types.String `tfsdk:"default_engine"`
-	DefaultOutputSecretStoreId      types.String `tfsdk:"default_output_secret_store_id"`
-	DefaultApplyApprovalThreshold   types.Int64  `tfsdk:"default_apply_approval_threshold"`
-	DefaultDestroyApprovalThreshold types.Int64  `tfsdk:"default_destroy_approval_threshold"`
-	DefaultApprovalTimeoutMinutes   types.Int64  `tfsdk:"default_approval_timeout_minutes"`
-	DefaultAutoUpgradeEnabled       types.Bool   `tfsdk:"default_auto_upgrade_enabled"`
-	DefaultAutoReconfigureEnabled   types.Bool   `tfsdk:"default_auto_reconfigure_enabled"`
-	DefaultAutoMigrateEnabled       types.Bool   `tfsdk:"default_auto_migrate_enabled"`
-	DefaultCleanInitEnabled              types.Bool   `tfsdk:"default_clean_init_enabled"`
-	DefaultDriftCheckEnabled             types.Bool   `tfsdk:"default_drift_check_enabled"`
-	DefaultDriftCheckIntervalMinutes     types.Int64  `tfsdk:"default_drift_check_interval_minutes"`
-
-	TriggerBehaviourOnModified types.String `tfsdk:"trigger_behaviour_on_modified"`
+	Name                             types.String `tfsdk:"name"`
+	Id                               types.String `tfsdk:"id"`
+	StackId                          types.String `tfsdk:"stack_id"`
+	DefaultInitBeforeHook            types.String `tfsdk:"default_init_before_hook"`
+	DefaultInitAfterHook             types.String `tfsdk:"default_init_after_hook"`
+	DefaultPlanBeforeHook            types.String `tfsdk:"default_plan_before_hook"`
+	DefaultPlanAfterHook             types.String `tfsdk:"default_plan_after_hook"`
+	DefaultApplyBeforeHook           types.String `tfsdk:"default_apply_before_hook"`
+	DefaultApplyAfterHook            types.String `tfsdk:"default_apply_after_hook"`
+	DefaultPlanDestroyBeforeHook     types.String `tfsdk:"default_plan_destroy_before_hook"`
+	DefaultPlanDestroyAfterHook      types.String `tfsdk:"default_plan_destroy_after_hook"`
+	DefaultDestroyBeforeHook         types.String `tfsdk:"default_destroy_before_hook"`
+	DefaultDestroyAfterHook          types.String `tfsdk:"default_destroy_after_hook"`
+	DefaultOutputBeforeHook          types.String `tfsdk:"default_output_before_hook"`
+	DefaultOutputAfterHook           types.String `tfsdk:"default_output_after_hook"`
+	DefaultValidateBeforeHook        types.String `tfsdk:"default_validate_before_hook"`
+	DefaultValidateAfterHook         types.String `tfsdk:"default_validate_after_hook"`
+	DefaultEngine                    types.String `tfsdk:"default_engine"`
+	DefaultOutputSecretStoreId       types.String `tfsdk:"default_output_secret_store_id"`
+	DefaultApplyApprovalThreshold    types.Int64  `tfsdk:"default_apply_approval_threshold"`
+	DefaultDestroyApprovalThreshold  types.Int64  `tfsdk:"default_destroy_approval_threshold"`
+	DefaultApprovalTimeoutMinutes    types.Int64  `tfsdk:"default_approval_timeout_minutes"`
+	DefaultAutoUpgradeEnabled        types.Bool   `tfsdk:"default_auto_upgrade_enabled"`
+	DefaultAutoReconfigureEnabled    types.Bool   `tfsdk:"default_auto_reconfigure_enabled"`
+	DefaultAutoMigrateEnabled        types.Bool   `tfsdk:"default_auto_migrate_enabled"`
+	DefaultCleanInitEnabled          types.Bool   `tfsdk:"default_clean_init_enabled"`
+	DefaultDriftCheckEnabled         types.Bool   `tfsdk:"default_drift_check_enabled"`
+	DefaultDriftCheckIntervalMinutes types.Int64  `tfsdk:"default_drift_check_interval_minutes"`
+	TriggerBehaviourOnModified       types.String `tfsdk:"trigger_behaviour_on_modified"`
 }
 
 const (
@@ -94,33 +93,32 @@ const (
 	DescNamespaceName    = "Name of the Namespace. Must be unique in combination with `stack_id`."
 	DescNamespaceStackId = "ID of the Namespace's parent Stack."
 
-	DescNamespaceDefaultInitBackendArgs          = DescSharedInitBackedArgs + DescNamespaceDefault
-	DescNamespaceDefaultInitBeforeHook           = DescSharedInitBeforeHook + DescNamespaceDefault
-	DescNamespaceDefaultInitAfterHook            = DescSharedInitAfterHook + DescNamespaceDefault
-	DescNamespaceDefaultPlanBeforeHook           = DescSharedPlanBeforeHook + DescNamespaceDefault
-	DescNamespaceDefaultPlanAfterHook            = DescSharedPlanAfterHook + DescNamespaceDefault
-	DescNamespaceDefaultPlanDestroyBeforeHook    = DescSharedPlanDestroyBeforeHook + DescNamespaceDefault
-	DescNamespaceDefaultPlanDestroyAfterHook     = DescSharedPlanDestroyAfterHook + DescNamespaceDefault
-	DescNamespaceDefaultApplyBeforeHook          = DescSharedApplyBeforeHook + DescNamespaceDefault
-	DescNamespaceDefaultApplyAfterHook           = DescSharedApplyAfterHook + DescNamespaceDefault
-	DescNamespaceDefaultDestroyBeforeHook        = DescSharedDestroyBeforeHook + DescNamespaceDefault
-	DescNamespaceDefaultDestroyAfterHook         = DescSharedDestroyAfterHook + DescNamespaceDefault
-	DescNamespaceDefaultOutputBeforeHook         = DescSharedOutputBeforeHook + DescNamespaceDefault
-	DescNamespaceDefaultOutputAfterHook          = DescSharedOutputAfterHook + DescNamespaceDefault
-	DescNamespaceDefaultValidateBeforeHook       = DescSharedValidateBeforeHook + DescNamespaceDefault
-	DescNamespaceDefaultValidateAfterHook        = DescSharedValidateAfterHook + DescNamespaceDefault
-	DescNamespaceDefaultEngine                   = DescSharedEngine + DescNamespaceDefault
-	DescNamespaceDefaultOutputSecretStoreId      = DescSharedOutputSecretStoreId + DescNamespaceDefault
-	DescNamespaceDefaultApplyApprovalThreshold   = DescSharedApplyApprovalThreshold + DescNamespaceDefault + DescZeroThreshold
-	DescNamespaceDefaultDestroyApprovalThreshold = DescSharedDestroyApprovalThreshold + DescNamespaceDefault + DescZeroThreshold
-	DescNamespaceAutoUpgradeEnabled              = DescSharedAutoUpgradeEnabled + DescNamespaceDefault
-	DescNamespaceAutoReconfigureEnabled          = DescSharedAutoReconfigureEnabled + DescNamespaceDefault
-	DescNamespaceAutoMigrateEnabled              = DescSharedAutoMigrateEnabled + DescNamespaceDefault
-	DescNamespaceCleanInitEnabled                    = DescSharedCleanInitEnabled + DescNamespaceDefault
-	DescNamespaceDefaultDriftCheckEnabled            = DescSharedDriftCheckEnabled + DescNamespaceDefault
-	DescNamespaceDefaultDriftCheckIntervalMinutes    = DescSharedDriftCheckIntervalMinutes + DescNamespaceDefault
-
-	DescNamespaceDefaultApprovalTimeoutMinutes = DescSharedApprovalTimeoutMinutes + DescNamespaceDefault + DescZeroTimeout
+	DescNamespaceDefaultInitBackendArgs           = DescSharedInitBackedArgs + DescNamespaceDefault
+	DescNamespaceDefaultInitBeforeHook            = DescSharedInitBeforeHook + DescNamespaceDefault
+	DescNamespaceDefaultInitAfterHook             = DescSharedInitAfterHook + DescNamespaceDefault
+	DescNamespaceDefaultPlanBeforeHook            = DescSharedPlanBeforeHook + DescNamespaceDefault
+	DescNamespaceDefaultPlanAfterHook             = DescSharedPlanAfterHook + DescNamespaceDefault
+	DescNamespaceDefaultPlanDestroyBeforeHook     = DescSharedPlanDestroyBeforeHook + DescNamespaceDefault
+	DescNamespaceDefaultPlanDestroyAfterHook      = DescSharedPlanDestroyAfterHook + DescNamespaceDefault
+	DescNamespaceDefaultApplyBeforeHook           = DescSharedApplyBeforeHook + DescNamespaceDefault
+	DescNamespaceDefaultApplyAfterHook            = DescSharedApplyAfterHook + DescNamespaceDefault
+	DescNamespaceDefaultDestroyBeforeHook         = DescSharedDestroyBeforeHook + DescNamespaceDefault
+	DescNamespaceDefaultDestroyAfterHook          = DescSharedDestroyAfterHook + DescNamespaceDefault
+	DescNamespaceDefaultOutputBeforeHook          = DescSharedOutputBeforeHook + DescNamespaceDefault
+	DescNamespaceDefaultOutputAfterHook           = DescSharedOutputAfterHook + DescNamespaceDefault
+	DescNamespaceDefaultValidateBeforeHook        = DescSharedValidateBeforeHook + DescNamespaceDefault
+	DescNamespaceDefaultValidateAfterHook         = DescSharedValidateAfterHook + DescNamespaceDefault
+	DescNamespaceDefaultEngine                    = DescSharedEngine + DescNamespaceDefault
+	DescNamespaceDefaultOutputSecretStoreId       = DescSharedOutputSecretStoreId + DescNamespaceDefault
+	DescNamespaceDefaultApplyApprovalThreshold    = DescSharedApplyApprovalThreshold + DescNamespaceDefault + DescZeroThreshold
+	DescNamespaceDefaultDestroyApprovalThreshold  = DescSharedDestroyApprovalThreshold + DescNamespaceDefault + DescZeroThreshold
+	DescNamespaceAutoUpgradeEnabled               = DescSharedAutoUpgradeEnabled + DescNamespaceDefault
+	DescNamespaceAutoReconfigureEnabled           = DescSharedAutoReconfigureEnabled + DescNamespaceDefault
+	DescNamespaceAutoMigrateEnabled               = DescSharedAutoMigrateEnabled + DescNamespaceDefault
+	DescNamespaceCleanInitEnabled                 = DescSharedCleanInitEnabled + DescNamespaceDefault
+	DescNamespaceDefaultDriftCheckEnabled         = DescSharedDriftCheckEnabled + DescNamespaceDefault
+	DescNamespaceDefaultDriftCheckIntervalMinutes = DescSharedDriftCheckIntervalMinutes + DescNamespaceDefault
+	DescNamespaceDefaultApprovalTimeoutMinutes    = DescSharedApprovalTimeoutMinutes + DescNamespaceDefault + DescZeroTimeout
 
 	DescNamespaceTriggerBehaviourOnModified = "Behaviour with respect to applying modules within the Namespace if any of the fields on the Namespace resource (or any of its Param, Env Var or Extra File resources) has changed. Must be one of 'TriggerAllImmediately' or 'DoNotTrigger'. Setting to 'TriggerAllImmediately' will trigger *all* Modules within the Stack to run an apply Job simultaneously. Setting to 'DoNotTrigger' will do nothing. The default (and recommended) setting is 'DoNotTrigger'."
 )
@@ -205,16 +203,19 @@ func (r *namespaceResource) Schema(ctx context.Context, req resource.SchemaReque
 				Description: DescNamespaceDefaultValidateAfterHook,
 			},
 			"default_auto_upgrade_enabled": schema.BoolAttribute{
-				Optional:    true,
-				Description: DescNamespaceAutoUpgradeEnabled,
+				Optional:           true,
+				Description:        DescNamespaceAutoUpgradeEnabled,
+				DeprecationMessage: "Use snapcd_namespace_terraform_flag with Flag='Upgrade' and Task='Init' instead.",
 			},
 			"default_auto_reconfigure_enabled": schema.BoolAttribute{
-				Optional:    true,
-				Description: DescNamespaceAutoReconfigureEnabled,
+				Optional:           true,
+				Description:        DescNamespaceAutoReconfigureEnabled,
+				DeprecationMessage: "Use snapcd_namespace_terraform_flag with Flag='Reconfigure' and Task='Init' instead.",
 			},
 			"default_auto_migrate_enabled": schema.BoolAttribute{
-				Optional:    true,
-				Description: DescNamespaceAutoMigrateEnabled,
+				Optional:           true,
+				Description:        DescNamespaceAutoMigrateEnabled,
+				DeprecationMessage: "Use snapcd_namespace_terraform_flag with Flag='MigrateState' and Task='Init' instead.",
 			},
 			"default_clean_init_enabled": schema.BoolAttribute{
 				Optional:    true,
@@ -232,7 +233,7 @@ func (r *namespaceResource) Schema(ctx context.Context, req resource.SchemaReque
 			"default_engine": schema.StringAttribute{
 				Optional: true,
 				Validators: []validator.String{
-					stringvalidator.OneOf("OpenTofu", "Terraform"),
+					stringvalidator.OneOf("OpenTofu", "Terraform", "Pulumi"),
 				},
 				Description: DescNamespaceDefaultEngine,
 			},

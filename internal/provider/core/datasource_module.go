@@ -139,16 +139,19 @@ func (d *moduleDataSource) Schema(ctx context.Context, req datasource.SchemaRequ
 				Description: DescModuleDestroyAfterHook,
 			},
 			"auto_upgrade_enabled": schema.BoolAttribute{
-				Computed:    true,
-				Description: DescModuleAutoUpgradeEnabled,
+				Computed:          true,
+				Description:       DescModuleAutoUpgradeEnabled,
+				DeprecationMessage: "Use snapcd_module_terraform_flag with Flag='Upgrade' and Task='Init' instead.",
 			},
 			"auto_reconfigure_enabled": schema.BoolAttribute{
-				Computed:    true,
-				Description: DescModuleAutoReconfigureEnabled,
+				Computed:          true,
+				Description:       DescModuleAutoReconfigureEnabled,
+				DeprecationMessage: "Use snapcd_module_terraform_flag with Flag='Reconfigure' and Task='Init' instead.",
 			},
 			"auto_migrate_enabled": schema.BoolAttribute{
-				Computed:    true,
-				Description: DescModuleAutoMigrateEnabled,
+				Computed:          true,
+				Description:       DescModuleAutoMigrateEnabled,
+				DeprecationMessage: "Use snapcd_module_terraform_flag with Flag='MigrateState' and Task='Init' instead.",
 			},
 			"clean_init_enabled": schema.BoolAttribute{
 				Computed:    true,
@@ -159,8 +162,9 @@ func (d *moduleDataSource) Schema(ctx context.Context, req datasource.SchemaRequ
 				Description: DescModuleIgnoreNamespaceExtraFiles,
 			},
 			"ignore_namespace_backend_configs": schema.BoolAttribute{
-				Computed:    true,
-				Description: DescModuleIgnoreNamespaceBackendConfigs,
+				Computed:          true,
+				Description:       DescModuleIgnoreNamespaceBackendConfigs,
+				DeprecationMessage: "Backend configs are deprecated. Use snapcd_module_terraform_flag with Flag='BackendConfig' and Task='Init' instead.",
 			},
 
 			"output_before_hook": schema.StringAttribute{
@@ -182,7 +186,7 @@ func (d *moduleDataSource) Schema(ctx context.Context, req datasource.SchemaRequ
 			"engine": schema.StringAttribute{
 				Computed: true,
 				Validators: []validator.String{
-					stringvalidator.OneOf("OpenTofu", "Terraform"),
+					stringvalidator.OneOf("OpenTofu", "Terraform", "Pulumi"),
 				},
 				Description: DescModuleEngine,
 			},

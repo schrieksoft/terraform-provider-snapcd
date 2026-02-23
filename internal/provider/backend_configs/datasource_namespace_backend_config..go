@@ -49,6 +49,7 @@ func (d *namespaceBackendConfigDataSource) Metadata(ctx context.Context, req dat
 func (d *namespaceBackendConfigDataSource) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = schema.Schema{
 		MarkdownDescription: "Backend Configs --- Use this data source to access information about an existing Namespace Backend Config in Snap CD.",
+		DeprecationMessage:  "Use snapcd_namespace_terraform_array_flag with Flag='BackendConfig' and Task='Init' instead.",
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed:    true,
