@@ -166,6 +166,18 @@ func (d *moduleDataSource) Schema(ctx context.Context, req datasource.SchemaRequ
 				Description:       DescModuleIgnoreNamespaceBackendConfigs,
 				DeprecationMessage: "Backend configs are deprecated. Use snapcd_module_terraform_flag with Flag='BackendConfig' and Task='Init' instead.",
 			},
+			"ignore_namespace_flags": schema.BoolAttribute{
+				Computed:    true,
+				Description: DescModuleIgnoreNamespaceFlags,
+			},
+			"drift_check_enabled": schema.BoolAttribute{
+				Computed:    true,
+				Description: DescModuleDriftCheckEnabled,
+			},
+			"drift_check_interval_minutes": schema.Int64Attribute{
+				Computed:    true,
+				Description: DescModuleDriftCheckIntervalMinutes,
+			},
 
 			"output_before_hook": schema.StringAttribute{
 				Computed:    true,

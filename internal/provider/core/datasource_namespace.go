@@ -137,6 +137,14 @@ func (d *namespaceDataSource) Schema(ctx context.Context, req datasource.SchemaR
 				Computed:    true,
 				Description: DescNamespaceCleanInitEnabled,
 			},
+			"default_drift_check_enabled": schema.BoolAttribute{
+				Computed:    true,
+				Description: DescNamespaceDefaultDriftCheckEnabled,
+			},
+			"default_drift_check_interval_minutes": schema.Int64Attribute{
+				Computed:    true,
+				Description: DescNamespaceDefaultDriftCheckIntervalMinutes,
+			},
 			"default_engine": schema.StringAttribute{
 				Computed:    true,
 				Description: DescNamespaceDefaultEngine,
