@@ -99,6 +99,7 @@ type moduleModel struct {
 	CleanInitEnabled                   types.Bool   `tfsdk:"clean_init_enabled"`
 	IgnoreNamespaceBackendConfigs      types.Bool   `tfsdk:"ignore_namespace_backend_configs"`
 	IgnoreNamespaceExtraFiles          types.Bool   `tfsdk:"ignore_namespace_extra_files"`
+	IgnoreNamespaceFlags               types.Bool   `tfsdk:"ignore_namespace_flags"`
 	WaitForApplyDependencies           types.String `tfsdk:"wait_for_apply_dependencies"`
 	WaitForDestroyDependencies         types.String `tfsdk:"wait_for_destroy_dependencies"`
 }
@@ -143,6 +144,7 @@ const (
 	DescModuleCleanInitEnabled              = DescSharedCleanInitEnabled + DescModuleOverride
 	DescModuleIgnoreNamespaceBackendConfigs = "If this is set to true, any Backend Configs that have been set on Namespace level will not be used on this specific Module."
 	DescModuleIgnoreNamespaceExtraFiles     = "If this is set to true, any Extra Files that have been set on Namespace level will not be used on this specific Module."
+	DescModuleIgnoreNamespaceFlags          = "If this is set to true, any Flags (Terraform Flags, Terraform Array Flags, Pulumi Flags, Pulumi Array Flags) that have been set on Namespace level will not be used on this specific Module."
 	DescTriggerOnSourceChanged              = "Defaults to 'true'. If 'true', the Module will automatically be applied when the source it is referencing has changed. For example, if tracking a Git branch: a new commit would constitute a change."
 	DescTriggerOnSourceChangedNotification  = "Defaults to 'false'. If 'true', the Module will automatically be applied when the 'api/Hooks/SourceChanged' endpoint is called for this Module. Use this if you want to use external tooling to inform Snap CD that a source has been changed. Consider setting `trigger_on_definition_changed` to 'false' when setting `trigger_on_definition_changed_hook` to 'true'"
 	DescTriggerOnUpstreamOutputChanged      = "Defaults to 'true'. If 'true', the Module will automatically be applied when any Outputs from other Modules that it references as Inputs (Param or Env Var) have changed."
@@ -297,7 +299,13 @@ func (r *moduleResource) Schema(ctx context.Context, req resource.SchemaRequest,
 				Computed:          true,
 				Description:       DescModuleIgnoreNamespaceBackendConfigs,
 				Default:           booldefault.StaticBool(false),
-				DeprecationMessage: "Backend configs are deprecated. Use snapcd_module_terraform_flag with Flag='BackendConfig' and Task='Init' instead.",
+				DeprecationMessage: "Only use this setting if you are still using the deprecated snapcd_namespace_backend_config resources and wish to have them ignored for this module. If you have already transitioned to using engine-specific flags, use  ignore_namespace_flags to ignore onese that were set on the namespace level.",
+			},
+			"ignore_namespace_flags": schema.BoolAttribute{
+				Optional:    true,
+				Computed:    true,
+				Description: DescModuleIgnoreNamespaceFlags,
+				Default:     booldefault.StaticBool(false),
 			},
 			"engine": schema.StringAttribute{
 				Optional: true,
