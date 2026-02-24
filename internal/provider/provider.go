@@ -75,35 +75,35 @@ func (p *snapcdProvider) Schema(_ context.Context, _ provider.SchemaRequest, res
 		Description: "Interact with snapcd.",
 		Attributes: map[string]schema.Attribute{
 			"url": schema.StringAttribute{
-				Description: "URL where the Snapcd API is served. Defaults to https://snapcd.io",
+				Description: "URL where the Snapcd API is served. Defaults to https://snapcd.io. Can also be set via the SNAPCD_URL environment variable.",
 				Optional:    true,
 			},
 			"organization_id": schema.StringAttribute{
-				Description: "Organization ID for the SnapCd API",
-				Required:    true,
+				Description: "Organization ID for the SnapCd API. Can also be set via the SNAPCD_ORGANIZATION_ID environment variable.",
+				Optional:    true,
 			},
 			"access_token": schema.StringAttribute{
-				Description: "Access token for the SnapCd API. Either this or 'client_id'/'client_secret' must be set.",
+				Description: "Access token for the SnapCd API. Either this or 'client_id'/'client_secret' must be set. Can also be set via the SNAPCD_ACCESS_TOKEN environment variable.",
 				Optional:    true,
 			},
 			"client_id": schema.StringAttribute{
-				Description: "Client ID for a Service Principal to authenticate API calls with. Either this or 'access_token' must be set.",
+				Description: "Client ID for a Service Principal to authenticate API calls with. Either this or 'access_token' must be set. Can also be set via the SNAPCD_CLIENT_ID environment variable.",
 				Optional:    true,
 			},
 			"client_secret": schema.StringAttribute{
-				Description: "Client Secret for a Service Principal to authenticate API calls with. Either this or 'access_token' must be set.",
+				Description: "Client Secret for a Service Principal to authenticate API calls with. Either this or 'access_token' must be set. Can also be set via the SNAPCD_CLIENT_SECRET environment variable.",
 				Optional:    true,
 			},
 			"insecure_skip_verify": schema.BoolAttribute{
-				Description: "Skip verifying the HTTPs certificate of the API",
+				Description: "Skip verifying the HTTPs certificate of the API. Can also be set via the SNAPCD_INSECURE_SKIP_VERIFY environment variable.",
 				Optional:    true,
 			},
 			"health_check_interval_seconds": schema.Int64Attribute{
-				Description: "Number of seconds to wait inbetween polling the /health endpoint of the API. Defaults to 10 seconds.",
+				Description: "Number of seconds to wait inbetween polling the /health endpoint of the API. Defaults to 10 seconds. Can also be set via the SNAPCD_HEALTH_CHECK_INTERVAL_SECONDS environment variable.",
 				Optional:    true,
 			},
 			"health_check_timeout_seconds": schema.Int64Attribute{
-				Description: "Number of seconds during which to continuously poll /health endpoint before timing out. Defaults to 60 seconds.",
+				Description: "Number of seconds during which to continuously poll /health endpoint before timing out. Defaults to 60 seconds. Can also be set via the SNAPCD_HEALTH_CHECK_TIMEOUT_SECONDS environment variable.",
 				Optional:    true,
 			},
 		},
