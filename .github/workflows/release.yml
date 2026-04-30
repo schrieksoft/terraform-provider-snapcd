@@ -34,6 +34,9 @@ jobs:
       - name: Determine Version
         uses: gittools/actions/gitversion/execute@v3.1.11
         id: gitversion
+        with:
+          useConfigFile: true
+          configFilePath: gitversion.yaml
 
       - name: Display GitVersion outputs
         run: |
