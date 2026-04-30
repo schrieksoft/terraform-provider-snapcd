@@ -66,7 +66,7 @@ type moduleHookModel struct {
 const (
 	DescModuleHookId       = "Unique ID of the Module Hook."
 	DescModuleHookModuleId = "ID of the parent Module."
-	DescModuleHookTask     = "The lifecycle task this hook applies to. Valid values: `Plan`, `PlanDestroy`, `Apply`, `Destroy`, `Output`, `Validate`."
+	DescModuleHookTask     = "The lifecycle task this hook applies to. Valid values: `Init`, `Plan`, `PlanDestroy`, `Apply`, `Destroy`, `Output`, `Validate`."
 	DescModuleHookPhase    = "When the hook runs relative to the task. Valid values: `Before`, `After`."
 	DescModuleHookScript   = "The shell script that runs at the configured task and phase."
 )

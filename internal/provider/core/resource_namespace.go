@@ -147,12 +147,14 @@ func (r *namespaceResource) Schema(ctx context.Context, req resource.SchemaReque
 				Description: DescNamespaceStackId,
 			},
 			"default_init_before_hook": schema.StringAttribute{
-				Optional:    true,
-				Description: DescNamespaceDefaultInitBeforeHook,
+				Optional:           true,
+				Description:        DescNamespaceDefaultInitBeforeHook,
+				DeprecationMessage: "Use snapcd_namespace_hook with task='Init' and phase='Before' instead.",
 			},
 			"default_init_after_hook": schema.StringAttribute{
-				Optional:    true,
-				Description: DescNamespaceDefaultInitAfterHook,
+				Optional:           true,
+				Description:        DescNamespaceDefaultInitAfterHook,
+				DeprecationMessage: "Use snapcd_namespace_hook with task='Init' and phase='After' instead.",
 			},
 			"default_plan_before_hook": schema.StringAttribute{
 				Optional:           true,

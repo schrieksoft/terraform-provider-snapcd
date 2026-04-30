@@ -1,6 +1,7 @@
 package hooks
 
 var hookTaskValues = []string{
+	"Init",
 	"Plan",
 	"PlanDestroy",
 	"Apply",

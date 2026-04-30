@@ -66,7 +66,7 @@ type namespaceHookModel struct {
 const (
 	DescNamespaceHookId          = "Unique ID of the Namespace Hook."
 	DescNamespaceHookNamespaceId = "ID of the parent Namespace."
-	DescNamespaceHookTask        = "The lifecycle task this hook applies to. Valid values: `Plan`, `PlanDestroy`, `Apply`, `Destroy`, `Output`, `Validate`."
+	DescNamespaceHookTask        = "The lifecycle task this hook applies to. Valid values: `Init`, `Plan`, `PlanDestroy`, `Apply`, `Destroy`, `Output`, `Validate`."
 	DescNamespaceHookPhase       = "When the hook runs relative to the task. Valid values: `Before`, `After`."
 	DescNamespaceHookScript      = "The shell script that runs at the configured task and phase. Used as default for all modules in the namespace unless overridden."
 )

@@ -29,7 +29,7 @@ resource "snapcd_namespace_hook" "before_plan" {
 - `namespace_id` (String) ID of the parent Namespace.
 - `phase` (String) When the hook runs relative to the task. Valid values: `Before`, `After`.
 - `script` (String) The shell script that runs at the configured task and phase. Used as default for all modules in the namespace unless overridden.
-- `task` (String) The lifecycle task this hook applies to. Valid values: `Plan`, `PlanDestroy`, `Apply`, `Destroy`, `Output`, `Validate`.
+- `task` (String) The lifecycle task this hook applies to. Valid values: `Init`, `Plan`, `PlanDestroy`, `Apply`, `Destroy`, `Output`, `Validate`.
 
 ### Read-Only
 

@@ -219,12 +219,14 @@ func (r *moduleResource) Schema(ctx context.Context, req resource.SchemaRequest,
 				Description: DescModuleRunnerInstanceName,
 			},
 			"init_before_hook": schema.StringAttribute{
-				Optional:    true,
-				Description: DescModuleInitBeforeHook,
+				Optional:           true,
+				Description:        DescModuleInitBeforeHook,
+				DeprecationMessage: "Use snapcd_module_hook with task='Init' and phase='Before' instead.",
 			},
 			"init_after_hook": schema.StringAttribute{
-				Optional:    true,
-				Description: DescModuleInitAfterHook,
+				Optional:           true,
+				Description:        DescModuleInitAfterHook,
+				DeprecationMessage: "Use snapcd_module_hook with task='Init' and phase='After' instead.",
 			},
 			"plan_before_hook": schema.StringAttribute{
 				Optional:           true,
