@@ -18,11 +18,11 @@ func TestAccDataSourceNamespaceSecret(t *testing.T) {
 
 data "snapcd_namespace_secret" "this" {
 	name 		 = "debug"
-    namespace_id = "10000000-0000-0000-0000-000000000000"
+    namespace_id = "99999999-9999-9999-9999-999999999999"
 }`,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("data.snapcd_namespace_secret.this", "id"),
-					resource.TestCheckResourceAttr("data.snapcd_namespace_secret.this", "id", "10000000-0000-0000-0000-000000000002"),
+					resource.TestCheckResourceAttr("data.snapcd_namespace_secret.this", "id", "99999999-9999-9999-9999-999999999902"),
 				),
 			},
 		},

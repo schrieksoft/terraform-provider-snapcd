@@ -55,6 +55,7 @@ data "snapcd_module" "mymodule" {
 - `ignore_namespace_backend_configs` (Boolean, Deprecated) If this is set to true, any Backend Configs that have been set on Namespace level will not be used on this specific Module.
 - `ignore_namespace_extra_files` (Boolean) If this is set to true, any Extra Files that have been set on Namespace level will not be used on this specific Module.
 - `ignore_namespace_flags` (Boolean) If this is set to true, any Flags (Terraform Flags, Terraform Array Flags, Pulumi Flags, Pulumi Array Flags) that have been set on Namespace level will not be used on this specific Module.
+- `ignore_namespace_hooks` (Boolean) If this is set to true, any Hooks (Namespace Hooks and the deprecated default_*_hook fields) that have been set on Namespace level will not be used on this specific Module.
 - `init_after_hook` (String) Shell script that should be executed after the 'Init' step of any deployment is run.Setting this will override any default value set on the Module's parent Namespace.
 - `init_before_hook` (String) Shell script that should be executed before the 'Init' step of any deployment is run.Setting this will override any default value set on the Module's parent Namespace.
 - `output_after_hook` (String) Shell script that should be executed after the 'Output' step of any deployment is run. Setting this will override any default value set on the Module's parent Namespace.

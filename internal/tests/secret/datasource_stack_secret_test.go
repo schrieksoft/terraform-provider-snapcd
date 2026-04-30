@@ -18,11 +18,11 @@ func TestAccDataSourceStackSecret(t *testing.T) {
 
 data "snapcd_stack_secret" "this" {
 	name 	  = "debug"
-    stack_id  = "10000000-0000-0000-0000-000000000000"
+    stack_id  = "99999999-9999-9999-9999-999999999999"
 }`,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("data.snapcd_stack_secret.this", "id"),
-					resource.TestCheckResourceAttr("data.snapcd_stack_secret.this", "id", "10000000-0000-0000-0000-000000000001"),
+					resource.TestCheckResourceAttr("data.snapcd_stack_secret.this", "id", "99999999-9999-9999-9999-999999999901"),
 				),
 			},
 		},

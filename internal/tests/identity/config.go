@@ -28,6 +28,6 @@ data "snapcd_service_principal" "this" {
 `
 
 var UserGetConfig = `
-data "snapcd_user" "this" { 
+data "snapcd_user" "this" {
   user_name  = "debug@preseeded.io"
 }`

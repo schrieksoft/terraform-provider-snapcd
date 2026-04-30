@@ -10,11 +10,12 @@ import (
 	snapcd "terraform-provider-snapcd/client"
 	"terraform-provider-snapcd/internal/provider/backend_configs"
 	"terraform-provider-snapcd/internal/provider/core"
+	"terraform-provider-snapcd/internal/provider/engine_flags"
 	"terraform-provider-snapcd/internal/provider/extra_files"
+	"terraform-provider-snapcd/internal/provider/hooks"
 	"terraform-provider-snapcd/internal/provider/identity"
 	"terraform-provider-snapcd/internal/provider/module_input"
 	"terraform-provider-snapcd/internal/provider/namespace_input"
-	"terraform-provider-snapcd/internal/provider/engine_flags"
 	"terraform-provider-snapcd/internal/provider/role_assignment"
 	"terraform-provider-snapcd/internal/provider/runner_assignment"
 	"terraform-provider-snapcd/internal/provider/secret"
@@ -463,5 +464,8 @@ func (p *snapcdProvider) Resources(_ context.Context) []func() resource.Resource
 		engine_flags.NamespaceTerraformArrayFlagResource,
 		engine_flags.ModuleTerraformFlagResource,
 		engine_flags.ModuleTerraformArrayFlagResource,
+
+		hooks.ModuleHookResource,
+		hooks.NamespaceHookResource,
 	}
 }

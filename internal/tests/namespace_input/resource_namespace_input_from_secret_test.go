@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 
-package tests
+package namespace_input
 
 import (
 	"terraform-provider-snapcd/internal/tests/core"
@@ -13,7 +13,7 @@ import (
 var NamespaceInputFromSecretCreateConfig = providerconfig.AppendRandomString(`
 data "snapcd_stack_secret" "this" {
 	name 	  = "debug"
-    stack_id  = "10000000-0000-0000-0000-000000000000"
+    stack_id  = "99999999-9999-9999-9999-999999999999"
 }
 
 resource "snapcd_namespace_input_from_secret" "this" { 
@@ -27,7 +27,7 @@ resource "snapcd_namespace_input_from_secret" "this" {
 var NamespaceInputFromSecretCreateConfigForImport = providerconfig.AppendRandomString(`
 data "snapcd_stack_secret" "this" {
 	name 	  = "debug"
-    stack_id  = "10000000-0000-0000-0000-000000000000"
+    stack_id  = "99999999-9999-9999-9999-999999999999"
 }
 
 resource "snapcd_namespace_input_from_secret" "this" { 
@@ -41,7 +41,7 @@ resource "snapcd_namespace_input_from_secret" "this" {
 var NamespaceInputFromSecretCreateConfigNew = providerconfig.AppendRandomString(`
 data "snapcd_stack_secret" "this" {
 	name 	  = "debug"
-    stack_id  = "10000000-0000-0000-0000-000000000000"
+    stack_id  = "99999999-9999-9999-9999-999999999999"
 }
 
 resource "snapcd_namespace_input_from_secret" "this" { 

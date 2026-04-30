@@ -102,6 +102,7 @@ type moduleModel struct {
 	IgnoreNamespaceBackendConfigs      types.Bool   `tfsdk:"ignore_namespace_backend_configs"`
 	IgnoreNamespaceExtraFiles          types.Bool   `tfsdk:"ignore_namespace_extra_files"`
 	IgnoreNamespaceFlags               types.Bool   `tfsdk:"ignore_namespace_flags"`
+	IgnoreNamespaceHooks               types.Bool   `tfsdk:"ignore_namespace_hooks"`
 	WaitForApplyDependencies           types.String `tfsdk:"wait_for_apply_dependencies"`
 	WaitForDestroyDependencies         types.String `tfsdk:"wait_for_destroy_dependencies"`
 }
@@ -149,6 +150,7 @@ const (
 	DescModuleIgnoreNamespaceBackendConfigs = "If this is set to true, any Backend Configs that have been set on Namespace level will not be used on this specific Module."
 	DescModuleIgnoreNamespaceExtraFiles     = "If this is set to true, any Extra Files that have been set on Namespace level will not be used on this specific Module."
 	DescModuleIgnoreNamespaceFlags          = "If this is set to true, any Flags (Terraform Flags, Terraform Array Flags, Pulumi Flags, Pulumi Array Flags) that have been set on Namespace level will not be used on this specific Module."
+	DescModuleIgnoreNamespaceHooks          = "If this is set to true, any Hooks (Namespace Hooks and the deprecated default_*_hook fields) that have been set on Namespace level will not be used on this specific Module."
 	DescTriggerOnSourceChanged              = "Defaults to 'true'. If 'true', the Module will automatically be applied when the source it is referencing has changed. For example, if tracking a Git branch: a new commit would constitute a change."
 	DescTriggerOnSourceChangedNotification  = "Defaults to 'false'. If 'true', the Module will automatically be applied when the 'api/Hooks/SourceChanged' endpoint is called for this Module. Use this if you want to use external tooling to inform Snap CD that a source has been changed. Consider setting `trigger_on_definition_changed` to 'false' when setting `trigger_on_definition_changed_hook` to 'true'"
 	DescTriggerOnUpstreamOutputChanged      = "Defaults to 'true'. If 'true', the Module will automatically be applied when any Outputs from other Modules that it references as Inputs (Param or Env Var) have changed."
@@ -225,67 +227,79 @@ func (r *moduleResource) Schema(ctx context.Context, req resource.SchemaRequest,
 				Description: DescModuleInitAfterHook,
 			},
 			"plan_before_hook": schema.StringAttribute{
-				Optional:    true,
-				Description: DescModulePlanBeforeHook,
+				Optional:           true,
+				Description:        DescModulePlanBeforeHook,
+				DeprecationMessage: "Use snapcd_module_hook with task='Plan' and phase='Before' instead.",
 			},
 			"plan_after_hook": schema.StringAttribute{
-				Optional:    true,
-				Description: DescModulePlanAfterHook,
+				Optional:           true,
+				Description:        DescModulePlanAfterHook,
+				DeprecationMessage: "Use snapcd_module_hook with task='Plan' and phase='After' instead.",
 			},
 			"plan_destroy_before_hook": schema.StringAttribute{
-				Optional:    true,
-				Description: DescModuleDestroyBeforeHook,
+				Optional:           true,
+				Description:        DescModuleDestroyBeforeHook,
+				DeprecationMessage: "Use snapcd_module_hook with task='PlanDestroy' and phase='Before' instead.",
 			},
 			"plan_destroy_after_hook": schema.StringAttribute{
-				Optional:    true,
-				Description: DescModuleDestroyAfterHook,
+				Optional:           true,
+				Description:        DescModuleDestroyAfterHook,
+				DeprecationMessage: "Use snapcd_module_hook with task='PlanDestroy' and phase='After' instead.",
 			},
 			"apply_before_hook": schema.StringAttribute{
-				Optional:    true,
-				Description: DescModuleApplyBeforeHook,
+				Optional:           true,
+				Description:        DescModuleApplyBeforeHook,
+				DeprecationMessage: "Use snapcd_module_hook with task='Apply' and phase='Before' instead.",
 			},
 			"apply_after_hook": schema.StringAttribute{
-				Optional:    true,
-				Description: DescModuleApplyAfterHook,
+				Optional:           true,
+				Description:        DescModuleApplyAfterHook,
+				DeprecationMessage: "Use snapcd_module_hook with task='Apply' and phase='After' instead.",
 			},
 			"destroy_before_hook": schema.StringAttribute{
-				Optional:    true,
-				Description: DescModuleDestroyBeforeHook,
+				Optional:           true,
+				Description:        DescModuleDestroyBeforeHook,
+				DeprecationMessage: "Use snapcd_module_hook with task='Destroy' and phase='Before' instead.",
 			},
 			"destroy_after_hook": schema.StringAttribute{
-				Optional:    true,
-				Description: DescModuleDestroyAfterHook,
+				Optional:           true,
+				Description:        DescModuleDestroyAfterHook,
+				DeprecationMessage: "Use snapcd_module_hook with task='Destroy' and phase='After' instead.",
 			},
 			"output_before_hook": schema.StringAttribute{
-				Optional:    true,
-				Description: DescModuleOutputBeforeHook,
+				Optional:           true,
+				Description:        DescModuleOutputBeforeHook,
+				DeprecationMessage: "Use snapcd_module_hook with task='Output' and phase='Before' instead.",
 			},
 			"output_after_hook": schema.StringAttribute{
-				Optional:    true,
-				Description: DescModuleOutputAfterHook,
+				Optional:           true,
+				Description:        DescModuleOutputAfterHook,
+				DeprecationMessage: "Use snapcd_module_hook with task='Output' and phase='After' instead.",
 			},
 			"validate_before_hook": schema.StringAttribute{
-				Optional:    true,
-				Description: DescModuleValidateBeforeHook,
+				Optional:           true,
+				Description:        DescModuleValidateBeforeHook,
+				DeprecationMessage: "Use snapcd_module_hook with task='Validate' and phase='Before' instead.",
 			},
 			"validate_after_hook": schema.StringAttribute{
-				Optional:    true,
-				Description: DescModuleValidateAfterHook,
+				Optional:           true,
+				Description:        DescModuleValidateAfterHook,
+				DeprecationMessage: "Use snapcd_module_hook with task='Validate' and phase='After' instead.",
 			},
 
 			"auto_upgrade_enabled": schema.BoolAttribute{
-				Optional:          true,
-				Description:       DescModuleAutoUpgradeEnabled,
+				Optional:           true,
+				Description:        DescModuleAutoUpgradeEnabled,
 				DeprecationMessage: "Use snapcd_module_terraform_flag with Flag='Upgrade' and Task='Init' instead.",
 			},
 			"auto_reconfigure_enabled": schema.BoolAttribute{
-				Optional:          true,
-				Description:       DescModuleAutoReconfigureEnabled,
+				Optional:           true,
+				Description:        DescModuleAutoReconfigureEnabled,
 				DeprecationMessage: "Use snapcd_module_terraform_flag with Flag='Reconfigure' and Task='Init' instead.",
 			},
 			"auto_migrate_enabled": schema.BoolAttribute{
-				Optional:          true,
-				Description:       DescModuleAutoMigrateEnabled,
+				Optional:           true,
+				Description:        DescModuleAutoMigrateEnabled,
 				DeprecationMessage: "Use snapcd_module_terraform_flag with Flag='MigrateState' and Task='Init' instead.",
 			},
 			"clean_init_enabled": schema.BoolAttribute{
@@ -307,16 +321,22 @@ func (r *moduleResource) Schema(ctx context.Context, req resource.SchemaRequest,
 				Default:     booldefault.StaticBool(false),
 			},
 			"ignore_namespace_backend_configs": schema.BoolAttribute{
-				Optional:          true,
-				Computed:          true,
-				Description:       DescModuleIgnoreNamespaceBackendConfigs,
-				Default:           booldefault.StaticBool(false),
+				Optional:           true,
+				Computed:           true,
+				Description:        DescModuleIgnoreNamespaceBackendConfigs,
+				Default:            booldefault.StaticBool(false),
 				DeprecationMessage: "Only use this setting if you are still using the deprecated snapcd_namespace_backend_config resources and wish to have them ignored for this module. If you have already transitioned to using engine-specific flags, use  ignore_namespace_flags to ignore onese that were set on the namespace level.",
 			},
 			"ignore_namespace_flags": schema.BoolAttribute{
 				Optional:    true,
 				Computed:    true,
 				Description: DescModuleIgnoreNamespaceFlags,
+				Default:     booldefault.StaticBool(false),
+			},
+			"ignore_namespace_hooks": schema.BoolAttribute{
+				Optional:    true,
+				Computed:    true,
+				Description: DescModuleIgnoreNamespaceHooks,
 				Default:     booldefault.StaticBool(false),
 			},
 			"engine": schema.StringAttribute{

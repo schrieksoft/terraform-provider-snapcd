@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MPL-2.0
 
-package tests
+package engine_flags
 
 import (
 	"terraform-provider-snapcd/internal/tests/core"

@@ -45,7 +45,7 @@ data "snapcd_service_principal" "debug" {
 
 var RunnerServicePrincipalConfig = `
 data "snapcd_service_principal" "runner" {
-	client_id  = "debug"
+	client_id  = "debugRunner"
 }
 `
 
@@ -130,7 +130,7 @@ resource "snapcd_namespace" "this" {
 
 var RunnerCreateConfig = providerconfig.AppendRandomString(`
 data "snapcd_service_principal" "runner" {
-	client_id  = "debug"
+	client_id  = "debugRunner"
 }
 
 resource "snapcd_runner" "this" {
@@ -144,7 +144,7 @@ resource "snapcd_stack" "this" {
 }`)
 
 var PrexistingStack = `
-data "snapcd_stack" "debug" {
+resource "snapcd_stack" "should_fail" {
   name  = "debug"
 }`
 
