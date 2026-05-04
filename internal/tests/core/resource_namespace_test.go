@@ -31,14 +31,14 @@ func TestAccResourceNamespace_CreateUpdate(t *testing.T) {
 				Config: providerconfig.ProviderConfig + NamespaceCreateConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_namespace.this", "id"),
-					resource.TestCheckResourceAttr("snapcd_namespace.this", "default_init_before_hook", "foo"),
+					resource.TestCheckResourceAttr("snapcd_namespace.this", "default_apply_approval_threshold", "1"),
 				),
 			},
 			{
 				Config: providerconfig.ProviderConfig + NamespaceUpdateConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_namespace.this", "id"),
-					resource.TestCheckResourceAttr("snapcd_namespace.this", "default_init_before_hook", "bar"),
+					resource.TestCheckResourceAttr("snapcd_namespace.this", "default_apply_approval_threshold", "2"),
 				),
 			},
 		},

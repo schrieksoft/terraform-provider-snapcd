@@ -62,7 +62,6 @@ resource "snapcd_module" "this" {
   source_subdirectory  	         = "modules/module1"
   source_url                     = "foo"
   source_revision                = "main"
-  init_before_hook				       = "fooBeforeHook"
   trigger_on_definition_changed          = false
   trigger_on_upstream_output_changed     = false
   trigger_on_source_changed              = false
@@ -80,7 +79,6 @@ resource "snapcd_module" "two" {
   source_subdirectory  	         = "modules/module1"
   source_url                     = "foo"
   source_revision                = "main"
-  init_before_hook				       = "fooBeforeHook"
   trigger_on_definition_changed          = false
   trigger_on_upstream_output_changed     = false
   trigger_on_source_changed              = false
@@ -98,7 +96,6 @@ resource "snapcd_module" "three" {
   source_subdirectory  	         = "modules/module1"
   source_url                     = "foo"
   source_revision                = "main"
-  init_before_hook				       = "fooBeforeHook"
   trigger_on_definition_changed          = false
   trigger_on_upstream_output_changed     = false
   trigger_on_source_changed              = false
@@ -114,7 +111,6 @@ var NamespaceCreateConfig = StackCreateConfig + providerconfig.AppendRandomStrin
 resource "snapcd_namespace" "this" {
   name                      = "somevalue%s"
   stack_id			     		    = snapcd_stack.this.id
-  default_init_before_hook  = "foo"
   default_apply_approval_threshold = 1
 }
 `)
@@ -123,7 +119,7 @@ var NamespaceUpdateConfig = StackCreateConfig + providerconfig.AppendRandomStrin
 resource "snapcd_namespace" "this" {
   name                      = "somevalue%s"
   stack_id			     		    = snapcd_stack.this.id
-  default_init_before_hook  = "bar"
+  default_apply_approval_threshold = 2
 }
 
 `)

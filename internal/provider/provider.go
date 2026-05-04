@@ -8,7 +8,6 @@ import (
 	"strconv"
 
 	snapcd "terraform-provider-snapcd/client"
-	"terraform-provider-snapcd/internal/provider/backend_configs"
 	"terraform-provider-snapcd/internal/provider/core"
 	"terraform-provider-snapcd/internal/provider/engine_flags"
 	"terraform-provider-snapcd/internal/provider/extra_files"
@@ -408,9 +407,6 @@ func (p *snapcdProvider) DataSources(_ context.Context) []func() datasource.Data
 
 		extra_files.NamespaceExtraFileDataSource,
 		extra_files.ModuleExtraFileDataSource,
-
-		backend_configs.NamespaceBackendConfigDataSource,
-		backend_configs.ModuleBackendConfigDataSource,
 	}
 }
 
@@ -451,9 +447,6 @@ func (p *snapcdProvider) Resources(_ context.Context) []func() resource.Resource
 
 		extra_files.NamespaceExtraFileResource,
 		extra_files.ModuleExtraFileResource,
-
-		backend_configs.NamespaceBackendConfigResource,
-		backend_configs.ModuleBackendConfigResource,
 
 		engine_flags.NamespacePulumiFlagResource,
 		engine_flags.NamespacePulumiArrayFlagResource,

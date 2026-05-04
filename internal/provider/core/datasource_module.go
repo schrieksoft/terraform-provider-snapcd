@@ -98,61 +98,6 @@ func (d *moduleDataSource) Schema(ctx context.Context, req datasource.SchemaRequ
 				Computed:    true,
 				Description: DescModuleRunnerInstanceName,
 			},
-			"init_before_hook": schema.StringAttribute{
-				Computed:    true,
-				Description: DescModuleInitBeforeHook,
-			},
-			"init_after_hook": schema.StringAttribute{
-				Computed:    true,
-				Description: DescModuleInitAfterHook,
-			},
-			"plan_before_hook": schema.StringAttribute{
-				Computed:    true,
-				Description: DescModulePlanBeforeHook,
-			},
-			"plan_after_hook": schema.StringAttribute{
-				Computed:    true,
-				Description: DescModulePlanAfterHook,
-			},
-			"plan_destroy_before_hook": schema.StringAttribute{
-				Computed:    true,
-				Description: DescModulePlanDestroyBeforeHook,
-			},
-			"plan_destroy_after_hook": schema.StringAttribute{
-				Computed:    true,
-				Description: DescModulePlanDestroyAfterHook,
-			},
-			"apply_before_hook": schema.StringAttribute{
-				Computed:    true,
-				Description: DescModuleApplyBeforeHook,
-			},
-			"apply_after_hook": schema.StringAttribute{
-				Computed:    true,
-				Description: DescModuleApplyAfterHook,
-			},
-			"destroy_before_hook": schema.StringAttribute{
-				Computed:    true,
-				Description: DescModuleDestroyBeforeHook,
-			},
-			"destroy_after_hook": schema.StringAttribute{
-				Computed:    true,
-				Description: DescModuleDestroyAfterHook,
-			},
-			"auto_upgrade_enabled": schema.BoolAttribute{
-				Computed:           true,
-				Description:        DescModuleAutoUpgradeEnabled,
-				DeprecationMessage: "Use snapcd_module_terraform_flag with Flag='Upgrade' and Task='Init' instead.",
-			},
-			"auto_reconfigure_enabled": schema.BoolAttribute{
-				Computed:           true,
-				Description:        DescModuleAutoReconfigureEnabled,
-				DeprecationMessage: "Use snapcd_module_terraform_flag with Flag='Reconfigure' and Task='Init' instead.",
-			},
-			"auto_migrate_enabled": schema.BoolAttribute{
-				Computed:           true,
-				Description:        DescModuleAutoMigrateEnabled,
-				DeprecationMessage: "Use snapcd_module_terraform_flag with Flag='MigrateState' and Task='Init' instead.",
-			},
 			"clean_init_enabled": schema.BoolAttribute{
 				Computed:    true,
 				Description: DescModuleCleanInitEnabled,
@@ -160,11 +105,6 @@ func (d *moduleDataSource) Schema(ctx context.Context, req datasource.SchemaRequ
 			"ignore_namespace_extra_files": schema.BoolAttribute{
 				Computed:    true,
 				Description: DescModuleIgnoreNamespaceExtraFiles,
-			},
-			"ignore_namespace_backend_configs": schema.BoolAttribute{
-				Computed:           true,
-				Description:        DescModuleIgnoreNamespaceBackendConfigs,
-				DeprecationMessage: "Backend configs are deprecated. Use snapcd_module_terraform_flag with Flag='BackendConfig' and Task='Init' instead.",
 			},
 			"ignore_namespace_flags": schema.BoolAttribute{
 				Computed:    true,
@@ -183,22 +123,6 @@ func (d *moduleDataSource) Schema(ctx context.Context, req datasource.SchemaRequ
 				Description: DescModuleDriftCheckIntervalMinutes,
 			},
 
-			"output_before_hook": schema.StringAttribute{
-				Computed:    true,
-				Description: DescModuleOutputBeforeHook,
-			},
-			"output_after_hook": schema.StringAttribute{
-				Computed:    true,
-				Description: DescModuleOutputAfterHook,
-			},
-			"validate_before_hook": schema.StringAttribute{
-				Computed:    true,
-				Description: DescModuleValidateBeforeHook,
-			},
-			"validate_after_hook": schema.StringAttribute{
-				Computed:    true,
-				Description: DescModuleValidateAfterHook,
-			},
 			"engine": schema.StringAttribute{
 				Computed: true,
 				Validators: []validator.String{

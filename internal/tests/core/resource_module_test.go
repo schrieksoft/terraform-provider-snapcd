@@ -32,14 +32,14 @@ func TestAccResourceModule_CreateUpdate(t *testing.T) {
 				Config: providerconfig.ProviderConfig + ModuleCreateConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_module.this", "id"),
-					resource.TestCheckResourceAttr("snapcd_module.this", "init_before_hook", "fooBeforeHook"),
+					resource.TestCheckResourceAttr("snapcd_module.this", "apply_approval_threshold", "1"),
 				),
 			},
 			{
-				Config: providerconfig.ProviderConfig + strings.Replace(ModuleCreateConfig, "fooBeforeHook", "barBeforeHook", -1),
+				Config: providerconfig.ProviderConfig + strings.Replace(ModuleCreateConfig, "apply_approval_threshold               = 1", "apply_approval_threshold               = 2", -1),
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_module.this", "id"),
-					resource.TestCheckResourceAttr("snapcd_module.this", "init_before_hook", "barBeforeHook"),
+					resource.TestCheckResourceAttr("snapcd_module.this", "apply_approval_threshold", "2"),
 				),
 			},
 		},

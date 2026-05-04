@@ -70,20 +70,6 @@ type moduleModel struct {
 	SourceType                         types.String `tfsdk:"source_type"`
 	SourceRevisionType                 types.String `tfsdk:"source_revision_type"`
 	RunnerInstanceName                 types.String `tfsdk:"runner_instance_name"`
-	InitBeforeHook                     types.String `tfsdk:"init_before_hook"`
-	InitAfterHook                      types.String `tfsdk:"init_after_hook"`
-	PlanBeforeHook                     types.String `tfsdk:"plan_before_hook"`
-	PlanAfterHook                      types.String `tfsdk:"plan_after_hook"`
-	ApplyBeforeHook                    types.String `tfsdk:"apply_before_hook"`
-	ApplyAfterHook                     types.String `tfsdk:"apply_after_hook"`
-	PlanDestroyBeforeHook              types.String `tfsdk:"plan_destroy_before_hook"`
-	PlanDestroyAfterHook               types.String `tfsdk:"plan_destroy_after_hook"`
-	DestroyBeforeHook                  types.String `tfsdk:"destroy_before_hook"`
-	DestroyAfterHook                   types.String `tfsdk:"destroy_after_hook"`
-	OutputBeforeHook                   types.String `tfsdk:"output_before_hook"`
-	OutputAfterHook                    types.String `tfsdk:"output_after_hook"`
-	ValidateBeforeHook                 types.String `tfsdk:"validate_before_hook"`
-	ValidateAfterHook                  types.String `tfsdk:"validate_after_hook"`
 	Engine                             types.String `tfsdk:"engine"`
 	OutputSecretStoreId                types.String `tfsdk:"output_secret_store_id"`
 	TriggerOnDefinitionChanged         types.Bool   `tfsdk:"trigger_on_definition_changed"`
@@ -93,13 +79,9 @@ type moduleModel struct {
 	ApplyApprovalThreshold             types.Int64  `tfsdk:"apply_approval_threshold"`
 	DestroyApprovalThreshold           types.Int64  `tfsdk:"destroy_approval_threshold"`
 	ApprovalTimeoutMinutes             types.Int64  `tfsdk:"approval_timeout_minutes"`
-	AutoUpgradeEnabled                 types.Bool   `tfsdk:"auto_upgrade_enabled"`
-	AutoReconfigureEnabled             types.Bool   `tfsdk:"auto_reconfigure_enabled"`
-	AutoMigrateEnabled                 types.Bool   `tfsdk:"auto_migrate_enabled"`
 	CleanInitEnabled                   types.Bool   `tfsdk:"clean_init_enabled"`
 	DriftCheckEnabled                  types.Bool   `tfsdk:"drift_check_enabled"`
 	DriftCheckIntervalMinutes          types.Int64  `tfsdk:"drift_check_interval_minutes"`
-	IgnoreNamespaceBackendConfigs      types.Bool   `tfsdk:"ignore_namespace_backend_configs"`
 	IgnoreNamespaceExtraFiles          types.Bool   `tfsdk:"ignore_namespace_extra_files"`
 	IgnoreNamespaceFlags               types.Bool   `tfsdk:"ignore_namespace_flags"`
 	IgnoreNamespaceHooks               types.Bool   `tfsdk:"ignore_namespace_hooks"`
@@ -121,36 +103,17 @@ const (
 	DescModuleSourceType                    = "The type of remote module store that the source module code should be retrieved from. Must be one of 'Git' or 'Registry'"
 	DescModuleSourceRevisionType            = "How Snap CD should interpret the `source_revision` field. Must be one of 'Default' or 'SemanticVersionRange'. Setting to 'Default' means Snap CD will interpret the revision type based on the source type (for example, for a 'Git' source type it will automatically figure out whether the `source_revision` refers to a branch, tag or commit). Setting to 'SemanticVersionRange' means that Snap CD will resolve the revision to a semantic version line `vX.Y.Z` (alternatively witout the 'v' prefix of that is how your semantic version are tagged, i.e. 'X.Y.Z'). It will take the highest version within the major or minor version range that you specify. For example, specify `v2.20.*` or `v2.*`. You can also specify a specific semantic version here, e.g. `v2.20.7`. In that case the behaviour is the same as with when using 'Default', except that only valid semantic versions are accepted. NOTE that 'SemanticVersionRange' is currently only supported in combination with the 'Git' `source_type`."
 	DescModuleRunnerInstanceName            = "Name a specific runner instance to select (should unique identify the the instance). Use this if you have enabled multiple instances on your runner, but want all jobs for this Module to go to a specific instance."
-	DescModuleInitBackendArgs               = DescSharedInitBackedArgs + DescModuleOverride
-	DescModuleInitBeforeHook                = DescSharedInitBeforeHook + DescModuleOverride
-	DescModuleInitAfterHook                 = DescSharedInitAfterHook + DescModuleOverride
-	DescModulePlanBeforeHook                = DescSharedPlanBeforeHook + DescModuleOverride
-	DescModulePlanAfterHook                 = DescSharedPlanAfterHook + DescModuleOverride
-	DescModulePlanDestroyBeforeHook         = DescSharedPlanDestroyBeforeHook + DescModuleOverride
-	DescModulePlanDestroyAfterHook          = DescSharedPlanDestroyAfterHook + DescModuleOverride
-	DescModuleApplyBeforeHook               = DescSharedApplyBeforeHook + DescModuleOverride
-	DescModuleApplyAfterHook                = DescSharedApplyAfterHook + DescModuleOverride
-	DescModuleDestroyBeforeHook             = DescSharedDestroyBeforeHook + DescModuleOverride
-	DescModuleDestroyAfterHook              = DescSharedDestroyAfterHook + DescModuleOverride
-	DescModuleOutputBeforeHook              = DescSharedOutputBeforeHook + DescModuleOverride
-	DescModuleOutputAfterHook               = DescSharedOutputAfterHook + DescModuleOverride
-	DescModuleValidateBeforeHook            = DescSharedValidateBeforeHook + DescModuleOverride
-	DescModuleValidateAfterHook             = DescSharedValidateAfterHook + DescModuleOverride
 	DescModuleEngine                        = DescSharedEngine + DescModuleOverride
 	DescModuleOutputSecretStoreId           = DescSharedOutputSecretStoreId + DescModuleOverride
 	DescModuleApplyApprovalThreshold        = DescSharedApplyApprovalThreshold + DescModuleOverride + DescZeroThreshold
 	DescModuleDestroyApprovalThreshold      = DescSharedDestroyApprovalThreshold + DescModuleOverride + DescZeroThreshold
 	DescModuleApprovalTimeoutMinutes        = DescSharedApprovalTimeoutMinutes + DescModuleOverride + DescZeroTimeout
-	DescModuleAutoUpgradeEnabled            = DescSharedAutoUpgradeEnabled + DescModuleOverride
-	DescModuleAutoReconfigureEnabled        = DescSharedAutoReconfigureEnabled + DescModuleOverride
-	DescModuleAutoMigrateEnabled            = DescSharedAutoMigrateEnabled + DescModuleOverride
 	DescModuleCleanInitEnabled              = DescSharedCleanInitEnabled + DescModuleOverride
 	DescModuleDriftCheckEnabled             = DescSharedDriftCheckEnabled + DescModuleOverride
 	DescModuleDriftCheckIntervalMinutes     = DescSharedDriftCheckIntervalMinutes + DescModuleOverride
-	DescModuleIgnoreNamespaceBackendConfigs = "If this is set to true, any Backend Configs that have been set on Namespace level will not be used on this specific Module."
 	DescModuleIgnoreNamespaceExtraFiles     = "If this is set to true, any Extra Files that have been set on Namespace level will not be used on this specific Module."
 	DescModuleIgnoreNamespaceFlags          = "If this is set to true, any Flags (Terraform Flags, Terraform Array Flags, Pulumi Flags, Pulumi Array Flags) that have been set on Namespace level will not be used on this specific Module."
-	DescModuleIgnoreNamespaceHooks          = "If this is set to true, any Hooks (Namespace Hooks and the deprecated default_*_hook fields) that have been set on Namespace level will not be used on this specific Module."
+	DescModuleIgnoreNamespaceHooks          = "If this is set to true, any Hooks set on Namespace level will not be used on this specific Module."
 	DescTriggerOnSourceChanged              = "Defaults to 'true'. If 'true', the Module will automatically be applied when the source it is referencing has changed. For example, if tracking a Git branch: a new commit would constitute a change."
 	DescTriggerOnSourceChangedNotification  = "Defaults to 'false'. If 'true', the Module will automatically be applied when the 'api/Hooks/SourceChanged' endpoint is called for this Module. Use this if you want to use external tooling to inform Snap CD that a source has been changed. Consider setting `trigger_on_definition_changed` to 'false' when setting `trigger_on_definition_changed_hook` to 'true'"
 	DescTriggerOnUpstreamOutputChanged      = "Defaults to 'true'. If 'true', the Module will automatically be applied when any Outputs from other Modules that it references as Inputs (Param or Env Var) have changed."
@@ -218,92 +181,6 @@ func (r *moduleResource) Schema(ctx context.Context, req resource.SchemaRequest,
 				Optional:    true,
 				Description: DescModuleRunnerInstanceName,
 			},
-			"init_before_hook": schema.StringAttribute{
-				Optional:           true,
-				Description:        DescModuleInitBeforeHook,
-				DeprecationMessage: "Use snapcd_module_hook with task='Init' and phase='Before' instead.",
-			},
-			"init_after_hook": schema.StringAttribute{
-				Optional:           true,
-				Description:        DescModuleInitAfterHook,
-				DeprecationMessage: "Use snapcd_module_hook with task='Init' and phase='After' instead.",
-			},
-			"plan_before_hook": schema.StringAttribute{
-				Optional:           true,
-				Description:        DescModulePlanBeforeHook,
-				DeprecationMessage: "Use snapcd_module_hook with task='Plan' and phase='Before' instead.",
-			},
-			"plan_after_hook": schema.StringAttribute{
-				Optional:           true,
-				Description:        DescModulePlanAfterHook,
-				DeprecationMessage: "Use snapcd_module_hook with task='Plan' and phase='After' instead.",
-			},
-			"plan_destroy_before_hook": schema.StringAttribute{
-				Optional:           true,
-				Description:        DescModuleDestroyBeforeHook,
-				DeprecationMessage: "Use snapcd_module_hook with task='PlanDestroy' and phase='Before' instead.",
-			},
-			"plan_destroy_after_hook": schema.StringAttribute{
-				Optional:           true,
-				Description:        DescModuleDestroyAfterHook,
-				DeprecationMessage: "Use snapcd_module_hook with task='PlanDestroy' and phase='After' instead.",
-			},
-			"apply_before_hook": schema.StringAttribute{
-				Optional:           true,
-				Description:        DescModuleApplyBeforeHook,
-				DeprecationMessage: "Use snapcd_module_hook with task='Apply' and phase='Before' instead.",
-			},
-			"apply_after_hook": schema.StringAttribute{
-				Optional:           true,
-				Description:        DescModuleApplyAfterHook,
-				DeprecationMessage: "Use snapcd_module_hook with task='Apply' and phase='After' instead.",
-			},
-			"destroy_before_hook": schema.StringAttribute{
-				Optional:           true,
-				Description:        DescModuleDestroyBeforeHook,
-				DeprecationMessage: "Use snapcd_module_hook with task='Destroy' and phase='Before' instead.",
-			},
-			"destroy_after_hook": schema.StringAttribute{
-				Optional:           true,
-				Description:        DescModuleDestroyAfterHook,
-				DeprecationMessage: "Use snapcd_module_hook with task='Destroy' and phase='After' instead.",
-			},
-			"output_before_hook": schema.StringAttribute{
-				Optional:           true,
-				Description:        DescModuleOutputBeforeHook,
-				DeprecationMessage: "Use snapcd_module_hook with task='Output' and phase='Before' instead.",
-			},
-			"output_after_hook": schema.StringAttribute{
-				Optional:           true,
-				Description:        DescModuleOutputAfterHook,
-				DeprecationMessage: "Use snapcd_module_hook with task='Output' and phase='After' instead.",
-			},
-			"validate_before_hook": schema.StringAttribute{
-				Optional:           true,
-				Description:        DescModuleValidateBeforeHook,
-				DeprecationMessage: "Use snapcd_module_hook with task='Validate' and phase='Before' instead.",
-			},
-			"validate_after_hook": schema.StringAttribute{
-				Optional:           true,
-				Description:        DescModuleValidateAfterHook,
-				DeprecationMessage: "Use snapcd_module_hook with task='Validate' and phase='After' instead.",
-			},
-
-			"auto_upgrade_enabled": schema.BoolAttribute{
-				Optional:           true,
-				Description:        DescModuleAutoUpgradeEnabled,
-				DeprecationMessage: "Use snapcd_module_terraform_flag with Flag='Upgrade' and Task='Init' instead.",
-			},
-			"auto_reconfigure_enabled": schema.BoolAttribute{
-				Optional:           true,
-				Description:        DescModuleAutoReconfigureEnabled,
-				DeprecationMessage: "Use snapcd_module_terraform_flag with Flag='Reconfigure' and Task='Init' instead.",
-			},
-			"auto_migrate_enabled": schema.BoolAttribute{
-				Optional:           true,
-				Description:        DescModuleAutoMigrateEnabled,
-				DeprecationMessage: "Use snapcd_module_terraform_flag with Flag='MigrateState' and Task='Init' instead.",
-			},
 			"clean_init_enabled": schema.BoolAttribute{
 				Optional:    true,
 				Description: DescModuleCleanInitEnabled,
@@ -321,13 +198,6 @@ func (r *moduleResource) Schema(ctx context.Context, req resource.SchemaRequest,
 				Computed:    true,
 				Description: DescModuleIgnoreNamespaceExtraFiles,
 				Default:     booldefault.StaticBool(false),
-			},
-			"ignore_namespace_backend_configs": schema.BoolAttribute{
-				Optional:           true,
-				Computed:           true,
-				Description:        DescModuleIgnoreNamespaceBackendConfigs,
-				Default:            booldefault.StaticBool(false),
-				DeprecationMessage: "Only use this setting if you are still using the deprecated snapcd_namespace_backend_config resources and wish to have them ignored for this module. If you have already transitioned to using engine-specific flags, use  ignore_namespace_flags to ignore onese that were set on the namespace level.",
 			},
 			"ignore_namespace_flags": schema.BoolAttribute{
 				Optional:    true,

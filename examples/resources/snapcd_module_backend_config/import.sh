@@ -1,1 +1,0 @@
-terraform import snapcd_module_backend_config.region "module_id/region"
