@@ -98,3 +98,22 @@ resource "snapcd_runner_role_assignment" "this" {
   role_name               = "Reader"
 }
 `
+
+// Agent Role Assignment Configs
+var AgentRoleAssignmentCreateConfig = `
+resource "snapcd_agent_role_assignment" "this" {
+  agent_id          	  = snapcd_agent.this.id
+  principal_id            = data.snapcd_service_principal.this.id
+  principal_discriminator = "ServicePrincipal"
+  role_name               = "Owner"
+}
+`
+
+var AgentRoleAssignmentUpdateConfig = `
+resource "snapcd_agent_role_assignment" "this" {
+  agent_id          	  = snapcd_agent.this.id
+  principal_id            = data.snapcd_service_principal.this.id
+  principal_discriminator = "ServicePrincipal"
+  role_name               = "Reader"
+}
+`

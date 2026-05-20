@@ -13,6 +13,7 @@ import (
 	"terraform-provider-snapcd/internal/provider/extra_files"
 	"terraform-provider-snapcd/internal/provider/hooks"
 	"terraform-provider-snapcd/internal/provider/identity"
+	"terraform-provider-snapcd/internal/provider/mission"
 	"terraform-provider-snapcd/internal/provider/module_input"
 	"terraform-provider-snapcd/internal/provider/namespace_input"
 	"terraform-provider-snapcd/internal/provider/role_assignment"
@@ -383,6 +384,7 @@ func (p *snapcdProvider) DataSources(_ context.Context) []func() datasource.Data
 		core.ModuleDataSource,
 		core.StackDataSource,
 		core.RunnerDataSource,
+		core.AgentDataSource,
 		core.SourceRefresherPreselectionDataSource,
 		core.DependsOnModuleDataSource,
 
@@ -418,6 +420,7 @@ func (p *snapcdProvider) Resources(_ context.Context) []func() resource.Resource
 		core.ModuleResource,
 		core.StackResource,
 		core.RunnerResource,
+		core.AgentResource,
 		core.SourceRefresherPreselectionResource,
 		core.DependsOnModuleResource,
 
@@ -440,10 +443,16 @@ func (p *snapcdProvider) Resources(_ context.Context) []func() resource.Resource
 		role_assignment.NamespaceRoleAssignmentResource,
 		role_assignment.ModuleRoleAssignmentResource,
 		role_assignment.RunnerRoleAssignmentResource,
+		role_assignment.AgentRoleAssignmentResource,
 
 		runner_assignment.RunnerStackAssignmentResource,
 		runner_assignment.RunnerNamespaceAssignmentResource,
 		runner_assignment.RunnerModuleAssignmentResource,
+
+		mission.OrganizationMissionResource,
+		mission.StackMissionResource,
+		mission.NamespaceMissionResource,
+		mission.ModuleMissionResource,
 
 		extra_files.NamespaceExtraFileResource,
 		extra_files.ModuleExtraFileResource,
