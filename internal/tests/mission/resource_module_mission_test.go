@@ -10,7 +10,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 )
 
-func TestAccResourceModuleMission_CreateUpdate(t *testing.T) {
+func TestAccResourceModuleMission_Create(t *testing.T) {
 	resource.UnitTest(t, resource.TestCase{
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
@@ -22,16 +22,30 @@ func TestAccResourceModuleMission_CreateUpdate(t *testing.T) {
 					resource.TestCheckResourceAttr("snapcd_module_mission.this", "mission_type", "AutoDiagnose"),
 				),
 			},
+		},
+	})
+}
+
+func TestAccResourceModuleMission_CreateUpdate(t *testing.T) {
+	resource.UnitTest(t, resource.TestCase{
+		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
+		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + core.ModuleCreateConfig + core.AgentCreateConfig + providerconfig.AppendRandomString(`
+				Config: providerconfig.ProviderConfig + core.ModuleCreateConfig + core.AgentCreateConfig + ModuleMissionCreateConfig,
+				Check: resource.ComposeTestCheckFunc(
+					resource.TestCheckResourceAttrSet("snapcd_module_mission.this", "id"),
+					resource.TestCheckResourceAttr("snapcd_module_mission.this", "mission_type", "AutoDiagnose"),
+				),
+			},
+			{
+				Config: providerconfig.ProviderConfig + core.ModuleCreateConfig + core.AgentCreateConfig + `
 resource "snapcd_module_mission" "this" {
   agent_id     = snapcd_agent.this.id
   module_id    = snapcd_module.this.id
-  name         = "somevalue%s"
-  mission_type = "SplitMonolithicState"
-}`),
+  mission_type = "ApprovalRecommend"
+}`,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr("snapcd_module_mission.this", "mission_type", "SplitMonolithicState"),
+					resource.TestCheckResourceAttr("snapcd_module_mission.this", "mission_type", "ApprovalRecommend"),
 				),
 			},
 		},

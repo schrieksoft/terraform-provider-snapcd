@@ -10,7 +10,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 )
 
-func TestAccResourceStackMission_CreateUpdate(t *testing.T) {
+func TestAccResourceStackMission_Create(t *testing.T) {
 	resource.UnitTest(t, resource.TestCase{
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
@@ -22,16 +22,30 @@ func TestAccResourceStackMission_CreateUpdate(t *testing.T) {
 					resource.TestCheckResourceAttr("snapcd_stack_mission.this", "mission_type", "AutoDiagnose"),
 				),
 			},
+		},
+	})
+}
+
+func TestAccResourceStackMission_CreateUpdate(t *testing.T) {
+	resource.UnitTest(t, resource.TestCase{
+		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
+		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + core.StackCreateConfig + core.AgentCreateConfig + providerconfig.AppendRandomString(`
+				Config: providerconfig.ProviderConfig + core.StackCreateConfig + core.AgentCreateConfig + StackMissionCreateConfig,
+				Check: resource.ComposeTestCheckFunc(
+					resource.TestCheckResourceAttrSet("snapcd_stack_mission.this", "id"),
+					resource.TestCheckResourceAttr("snapcd_stack_mission.this", "mission_type", "AutoDiagnose"),
+				),
+			},
+			{
+				Config: providerconfig.ProviderConfig + core.StackCreateConfig + core.AgentCreateConfig + `
 resource "snapcd_stack_mission" "this" {
   agent_id     = snapcd_agent.this.id
   stack_id     = snapcd_stack.this.id
-  name         = "somevalue%s"
-  mission_type = "ProposeFix"
-}`),
+  mission_type = "ApprovalRecommend"
+}`,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr("snapcd_stack_mission.this", "mission_type", "ProposeFix"),
+					resource.TestCheckResourceAttr("snapcd_stack_mission.this", "mission_type", "ApprovalRecommend"),
 				),
 			},
 		},

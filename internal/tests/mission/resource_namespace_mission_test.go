@@ -10,7 +10,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 )
 
-func TestAccResourceNamespaceMission_CreateUpdate(t *testing.T) {
+func TestAccResourceNamespaceMission_Create(t *testing.T) {
 	resource.UnitTest(t, resource.TestCase{
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
@@ -22,16 +22,30 @@ func TestAccResourceNamespaceMission_CreateUpdate(t *testing.T) {
 					resource.TestCheckResourceAttr("snapcd_namespace_mission.this", "mission_type", "AutoDiagnose"),
 				),
 			},
+		},
+	})
+}
+
+func TestAccResourceNamespaceMission_CreateUpdate(t *testing.T) {
+	resource.UnitTest(t, resource.TestCase{
+		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
+		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + core.NamespaceCreateConfig + core.AgentCreateConfig + providerconfig.AppendRandomString(`
+				Config: providerconfig.ProviderConfig + core.NamespaceCreateConfig + core.AgentCreateConfig + NamespaceMissionCreateConfig,
+				Check: resource.ComposeTestCheckFunc(
+					resource.TestCheckResourceAttrSet("snapcd_namespace_mission.this", "id"),
+					resource.TestCheckResourceAttr("snapcd_namespace_mission.this", "mission_type", "AutoDiagnose"),
+				),
+			},
+			{
+				Config: providerconfig.ProviderConfig + core.NamespaceCreateConfig + core.AgentCreateConfig + `
 resource "snapcd_namespace_mission" "this" {
   agent_id     = snapcd_agent.this.id
   namespace_id = snapcd_namespace.this.id
-  name         = "somevalue%s"
-  mission_type = "GenerateDocs"
-}`),
+  mission_type = "SummarizeJob"
+}`,
 				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr("snapcd_namespace_mission.this", "mission_type", "GenerateDocs"),
+					resource.TestCheckResourceAttr("snapcd_namespace_mission.this", "mission_type", "SummarizeJob"),
 				),
 			},
 		},

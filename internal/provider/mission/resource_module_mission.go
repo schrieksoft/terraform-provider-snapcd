@@ -58,8 +58,8 @@ type moduleMissionModel struct {
 	Id          types.String `tfsdk:"id"`
 	AgentId     types.String `tfsdk:"agent_id"`
 	ModuleId    types.String `tfsdk:"module_id"`
-	Name        types.String `tfsdk:"name"`
 	MissionType types.String `tfsdk:"mission_type"`
+	SidecarName types.String `tfsdk:"sidecar_name"`
 	IsDisabled  types.Bool   `tfsdk:"is_disabled"`
 }
 
@@ -82,16 +82,16 @@ func (r *moduleMissionResource) Schema(ctx context.Context, req resource.SchemaR
 				Required:    true,
 				Description: DescMissionModuleId,
 			},
-			"name": schema.StringAttribute{
-				Required:    true,
-				Description: DescMissionName,
-			},
 			"mission_type": schema.StringAttribute{
 				Required: true,
 				Validators: []validator.String{
 					stringvalidator.OneOf(missionTypeValues...),
 				},
 				Description: DescMissionType,
+			},
+			"sidecar_name": schema.StringAttribute{
+				Optional:    true,
+				Description: DescMissionSidecarName,
 			},
 			"is_disabled": schema.BoolAttribute{
 				Optional:    true,

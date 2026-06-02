@@ -10,6 +10,21 @@ import (
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 )
 
+func TestAccResourceOrganizationMission_Create(t *testing.T) {
+	resource.UnitTest(t, resource.TestCase{
+		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
+		Steps: []resource.TestStep{
+			{
+				Config: providerconfig.ProviderConfig + core.AgentCreateConfig + OrganizationMissionCreateConfig,
+				Check: resource.ComposeTestCheckFunc(
+					resource.TestCheckResourceAttrSet("snapcd_organization_mission.this", "id"),
+					resource.TestCheckResourceAttr("snapcd_organization_mission.this", "mission_type", "AutoDiagnose"),
+				),
+			},
+		},
+	})
+}
+
 func TestAccResourceOrganizationMission_CreateUpdate(t *testing.T) {
 	resource.UnitTest(t, resource.TestCase{
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
@@ -22,12 +37,11 @@ func TestAccResourceOrganizationMission_CreateUpdate(t *testing.T) {
 				),
 			},
 			{
-				Config: providerconfig.ProviderConfig + core.AgentCreateConfig + providerconfig.AppendRandomString(`
+				Config: providerconfig.ProviderConfig + core.AgentCreateConfig + `
 resource "snapcd_organization_mission" "this" {
   agent_id     = snapcd_agent.this.id
-  name         = "somevalue%s"
   mission_type = "ApprovalRecommend"
-}`),
+}`,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_organization_mission.this", "id"),
 					resource.TestCheckResourceAttr("snapcd_organization_mission.this", "mission_type", "ApprovalRecommend"),

@@ -40,13 +40,13 @@ resource "snapcd_namespace_mission" "generate_docs" {
 ### Required
 
 - `agent_id` (String) ID of the Agent that runs this Mission.
-- `mission_type` (String) Which named mission definition this row references. Must be one of 'AutoDiagnose', 'ApprovalRecommend', 'ProposeFix', 'GenerateDocs' and 'SplitMonolithicState'.
-- `name` (String) Label for this Mission binding.
+- `mission_type` (String) Which named mission definition this row references. Must be one of 'AutoDiagnose', 'ApprovalRecommend' and 'SummarizeJob'.
 - `namespace_id` (String) ID of the Namespace this Mission is scoped to.
 
 ### Optional
 
 - `is_disabled` (Boolean) Indicates whether or not the Mission is disabled.
+- `sidecar_name` (String) Optional named-sidecar override sent to the agent at dispatch. When unset (null), the agent invokes its only registered sidecar; the run fails if the agent has zero or multiple sidecars and no name was supplied.
 
 ### Read-Only
 

@@ -2,37 +2,29 @@
 
 package mission
 
-import (
-	"terraform-provider-snapcd/internal/tests/providerconfig"
-)
-
-var OrganizationMissionCreateConfig = providerconfig.AppendRandomString(`
+var OrganizationMissionCreateConfig = `
 resource "snapcd_organization_mission" "this" {
   agent_id     = snapcd_agent.this.id
-  name         = "somevalue%s"
   mission_type = "AutoDiagnose"
-}`)
+}`
 
-var StackMissionCreateConfig = providerconfig.AppendRandomString(`
+var StackMissionCreateConfig = `
 resource "snapcd_stack_mission" "this" {
   agent_id     = snapcd_agent.this.id
   stack_id     = snapcd_stack.this.id
-  name         = "somevalue%s"
   mission_type = "AutoDiagnose"
-}`)
+}`
 
-var NamespaceMissionCreateConfig = providerconfig.AppendRandomString(`
+var NamespaceMissionCreateConfig = `
 resource "snapcd_namespace_mission" "this" {
   agent_id     = snapcd_agent.this.id
   namespace_id = snapcd_namespace.this.id
-  name         = "somevalue%s"
   mission_type = "AutoDiagnose"
-}`)
+}`
 
-var ModuleMissionCreateConfig = providerconfig.AppendRandomString(`
+var ModuleMissionCreateConfig = `
 resource "snapcd_module_mission" "this" {
   agent_id     = snapcd_agent.this.id
   module_id    = snapcd_module.this.id
-  name         = "somevalue%s"
   mission_type = "AutoDiagnose"
-}`)
+}`

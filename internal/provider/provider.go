@@ -8,6 +8,7 @@ import (
 	"strconv"
 
 	snapcd "terraform-provider-snapcd/client"
+	"terraform-provider-snapcd/internal/provider/agent_assignment"
 	"terraform-provider-snapcd/internal/provider/core"
 	"terraform-provider-snapcd/internal/provider/engine_flags"
 	"terraform-provider-snapcd/internal/provider/extra_files"
@@ -448,6 +449,10 @@ func (p *snapcdProvider) Resources(_ context.Context) []func() resource.Resource
 		runner_assignment.RunnerStackAssignmentResource,
 		runner_assignment.RunnerNamespaceAssignmentResource,
 		runner_assignment.RunnerModuleAssignmentResource,
+
+		agent_assignment.AgentStackAssignmentResource,
+		agent_assignment.AgentNamespaceAssignmentResource,
+		agent_assignment.AgentModuleAssignmentResource,
 
 		mission.OrganizationMissionResource,
 		mission.StackMissionResource,
