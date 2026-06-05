@@ -149,3 +149,15 @@ resource "snapcd_source_refresher_preselection" "this" {
   source_url     = "somevalue%s"
   runner_id = snapcd_runner.this.id
 }`)
+
+var AgentServicePrincipalConfig = `
+data "snapcd_service_principal" "agent" {
+	client_id  = "debug"
+}
+`
+
+var AgentCreateConfig = AgentServicePrincipalConfig + providerconfig.AppendRandomString(`
+resource "snapcd_agent" "this" {
+  name                 = "somevalue%s"
+  service_principal_id = data.snapcd_service_principal.agent.id
+}`)
