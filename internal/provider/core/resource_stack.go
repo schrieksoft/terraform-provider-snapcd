@@ -61,14 +61,12 @@ const (
 	DescStackDefault                    = " All modules in this Stack will use this value, unless explicitly overriden on its Namespace or on the Module itself."
 	DescStackId                         = "Unique ID of the Stack."
 	DescStackName                       = "Unique name of the Stack."
-	DescStackDefaultOutputSecretStoreId = DescSharedOutputSecretStoreId
 	DescStackTriggerBehaviourOnModified = "Behaviour with respect to applying modules within the Stack if any of the fields on the Stack resource has changed. Must be one of 'TriggerAllImmediately' or 'DoNotTrigger'. Setting to 'TriggerAllImmediately' will trigger *all* Modules within the Stack to run an apply Job simultaneously. Setting to 'DoNotTrigger' will do nothing. The default (and recommended) setting is 'DoNotTrigger'."
 )
 
 type stackModel struct {
 	Name                       types.String `tfsdk:"name"`
 	Id                         types.String `tfsdk:"id"`
-	DefaultOutputSecretStoreId types.String `tfsdk:"default_output_secret_store_id"`
 	TriggerBehaviourOnModified types.String `tfsdk:"trigger_behaviour_on_modified"`
 }
 
@@ -86,10 +84,6 @@ func (r *stackResource) Schema(ctx context.Context, req resource.SchemaRequest, 
 			"name": schema.StringAttribute{
 				Required:    true,
 				Description: DescStackName,
-			},
-			"default_output_secret_store_id": schema.StringAttribute{
-				Optional:    true,
-				Description: DescStackDefaultOutputSecretStoreId,
 			},
 			"trigger_behaviour_on_modified": schema.StringAttribute{
 				Optional:    true,

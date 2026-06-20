@@ -58,10 +58,6 @@ func (d *stackDataSource) Schema(ctx context.Context, req datasource.SchemaReque
 				Required:    true,
 				Description: DescStackName,
 			},
-			"default_output_secret_store_id": schema.StringAttribute{
-				Computed:    true,
-				Description: DescStackDefaultOutputSecretStoreId,
-			},
 			"trigger_behaviour_on_modified": schema.StringAttribute{
 				Computed:    true,
 				Description: DescStackTriggerBehaviourOnModified,

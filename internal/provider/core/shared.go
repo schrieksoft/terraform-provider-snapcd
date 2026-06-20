@@ -1,8 +1,7 @@
 package core
 
 const (
-	DescSharedEngine              = "Determines which binary will be used during deployment. Must be one of 'OpenTofu', 'Terraform' or 'Pulumi'. Setting this to 'OpenTofu' will use `tofu`. Setting it to 'Terraform' will use `terraform`. Setting this to 'Pulumi' will use `pulumi`. "
-	DescSharedOutputSecretStoreId = "The ID of the Secret Store that will be used to store this Module's outputs. Note that for an 'Output' step to successfully use this Secret Store, it must either be deployed as `is_assigned_to_all_scopes=true`, or assigned via module/namespace/stack assignment. "
+	DescSharedEngine = "Determines which binary will be used during deployment. Must be one of 'OpenTofu', 'Terraform' or 'Pulumi'. Setting this to 'OpenTofu' will use `tofu`. Setting it to 'Terraform' will use `terraform`. Setting this to 'Pulumi' will use `pulumi`. "
 
 	DescSharedCleanInitEnabled          = "Setting will remove all .terraform* files and folders (state files, locks, downloaded providers, downloaded modules etc.) and perform a clean init every time the Module is executed. "
 	DescSharedDriftCheckEnabled         = "Setting this to true will periodically trigger an Apply job to check for drift in the deployed infrastructure. "

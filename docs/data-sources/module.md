@@ -48,7 +48,6 @@ data "snapcd_module" "mymodule" {
 - `ignore_namespace_extra_files` (Boolean) If this is set to true, any Extra Files that have been set on Namespace level will not be used on this specific Module.
 - `ignore_namespace_flags` (Boolean) If this is set to true, any Flags (Terraform Flags, Terraform Array Flags, Pulumi Flags, Pulumi Array Flags) that have been set on Namespace level will not be used on this specific Module.
 - `ignore_namespace_hooks` (Boolean) If this is set to true, any Hooks set on Namespace level will not be used on this specific Module.
-- `output_secret_store_id` (String) The ID of the Secret Store that will be used to store this Module's outputs. Note that for an 'Output' step to successfully use this Secret Store, it must either be deployed as `is_assigned_to_all_scopes=true`, or assigned via module/namespace/stack assignment. Setting this will override any default value set on the Module's parent Namespace.
 - `runner_id` (String) ID of the Runner that will receive the instructions when triggering a deployment on this Module.
 - `runner_instance_name` (String) Name a specific runner instance to select (should unique identify the the instance). Use this if you have enabled multiple instances on your runner, but want all jobs for this Module to go to a specific instance.
 - `source_revision` (String) Remote revision (e.g. version number, branch, commit or tag) where the source module code is found.

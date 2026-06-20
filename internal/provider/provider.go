@@ -8,17 +8,18 @@ import (
 	"strconv"
 
 	snapcd "terraform-provider-snapcd/client"
-	"terraform-provider-snapcd/internal/provider/agent_assignment"
+	"terraform-provider-snapcd/internal/provider/agent_supply"
 	"terraform-provider-snapcd/internal/provider/core"
 	"terraform-provider-snapcd/internal/provider/engine_flags"
 	"terraform-provider-snapcd/internal/provider/extra_files"
 	"terraform-provider-snapcd/internal/provider/hooks"
 	"terraform-provider-snapcd/internal/provider/identity"
+	"terraform-provider-snapcd/internal/provider/integration"
 	"terraform-provider-snapcd/internal/provider/mission"
 	"terraform-provider-snapcd/internal/provider/module_input"
 	"terraform-provider-snapcd/internal/provider/namespace_input"
 	"terraform-provider-snapcd/internal/provider/role_assignment"
-	"terraform-provider-snapcd/internal/provider/runner_assignment"
+	"terraform-provider-snapcd/internal/provider/runner_supply"
 	"terraform-provider-snapcd/internal/provider/secret"
 	"terraform-provider-snapcd/utils"
 
@@ -393,6 +394,8 @@ func (p *snapcdProvider) DataSources(_ context.Context) []func() datasource.Data
 		identity.GroupDataSource,
 		identity.UserDataSource,
 
+		integration.IntegrationDataSource,
+
 		module_input.ModuleInputFromLiteralDataSource,
 		module_input.ModuleInputFromDefinitionDataSource,
 		module_input.ModuleInputFromNamespaceDataSource,
@@ -446,18 +449,22 @@ func (p *snapcdProvider) Resources(_ context.Context) []func() resource.Resource
 		role_assignment.RunnerRoleAssignmentResource,
 		role_assignment.AgentRoleAssignmentResource,
 
-		runner_assignment.RunnerStackAssignmentResource,
-		runner_assignment.RunnerNamespaceAssignmentResource,
-		runner_assignment.RunnerModuleAssignmentResource,
+		runner_supply.RunnerStackSupplyResource,
+		runner_supply.RunnerNamespaceSupplyResource,
+		runner_supply.RunnerModuleSupplyResource,
 
-		agent_assignment.AgentStackAssignmentResource,
-		agent_assignment.AgentNamespaceAssignmentResource,
-		agent_assignment.AgentModuleAssignmentResource,
+		agent_supply.AgentStackSupplyResource,
+		agent_supply.AgentNamespaceSupplyResource,
+		agent_supply.AgentModuleSupplyResource,
 
 		mission.OrganizationMissionResource,
 		mission.StackMissionResource,
 		mission.NamespaceMissionResource,
 		mission.ModuleMissionResource,
+
+		integration.IntegrationSupplyResource,
+		integration.IntegrationRoleAssignmentResource,
+		integration.IntegrationEventResource,
 
 		extra_files.NamespaceExtraFileResource,
 		extra_files.ModuleExtraFileResource,

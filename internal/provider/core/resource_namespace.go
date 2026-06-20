@@ -59,7 +59,6 @@ type namespaceModel struct {
 	Id                               types.String `tfsdk:"id"`
 	StackId                          types.String `tfsdk:"stack_id"`
 	DefaultEngine                    types.String `tfsdk:"default_engine"`
-	DefaultOutputSecretStoreId       types.String `tfsdk:"default_output_secret_store_id"`
 	DefaultApplyApprovalThreshold    types.Int64  `tfsdk:"default_apply_approval_threshold"`
 	DefaultDestroyApprovalThreshold  types.Int64  `tfsdk:"default_destroy_approval_threshold"`
 	DefaultApprovalTimeoutMinutes    types.Int64  `tfsdk:"default_approval_timeout_minutes"`
@@ -77,7 +76,6 @@ const (
 	DescNamespaceStackId = "ID of the Namespace's parent Stack."
 
 	DescNamespaceDefaultEngine                    = DescSharedEngine + DescNamespaceDefault
-	DescNamespaceDefaultOutputSecretStoreId       = DescSharedOutputSecretStoreId + DescNamespaceDefault
 	DescNamespaceDefaultApplyApprovalThreshold    = DescSharedApplyApprovalThreshold + DescNamespaceDefault + DescZeroThreshold
 	DescNamespaceDefaultDestroyApprovalThreshold  = DescSharedDestroyApprovalThreshold + DescNamespaceDefault + DescZeroThreshold
 	DescNamespaceCleanInitEnabled                 = DescSharedCleanInitEnabled + DescNamespaceDefault
@@ -130,10 +128,6 @@ func (r *namespaceResource) Schema(ctx context.Context, req resource.SchemaReque
 					stringvalidator.OneOf("OpenTofu", "Terraform", "Pulumi"),
 				},
 				Description: DescNamespaceDefaultEngine,
-			},
-			"default_output_secret_store_id": schema.StringAttribute{
-				Optional:    true,
-				Description: DescNamespaceDefaultOutputSecretStoreId,
 			},
 			"default_apply_approval_threshold": schema.Int64Attribute{
 				Optional:    true,

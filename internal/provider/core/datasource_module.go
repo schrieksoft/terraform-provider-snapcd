@@ -130,10 +130,6 @@ func (d *moduleDataSource) Schema(ctx context.Context, req datasource.SchemaRequ
 				},
 				Description: DescModuleEngine,
 			},
-			"output_secret_store_id": schema.StringAttribute{
-				Computed:    true,
-				Description: DescModuleOutputSecretStoreId,
-			},
 
 			"trigger_on_definition_changed": schema.BoolAttribute{
 				Computed:    true,

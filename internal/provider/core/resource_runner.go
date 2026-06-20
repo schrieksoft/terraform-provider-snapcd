@@ -60,7 +60,7 @@ type runnerModel struct {
 	Name                   types.String `tfsdk:"name"`
 	Id                     types.String `tfsdk:"id"`
 	ServicePrincipalId     types.String `tfsdk:"service_principal_id"`
-	IsAssignedToAllModules types.Bool   `tfsdk:"is_assigned_to_all_modules"`
+	IsSuppliedToAllModules types.Bool   `tfsdk:"is_supplied_to_all_modules"`
 	IsDisabled             types.Bool   `tfsdk:"is_disabled"`
 	AllowMultipleInstances types.Bool   `tfsdk:"allow_multiple_instances"`
 }
@@ -68,7 +68,7 @@ type runnerModel struct {
 const (
 	DescRunnerId                 = "Unique ID of the Runner."
 	DescRunnerName               = "Unique name of the Runner."
-	DescIsAssignedToAllModules   = "Setting this to 'true' allows this Runner to be selected for deployment by any Module in the system."
+	DescIsSuppliedToAllModules   = "Setting this to 'true' allows this Runner to be selected for deployment by any Module in the system."
 	DescRunnerServicePrincipalId = "ID of the Service Principal associated with the Runner."
 	DescAllowMultipleInstances   = "Setting this to 'true' allows you to connect multiple instances of this Runner (for example a StatefulSet with multiple replicas) simultaneously."
 )
@@ -92,10 +92,10 @@ func (r *runnerResource) Schema(ctx context.Context, req resource.SchemaRequest,
 				Required:    true,
 				Description: DescRunnerServicePrincipalId,
 			},
-			"is_assigned_to_all_modules": schema.BoolAttribute{
+			"is_supplied_to_all_modules": schema.BoolAttribute{
 				Optional:    true,
 				Computed:    true,
-				Description: DescIsAssignedToAllModules,
+				Description: DescIsSuppliedToAllModules,
 				Default:     booldefault.StaticBool(false),
 			},
 			"is_disabled": schema.BoolAttribute{

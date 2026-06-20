@@ -78,10 +78,6 @@ func (d *namespaceDataSource) Schema(ctx context.Context, req datasource.SchemaR
 				Computed:    true,
 				Description: DescNamespaceDefaultEngine,
 			},
-			"default_output_secret_store_id": schema.StringAttribute{
-				Computed:    true,
-				Description: DescNamespaceDefaultOutputSecretStoreId,
-			},
 			"trigger_behaviour_on_modified": schema.StringAttribute{
 				Computed:    true,
 				Description: DescNamespaceTriggerBehaviourOnModified,
