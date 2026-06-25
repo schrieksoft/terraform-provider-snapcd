@@ -4,6 +4,9 @@ on:
   pull_request:
     paths-ignore:
       - "README.md"
+  push:
+    branches:
+      - 'feature/**'
 
 permissions:
   contents: read
@@ -22,10 +25,10 @@ jobs:
       - run: go mod download
       - run: go build -v .
       - run: go vet ./...
-      - name: Run linters
-        uses: golangci/golangci-lint-action@ec5d18412c0aeab7936cb16880d708ba2a64e1ae # v6.2.0
+      - uses: actions/setup-python@42375524e23c412d93fb67b49958b491fce71c38 # v5.4.0
         with:
-          version: v1.64.8
+          python-version: "3.12"
+      - uses: pre-commit/action@2c7b3805fd2a0fd8c1884dcaebf91fc102a13ecd # v3.0.1
 
   test:
     name: Acceptance Tests

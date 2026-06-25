@@ -7,6 +7,11 @@ repos:
         language: system
         pass_filenames: false # setting this to "false" means the hook will only run once per commit, *not* once per file
 
+  - repo: https://github.com/golangci/golangci-lint
+    rev: v1.64.8
+    hooks:
+      - id: golangci-lint
+
   # terraform
   # NOTE this repo has other terraform-related hooks that we could consider using, include "infracost" that produces cloud cost estimates
   - repo: https://github.com/antonbabenko/pre-commit-terraform
