@@ -15,7 +15,7 @@ func TestAccDataSourceModuleInputFromLiteral(t *testing.T) {
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + testdata.ModuleCreateConfig + ModuleInputFromLiteralCreateConfig + `
+				Config: providerconfig.ProviderConfig() + testdata.ModuleCreateConfig + ModuleInputFromLiteralCreateConfig + `
 data "snapcd_module_input_from_literal" "this" {
 	name 		= snapcd_module_input_from_literal.this.name
 	module_id 	= snapcd_module_input_from_literal.this.module_id

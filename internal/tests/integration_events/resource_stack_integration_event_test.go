@@ -15,7 +15,7 @@ func TestAccResourceStackIntegrationEvent_Create(t *testing.T) {
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + testdata.StackCreateConfig + IntegrationDataSourceConfig + StackIntegrationEventCreateConfig,
+				Config: providerconfig.ProviderConfig() + testdata.StackCreateConfig + IntegrationDataSourceConfig + StackIntegrationEventCreateConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_stack_integration_event.this", "id"),
 					resource.TestCheckResourceAttr("snapcd_stack_integration_event.this", "trigger", "JobFailed"),
@@ -30,13 +30,13 @@ func TestAccResourceStackIntegrationEvent_Update(t *testing.T) {
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + testdata.StackCreateConfig + IntegrationDataSourceConfig + StackIntegrationEventCreateConfig,
+				Config: providerconfig.ProviderConfig() + testdata.StackCreateConfig + IntegrationDataSourceConfig + StackIntegrationEventCreateConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_stack_integration_event.this", "id"),
 				),
 			},
 			{
-				Config: providerconfig.ProviderConfig + testdata.StackCreateConfig + IntegrationDataSourceConfig + StackIntegrationEventUpdateConfig,
+				Config: providerconfig.ProviderConfig() + testdata.StackCreateConfig + IntegrationDataSourceConfig + StackIntegrationEventUpdateConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_stack_integration_event.this", "id"),
 					resource.TestCheckResourceAttr("snapcd_stack_integration_event.this", "template", providerconfig.AppendRandomString("Job failed on stack (updated): {{jobName}} %s")),
@@ -51,7 +51,7 @@ func TestAccResourceStackIntegrationEvent_Import(t *testing.T) {
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + testdata.StackCreateConfig + IntegrationDataSourceConfig + StackIntegrationEventCreateConfig,
+				Config: providerconfig.ProviderConfig() + testdata.StackCreateConfig + IntegrationDataSourceConfig + StackIntegrationEventCreateConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_stack_integration_event.this", "id"),
 				),

@@ -14,7 +14,7 @@ func TestAccDataSourceStack(t *testing.T) {
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + StackCreateConfig + `
+				Config: providerconfig.ProviderConfig() + StackCreateConfig + `
 
 data "snapcd_stack" "this" {
 	name = snapcd_stack.this.name

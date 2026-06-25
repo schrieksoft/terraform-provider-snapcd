@@ -14,7 +14,7 @@ func TestAccResourceDependsOnModule_Create(t *testing.T) {
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + ModuleCreateConfig + ModuleCreateConfigDeltaTwo + DependsOnModuleCreateConfig,
+				Config: providerconfig.ProviderConfig() + ModuleCreateConfig + ModuleCreateConfigDeltaTwo + DependsOnModuleCreateConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_depends_on_module.this", "id"),
 					resource.TestCheckResourceAttrSet("snapcd_depends_on_module.this", "module_id"),
@@ -30,7 +30,7 @@ func TestAccResourceDependsOnModule_CreateUpdate(t *testing.T) {
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + ModuleCreateConfig + ModuleCreateConfigDeltaTwo + DependsOnModuleCreateConfig,
+				Config: providerconfig.ProviderConfig() + ModuleCreateConfig + ModuleCreateConfigDeltaTwo + DependsOnModuleCreateConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_depends_on_module.this", "id"),
 					resource.TestCheckResourceAttrSet("snapcd_depends_on_module.this", "module_id"),
@@ -38,7 +38,7 @@ func TestAccResourceDependsOnModule_CreateUpdate(t *testing.T) {
 				),
 			},
 			{
-				Config: providerconfig.ProviderConfig + ModuleCreateConfig + ModuleCreateConfigDeltaTwo + ModuleCreateConfigDeltaThree + `
+				Config: providerconfig.ProviderConfig() + ModuleCreateConfig + ModuleCreateConfigDeltaTwo + ModuleCreateConfigDeltaThree + `
 resource "snapcd_depends_on_module" "this" { 
   module_id = snapcd_module.this.id
   depends_on_module_id = snapcd_module.three.id
@@ -58,7 +58,7 @@ func TestAccResourceDependsOnModule_Import(t *testing.T) {
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + ModuleCreateConfig + ModuleCreateConfigDeltaTwo + DependsOnModuleCreateConfig,
+				Config: providerconfig.ProviderConfig() + ModuleCreateConfig + ModuleCreateConfigDeltaTwo + DependsOnModuleCreateConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_depends_on_module.this", "id"),
 				),

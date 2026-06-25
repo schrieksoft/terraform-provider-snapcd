@@ -57,7 +57,7 @@ func TestAccResourceNamespaceInputFromSecret_Create(t *testing.T) {
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + testdata.NamespaceCreateConfig + NamespaceInputFromSecretCreateConfig,
+				Config: providerconfig.ProviderConfig() + testdata.NamespaceCreateConfig + NamespaceInputFromSecretCreateConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_namespace_input_from_secret.this", "id"),
 				),
@@ -71,14 +71,14 @@ func TestAccResourceNamespaceInputFromSecret_CreateUpdate(t *testing.T) {
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + testdata.NamespaceCreateConfig + NamespaceInputFromSecretCreateConfig,
+				Config: providerconfig.ProviderConfig() + testdata.NamespaceCreateConfig + NamespaceInputFromSecretCreateConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_namespace_input_from_secret.this", "id"),
 					resource.TestCheckResourceAttr("snapcd_namespace_input_from_secret.this", "name", providerconfig.AppendRandomString("somevalue%s")),
 				),
 			},
 			{
-				Config: providerconfig.ProviderConfig + testdata.NamespaceCreateConfig + NamespaceInputFromSecretCreateConfigNew,
+				Config: providerconfig.ProviderConfig() + testdata.NamespaceCreateConfig + NamespaceInputFromSecretCreateConfigNew,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_namespace_input_from_secret.this", "id"),
 					resource.TestCheckResourceAttr("snapcd_namespace_input_from_secret.this", "name", providerconfig.AppendRandomString("someNEWvalue%s")),
@@ -93,7 +93,7 @@ func TestAccResourceNamespaceInputFromSecret_Import(t *testing.T) {
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + testdata.NamespaceCreateConfig + NamespaceInputFromSecretCreateConfigForImport,
+				Config: providerconfig.ProviderConfig() + testdata.NamespaceCreateConfig + NamespaceInputFromSecretCreateConfigForImport,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_namespace_input_from_secret.this", "id"),
 				),

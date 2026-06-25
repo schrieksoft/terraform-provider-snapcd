@@ -25,7 +25,7 @@ func TestAccResourceModuleInputFromOutputSet_Create(t *testing.T) {
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + testdata.ModuleCreateConfig + testdata.ModuleCreateConfigDeltaTwo + ModuleInputFromOutputSetCreateConfig,
+				Config: providerconfig.ProviderConfig() + testdata.ModuleCreateConfig + testdata.ModuleCreateConfigDeltaTwo + ModuleInputFromOutputSetCreateConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_module_input_from_output_set.this", "id"),
 				),
@@ -39,14 +39,14 @@ func TestAccResourceModuleInputFromOutputSet_CreateUpdate(t *testing.T) {
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + testdata.ModuleCreateConfig + testdata.ModuleCreateConfigDeltaTwo + ModuleInputFromOutputSetCreateConfig,
+				Config: providerconfig.ProviderConfig() + testdata.ModuleCreateConfig + testdata.ModuleCreateConfigDeltaTwo + ModuleInputFromOutputSetCreateConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_module_input_from_output_set.this", "id"),
 					resource.TestCheckResourceAttr("snapcd_module_input_from_output_set.this", "name", providerconfig.AppendRandomString("somevalue%s")),
 				),
 			},
 			{
-				Config: providerconfig.ProviderConfig + testdata.ModuleCreateConfig + testdata.ModuleCreateConfigDeltaTwo + providerconfig.AppendRandomString(`
+				Config: providerconfig.ProviderConfig() + testdata.ModuleCreateConfig + testdata.ModuleCreateConfigDeltaTwo + providerconfig.AppendRandomString(`
 resource "snapcd_module_input_from_output_set" "this" { 
   input_kind 		= "Param"
   module_id 		= snapcd_module.this.id
@@ -67,7 +67,7 @@ func TestAccResourceModuleInputFromOutputSet_Import(t *testing.T) {
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + testdata.ModuleCreateConfig + testdata.ModuleCreateConfigDeltaTwo + ModuleInputFromOutputSetCreateConfig,
+				Config: providerconfig.ProviderConfig() + testdata.ModuleCreateConfig + testdata.ModuleCreateConfigDeltaTwo + ModuleInputFromOutputSetCreateConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_module_input_from_output_set.this", "id"),
 				),

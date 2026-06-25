@@ -15,7 +15,7 @@ func TestAccResourceNamespaceRoleAssignment_Create(t *testing.T) {
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + testdata.NamespaceCreateConfig + ServicePrincipalDataSourceConfig + NamespaceRoleAssignmentCreateConfig,
+				Config: providerconfig.ProviderConfig() + testdata.NamespaceCreateConfig + ServicePrincipalDataSourceConfig + NamespaceRoleAssignmentCreateConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_namespace_role_assignment.this", "id"),
 				),
@@ -29,13 +29,13 @@ func TestAccResourceNamespaceRoleAssignment_CreateUpdate(t *testing.T) {
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + testdata.NamespaceCreateConfig + ServicePrincipalDataSourceConfig + NamespaceRoleAssignmentCreateConfig,
+				Config: providerconfig.ProviderConfig() + testdata.NamespaceCreateConfig + ServicePrincipalDataSourceConfig + NamespaceRoleAssignmentCreateConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_namespace_role_assignment.this", "id"),
 				),
 			},
 			{
-				Config: providerconfig.ProviderConfig + testdata.NamespaceCreateConfig + ServicePrincipalDataSourceConfig + NamespaceRoleAssignmentUpdateConfig,
+				Config: providerconfig.ProviderConfig() + testdata.NamespaceCreateConfig + ServicePrincipalDataSourceConfig + NamespaceRoleAssignmentUpdateConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_namespace_role_assignment.this", "id"),
 				),
@@ -49,7 +49,7 @@ func TestAccResourceNamespaceRoleAssignment_Import(t *testing.T) {
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + testdata.NamespaceCreateConfig + ServicePrincipalDataSourceConfig + NamespaceRoleAssignmentCreateConfig,
+				Config: providerconfig.ProviderConfig() + testdata.NamespaceCreateConfig + ServicePrincipalDataSourceConfig + NamespaceRoleAssignmentCreateConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_namespace_role_assignment.this", "id"),
 				),

@@ -15,7 +15,7 @@ func TestAccDataSourceModuleExtraFile(t *testing.T) {
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + testdata.ModuleCreateConfig + ModuleExtraFileCreateConfig + `
+				Config: providerconfig.ProviderConfig() + testdata.ModuleCreateConfig + ModuleExtraFileCreateConfig + `
 data "snapcd_module_extra_file" "this" {
 	file_name = snapcd_module_extra_file.this.file_name
 	module_id = snapcd_module_extra_file.this.module_id

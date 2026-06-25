@@ -1,0 +1,58 @@
+services:
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-CU17-ubuntu-22.04
+    container_name: sqlserver
+    environment:
+      ACCEPT_EULA: "Y"
+      SA_PASSWORD: "myPassw0rd"
+      MSSQL_PID: "Express"
+    ports:
+      - "1433:1433"
+    networks:
+      - snapcd-ci
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - /opt/mssql-tools18/bin/sqlcmd -C -S localhost -U sa -P "myPassw0rd" -Q "SELECT 1" || exit 1
+      interval: 10s
+      timeout: 5s
+      retries: 30
+      start_period: 30s
+
+  redis:
+    image: redis:7.4-alpine
+    container_name: redis
+    networks:
+      - snapcd-ci
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  snapcd-server:
+    image: ghcr.io/schrieksoft/snapcd/snapcd-server:1.4.1
+    container_name: snapcd-server
+    depends_on:
+      sqlserver:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    environment:
+      ASPNETCORE_ENVIRONMENT: "Production"
+      ASPNETCORE_URLS: "http://0.0.0.0:8080"
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./config/appsettings.json:/app/appsettings.json:ro
+    networks:
+      - snapcd-ci
+    healthcheck:
+      test: ["CMD-SHELL", "curl -sf http://localhost:8080/health || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 30
+      start_period: 30s
+
+networks:
+  snapcd-ci:

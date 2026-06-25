@@ -14,7 +14,7 @@ func TestAccDataSourceUser(t *testing.T) {
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + UserGetConfig,
+				Config: providerconfig.ProviderConfig() + UserGetConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("data.snapcd_user.this", "id"),
 					resource.TestCheckResourceAttr("data.snapcd_user.this", "user_name", "debug@preseeded.io"),

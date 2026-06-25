@@ -15,7 +15,7 @@ func TestAccResourceIntegrationStackSupply_Create(t *testing.T) {
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + testdata.StackCreateConfig + IntegrationDataSourceConfig + IntegrationStackSupplyCreateConfig,
+				Config: providerconfig.ProviderConfig() + testdata.StackCreateConfig + IntegrationDataSourceConfig + IntegrationStackSupplyCreateConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_integration_stack_supply.this", "id"),
 				),
@@ -29,7 +29,7 @@ func TestAccResourceIntegrationStackSupply_Import(t *testing.T) {
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + testdata.StackCreateConfig + IntegrationDataSourceConfig + IntegrationStackSupplyCreateConfig,
+				Config: providerconfig.ProviderConfig() + testdata.StackCreateConfig + IntegrationDataSourceConfig + IntegrationStackSupplyCreateConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_integration_stack_supply.this", "id"),
 				),

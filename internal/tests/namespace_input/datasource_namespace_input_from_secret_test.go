@@ -15,7 +15,7 @@ func TestAccDataSourceNamespaceInputFromSecret(t *testing.T) {
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + testdata.NamespaceCreateConfig + NamespaceInputFromSecretCreateConfig + `
+				Config: providerconfig.ProviderConfig() + testdata.NamespaceCreateConfig + NamespaceInputFromSecretCreateConfig + `
 data "snapcd_namespace_input_from_secret" "this" {
 	name 		 = snapcd_namespace_input_from_secret.this.name
 	namespace_id = snapcd_namespace_input_from_secret.this.namespace_id

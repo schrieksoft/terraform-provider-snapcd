@@ -15,7 +15,7 @@ func TestAccResourceStackMission_Create(t *testing.T) {
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + testdata.StackCreateConfig + testdata.AgentCreateConfig + StackMissionCreateConfig,
+				Config: providerconfig.ProviderConfig() + testdata.StackCreateConfig + testdata.AgentCreateConfig + StackMissionCreateConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_stack_mission.this", "id"),
 					resource.TestCheckResourceAttrSet("snapcd_stack_mission.this", "stack_id"),
@@ -31,14 +31,14 @@ func TestAccResourceStackMission_CreateUpdate(t *testing.T) {
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + testdata.StackCreateConfig + testdata.AgentCreateConfig + StackMissionCreateConfig,
+				Config: providerconfig.ProviderConfig() + testdata.StackCreateConfig + testdata.AgentCreateConfig + StackMissionCreateConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_stack_mission.this", "id"),
 					resource.TestCheckResourceAttr("snapcd_stack_mission.this", "mission_type", "AutoDiagnose"),
 				),
 			},
 			{
-				Config: providerconfig.ProviderConfig + testdata.StackCreateConfig + testdata.AgentCreateConfig + `
+				Config: providerconfig.ProviderConfig() + testdata.StackCreateConfig + testdata.AgentCreateConfig + `
 resource "snapcd_stack_mission" "this" {
   agent_id     = snapcd_agent.this.id
   stack_id     = snapcd_stack.this.id
@@ -57,7 +57,7 @@ func TestAccResourceStackMission_Import(t *testing.T) {
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + testdata.StackCreateConfig + testdata.AgentCreateConfig + StackMissionCreateConfig,
+				Config: providerconfig.ProviderConfig() + testdata.StackCreateConfig + testdata.AgentCreateConfig + StackMissionCreateConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_stack_mission.this", "id"),
 				),

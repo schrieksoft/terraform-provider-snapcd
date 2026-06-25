@@ -25,7 +25,7 @@ func TestAccResourceNamespaceInputFromLiteral_Create(t *testing.T) {
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + testdata.NamespaceCreateConfig + NamespaceInputFromLiteralCreateConfig,
+				Config: providerconfig.ProviderConfig() + testdata.NamespaceCreateConfig + NamespaceInputFromLiteralCreateConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_namespace_input_from_literal.this", "id"),
 				),
@@ -39,14 +39,14 @@ func TestAccResourceNamespaceInputFromLiteral_CreateUpdate(t *testing.T) {
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + testdata.NamespaceCreateConfig + NamespaceInputFromLiteralCreateConfig,
+				Config: providerconfig.ProviderConfig() + testdata.NamespaceCreateConfig + NamespaceInputFromLiteralCreateConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_namespace_input_from_literal.this", "id"),
 					resource.TestCheckResourceAttr("snapcd_namespace_input_from_literal.this", "name", providerconfig.AppendRandomString("somevalue%s")),
 				),
 			},
 			{
-				Config: providerconfig.ProviderConfig + testdata.NamespaceCreateConfig + `
+				Config: providerconfig.ProviderConfig() + testdata.NamespaceCreateConfig + `
 resource "snapcd_namespace_input_from_literal" "this" { 
   input_kind 	= "Param"
   namespace_id  = snapcd_namespace.this.id
@@ -67,7 +67,7 @@ func TestAccResourceNamespaceInputFromLiteral_Import(t *testing.T) {
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + testdata.NamespaceCreateConfig + NamespaceInputFromLiteralCreateConfig,
+				Config: providerconfig.ProviderConfig() + testdata.NamespaceCreateConfig + NamespaceInputFromLiteralCreateConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_namespace_input_from_literal.this", "id"),
 				),

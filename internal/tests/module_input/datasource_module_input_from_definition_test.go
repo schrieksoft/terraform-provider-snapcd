@@ -15,7 +15,7 @@ func TestAccDataSourceModuleInputFromDefinition(t *testing.T) {
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + testdata.ModuleCreateConfig + ModuleInputFromDefinitionCreateConfig + `
+				Config: providerconfig.ProviderConfig() + testdata.ModuleCreateConfig + ModuleInputFromDefinitionCreateConfig + `
 data "snapcd_module_input_from_definition" "this" {
 	name 		= snapcd_module_input_from_definition.this.name
 	module_id 	= snapcd_module_input_from_definition.this.module_id

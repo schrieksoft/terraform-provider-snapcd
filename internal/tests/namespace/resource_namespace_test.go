@@ -14,7 +14,7 @@ func TestAccResourceNamespace_Create(t *testing.T) {
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + NamespaceCreateConfig,
+				Config: providerconfig.ProviderConfig() + NamespaceCreateConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_namespace.this", "id"),
 				),
@@ -28,14 +28,14 @@ func TestAccResourceNamespace_CreateUpdate(t *testing.T) {
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + NamespaceCreateConfig,
+				Config: providerconfig.ProviderConfig() + NamespaceCreateConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_namespace.this", "id"),
 					resource.TestCheckResourceAttr("snapcd_namespace.this", "default_apply_approval_threshold", "1"),
 				),
 			},
 			{
-				Config: providerconfig.ProviderConfig + NamespaceUpdateConfig,
+				Config: providerconfig.ProviderConfig() + NamespaceUpdateConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_namespace.this", "id"),
 					resource.TestCheckResourceAttr("snapcd_namespace.this", "default_apply_approval_threshold", "2"),
@@ -50,7 +50,7 @@ func TestAccResourceNamespace_Import(t *testing.T) {
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + NamespaceCreateConfig,
+				Config: providerconfig.ProviderConfig() + NamespaceCreateConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_namespace.this", "id"),
 				),

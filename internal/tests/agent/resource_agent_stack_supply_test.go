@@ -15,7 +15,7 @@ func TestAccResourceAgentStackSupply_Create(t *testing.T) {
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + testdata.StackCreateConfig + testdata.AgentCreateConfig + AgentStackSupplyCreateConfig,
+				Config: providerconfig.ProviderConfig() + testdata.StackCreateConfig + testdata.AgentCreateConfig + AgentStackSupplyCreateConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_agent_stack_supply.this", "id"),
 				),
@@ -29,7 +29,7 @@ func TestAccResourceAgentStackSupply_Import(t *testing.T) {
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + testdata.StackCreateConfig + testdata.AgentCreateConfig + AgentStackSupplyCreateConfig,
+				Config: providerconfig.ProviderConfig() + testdata.StackCreateConfig + testdata.AgentCreateConfig + AgentStackSupplyCreateConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_agent_stack_supply.this", "id"),
 				),

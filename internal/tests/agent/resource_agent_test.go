@@ -15,7 +15,7 @@ func TestAccResourceAgent_Create(t *testing.T) {
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + testdata.AgentCreateConfig,
+				Config: providerconfig.ProviderConfig() + testdata.AgentCreateConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_agent.this", "id"),
 					resource.TestCheckResourceAttr("snapcd_agent.this", "name", providerconfig.AppendRandomString("somevalue%s")),
@@ -30,14 +30,14 @@ func TestAccResourceAgent_CreateUpdate(t *testing.T) {
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + testdata.AgentCreateConfig,
+				Config: providerconfig.ProviderConfig() + testdata.AgentCreateConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_agent.this", "id"),
 					resource.TestCheckResourceAttr("snapcd_agent.this", "name", providerconfig.AppendRandomString("somevalue%s")),
 				),
 			},
 			{
-				Config: providerconfig.ProviderConfig + testdata.AgentServicePrincipalConfig + providerconfig.AppendRandomString(`
+				Config: providerconfig.ProviderConfig() + testdata.AgentServicePrincipalConfig + providerconfig.AppendRandomString(`
 resource "snapcd_agent" "this" {
   name                 = "someNEWvalue%s"
   service_principal_id = data.snapcd_service_principal.agent.id
@@ -56,7 +56,7 @@ func TestAccResourceAgent_Import(t *testing.T) {
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + testdata.AgentCreateConfig,
+				Config: providerconfig.ProviderConfig() + testdata.AgentCreateConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_agent.this", "id"),
 				),

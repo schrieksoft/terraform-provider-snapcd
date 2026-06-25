@@ -15,7 +15,7 @@ func TestAccResourceRunnerNamespaceSupply_Create(t *testing.T) {
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + testdata.NamespaceCreateConfig + testdata.RunnerCreateConfig + RunnerNamespaceSupplyCreateConfig,
+				Config: providerconfig.ProviderConfig() + testdata.NamespaceCreateConfig + testdata.RunnerCreateConfig + RunnerNamespaceSupplyCreateConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_runner_namespace_supply.this", "id"),
 				),
@@ -29,7 +29,7 @@ func TestAccResourceRunnerNamespaceSupply_Import(t *testing.T) {
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + testdata.NamespaceCreateConfig + testdata.RunnerCreateConfig + RunnerNamespaceSupplyCreateConfig,
+				Config: providerconfig.ProviderConfig() + testdata.NamespaceCreateConfig + testdata.RunnerCreateConfig + RunnerNamespaceSupplyCreateConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_runner_namespace_supply.this", "id"),
 				),

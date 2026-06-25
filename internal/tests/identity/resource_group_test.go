@@ -14,7 +14,7 @@ func TestAccResourceGroup_Create(t *testing.T) {
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + GroupCreateConfig,
+				Config: providerconfig.ProviderConfig() + GroupCreateConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_group.this", "id"),
 				),
@@ -28,14 +28,14 @@ func TestAccResourceGroup_CreateUpdate(t *testing.T) {
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + GroupCreateConfig,
+				Config: providerconfig.ProviderConfig() + GroupCreateConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_group.this", "id"),
 					resource.TestCheckResourceAttr("snapcd_group.this", "name", providerconfig.AppendRandomString("somevalue%s")),
 				),
 			},
 			{
-				Config: providerconfig.ProviderConfig + providerconfig.AppendRandomString(`
+				Config: providerconfig.ProviderConfig() + providerconfig.AppendRandomString(`
 resource "snapcd_group" "this" { 
   name = "someNEWvalue%s"
 }`),
@@ -53,7 +53,7 @@ func TestAccResourceGroup_Import(t *testing.T) {
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + GroupCreateConfig,
+				Config: providerconfig.ProviderConfig() + GroupCreateConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_group.this", "id"),
 				),

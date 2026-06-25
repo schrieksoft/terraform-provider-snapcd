@@ -15,7 +15,7 @@ func TestAccDataSourceNamespaceInputFromDefinition(t *testing.T) {
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + testdata.NamespaceCreateConfig + NamespaceInputFromDefinitionCreateConfig + `
+				Config: providerconfig.ProviderConfig() + testdata.NamespaceCreateConfig + NamespaceInputFromDefinitionCreateConfig + `
 data "snapcd_namespace_input_from_definition" "this" {
 	name 		 = snapcd_namespace_input_from_definition.this.name
 	namespace_id = snapcd_namespace_input_from_definition.this.namespace_id

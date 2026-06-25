@@ -14,7 +14,7 @@ func TestAccDataSourceRunner(t *testing.T) {
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + RunnerCreateConfig + `
+				Config: providerconfig.ProviderConfig() + RunnerCreateConfig + `
 
 data "snapcd_runner" "this" {
 	name = snapcd_runner.this.name

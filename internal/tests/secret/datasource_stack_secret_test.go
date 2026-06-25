@@ -14,7 +14,7 @@ func TestAccDataSourceStackSecret(t *testing.T) {
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + `
+				Config: providerconfig.ProviderConfig() + `
 
 data "snapcd_stack_secret" "this" {
 	name 	  = "debug"

@@ -15,7 +15,7 @@ func TestAccDataSourceModuleInputFromOutput(t *testing.T) {
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + testdata.ModuleCreateConfig + testdata.ModuleCreateConfigDeltaTwo + ModuleInputFromOutputCreateConfig + `
+				Config: providerconfig.ProviderConfig() + testdata.ModuleCreateConfig + testdata.ModuleCreateConfigDeltaTwo + ModuleInputFromOutputCreateConfig + `
 data "snapcd_module_input_from_output" "this" {
 	name 		= snapcd_module_input_from_output.this.name
 	module_id 	= snapcd_module_input_from_output.this.module_id

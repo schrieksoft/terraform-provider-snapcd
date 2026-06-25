@@ -15,7 +15,7 @@ func TestAccResourceStack_Create(t *testing.T) {
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + StackCreateConfig,
+				Config: providerconfig.ProviderConfig() + StackCreateConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_stack.this", "id"),
 				),
@@ -29,14 +29,14 @@ func TestAccResourceStack_CreateUpdate(t *testing.T) {
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + StackCreateConfig,
+				Config: providerconfig.ProviderConfig() + StackCreateConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_stack.this", "id"),
 					resource.TestCheckResourceAttr("snapcd_stack.this", "name", providerconfig.AppendRandomString("somevalue%s")),
 				),
 			},
 			{
-				Config: providerconfig.ProviderConfig + providerconfig.AppendRandomString(`
+				Config: providerconfig.ProviderConfig() + providerconfig.AppendRandomString(`
 resource "snapcd_stack" "this" { 
   name = "someNEWvalue%s"
 }`),
@@ -54,7 +54,7 @@ func TestAccResourceStack_Import(t *testing.T) {
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + StackCreateConfig,
+				Config: providerconfig.ProviderConfig() + StackCreateConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_stack.this", "id"),
 				),
@@ -74,7 +74,7 @@ func TestAccResourceStack_CreateShouldFail(t *testing.T) {
 		Steps: []resource.TestStep{
 			{
 				// Test for any error (catch-all)
-				Config:      providerconfig.ProviderConfig + PrexistingStack,
+				Config:      providerconfig.ProviderConfig() + PrexistingStack,
 				ExpectError: regexp.MustCompile(`.*`), // Matches any error
 			},
 		},

@@ -24,7 +24,7 @@ func TestAccResourceModuleTerraformFlag_Create(t *testing.T) {
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + testdata.ModuleCreateConfig + ModuleTerraformFlagCreateConfig,
+				Config: providerconfig.ProviderConfig() + testdata.ModuleCreateConfig + ModuleTerraformFlagCreateConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_module_terraform_flag.this", "id"),
 					resource.TestCheckResourceAttr("snapcd_module_terraform_flag.this", "task", "Init"),
@@ -40,7 +40,7 @@ func TestAccResourceModuleTerraformFlag_CreateUpdate(t *testing.T) {
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + testdata.ModuleCreateConfig + ModuleTerraformFlagCreateConfig,
+				Config: providerconfig.ProviderConfig() + testdata.ModuleCreateConfig + ModuleTerraformFlagCreateConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_module_terraform_flag.this", "id"),
 					resource.TestCheckResourceAttr("snapcd_module_terraform_flag.this", "task", "Init"),
@@ -48,7 +48,7 @@ func TestAccResourceModuleTerraformFlag_CreateUpdate(t *testing.T) {
 				),
 			},
 			{
-				Config: providerconfig.ProviderConfig + testdata.ModuleCreateConfig + `
+				Config: providerconfig.ProviderConfig() + testdata.ModuleCreateConfig + `
 resource "snapcd_module_terraform_flag" "this" {
   module_id  	= snapcd_module.this.id
   task  		= "Init"
@@ -69,7 +69,7 @@ func TestAccResourceModuleTerraformFlag_Import(t *testing.T) {
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + testdata.ModuleCreateConfig + ModuleTerraformFlagCreateConfig,
+				Config: providerconfig.ProviderConfig() + testdata.ModuleCreateConfig + ModuleTerraformFlagCreateConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_module_terraform_flag.this", "id"),
 				),

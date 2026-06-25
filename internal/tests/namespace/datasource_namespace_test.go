@@ -14,7 +14,7 @@ func TestAccDataSourceNamespace(t *testing.T) {
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + NamespaceCreateConfig + `
+				Config: providerconfig.ProviderConfig() + NamespaceCreateConfig + `
 data "snapcd_namespace" "this" {
 	name 	  = snapcd_namespace.this.name
 	stack_id  = snapcd_stack.this.id

@@ -25,7 +25,7 @@ func TestAccResourceNamespacePulumiArrayFlag_Create(t *testing.T) {
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + testdata.NamespaceCreateConfig + NamespacePulumiArrayFlagCreateConfig,
+				Config: providerconfig.ProviderConfig() + testdata.NamespaceCreateConfig + NamespacePulumiArrayFlagCreateConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_namespace_pulumi_array_flag.this", "id"),
 				),
@@ -39,7 +39,7 @@ func TestAccResourceNamespacePulumiArrayFlag_CreateUpdate(t *testing.T) {
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + testdata.NamespaceCreateConfig + NamespacePulumiArrayFlagCreateConfig,
+				Config: providerconfig.ProviderConfig() + testdata.NamespaceCreateConfig + NamespacePulumiArrayFlagCreateConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_namespace_pulumi_array_flag.this", "id"),
 					resource.TestCheckResourceAttr("snapcd_namespace_pulumi_array_flag.this", "value", "aws_vpc.main"),
@@ -48,7 +48,7 @@ func TestAccResourceNamespacePulumiArrayFlag_CreateUpdate(t *testing.T) {
 				),
 			},
 			{
-				Config: providerconfig.ProviderConfig + testdata.NamespaceCreateConfig + `
+				Config: providerconfig.ProviderConfig() + testdata.NamespaceCreateConfig + `
 resource "snapcd_namespace_pulumi_array_flag" "this" {
   namespace_id 	= snapcd_namespace.this.id
   task  		= "Plan"
@@ -69,7 +69,7 @@ func TestAccResourceNamespacePulumiArrayFlag_Import(t *testing.T) {
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + testdata.NamespaceCreateConfig + NamespacePulumiArrayFlagCreateConfig,
+				Config: providerconfig.ProviderConfig() + testdata.NamespaceCreateConfig + NamespacePulumiArrayFlagCreateConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_namespace_pulumi_array_flag.this", "id"),
 				),

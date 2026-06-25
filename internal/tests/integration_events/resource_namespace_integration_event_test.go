@@ -15,7 +15,7 @@ func TestAccResourceNamespaceIntegrationEvent_Create(t *testing.T) {
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + testdata.NamespaceCreateConfig + IntegrationDataSourceConfig + NamespaceIntegrationEventCreateConfig,
+				Config: providerconfig.ProviderConfig() + testdata.NamespaceCreateConfig + IntegrationDataSourceConfig + NamespaceIntegrationEventCreateConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_namespace_integration_event.this", "id"),
 					resource.TestCheckResourceAttr("snapcd_namespace_integration_event.this", "trigger", "JobFailed"),
@@ -30,13 +30,13 @@ func TestAccResourceNamespaceIntegrationEvent_Update(t *testing.T) {
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + testdata.NamespaceCreateConfig + IntegrationDataSourceConfig + NamespaceIntegrationEventCreateConfig,
+				Config: providerconfig.ProviderConfig() + testdata.NamespaceCreateConfig + IntegrationDataSourceConfig + NamespaceIntegrationEventCreateConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_namespace_integration_event.this", "id"),
 				),
 			},
 			{
-				Config: providerconfig.ProviderConfig + testdata.NamespaceCreateConfig + IntegrationDataSourceConfig + NamespaceIntegrationEventUpdateConfig,
+				Config: providerconfig.ProviderConfig() + testdata.NamespaceCreateConfig + IntegrationDataSourceConfig + NamespaceIntegrationEventUpdateConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_namespace_integration_event.this", "id"),
 					resource.TestCheckResourceAttr("snapcd_namespace_integration_event.this", "template", providerconfig.AppendRandomString("Job failed on namespace (updated): {{jobName}} %s")),
@@ -51,7 +51,7 @@ func TestAccResourceNamespaceIntegrationEvent_Import(t *testing.T) {
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + testdata.NamespaceCreateConfig + IntegrationDataSourceConfig + NamespaceIntegrationEventCreateConfig,
+				Config: providerconfig.ProviderConfig() + testdata.NamespaceCreateConfig + IntegrationDataSourceConfig + NamespaceIntegrationEventCreateConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_namespace_integration_event.this", "id"),
 				),

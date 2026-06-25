@@ -15,7 +15,7 @@ func TestAccDataSourceAgent(t *testing.T) {
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + testdata.AgentCreateConfig + `
+				Config: providerconfig.ProviderConfig() + testdata.AgentCreateConfig + `
 
 data "snapcd_agent" "this" {
 	name = snapcd_agent.this.name

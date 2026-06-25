@@ -25,7 +25,7 @@ func TestAccResourceModuleInputFromDefinition_Create(t *testing.T) {
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + testdata.ModuleCreateConfig + ModuleInputFromDefinitionCreateConfig,
+				Config: providerconfig.ProviderConfig() + testdata.ModuleCreateConfig + ModuleInputFromDefinitionCreateConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_module_input_from_definition.this", "id"),
 				),
@@ -39,14 +39,14 @@ func TestAccResourceModuleInputFromDefinition_CreateUpdate(t *testing.T) {
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + testdata.ModuleCreateConfig + ModuleInputFromDefinitionCreateConfig,
+				Config: providerconfig.ProviderConfig() + testdata.ModuleCreateConfig + ModuleInputFromDefinitionCreateConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_module_input_from_definition.this", "id"),
 					resource.TestCheckResourceAttr("snapcd_module_input_from_definition.this", "name", providerconfig.AppendRandomString("somevalue%s")),
 				),
 			},
 			{
-				Config: providerconfig.ProviderConfig + testdata.ModuleCreateConfig + providerconfig.AppendRandomString(`
+				Config: providerconfig.ProviderConfig() + testdata.ModuleCreateConfig + providerconfig.AppendRandomString(`
 resource "snapcd_module_input_from_definition" "this" { 
   input_kind 		= "Param"
   module_id 		= snapcd_module.this.id
@@ -67,7 +67,7 @@ func TestAccResourceModuleInputFromDefinition_Import(t *testing.T) {
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + testdata.ModuleCreateConfig + ModuleInputFromDefinitionCreateConfig,
+				Config: providerconfig.ProviderConfig() + testdata.ModuleCreateConfig + ModuleInputFromDefinitionCreateConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_module_input_from_definition.this", "id"),
 				),

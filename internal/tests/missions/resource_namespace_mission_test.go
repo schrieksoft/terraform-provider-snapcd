@@ -15,7 +15,7 @@ func TestAccResourceNamespaceMission_Create(t *testing.T) {
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + testdata.NamespaceCreateConfig + testdata.AgentCreateConfig + NamespaceMissionCreateConfig,
+				Config: providerconfig.ProviderConfig() + testdata.NamespaceCreateConfig + testdata.AgentCreateConfig + NamespaceMissionCreateConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_namespace_mission.this", "id"),
 					resource.TestCheckResourceAttrSet("snapcd_namespace_mission.this", "namespace_id"),
@@ -31,14 +31,14 @@ func TestAccResourceNamespaceMission_CreateUpdate(t *testing.T) {
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + testdata.NamespaceCreateConfig + testdata.AgentCreateConfig + NamespaceMissionCreateConfig,
+				Config: providerconfig.ProviderConfig() + testdata.NamespaceCreateConfig + testdata.AgentCreateConfig + NamespaceMissionCreateConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_namespace_mission.this", "id"),
 					resource.TestCheckResourceAttr("snapcd_namespace_mission.this", "mission_type", "AutoDiagnose"),
 				),
 			},
 			{
-				Config: providerconfig.ProviderConfig + testdata.NamespaceCreateConfig + testdata.AgentCreateConfig + `
+				Config: providerconfig.ProviderConfig() + testdata.NamespaceCreateConfig + testdata.AgentCreateConfig + `
 resource "snapcd_namespace_mission" "this" {
   agent_id     = snapcd_agent.this.id
   namespace_id = snapcd_namespace.this.id
@@ -57,7 +57,7 @@ func TestAccResourceNamespaceMission_Import(t *testing.T) {
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + testdata.NamespaceCreateConfig + testdata.AgentCreateConfig + NamespaceMissionCreateConfig,
+				Config: providerconfig.ProviderConfig() + testdata.NamespaceCreateConfig + testdata.AgentCreateConfig + NamespaceMissionCreateConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_namespace_mission.this", "id"),
 				),

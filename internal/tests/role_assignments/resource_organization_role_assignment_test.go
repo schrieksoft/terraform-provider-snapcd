@@ -14,7 +14,7 @@ func TestAccResourceOrganizationRoleAssignment_Create(t *testing.T) {
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + ServicePrincipalDataSourceConfig + OrganizationRoleAssignmentCreateConfig,
+				Config: providerconfig.ProviderConfig() + ServicePrincipalDataSourceConfig + OrganizationRoleAssignmentCreateConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_organization_role_assignment.this", "id"),
 				),
@@ -28,13 +28,13 @@ func TestAccResourceOrganizationRoleAssignment_CreateUpdate(t *testing.T) {
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + ServicePrincipalDataSourceConfig + OrganizationRoleAssignmentCreateConfig,
+				Config: providerconfig.ProviderConfig() + ServicePrincipalDataSourceConfig + OrganizationRoleAssignmentCreateConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_organization_role_assignment.this", "id"),
 				),
 			},
 			{
-				Config: providerconfig.ProviderConfig + ServicePrincipalDataSourceConfig + OrganizationRoleAssignmentUpdateConfig,
+				Config: providerconfig.ProviderConfig() + ServicePrincipalDataSourceConfig + OrganizationRoleAssignmentUpdateConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_organization_role_assignment.this", "id"),
 				),
@@ -48,7 +48,7 @@ func TestAccResourceOrganizationRoleAssignment_Import(t *testing.T) {
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + ServicePrincipalDataSourceConfig + OrganizationRoleAssignmentCreateConfig,
+				Config: providerconfig.ProviderConfig() + ServicePrincipalDataSourceConfig + OrganizationRoleAssignmentCreateConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_organization_role_assignment.this", "id"),
 				),

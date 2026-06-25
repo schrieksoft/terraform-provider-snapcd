@@ -25,7 +25,7 @@ func TestAccResourceNamespaceInputFromDefinition_Create(t *testing.T) {
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + testdata.NamespaceCreateConfig + NamespaceInputFromDefinitionCreateConfig,
+				Config: providerconfig.ProviderConfig() + testdata.NamespaceCreateConfig + NamespaceInputFromDefinitionCreateConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_namespace_input_from_definition.this", "id"),
 				),
@@ -39,14 +39,14 @@ func TestAccResourceNamespaceInputFromDefinition_CreateUpdate(t *testing.T) {
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + testdata.NamespaceCreateConfig + NamespaceInputFromDefinitionCreateConfig,
+				Config: providerconfig.ProviderConfig() + testdata.NamespaceCreateConfig + NamespaceInputFromDefinitionCreateConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_namespace_input_from_definition.this", "id"),
 					resource.TestCheckResourceAttr("snapcd_namespace_input_from_definition.this", "name", providerconfig.AppendRandomString("somevalue%s")),
 				),
 			},
 			{
-				Config: providerconfig.ProviderConfig + testdata.NamespaceCreateConfig + `
+				Config: providerconfig.ProviderConfig() + testdata.NamespaceCreateConfig + `
 resource "snapcd_namespace_input_from_definition" "this" { 
   input_kind 	  = "Param"
   namespace_id    = snapcd_namespace.this.id
@@ -67,7 +67,7 @@ func TestAccResourceNamespaceInputFromDefinition_Import(t *testing.T) {
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + testdata.NamespaceCreateConfig + NamespaceInputFromDefinitionCreateConfig,
+				Config: providerconfig.ProviderConfig() + testdata.NamespaceCreateConfig + NamespaceInputFromDefinitionCreateConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_namespace_input_from_definition.this", "id"),
 				),

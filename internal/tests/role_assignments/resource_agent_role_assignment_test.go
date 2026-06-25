@@ -15,7 +15,7 @@ func TestAccResourceAgentRoleAssignment_Create(t *testing.T) {
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + testdata.AgentCreateConfig + ServicePrincipalDataSourceConfig + AgentRoleAssignmentCreateConfig,
+				Config: providerconfig.ProviderConfig() + testdata.AgentCreateConfig + ServicePrincipalDataSourceConfig + AgentRoleAssignmentCreateConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_agent_role_assignment.this", "id"),
 				),
@@ -29,14 +29,14 @@ func TestAccResourceAgentRoleAssignment_CreateUpdate(t *testing.T) {
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + testdata.AgentCreateConfig + ServicePrincipalDataSourceConfig + AgentRoleAssignmentCreateConfig,
+				Config: providerconfig.ProviderConfig() + testdata.AgentCreateConfig + ServicePrincipalDataSourceConfig + AgentRoleAssignmentCreateConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_agent_role_assignment.this", "id"),
 					resource.TestCheckResourceAttr("snapcd_agent_role_assignment.this", "role_name", "Owner"),
 				),
 			},
 			{
-				Config: providerconfig.ProviderConfig + testdata.AgentCreateConfig + ServicePrincipalDataSourceConfig + AgentRoleAssignmentUpdateConfig,
+				Config: providerconfig.ProviderConfig() + testdata.AgentCreateConfig + ServicePrincipalDataSourceConfig + AgentRoleAssignmentUpdateConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_agent_role_assignment.this", "id"),
 					resource.TestCheckResourceAttr("snapcd_agent_role_assignment.this", "role_name", "Reader"),
@@ -51,7 +51,7 @@ func TestAccResourceAgentRoleAssignment_Import(t *testing.T) {
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + testdata.AgentCreateConfig + ServicePrincipalDataSourceConfig + AgentRoleAssignmentCreateConfig,
+				Config: providerconfig.ProviderConfig() + testdata.AgentCreateConfig + ServicePrincipalDataSourceConfig + AgentRoleAssignmentCreateConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_agent_role_assignment.this", "id"),
 				),

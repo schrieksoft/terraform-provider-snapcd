@@ -24,7 +24,7 @@ func TestAccResourceModuleExtraFile_Create(t *testing.T) {
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + testdata.ModuleCreateConfig + ModuleExtraFileCreateConfig,
+				Config: providerconfig.ProviderConfig() + testdata.ModuleCreateConfig + ModuleExtraFileCreateConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_module_extra_file.this", "id"),
 				),
@@ -38,14 +38,14 @@ func TestAccResourceModuleExtraFile_CreateUpdate(t *testing.T) {
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + testdata.ModuleCreateConfig + ModuleExtraFileCreateConfig,
+				Config: providerconfig.ProviderConfig() + testdata.ModuleCreateConfig + ModuleExtraFileCreateConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_module_extra_file.this", "id"),
 					resource.TestCheckResourceAttr("snapcd_module_extra_file.this", "contents", "foo"),
 				),
 			},
 			{
-				Config: providerconfig.ProviderConfig + testdata.ModuleCreateConfig + providerconfig.AppendRandomString(`
+				Config: providerconfig.ProviderConfig() + testdata.ModuleCreateConfig + providerconfig.AppendRandomString(`
 resource "snapcd_module_extra_file" "this" { 
   module_id  = snapcd_module.this.id
   file_name  = "somevalue%s"
@@ -65,7 +65,7 @@ func TestAccResourceModuleExtraFile_Import(t *testing.T) {
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + testdata.ModuleCreateConfig + ModuleExtraFileCreateConfig,
+				Config: providerconfig.ProviderConfig() + testdata.ModuleCreateConfig + ModuleExtraFileCreateConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_module_extra_file.this", "id"),
 				),

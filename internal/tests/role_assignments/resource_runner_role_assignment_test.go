@@ -15,7 +15,7 @@ func TestAccResourceRunnerRoleAssignment_Create(t *testing.T) {
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + testdata.RunnerCreateConfig + ServicePrincipalDataSourceConfig + RunnerRoleAssignmentCreateConfig,
+				Config: providerconfig.ProviderConfig() + testdata.RunnerCreateConfig + ServicePrincipalDataSourceConfig + RunnerRoleAssignmentCreateConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_runner_role_assignment.this", "id"),
 				),
@@ -29,13 +29,13 @@ func TestAccResourceRunnerRoleAssignment_CreateUpdate(t *testing.T) {
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + testdata.RunnerCreateConfig + ServicePrincipalDataSourceConfig + RunnerRoleAssignmentCreateConfig,
+				Config: providerconfig.ProviderConfig() + testdata.RunnerCreateConfig + ServicePrincipalDataSourceConfig + RunnerRoleAssignmentCreateConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_runner_role_assignment.this", "id"),
 				),
 			},
 			{
-				Config: providerconfig.ProviderConfig + testdata.RunnerCreateConfig + ServicePrincipalDataSourceConfig + RunnerRoleAssignmentUpdateConfig,
+				Config: providerconfig.ProviderConfig() + testdata.RunnerCreateConfig + ServicePrincipalDataSourceConfig + RunnerRoleAssignmentUpdateConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_runner_role_assignment.this", "id"),
 				),
@@ -49,7 +49,7 @@ func TestAccResourceRunnerRoleAssignment_Import(t *testing.T) {
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + testdata.RunnerCreateConfig + ServicePrincipalDataSourceConfig + RunnerRoleAssignmentCreateConfig,
+				Config: providerconfig.ProviderConfig() + testdata.RunnerCreateConfig + ServicePrincipalDataSourceConfig + RunnerRoleAssignmentCreateConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_runner_role_assignment.this", "id"),
 				),

@@ -15,7 +15,7 @@ func TestAccResourceModuleIntegrationEvent_Create(t *testing.T) {
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + testdata.ModuleCreateConfig + IntegrationDataSourceConfig + ModuleIntegrationEventCreateConfig,
+				Config: providerconfig.ProviderConfig() + testdata.ModuleCreateConfig + IntegrationDataSourceConfig + ModuleIntegrationEventCreateConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_module_integration_event.this", "id"),
 					resource.TestCheckResourceAttr("snapcd_module_integration_event.this", "trigger", "JobFailed"),
@@ -30,13 +30,13 @@ func TestAccResourceModuleIntegrationEvent_Update(t *testing.T) {
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + testdata.ModuleCreateConfig + IntegrationDataSourceConfig + ModuleIntegrationEventCreateConfig,
+				Config: providerconfig.ProviderConfig() + testdata.ModuleCreateConfig + IntegrationDataSourceConfig + ModuleIntegrationEventCreateConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_module_integration_event.this", "id"),
 				),
 			},
 			{
-				Config: providerconfig.ProviderConfig + testdata.ModuleCreateConfig + IntegrationDataSourceConfig + ModuleIntegrationEventUpdateConfig,
+				Config: providerconfig.ProviderConfig() + testdata.ModuleCreateConfig + IntegrationDataSourceConfig + ModuleIntegrationEventUpdateConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_module_integration_event.this", "id"),
 					resource.TestCheckResourceAttr("snapcd_module_integration_event.this", "template", providerconfig.AppendRandomString("Job failed on module (updated): {{jobName}} %s")),
@@ -51,7 +51,7 @@ func TestAccResourceModuleIntegrationEvent_Import(t *testing.T) {
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + testdata.ModuleCreateConfig + IntegrationDataSourceConfig + ModuleIntegrationEventCreateConfig,
+				Config: providerconfig.ProviderConfig() + testdata.ModuleCreateConfig + IntegrationDataSourceConfig + ModuleIntegrationEventCreateConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_module_integration_event.this", "id"),
 				),

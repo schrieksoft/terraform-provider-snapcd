@@ -25,7 +25,7 @@ func TestAccResourceModulePulumiFlag_Create(t *testing.T) {
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + testdata.ModuleCreateConfig + ModulePulumiFlagCreateConfig,
+				Config: providerconfig.ProviderConfig() + testdata.ModuleCreateConfig + ModulePulumiFlagCreateConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_module_pulumi_flag.this", "id"),
 				),
@@ -39,7 +39,7 @@ func TestAccResourceModulePulumiFlag_CreateUpdate(t *testing.T) {
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + testdata.ModuleCreateConfig + ModulePulumiFlagCreateConfig,
+				Config: providerconfig.ProviderConfig() + testdata.ModuleCreateConfig + ModulePulumiFlagCreateConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_module_pulumi_flag.this", "id"),
 					resource.TestCheckResourceAttr("snapcd_module_pulumi_flag.this", "value", "true"),
@@ -48,7 +48,7 @@ func TestAccResourceModulePulumiFlag_CreateUpdate(t *testing.T) {
 				),
 			},
 			{
-				Config: providerconfig.ProviderConfig + testdata.ModuleCreateConfig + `
+				Config: providerconfig.ProviderConfig() + testdata.ModuleCreateConfig + `
 resource "snapcd_module_pulumi_flag" "this" {
   module_id  	= snapcd_module.this.id
   task  		= "Init"
@@ -69,7 +69,7 @@ func TestAccResourceModulePulumiFlag_Import(t *testing.T) {
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + testdata.ModuleCreateConfig + ModulePulumiFlagCreateConfig,
+				Config: providerconfig.ProviderConfig() + testdata.ModuleCreateConfig + ModulePulumiFlagCreateConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_module_pulumi_flag.this", "id"),
 				),

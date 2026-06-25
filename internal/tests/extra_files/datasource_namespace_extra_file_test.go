@@ -15,7 +15,7 @@ func TestAccDataSourceNamespaceExtraFile(t *testing.T) {
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + testdata.NamespaceCreateConfig + NamespaceExtraFileCreateConfig + `
+				Config: providerconfig.ProviderConfig() + testdata.NamespaceCreateConfig + NamespaceExtraFileCreateConfig + `
 data "snapcd_namespace_extra_file" "this" {
 	file_name 		= snapcd_namespace_extra_file.this.file_name
 	namespace_id 	= snapcd_namespace_extra_file.this.namespace_id

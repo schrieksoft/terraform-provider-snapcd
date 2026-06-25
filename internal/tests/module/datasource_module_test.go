@@ -14,7 +14,7 @@ func TestAccDataSourceModule(t *testing.T) {
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + ModuleCreateConfig + `
+				Config: providerconfig.ProviderConfig() + ModuleCreateConfig + `
 data "snapcd_module" "this" {
 	name 			  = snapcd_module.this.name
 	namespace_id 	  = snapcd_namespace.this.id

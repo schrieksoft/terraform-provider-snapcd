@@ -14,7 +14,7 @@ func TestAccResourceOrganizationIntegrationEvent_Create(t *testing.T) {
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + IntegrationDataSourceConfig + OrganizationIntegrationEventCreateConfig,
+				Config: providerconfig.ProviderConfig() + IntegrationDataSourceConfig + OrganizationIntegrationEventCreateConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_organization_integration_event.this", "id"),
 					resource.TestCheckResourceAttr("snapcd_organization_integration_event.this", "trigger", "MissionFaulted"),
@@ -29,13 +29,13 @@ func TestAccResourceOrganizationIntegrationEvent_Update(t *testing.T) {
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + IntegrationDataSourceConfig + OrganizationIntegrationEventCreateConfig,
+				Config: providerconfig.ProviderConfig() + IntegrationDataSourceConfig + OrganizationIntegrationEventCreateConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_organization_integration_event.this", "id"),
 				),
 			},
 			{
-				Config: providerconfig.ProviderConfig + IntegrationDataSourceConfig + OrganizationIntegrationEventUpdateConfig,
+				Config: providerconfig.ProviderConfig() + IntegrationDataSourceConfig + OrganizationIntegrationEventUpdateConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_organization_integration_event.this", "id"),
 					resource.TestCheckResourceAttr("snapcd_organization_integration_event.this", "template", providerconfig.AppendRandomString("Mission faulted (updated): {{jobName}} %s")),
@@ -50,7 +50,7 @@ func TestAccResourceOrganizationIntegrationEvent_Import(t *testing.T) {
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + IntegrationDataSourceConfig + OrganizationIntegrationEventCreateConfig,
+				Config: providerconfig.ProviderConfig() + IntegrationDataSourceConfig + OrganizationIntegrationEventCreateConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_organization_integration_event.this", "id"),
 				),

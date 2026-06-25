@@ -35,7 +35,7 @@ func TestAccResourceModuleInputFromSecret_Create(t *testing.T) {
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + ModuleInputFromSecretCreateConfig,
+				Config: providerconfig.ProviderConfig() + ModuleInputFromSecretCreateConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_module_input_from_secret.this", "id"),
 				),
@@ -49,14 +49,14 @@ func TestAccResourceModuleInputFromSecret_CreateUpdate(t *testing.T) {
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + ModuleInputFromSecretCreateConfig,
+				Config: providerconfig.ProviderConfig() + ModuleInputFromSecretCreateConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_module_input_from_secret.this", "id"),
 					resource.TestCheckResourceAttr("snapcd_module_input_from_secret.this", "name", providerconfig.AppendRandomString("somevalue%s")),
 				),
 			},
 			{
-				Config: providerconfig.ProviderConfig + ModuleInputFromSecretCreateConfigNew,
+				Config: providerconfig.ProviderConfig() + ModuleInputFromSecretCreateConfigNew,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_module_input_from_secret.this", "id"),
 					resource.TestCheckResourceAttr("snapcd_module_input_from_secret.this", "name", providerconfig.AppendRandomString("someNEWvalue%s")),
@@ -71,7 +71,7 @@ func TestAccResourceModuleInputFromSecret_Import(t *testing.T) {
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + ModuleInputFromSecretCreateConfig,
+				Config: providerconfig.ProviderConfig() + ModuleInputFromSecretCreateConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_module_input_from_secret.this", "id"),
 				),

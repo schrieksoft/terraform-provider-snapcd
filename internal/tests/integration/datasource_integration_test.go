@@ -14,7 +14,7 @@ func TestAccDataSourceIntegration(t *testing.T) {
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + IntegrationDataSourceConfig,
+				Config: providerconfig.ProviderConfig() + IntegrationDataSourceConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("data.snapcd_integration.this", "id"),
 					resource.TestCheckResourceAttr("data.snapcd_integration.this", "name", "debug-slack"),

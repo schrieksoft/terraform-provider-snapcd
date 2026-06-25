@@ -24,7 +24,7 @@ func TestAccResourceNamespaceTerraformFlag_Create(t *testing.T) {
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + testdata.NamespaceCreateConfig + NamespaceTerraformFlagCreateConfig,
+				Config: providerconfig.ProviderConfig() + testdata.NamespaceCreateConfig + NamespaceTerraformFlagCreateConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_namespace_terraform_flag.this", "id"),
 					resource.TestCheckResourceAttr("snapcd_namespace_terraform_flag.this", "task", "Init"),
@@ -40,7 +40,7 @@ func TestAccResourceNamespaceTerraformFlag_CreateUpdate(t *testing.T) {
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + testdata.NamespaceCreateConfig + NamespaceTerraformFlagCreateConfig,
+				Config: providerconfig.ProviderConfig() + testdata.NamespaceCreateConfig + NamespaceTerraformFlagCreateConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_namespace_terraform_flag.this", "id"),
 					resource.TestCheckResourceAttr("snapcd_namespace_terraform_flag.this", "task", "Init"),
@@ -48,7 +48,7 @@ func TestAccResourceNamespaceTerraformFlag_CreateUpdate(t *testing.T) {
 				),
 			},
 			{
-				Config: providerconfig.ProviderConfig + testdata.NamespaceCreateConfig + `
+				Config: providerconfig.ProviderConfig() + testdata.NamespaceCreateConfig + `
 resource "snapcd_namespace_terraform_flag" "this" {
   namespace_id 	= snapcd_namespace.this.id
   task  		= "Init"
@@ -69,7 +69,7 @@ func TestAccResourceNamespaceTerraformFlag_Import(t *testing.T) {
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + testdata.NamespaceCreateConfig + NamespaceTerraformFlagCreateConfig,
+				Config: providerconfig.ProviderConfig() + testdata.NamespaceCreateConfig + NamespaceTerraformFlagCreateConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_namespace_terraform_flag.this", "id"),
 				),

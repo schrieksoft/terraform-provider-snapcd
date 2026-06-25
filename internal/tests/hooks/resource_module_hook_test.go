@@ -25,7 +25,7 @@ func TestAccResourceModuleHook_Create(t *testing.T) {
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + testdata.ModuleCreateConfig + ModuleHookCreateConfig,
+				Config: providerconfig.ProviderConfig() + testdata.ModuleCreateConfig + ModuleHookCreateConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_module_hook.this", "id"),
 					resource.TestCheckResourceAttr("snapcd_module_hook.this", "task", "Plan"),
@@ -42,7 +42,7 @@ func TestAccResourceModuleHook_CreateUpdate(t *testing.T) {
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + testdata.ModuleCreateConfig + ModuleHookCreateConfig,
+				Config: providerconfig.ProviderConfig() + testdata.ModuleCreateConfig + ModuleHookCreateConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_module_hook.this", "id"),
 					resource.TestCheckResourceAttr("snapcd_module_hook.this", "task", "Plan"),
@@ -50,7 +50,7 @@ func TestAccResourceModuleHook_CreateUpdate(t *testing.T) {
 				),
 			},
 			{
-				Config: providerconfig.ProviderConfig + testdata.ModuleCreateConfig + `
+				Config: providerconfig.ProviderConfig() + testdata.ModuleCreateConfig + `
 resource "snapcd_module_hook" "this" {
   module_id 	= snapcd_module.this.id
   task  		= "Plan"
@@ -71,7 +71,7 @@ func TestAccResourceModuleHook_Import(t *testing.T) {
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + testdata.ModuleCreateConfig + ModuleHookCreateConfig,
+				Config: providerconfig.ProviderConfig() + testdata.ModuleCreateConfig + ModuleHookCreateConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_module_hook.this", "id"),
 				),

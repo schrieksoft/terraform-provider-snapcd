@@ -15,7 +15,7 @@ func TestAccResourceRunnerModuleSupply_Create(t *testing.T) {
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + testdata.ModuleCreateConfig + testdata.RunnerCreateConfig + RunnerModuleSupplyCreateConfig,
+				Config: providerconfig.ProviderConfig() + testdata.ModuleCreateConfig + testdata.RunnerCreateConfig + RunnerModuleSupplyCreateConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_runner_module_supply.this", "id"),
 				),
@@ -29,7 +29,7 @@ func TestAccResourceRunnerModuleSupply_Import(t *testing.T) {
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + testdata.ModuleCreateConfig + testdata.RunnerCreateConfig + RunnerModuleSupplyCreateConfig,
+				Config: providerconfig.ProviderConfig() + testdata.ModuleCreateConfig + testdata.RunnerCreateConfig + RunnerModuleSupplyCreateConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_runner_module_supply.this", "id"),
 				),

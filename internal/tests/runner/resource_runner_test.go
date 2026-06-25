@@ -14,7 +14,7 @@ func TestAccResourceRunner_Create(t *testing.T) {
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + RunnerCreateConfig,
+				Config: providerconfig.ProviderConfig() + RunnerCreateConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_runner.this", "id"),
 				),
@@ -28,14 +28,14 @@ func TestAccResourceRunner_CreateUpdate(t *testing.T) {
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + RunnerCreateConfig,
+				Config: providerconfig.ProviderConfig() + RunnerCreateConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_runner.this", "id"),
 					resource.TestCheckResourceAttr("snapcd_runner.this", "name", providerconfig.AppendRandomString("somevalue%s")),
 				),
 			},
 			{
-				Config: providerconfig.ProviderConfig + RunnerServicePrincipalConfig + providerconfig.AppendRandomString(`
+				Config: providerconfig.ProviderConfig() + RunnerServicePrincipalConfig + providerconfig.AppendRandomString(`
 resource "snapcd_runner" "this" { 
   name = "someNEWvalue%s"
   service_principal_id = data.snapcd_service_principal.runner.id
@@ -54,7 +54,7 @@ func TestAccResourceRunner_Import(t *testing.T) {
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + RunnerCreateConfig,
+				Config: providerconfig.ProviderConfig() + RunnerCreateConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_runner.this", "id"),
 				),

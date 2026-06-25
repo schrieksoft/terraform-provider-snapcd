@@ -20,7 +20,7 @@ func TestAccDataSourceDependsOnModule_Read(t *testing.T) {
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + ModuleCreateConfig + ModuleCreateConfigDeltaTwo + DependsOnModuleCreateConfig + DependsOnModuleDataSourceConfig,
+				Config: providerconfig.ProviderConfig() + ModuleCreateConfig + ModuleCreateConfigDeltaTwo + DependsOnModuleCreateConfig + DependsOnModuleDataSourceConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("data.snapcd_depends_on_module.this", "id"),
 					resource.TestCheckResourceAttrSet("data.snapcd_depends_on_module.this", "module_id"),
