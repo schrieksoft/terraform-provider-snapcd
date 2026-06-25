@@ -71,7 +71,7 @@ jobs:
           SNAPCD_LICENSE_KEY: ${{ secrets.SNAPCD_IO_LICENSE_KEY }}
         run: |
           TOKEN=$(curl -sf -X POST http://localhost:8080/connect/token \
-            -d "grant_type=client_credentials&client_id=debugTerraformer&client_secret=debugTerraformer&scope=snapcd_scope" \
+            -d "grant_type=client_credentials&client_id=10000000-0000-0000-0000-000000000000:debugTerraformer&client_secret=debugTerraformer&scope=snapcd_scope" \
             | jq -r '.access_token')
           curl -sf -X POST "http://localhost:8080/api/10000000-0000-0000-0000-000000000000/License/activate" \
             -H "Authorization: Bearer $TOKEN" \
