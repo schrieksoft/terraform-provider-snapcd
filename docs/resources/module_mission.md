@@ -1,6 +1,6 @@
 ---
 page_title: "snapcd_module_mission Resource - snapcd"
-subcategory: "Agents"
+subcategory: "Missions"
 description: |-
   Manages a module-scoped Mission in Snap CD.
 ---

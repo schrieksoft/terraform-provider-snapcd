@@ -1,6 +1,6 @@
 ---
 page_title: "snapcd_stack_integration_event Resource - snapcd"
-subcategory: "Integrations"
+subcategory: "Integration Events"
 description: |-
   Manages a stack-scoped Integration Event in Snap CD.
 ---

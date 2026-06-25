@@ -1,6 +1,6 @@
 ---
 page_title: "snapcd_depends_on_module Data Source - snapcd"
-subcategory: "Module Dependencies"
+subcategory: "Modules"
 description: |-
   Use this data source to access information about an existing Module dependency relationship in Snap CD.
 ---

@@ -1,6 +1,6 @@
 ---
 page_title: "snapcd_organization_mission Resource - snapcd"
-subcategory: "Agents"
+subcategory: "Missions"
 description: |-
   Manages an organization-scoped Mission in Snap CD.
 ---

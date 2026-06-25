@@ -3,8 +3,8 @@
 package extra_files
 
 import (
-	"terraform-provider-snapcd/internal/tests/core"
 	"terraform-provider-snapcd/internal/tests/providerconfig"
+	"terraform-provider-snapcd/internal/tests/testdata"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -15,7 +15,7 @@ func TestAccDataSourceNamespaceExtraFile(t *testing.T) {
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + core.NamespaceCreateConfig + NamespaceExtraFileCreateConfig + `
+				Config: providerconfig.ProviderConfig + testdata.NamespaceCreateConfig + NamespaceExtraFileCreateConfig + `
 data "snapcd_namespace_extra_file" "this" {
 	file_name 		= snapcd_namespace_extra_file.this.file_name
 	namespace_id 	= snapcd_namespace_extra_file.this.namespace_id

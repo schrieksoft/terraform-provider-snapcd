@@ -1,6 +1,6 @@
 ---
 page_title: "snapcd_stack_role_assignment Resource - snapcd"
-subcategory: "Identity Access Management"
+subcategory: "Role Assignments"
 description: |-
   Manages a Stack Role Assignment in Snap CD.
 ---

@@ -3,8 +3,8 @@
 package module_input
 
 import (
-	"terraform-provider-snapcd/internal/tests/core"
 	"terraform-provider-snapcd/internal/tests/providerconfig"
+	"terraform-provider-snapcd/internal/tests/testdata"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -25,7 +25,7 @@ func TestAccResourceModuleInputFromLiteral_Create(t *testing.T) {
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + core.ModuleCreateConfig + ModuleInputFromLiteralCreateConfig,
+				Config: providerconfig.ProviderConfig + testdata.ModuleCreateConfig + ModuleInputFromLiteralCreateConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_module_input_from_literal.this", "id"),
 				),
@@ -39,14 +39,14 @@ func TestAccResourceModuleInputFromLiteral_CreateUpdate(t *testing.T) {
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + core.ModuleCreateConfig + ModuleInputFromLiteralCreateConfig,
+				Config: providerconfig.ProviderConfig + testdata.ModuleCreateConfig + ModuleInputFromLiteralCreateConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_module_input_from_literal.this", "id"),
 					resource.TestCheckResourceAttr("snapcd_module_input_from_literal.this", "name", providerconfig.AppendRandomString("somevalue%s")),
 				),
 			},
 			{
-				Config: providerconfig.ProviderConfig + core.ModuleCreateConfig + providerconfig.AppendRandomString(`
+				Config: providerconfig.ProviderConfig + testdata.ModuleCreateConfig + providerconfig.AppendRandomString(`
 resource "snapcd_module_input_from_literal" "this" { 
   input_kind 	 = "Param"
   module_id 	 = snapcd_module.this.id
@@ -67,7 +67,7 @@ func TestAccResourceModuleInputFromLiteral_Import(t *testing.T) {
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + core.ModuleCreateConfig + ModuleInputFromLiteralCreateConfig,
+				Config: providerconfig.ProviderConfig + testdata.ModuleCreateConfig + ModuleInputFromLiteralCreateConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_module_input_from_literal.this", "id"),
 				),

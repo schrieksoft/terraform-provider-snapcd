@@ -1,6 +1,6 @@
 ---
 page_title: "snapcd_organization_integration_event Resource - snapcd"
-subcategory: "Integrations"
+subcategory: "Integration Events"
 description: |-
   Manages an organization-scoped Integration Event in Snap CD.
 ---

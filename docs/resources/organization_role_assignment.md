@@ -1,6 +1,6 @@
 ---
 page_title: "snapcd_organization_role_assignment Resource - snapcd"
-subcategory: "Identity Access Management"
+subcategory: "Role Assignments"
 description: |-
   Manages an Organization Role Assignment in Snap CD.
 ---

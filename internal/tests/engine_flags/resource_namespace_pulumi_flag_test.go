@@ -3,8 +3,8 @@
 package engine_flags
 
 import (
-	"terraform-provider-snapcd/internal/tests/core"
 	"terraform-provider-snapcd/internal/tests/providerconfig"
+	"terraform-provider-snapcd/internal/tests/testdata"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -25,7 +25,7 @@ func TestAccResourceNamespacePulumiFlag_Create(t *testing.T) {
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + core.NamespaceCreateConfig + NamespacePulumiFlagCreateConfig,
+				Config: providerconfig.ProviderConfig + testdata.NamespaceCreateConfig + NamespacePulumiFlagCreateConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_namespace_pulumi_flag.this", "id"),
 				),
@@ -39,7 +39,7 @@ func TestAccResourceNamespacePulumiFlag_CreateUpdate(t *testing.T) {
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + core.NamespaceCreateConfig + NamespacePulumiFlagCreateConfig,
+				Config: providerconfig.ProviderConfig + testdata.NamespaceCreateConfig + NamespacePulumiFlagCreateConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_namespace_pulumi_flag.this", "id"),
 					resource.TestCheckResourceAttr("snapcd_namespace_pulumi_flag.this", "value", "true"),
@@ -48,7 +48,7 @@ func TestAccResourceNamespacePulumiFlag_CreateUpdate(t *testing.T) {
 				),
 			},
 			{
-				Config: providerconfig.ProviderConfig + core.NamespaceCreateConfig + `
+				Config: providerconfig.ProviderConfig + testdata.NamespaceCreateConfig + `
 resource "snapcd_namespace_pulumi_flag" "this" {
   namespace_id 	= snapcd_namespace.this.id
   task  		= "Init"
@@ -69,7 +69,7 @@ func TestAccResourceNamespacePulumiFlag_Import(t *testing.T) {
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + core.NamespaceCreateConfig + NamespacePulumiFlagCreateConfig,
+				Config: providerconfig.ProviderConfig + testdata.NamespaceCreateConfig + NamespacePulumiFlagCreateConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_namespace_pulumi_flag.this", "id"),
 				),

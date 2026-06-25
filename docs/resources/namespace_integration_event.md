@@ -1,6 +1,6 @@
 ---
 page_title: "snapcd_namespace_integration_event Resource - snapcd"
-subcategory: "Integrations"
+subcategory: "Integration Events"
 description: |-
   Manages a namespace-scoped Integration Event in Snap CD.
 ---

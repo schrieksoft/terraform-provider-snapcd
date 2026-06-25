@@ -3,8 +3,8 @@
 package module_input
 
 import (
-	"terraform-provider-snapcd/internal/tests/core"
 	"terraform-provider-snapcd/internal/tests/providerconfig"
+	"terraform-provider-snapcd/internal/tests/testdata"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -15,7 +15,7 @@ func TestAccDataSourceModuleInputFromDefinition(t *testing.T) {
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + core.ModuleCreateConfig + ModuleInputFromDefinitionCreateConfig + `
+				Config: providerconfig.ProviderConfig + testdata.ModuleCreateConfig + ModuleInputFromDefinitionCreateConfig + `
 data "snapcd_module_input_from_definition" "this" {
 	name 		= snapcd_module_input_from_definition.this.name
 	module_id 	= snapcd_module_input_from_definition.this.module_id

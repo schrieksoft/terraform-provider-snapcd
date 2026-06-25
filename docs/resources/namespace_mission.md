@@ -1,6 +1,6 @@
 ---
 page_title: "snapcd_namespace_mission Resource - snapcd"
-subcategory: "Agents"
+subcategory: "Missions"
 description: |-
   Manages a namespace-scoped Mission in Snap CD.
 ---

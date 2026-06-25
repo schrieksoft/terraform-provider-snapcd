@@ -3,14 +3,14 @@
 package module_input
 
 import (
-	"terraform-provider-snapcd/internal/tests/core"
 	"terraform-provider-snapcd/internal/tests/providerconfig"
+	"terraform-provider-snapcd/internal/tests/testdata"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 )
 
-var ModuleInputFromSecretCreateConfig = core.StackDebugDataSourceDelta + core.NamespaceDebugDataSourceDelta + core.ModuleDebugDataSourceDelta + core.StackSecretDebugDataSourceDelta + providerconfig.AppendRandomString(`
+var ModuleInputFromSecretCreateConfig = testdata.StackDebugDataSourceDelta + testdata.NamespaceDebugDataSourceDelta + testdata.ModuleDebugDataSourceDelta + testdata.StackSecretDebugDataSourceDelta + providerconfig.AppendRandomString(`
 
 resource "snapcd_module_input_from_secret" "this" { 
   input_kind 	= "Param"
@@ -20,7 +20,7 @@ resource "snapcd_module_input_from_secret" "this" {
 }
 `)
 
-var ModuleInputFromSecretCreateConfigNew = core.StackDebugDataSourceDelta + core.NamespaceDebugDataSourceDelta + core.ModuleDebugDataSourceDelta + core.StackSecretDebugDataSourceDelta + providerconfig.AppendRandomString(`
+var ModuleInputFromSecretCreateConfigNew = testdata.StackDebugDataSourceDelta + testdata.NamespaceDebugDataSourceDelta + testdata.ModuleDebugDataSourceDelta + testdata.StackSecretDebugDataSourceDelta + providerconfig.AppendRandomString(`
 
 resource "snapcd_module_input_from_secret" "this" { 
   input_kind 	= "Param"
