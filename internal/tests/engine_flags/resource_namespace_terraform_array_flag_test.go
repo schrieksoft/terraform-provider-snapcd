@@ -3,8 +3,8 @@
 package engine_flags
 
 import (
-	"terraform-provider-snapcd/internal/tests/core"
 	"terraform-provider-snapcd/internal/tests/providerconfig"
+	"terraform-provider-snapcd/internal/tests/testdata"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -25,7 +25,7 @@ func TestAccResourceNamespaceTerraformArrayFlag_Create(t *testing.T) {
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + core.NamespaceCreateConfig + NamespaceTerraformArrayFlagCreateConfig,
+				Config: providerconfig.ProviderConfig + testdata.NamespaceCreateConfig + NamespaceTerraformArrayFlagCreateConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_namespace_terraform_array_flag.this", "id"),
 					resource.TestCheckResourceAttr("snapcd_namespace_terraform_array_flag.this", "task", "Plan"),
@@ -41,14 +41,14 @@ func TestAccResourceNamespaceTerraformArrayFlag_CreateUpdate(t *testing.T) {
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + core.NamespaceCreateConfig + NamespaceTerraformArrayFlagCreateConfig,
+				Config: providerconfig.ProviderConfig + testdata.NamespaceCreateConfig + NamespaceTerraformArrayFlagCreateConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_namespace_terraform_array_flag.this", "id"),
 					resource.TestCheckResourceAttr("snapcd_namespace_terraform_array_flag.this", "value", "aws_vpc.main"),
 				),
 			},
 			{
-				Config: providerconfig.ProviderConfig + core.NamespaceCreateConfig + `
+				Config: providerconfig.ProviderConfig + testdata.NamespaceCreateConfig + `
 resource "snapcd_namespace_terraform_array_flag" "this" {
   namespace_id 	= snapcd_namespace.this.id
   task  		= "Plan"
@@ -69,7 +69,7 @@ func TestAccResourceNamespaceTerraformArrayFlag_Import(t *testing.T) {
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + core.NamespaceCreateConfig + NamespaceTerraformArrayFlagCreateConfig,
+				Config: providerconfig.ProviderConfig + testdata.NamespaceCreateConfig + NamespaceTerraformArrayFlagCreateConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_namespace_terraform_array_flag.this", "id"),
 				),

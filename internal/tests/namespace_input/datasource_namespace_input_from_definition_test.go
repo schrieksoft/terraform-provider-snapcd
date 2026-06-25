@@ -3,8 +3,8 @@
 package namespace_input
 
 import (
-	"terraform-provider-snapcd/internal/tests/core"
 	"terraform-provider-snapcd/internal/tests/providerconfig"
+	"terraform-provider-snapcd/internal/tests/testdata"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -15,7 +15,7 @@ func TestAccDataSourceNamespaceInputFromDefinition(t *testing.T) {
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + core.NamespaceCreateConfig + NamespaceInputFromDefinitionCreateConfig + `
+				Config: providerconfig.ProviderConfig + testdata.NamespaceCreateConfig + NamespaceInputFromDefinitionCreateConfig + `
 data "snapcd_namespace_input_from_definition" "this" {
 	name 		 = snapcd_namespace_input_from_definition.this.name
 	namespace_id = snapcd_namespace_input_from_definition.this.namespace_id

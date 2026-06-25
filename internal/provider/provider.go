@@ -8,18 +8,22 @@ import (
 	"strconv"
 
 	snapcd "terraform-provider-snapcd/client"
-	"terraform-provider-snapcd/internal/provider/agent_assignment"
-	"terraform-provider-snapcd/internal/provider/core"
+	"terraform-provider-snapcd/internal/provider/agent"
 	"terraform-provider-snapcd/internal/provider/engine_flags"
 	"terraform-provider-snapcd/internal/provider/extra_files"
 	"terraform-provider-snapcd/internal/provider/hooks"
 	"terraform-provider-snapcd/internal/provider/identity"
-	"terraform-provider-snapcd/internal/provider/mission"
+	"terraform-provider-snapcd/internal/provider/integration"
+	"terraform-provider-snapcd/internal/provider/integration_events"
+	"terraform-provider-snapcd/internal/provider/missions"
+	"terraform-provider-snapcd/internal/provider/module"
 	"terraform-provider-snapcd/internal/provider/module_input"
+	"terraform-provider-snapcd/internal/provider/namespace"
 	"terraform-provider-snapcd/internal/provider/namespace_input"
-	"terraform-provider-snapcd/internal/provider/role_assignment"
-	"terraform-provider-snapcd/internal/provider/runner_assignment"
+	"terraform-provider-snapcd/internal/provider/role_assignments"
+	"terraform-provider-snapcd/internal/provider/runner"
 	"terraform-provider-snapcd/internal/provider/secret"
+	"terraform-provider-snapcd/internal/provider/stack"
 	"terraform-provider-snapcd/utils"
 
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
@@ -381,17 +385,19 @@ func (p *snapcdProvider) Configure(ctx context.Context, req provider.ConfigureRe
 func (p *snapcdProvider) DataSources(_ context.Context) []func() datasource.DataSource {
 	return []func() datasource.DataSource{
 
-		core.NamespaceDataSource,
-		core.ModuleDataSource,
-		core.StackDataSource,
-		core.RunnerDataSource,
-		core.AgentDataSource,
-		core.SourceRefresherPreselectionDataSource,
-		core.DependsOnModuleDataSource,
+		namespace.NamespaceDataSource,
+		module.ModuleDataSource,
+		stack.StackDataSource,
+		runner.RunnerDataSource,
+		agent.AgentDataSource,
+		runner.SourceRefresherPreselectionDataSource,
+		module.DependsOnModuleDataSource,
 
 		identity.ServicePrincipalDataSource,
 		identity.GroupDataSource,
 		identity.UserDataSource,
+
+		integration.IntegrationDataSource,
 
 		module_input.ModuleInputFromLiteralDataSource,
 		module_input.ModuleInputFromDefinitionDataSource,
@@ -417,13 +423,13 @@ func (p *snapcdProvider) DataSources(_ context.Context) []func() datasource.Data
 func (p *snapcdProvider) Resources(_ context.Context) []func() resource.Resource {
 	return []func() resource.Resource{
 
-		core.NamespaceResource,
-		core.ModuleResource,
-		core.StackResource,
-		core.RunnerResource,
-		core.AgentResource,
-		core.SourceRefresherPreselectionResource,
-		core.DependsOnModuleResource,
+		namespace.NamespaceResource,
+		module.ModuleResource,
+		stack.StackResource,
+		runner.RunnerResource,
+		agent.AgentResource,
+		runner.SourceRefresherPreselectionResource,
+		module.DependsOnModuleResource,
 
 		identity.GroupResource,
 		identity.GroupMemberResource,
@@ -439,25 +445,34 @@ func (p *snapcdProvider) Resources(_ context.Context) []func() resource.Resource
 		namespace_input.NamespaceInputFromDefinitionResource,
 		namespace_input.NamespaceInputFromSecretResource,
 
-		role_assignment.OrganizationRoleAssignmentResource,
-		role_assignment.StackRoleAssignmentResource,
-		role_assignment.NamespaceRoleAssignmentResource,
-		role_assignment.ModuleRoleAssignmentResource,
-		role_assignment.RunnerRoleAssignmentResource,
-		role_assignment.AgentRoleAssignmentResource,
+		role_assignments.OrganizationRoleAssignmentResource,
+		role_assignments.StackRoleAssignmentResource,
+		role_assignments.NamespaceRoleAssignmentResource,
+		role_assignments.ModuleRoleAssignmentResource,
+		role_assignments.RunnerRoleAssignmentResource,
+		role_assignments.AgentRoleAssignmentResource,
 
-		runner_assignment.RunnerStackAssignmentResource,
-		runner_assignment.RunnerNamespaceAssignmentResource,
-		runner_assignment.RunnerModuleAssignmentResource,
+		runner.RunnerStackSupplyResource,
+		runner.RunnerNamespaceSupplyResource,
+		runner.RunnerModuleSupplyResource,
 
-		agent_assignment.AgentStackAssignmentResource,
-		agent_assignment.AgentNamespaceAssignmentResource,
-		agent_assignment.AgentModuleAssignmentResource,
+		agent.AgentStackSupplyResource,
+		agent.AgentNamespaceSupplyResource,
+		agent.AgentModuleSupplyResource,
 
-		mission.OrganizationMissionResource,
-		mission.StackMissionResource,
-		mission.NamespaceMissionResource,
-		mission.ModuleMissionResource,
+		missions.OrganizationMissionResource,
+		missions.StackMissionResource,
+		missions.NamespaceMissionResource,
+		missions.ModuleMissionResource,
+
+		integration.IntegrationModuleSupplyResource,
+		integration.IntegrationNamespaceSupplyResource,
+		integration.IntegrationStackSupplyResource,
+		integration.IntegrationRoleAssignmentResource,
+		integration_events.OrganizationIntegrationEventResource,
+		integration_events.StackIntegrationEventResource,
+		integration_events.NamespaceIntegrationEventResource,
+		integration_events.ModuleIntegrationEventResource,
 
 		extra_files.NamespaceExtraFileResource,
 		extra_files.ModuleExtraFileResource,

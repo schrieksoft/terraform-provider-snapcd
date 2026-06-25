@@ -3,8 +3,8 @@
 package extra_files
 
 import (
-	"terraform-provider-snapcd/internal/tests/core"
 	"terraform-provider-snapcd/internal/tests/providerconfig"
+	"terraform-provider-snapcd/internal/tests/testdata"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -24,7 +24,7 @@ func TestAccResourceNamespaceExtraFile_Create(t *testing.T) {
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + core.NamespaceCreateConfig + NamespaceExtraFileCreateConfig,
+				Config: providerconfig.ProviderConfig + testdata.NamespaceCreateConfig + NamespaceExtraFileCreateConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_namespace_extra_file.this", "id"),
 				),
@@ -38,14 +38,14 @@ func TestAccResourceNamespaceExtraFile_CreateUpdate(t *testing.T) {
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + core.NamespaceCreateConfig + NamespaceExtraFileCreateConfig,
+				Config: providerconfig.ProviderConfig + testdata.NamespaceCreateConfig + NamespaceExtraFileCreateConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_namespace_extra_file.this", "id"),
 					resource.TestCheckResourceAttr("snapcd_namespace_extra_file.this", "contents", "foo"),
 				),
 			},
 			{
-				Config: providerconfig.ProviderConfig + core.NamespaceCreateConfig + `
+				Config: providerconfig.ProviderConfig + testdata.NamespaceCreateConfig + `
 resource "snapcd_namespace_extra_file" "this" { 
   namespace_id = snapcd_namespace.this.id
   file_name  = "somevalue%s"
@@ -65,7 +65,7 @@ func TestAccResourceNamespaceExtraFile_Import(t *testing.T) {
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + core.NamespaceCreateConfig + NamespaceExtraFileCreateConfig,
+				Config: providerconfig.ProviderConfig + testdata.NamespaceCreateConfig + NamespaceExtraFileCreateConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_namespace_extra_file.this", "id"),
 				),

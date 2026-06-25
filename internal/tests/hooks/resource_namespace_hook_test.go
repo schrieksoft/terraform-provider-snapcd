@@ -3,8 +3,8 @@
 package hooks
 
 import (
-	"terraform-provider-snapcd/internal/tests/core"
 	"terraform-provider-snapcd/internal/tests/providerconfig"
+	"terraform-provider-snapcd/internal/tests/testdata"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -25,7 +25,7 @@ func TestAccResourceNamespaceHook_Create(t *testing.T) {
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + core.NamespaceCreateConfig + NamespaceHookCreateConfig,
+				Config: providerconfig.ProviderConfig + testdata.NamespaceCreateConfig + NamespaceHookCreateConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_namespace_hook.this", "id"),
 					resource.TestCheckResourceAttr("snapcd_namespace_hook.this", "task", "Plan"),
@@ -42,7 +42,7 @@ func TestAccResourceNamespaceHook_CreateUpdate(t *testing.T) {
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + core.NamespaceCreateConfig + NamespaceHookCreateConfig,
+				Config: providerconfig.ProviderConfig + testdata.NamespaceCreateConfig + NamespaceHookCreateConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_namespace_hook.this", "id"),
 					resource.TestCheckResourceAttr("snapcd_namespace_hook.this", "task", "Plan"),
@@ -50,7 +50,7 @@ func TestAccResourceNamespaceHook_CreateUpdate(t *testing.T) {
 				),
 			},
 			{
-				Config: providerconfig.ProviderConfig + core.NamespaceCreateConfig + `
+				Config: providerconfig.ProviderConfig + testdata.NamespaceCreateConfig + `
 resource "snapcd_namespace_hook" "this" {
   namespace_id 	= snapcd_namespace.this.id
   task  		= "Plan"
@@ -71,7 +71,7 @@ func TestAccResourceNamespaceHook_Import(t *testing.T) {
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + core.NamespaceCreateConfig + NamespaceHookCreateConfig,
+				Config: providerconfig.ProviderConfig + testdata.NamespaceCreateConfig + NamespaceHookCreateConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_namespace_hook.this", "id"),
 				),

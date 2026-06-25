@@ -1,6 +1,6 @@
 ---
 page_title: "snapcd_stack_mission Resource - snapcd"
-subcategory: "Agents"
+subcategory: "Missions"
 description: |-
   Manages a stack-scoped Mission in Snap CD.
 ---

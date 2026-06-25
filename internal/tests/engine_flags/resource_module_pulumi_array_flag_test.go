@@ -3,8 +3,8 @@
 package engine_flags
 
 import (
-	"terraform-provider-snapcd/internal/tests/core"
 	"terraform-provider-snapcd/internal/tests/providerconfig"
+	"terraform-provider-snapcd/internal/tests/testdata"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -25,7 +25,7 @@ func TestAccResourceModulePulumiArrayFlag_Create(t *testing.T) {
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + core.ModuleCreateConfig + ModulePulumiArrayFlagCreateConfig,
+				Config: providerconfig.ProviderConfig + testdata.ModuleCreateConfig + ModulePulumiArrayFlagCreateConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_module_pulumi_array_flag.this", "id"),
 				),
@@ -39,7 +39,7 @@ func TestAccResourceModulePulumiArrayFlag_CreateUpdate(t *testing.T) {
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + core.ModuleCreateConfig + ModulePulumiArrayFlagCreateConfig,
+				Config: providerconfig.ProviderConfig + testdata.ModuleCreateConfig + ModulePulumiArrayFlagCreateConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_module_pulumi_array_flag.this", "id"),
 					resource.TestCheckResourceAttr("snapcd_module_pulumi_array_flag.this", "value", "aws_vpc.main"),
@@ -48,7 +48,7 @@ func TestAccResourceModulePulumiArrayFlag_CreateUpdate(t *testing.T) {
 				),
 			},
 			{
-				Config: providerconfig.ProviderConfig + core.ModuleCreateConfig + `
+				Config: providerconfig.ProviderConfig + testdata.ModuleCreateConfig + `
 resource "snapcd_module_pulumi_array_flag" "this" {
   module_id  	= snapcd_module.this.id
   task  		= "Plan"
@@ -69,7 +69,7 @@ func TestAccResourceModulePulumiArrayFlag_Import(t *testing.T) {
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig + core.ModuleCreateConfig + ModulePulumiArrayFlagCreateConfig,
+				Config: providerconfig.ProviderConfig + testdata.ModuleCreateConfig + ModulePulumiArrayFlagCreateConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_module_pulumi_array_flag.this", "id"),
 				),

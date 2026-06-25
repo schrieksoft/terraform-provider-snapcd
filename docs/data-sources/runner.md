@@ -29,6 +29,6 @@ data "snapcd_runner" "default" {
 
 - `allow_multiple_instances` (Boolean) Indicates whether or not the Runner is disabled
 - `id` (String) Unique ID of the Runner.
-- `is_assigned_to_all_modules` (Boolean) Setting this to 'true' allows this Runner to be selected for deployment by any Module in the system.
 - `is_disabled` (Boolean) Indicates whether or not the Runner is disabled
+- `is_supplied_to_all_modules` (Boolean) Setting this to 'true' allows this Runner to be selected for deployment by any Module in the system.
 - `service_principal_id` (String) ID of the Service Principal associated with the Runner.

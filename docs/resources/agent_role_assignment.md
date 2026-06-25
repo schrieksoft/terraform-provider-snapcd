@@ -1,6 +1,6 @@
 ---
 page_title: "snapcd_agent_role_assignment Resource - snapcd"
-subcategory: "Identity Access Management"
+subcategory: "Role Assignments"
 description: |-
   Manages an Agent Role Assignment in Snap CD.
 ---

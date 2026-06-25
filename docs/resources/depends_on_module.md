@@ -1,6 +1,6 @@
 ---
 page_title: "snapcd_depends_on_module Resource - snapcd"
-subcategory: "Module Dependencies"
+subcategory: "Modules"
 description: |-
   Manages a Module dependency relationship in Snap CD.
 ---

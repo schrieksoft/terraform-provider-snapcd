@@ -1,6 +1,6 @@
 ---
 page_title: "snapcd_source_refresher_preselection Resource - snapcd"
-subcategory: "Source Refresher Preselections"
+subcategory: "Runners"
 description: |-
   Manages a Source Refresher Preselection in Snap CD.
 ---
