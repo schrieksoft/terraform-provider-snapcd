@@ -1,10 +1,13 @@
 module tools
 
-go 1.22.7
+go 1.23
 
-require github.com/hashicorp/copywrite v0.20.0
+toolchain go1.24.1
 
-require github.com/hashicorp/terraform-plugin-docs v0.21.0
+require (
+	github.com/hashicorp/copywrite v0.22.0
+	github.com/hashicorp/terraform-plugin-docs v0.21.0
+)
 
 require (
 	github.com/AlecAivazis/survey/v2 v2.3.7 // indirect
