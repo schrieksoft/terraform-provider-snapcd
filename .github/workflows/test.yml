@@ -70,13 +70,33 @@ jobs:
         env:
           SNAPCD_LICENSE_KEY: ${{ secrets.SNAPCD_IO_LICENSE_KEY }}
         run: |
-          TOKEN=$(curl -sf -X POST http://localhost:8080/connect/token \
+          echo "--- Token request ---"
+          TOKEN_RESPONSE=$(curl -s -X POST http://localhost:8080/connect/token \
             -d "grant_type=client_credentials&client_id=10000000-0000-0000-0000-000000000000:debugTerraformer&client_secret=debugTerraformer&scope=snapcd_scope" \
-            | jq -r '.access_token')
-          curl -sf -X POST "http://localhost:8080/api/10000000-0000-0000-0000-000000000000/License/activate" \
+            -w "\nHTTP_STATUS:%{http_code}")
+          TOKEN_BODY=$(echo "$TOKEN_RESPONSE" | sed '$d')
+          TOKEN_STATUS=$(echo "$TOKEN_RESPONSE" | tail -1 | sed 's/HTTP_STATUS://')
+          echo "Token status: $TOKEN_STATUS"
+          if [ "$TOKEN_STATUS" != "200" ]; then
+            echo "Token request failed: $TOKEN_BODY"
+            exit 1
+          fi
+          TOKEN=$(echo "$TOKEN_BODY" | jq -r '.access_token')
+          echo "Token obtained (length: ${#TOKEN})"
+          echo "--- License activation ---"
+          ACTIVATE_RESPONSE=$(curl -s -X POST "http://localhost:8080/api/10000000-0000-0000-0000-000000000000/License/activate" \
             -H "Authorization: Bearer $TOKEN" \
             -H "Content-Type: application/json" \
-            -d "{\"licenseKey\": \"$SNAPCD_LICENSE_KEY\"}"
+            -d "{\"licenseKey\": \"$SNAPCD_LICENSE_KEY\"}" \
+            -w "\nHTTP_STATUS:%{http_code}")
+          ACTIVATE_BODY=$(echo "$ACTIVATE_RESPONSE" | sed '$d')
+          ACTIVATE_STATUS=$(echo "$ACTIVATE_RESPONSE" | tail -1 | sed 's/HTTP_STATUS://')
+          echo "Activation status: $ACTIVATE_STATUS"
+          echo "Activation response: $ACTIVATE_BODY"
+          if [ "$ACTIVATE_STATUS" != "200" ]; then
+            echo "License activation failed"
+            exit 1
+          fi
 
       - name: Run acceptance tests
         env:
