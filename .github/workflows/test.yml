@@ -22,10 +22,13 @@ jobs:
       - run: go mod download
       - run: go build -v .
       - run: go vet ./...
-      - name: Run linters
-        uses: golangci/golangci-lint-action@ec5d18412c0aeab7936cb16880d708ba2a64e1ae # v6.2.0
+      - uses: hashicorp/setup-terraform@b9cd54a3c349d3f38e8881555d616ced269862dd # v3.1.2
         with:
-          version: v1.64.8
+          terraform_wrapper: false
+      - uses: actions/setup-python@42375524e23c412d93fb67b49958b491fce71c38 # v5.4.0
+        with:
+          python-version: "3.12"
+      - uses: pre-commit/action@2c7b3805fd2a0fd8c1884dcaebf91fc102a13ecd # v3.0.1
 
   test:
     name: Acceptance Tests
@@ -59,6 +62,38 @@ jobs:
           echo "Server failed to become healthy"
           docker compose -f .github/ci/docker-compose.yml logs snapcd-server
           exit 1
+
+      - name: Activate license
+        env:
+          SNAPCD_LICENSE_KEY: ${{ secrets.SNAPCD_IO_LICENSE_KEY }}
+        run: |
+          echo "--- Token request ---"
+          TOKEN_RESPONSE=$(curl -s -X POST http://localhost:8080/connect/token \
+            -d "grant_type=client_credentials&client_id=10000000-0000-0000-0000-000000000000:debugTerraformer&client_secret=debugTerraformer&scope=snapcd_scope" \
+            -w "\nHTTP_STATUS:%{http_code}")
+          TOKEN_BODY=$(echo "$TOKEN_RESPONSE" | sed '$d')
+          TOKEN_STATUS=$(echo "$TOKEN_RESPONSE" | tail -1 | sed 's/HTTP_STATUS://')
+          echo "Token status: $TOKEN_STATUS"
+          if [ "$TOKEN_STATUS" != "200" ]; then
+            echo "Token request failed: $TOKEN_BODY"
+            exit 1
+          fi
+          TOKEN=$(echo "$TOKEN_BODY" | jq -r '.access_token')
+          echo "Token obtained (length: ${#TOKEN})"
+          echo "--- License activation ---"
+          ACTIVATE_RESPONSE=$(curl -s -X POST "http://localhost:8080/api/10000000-0000-0000-0000-000000000000/License/activate" \
+            -H "Authorization: Bearer $TOKEN" \
+            -H "Content-Type: application/json" \
+            -d "{\"licenseKey\": \"$SNAPCD_LICENSE_KEY\"}" \
+            -w "\nHTTP_STATUS:%{http_code}")
+          ACTIVATE_BODY=$(echo "$ACTIVATE_RESPONSE" | sed '$d')
+          ACTIVATE_STATUS=$(echo "$ACTIVATE_RESPONSE" | tail -1 | sed 's/HTTP_STATUS://')
+          echo "Activation status: $ACTIVATE_STATUS"
+          echo "Activation response: $ACTIVATE_BODY"
+          if [ "$ACTIVATE_STATUS" != "200" ]; then
+            echo "License activation failed"
+            exit 1
+          fi
 
       - name: Run acceptance tests
         env:
