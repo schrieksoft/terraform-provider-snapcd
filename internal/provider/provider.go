@@ -462,9 +462,14 @@ func (p *snapcdProvider) Resources(_ context.Context) []func() resource.Resource
 		mission.NamespaceMissionResource,
 		mission.ModuleMissionResource,
 
-		integration.IntegrationSupplyResource,
+		integration.IntegrationModuleSupplyResource,
+		integration.IntegrationNamespaceSupplyResource,
+		integration.IntegrationStackSupplyResource,
 		integration.IntegrationRoleAssignmentResource,
-		integration.IntegrationEventResource,
+		integration.OrganizationIntegrationEventResource,
+		integration.StackIntegrationEventResource,
+		integration.NamespaceIntegrationEventResource,
+		integration.ModuleIntegrationEventResource,
 
 		extra_files.NamespaceExtraFileResource,
 		extra_files.ModuleExtraFileResource,

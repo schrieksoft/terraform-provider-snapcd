@@ -25,7 +25,7 @@ type integrationDataSource struct {
 }
 
 // The integration carries a write-only secret, so it is created/managed in the SnapCd UI, not by Terraform.
-// This data source looks one up by name so its id can be referenced by snapcd_integration_supply /
+// This data source looks one up by name so its id can be referenced by snapcd_integration_*_supply /
 // snapcd_integration_role_assignment / snapcd_integration_event. The connection (credentials) is never
 // exposed here — it is not returned by the API for this read and never lands in Terraform state.
 type integrationDataSourceModel struct {
