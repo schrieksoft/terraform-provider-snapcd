@@ -99,6 +99,25 @@ resource "snapcd_runner_role_assignment" "this" {
 }
 `
 
+// State Store Role Assignment Configs
+var StateStoreRoleAssignmentCreateConfig = `
+resource "snapcd_state_store_role_assignment" "this" {
+  state_store_id          = snapcd_state_store.this.id
+  principal_id            = data.snapcd_service_principal.this.id
+  principal_discriminator = "ServicePrincipal"
+  role_name               = "Owner"
+}
+`
+
+var StateStoreRoleAssignmentUpdateConfig = `
+resource "snapcd_state_store_role_assignment" "this" {
+  state_store_id          = snapcd_state_store.this.id
+  principal_id            = data.snapcd_service_principal.this.id
+  principal_discriminator = "ServicePrincipal"
+  role_name               = "Reader"
+}
+`
+
 // Agent Role Assignment Configs
 var AgentRoleAssignmentCreateConfig = `
 resource "snapcd_agent_role_assignment" "this" {

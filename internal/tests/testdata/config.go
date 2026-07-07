@@ -87,6 +87,11 @@ data "snapcd_stack_secret" "debug" {
 }
 `
 
+var StateStoreCreateConfig = providerconfig.AppendRandomString(`
+resource "snapcd_state_store" "this" {
+  name = "somevalue%s"
+}`)
+
 var StackDebugDataSourceDelta = `
 data "snapcd_stack" "debug" {
   name = "debug"

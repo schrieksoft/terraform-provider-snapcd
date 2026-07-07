@@ -24,6 +24,7 @@ import (
 	"terraform-provider-snapcd/internal/provider/runner"
 	"terraform-provider-snapcd/internal/provider/secret"
 	"terraform-provider-snapcd/internal/provider/stack"
+	"terraform-provider-snapcd/internal/provider/state_store"
 	"terraform-provider-snapcd/utils"
 
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
@@ -398,6 +399,7 @@ func (p *snapcdProvider) DataSources(_ context.Context) []func() datasource.Data
 		identity.UserDataSource,
 
 		integration.IntegrationDataSource,
+		state_store.StateStoreDataSource,
 
 		module_input.ModuleInputFromLiteralDataSource,
 		module_input.ModuleInputFromDefinitionDataSource,
@@ -428,6 +430,7 @@ func (p *snapcdProvider) Resources(_ context.Context) []func() resource.Resource
 		stack.StackResource,
 		runner.RunnerResource,
 		agent.AgentResource,
+		state_store.StateStoreResource,
 		runner.SourceRefresherPreselectionResource,
 		module.DependsOnModuleResource,
 
@@ -451,6 +454,7 @@ func (p *snapcdProvider) Resources(_ context.Context) []func() resource.Resource
 		role_assignments.ModuleRoleAssignmentResource,
 		role_assignments.RunnerRoleAssignmentResource,
 		role_assignments.AgentRoleAssignmentResource,
+		role_assignments.StateStoreRoleAssignmentResource,
 
 		runner.RunnerStackSupplyResource,
 		runner.RunnerNamespaceSupplyResource,
