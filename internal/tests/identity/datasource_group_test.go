@@ -14,14 +14,14 @@ func TestAccDataSourceGroup(t *testing.T) {
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig() + GroupCreateConfig + `
+				Config: providerconfig.ProviderConfig() + GroupDatasourceConfig + `
 
 data "snapcd_group" "this" {
 	name = snapcd_group.this.name
 }`,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("data.snapcd_group.this", "id"),
-					resource.TestCheckResourceAttr("data.snapcd_group.this", "name", providerconfig.AppendRandomString("somevalue%s")),
+					resource.TestCheckResourceAttr("data.snapcd_group.this", "name", providerconfig.AppendRandomString("grp_ds_%s")),
 				),
 			},
 		},
