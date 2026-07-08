@@ -14,7 +14,7 @@ func TestAccResourceGroupMember_Create(t *testing.T) {
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig() + GroupCreateConfig + ServicePrincipalDataSourceConfig + GroupMemberCreateConfig,
+				Config: providerconfig.ProviderConfig() + GroupMemberCreateGroupConfig + ServicePrincipalDataSourceConfig + GroupMemberCreateConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_group_member.this", "id"),
 				),
@@ -28,14 +28,14 @@ func TestAccResourceGroupMember_CreateUpdate(t *testing.T) {
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig() + GroupCreateConfig + ServicePrincipalDataSourceConfig + GroupMemberCreateConfig,
+				Config: providerconfig.ProviderConfig() + GroupMemberUpdateGroupConfig + ServicePrincipalDataSourceConfig + GroupMemberCreateConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_group_member.this", "id"),
 				),
 			},
 			{
-				Config: providerconfig.ProviderConfig() + GroupCreateConfig + AnotherGroupCreateConfig + ServicePrincipalDataSourceConfig + `
-resource "snapcd_group_member" "this" { 
+				Config: providerconfig.ProviderConfig() + GroupMemberUpdateGroupConfig + AnotherGroupCreateConfig + ServicePrincipalDataSourceConfig + `
+resource "snapcd_group_member" "this" {
   group_id  	 		     = snapcd_group.another.id
   principal_id   		     = data.snapcd_service_principal.this.id
   group_member_discriminator = "ServicePrincipal"
@@ -54,7 +54,7 @@ func TestAccResourceGroupMember_Import(t *testing.T) {
 		ProtoV6ProviderFactories: providerconfig.TestAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: providerconfig.ProviderConfig() + GroupCreateConfig + ServicePrincipalDataSourceConfig + GroupMemberCreateConfig,
+				Config: providerconfig.ProviderConfig() + GroupMemberImportGroupConfig + ServicePrincipalDataSourceConfig + GroupMemberCreateConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_group_member.this", "id"),
 				),

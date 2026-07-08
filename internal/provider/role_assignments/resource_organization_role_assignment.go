@@ -67,7 +67,7 @@ const (
 	DescOrganizationRoleAssignmentId                     = "Unique ID of the Organization Role Assignment."
 	DescOrganizationRoleAssignmentPrincipalId            = "ID of the Principal to which the role is assigned."
 	DescOrganizationRoleAssignmentPrincipalDiscriminator = "Type of Principal that the `principal_id` identifies. Must be one of 'User', 'ServicePrincipal' and 'Group'"
-	DescOrganizationRoleAssignmentRoleName               = "Name of the Role that is assigned. Must be one of 'Owner', 'Contributor', 'Reader', 'StackCreator', 'IdentityAccessManager', 'JobManager', 'SourceChangeNotifier' and 'Runner'"
+	DescOrganizationRoleAssignmentRoleName               = "Name of the Role that is assigned. Must be one of 'Owner', 'Contributor', 'Reader', 'StackCreator', 'IdentityAccessManager', 'JobManager', 'SourceChangeNotifier', 'SubscriptionManager', 'StackContributor', 'StackReader', 'RunnerCreator', 'RunnerContributor', 'RunnerReader', 'AgentCreator', 'AgentContributor', 'AgentReader', 'SourceRefresherPreselectionCreator', 'SourceRefresherPreselectionContributor', 'SourceRefresherPreselectionReader', 'IntegrationCreator', 'IntegrationContributor', 'IntegrationReader', 'StateStoreCreator', 'StateStoreContributor', 'StateStoreReader'"
 )
 
 func (r *organizationRoleAssignmentResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
@@ -95,7 +95,7 @@ func (r *organizationRoleAssignmentResource) Schema(ctx context.Context, req res
 			"role_name": schema.StringAttribute{
 				Required: true,
 				Validators: []validator.String{
-					stringvalidator.OneOf("Owner", "Contributor", "Reader", "StackCreator", "IdentityAccessManager", "JobManager", "SourceChangeNotifier", "Runner"),
+					stringvalidator.OneOf("Owner", "Contributor", "Reader", "StackCreator", "IdentityAccessManager", "JobManager", "SourceChangeNotifier", "SubscriptionManager", "StackContributor", "StackReader", "RunnerCreator", "RunnerContributor", "RunnerReader", "AgentCreator", "AgentContributor", "AgentReader", "SourceRefresherPreselectionCreator", "SourceRefresherPreselectionContributor", "SourceRefresherPreselectionReader", "IntegrationCreator", "IntegrationContributor", "IntegrationReader", "StateStoreCreator", "StateStoreContributor", "StateStoreReader"),
 				},
 				Description: DescOrganizationRoleAssignmentRoleName,
 			},
