@@ -8,8 +8,17 @@ on:
   push:
     branches:
       - main
+    # Skip the release when a push touches only files that do not affect the
+    # built provider.
     paths-ignore:
       - '.github/**'
+      - '.gitignore'
+      - '.pre-commit-config.yaml'
+      - '.prettierrc'
+      - 'tools/**'
+      - 'helper.py'
+      - 'README.md'
+      - 'LICENSE'
 
   # push:
   #   tags:
