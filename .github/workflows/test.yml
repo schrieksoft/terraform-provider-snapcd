@@ -52,7 +52,7 @@ jobs:
         run: |
           echo "Waiting for SnapCD server to become healthy..."
           for i in $(seq 1 60); do
-            if curl -sf http://localhost:8080/health > /dev/null 2>&1; then
+            if curl -sf http://localhost:5000/health > /dev/null 2>&1; then
               echo "Server is healthy"
               exit 0
             fi
@@ -68,7 +68,7 @@ jobs:
           SNAPCD_LICENSE_KEY: ${{ secrets.SNAPCD_IO_LICENSE_KEY }}
         run: |
           echo "--- Token request ---"
-          TOKEN_RESPONSE=$(curl -s -X POST http://localhost:8080/connect/token \
+          TOKEN_RESPONSE=$(curl -s -X POST http://localhost:5000/connect/token \
             -d "grant_type=client_credentials&client_id=10000000-0000-0000-0000-000000000000:debugTerraformer&client_secret=debugTerraformer&scope=snapcd_scope" \
             -w "\nHTTP_STATUS:%{http_code}")
           TOKEN_BODY=$(echo "$TOKEN_RESPONSE" | sed '$d')
@@ -81,7 +81,7 @@ jobs:
           TOKEN=$(echo "$TOKEN_BODY" | jq -r '.access_token')
           echo "Token obtained (length: ${#TOKEN})"
           echo "--- License activation ---"
-          ACTIVATE_RESPONSE=$(curl -s -X POST "http://localhost:8080/api/10000000-0000-0000-0000-000000000000/License/activate" \
+          ACTIVATE_RESPONSE=$(curl -s -X POST "http://localhost:5000/api/10000000-0000-0000-0000-000000000000/License/activate" \
             -H "Authorization: Bearer $TOKEN" \
             -H "Content-Type: application/json" \
             -d "{\"licenseKey\": \"$SNAPCD_LICENSE_KEY\"}" \
@@ -98,7 +98,7 @@ jobs:
       - name: Run acceptance tests
         env:
           TF_ACC: "1"
-          SNAPCD_URL: "http://localhost:8080"
+          SNAPCD_URL: "http://localhost:5000"
           SNAPCD_INSECURE_SKIP_VERIFY: "false"
         run: go test -v -cover -timeout 10m ./internal/tests/...
 

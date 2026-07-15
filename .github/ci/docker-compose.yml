@@ -40,15 +40,15 @@ services:
         condition: service_healthy
     environment:
       ASPNETCORE_ENVIRONMENT: "Production"
-      ASPNETCORE_URLS: "http://0.0.0.0:8080"
+      ASPNETCORE_URLS: "http://0.0.0.0:5000"
     ports:
-      - "8080:8080"
+      - "5000:5000"
     volumes:
       - ./config/appsettings.json:/app/appsettings.json:ro
     networks:
       - snapcd-ci
     healthcheck:
-      test: ["CMD-SHELL", "curl -sf http://localhost:8080/health || exit 1"]
+      test: ["CMD-SHELL", "curl -sf http://localhost:5000/health || exit 1"]
       interval: 10s
       timeout: 5s
       retries: 30
