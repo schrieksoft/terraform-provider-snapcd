@@ -1,0 +1,31 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:recommended",
+    ":semanticCommits"
+  ],
+  "gitAuthor": "snapcd-bot <noreply@snapcd.io>",
+  "labels": ["dependencies"],
+
+  "packageRules": [
+    {
+      "matchPackageNames": ["*"],
+      "enabled": false
+    },
+    {
+      "groupName": "snapcd",
+      "commitMessageTopic": "snapcd images",
+      "automerge": true,
+      "automergeType": "pr",
+      "platformAutomerge": true,
+      "matchPackageNames": [
+        "/^ghcr\\.io\\/schrieksoft\\/snapcd/"
+      ],
+      "enabled": true
+    }
+  ],
+  "prHourlyLimit": 10,
+  "prConcurrentLimit": 25,
+  "branchConcurrentLimit": 25,
+  "baseBranchPatterns": ["main"]
+}

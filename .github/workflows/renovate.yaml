@@ -1,0 +1,32 @@
+name: Renovate
+
+# Bumps the snapcd-server image the acceptance tests run against
+# (.github/ci/docker-compose.yml). Runs hourly and immediately on
+# repository_dispatch from snapcd's release workflow.
+
+on:
+  schedule:
+    - cron: '0 * * * *'
+  workflow_dispatch:
+  repository_dispatch:
+    types:
+      - snapcd-released
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  renovate:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Run Renovate
+        uses: renovatebot/github-action@v46.1.13
+        env:
+          RENOVATE_REPOSITORIES: ${{ github.repository }}
+        with:
+          configurationFile: renovate.json
+          token: ${{ secrets.RENOVATE_TOKEN }}
