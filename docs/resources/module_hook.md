@@ -9,6 +9,10 @@ description: |-
 
 Manages a Module Hook in Snap CD. A hook is a shell script that runs before or after a Terraform/Pulumi lifecycle task on a specific Module.
 
+## Required permissions
+
+Any of: `Organization.Contributor`, `Organization.Owner`, `Organization.StackContributor`, `Stack.Contributor`, `Stack.Owner`, `Namespace.Contributor`, `Namespace.Owner`, `Module.Owner`
+
 
 ## Example Usage
 
@@ -34,9 +38,9 @@ resource "snapcd_module_hook" "after_apply" {
 ### Required
 
 - `module_id` (String) ID of the parent Module.
-- `phase` (String) When the hook runs relative to the task. Valid values: `Before`, `After`.
+- `phase` (String) When the hook runs relative to the task. Must be one of 'Before', 'After'.
 - `script` (String) The shell script that runs at the configured task and phase.
-- `task` (String) The lifecycle task this hook applies to. Valid values: `Init`, `Plan`, `PlanDestroy`, `Apply`, `Destroy`, `Output`, `Validate`.
+- `task` (String) The lifecycle task this hook applies to. Must be one of 'Init', 'Plan', 'PlanDestroy', 'Apply', 'Destroy', 'Output', 'Validate'.
 
 ### Read-Only
 

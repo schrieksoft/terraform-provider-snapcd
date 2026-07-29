@@ -1,6 +1,8 @@
 package agent
 
 import (
+	"terraform-provider-snapcd/internal/provider/openapidocs"
+
 	"fmt"
 
 	"context"
@@ -61,22 +63,22 @@ type agentModuleSupplyModel struct {
 
 func (r *agentModuleSupplyResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: "Agents --- Manages an Agent Module Supply in Snap CD. Permits the Module to select this Agent for missions.",
+		MarkdownDescription: "Agents --- Manages an Agent Module Supply in Snap CD. Permits the Module to select this Agent for missions." + "\n\n## Required permissions\n\n" + openapidocs.ResourcePermissions["AgentModuleSupply"],
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
-				Description: "Unique ID of the Agent Module Supply.",
+				Description: openapidocs.AgentModuleSupplyReadDto_Id,
 			},
 			"module_id": schema.StringAttribute{
 				Required:    true,
-				Description: "ID of the Module to which the Agent is assigned.",
+				Description: openapidocs.AgentModuleSupplyCreateDto_ModuleId,
 			},
 			"agent_id": schema.StringAttribute{
 				Required:    true,
-				Description: "ID of the Agent that is assigned to the Module.",
+				Description: openapidocs.AgentModuleSupplyCreateDto_AgentId,
 			},
 		},
 	}

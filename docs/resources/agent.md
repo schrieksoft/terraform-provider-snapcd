@@ -9,6 +9,10 @@ description: |-
 
 Manages an Agent in Snap CD.
 
+## Required permissions
+
+Any of: `Organization.AgentContributor`, `Organization.Contributor`, `Organization.Owner`
+
 
 ## Example Usage
 

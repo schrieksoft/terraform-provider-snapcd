@@ -1,6 +1,8 @@
 package engine_flags
 
 import (
+	"terraform-provider-snapcd/internal/provider/openapidocs"
+
 	"fmt"
 
 	"context"
@@ -63,46 +65,38 @@ type namespacePulumiFlagModel struct {
 	Value       types.String `tfsdk:"value"`
 }
 
-const (
-	DescNamespacePulumiFlagId          = "Unique ID of the Namespace Pulumi Flag."
-	DescNamespacePulumiFlagNamespaceId = "ID of the parent Namespace."
-	DescNamespacePulumiFlagTask        = "The command task this flag applies to. Valid values: `Init`, `Plan`, `Apply`, `Destroy`, `Output`."
-	DescNamespacePulumiFlagFlag        = "The Pulumi CLI flag name."
-	DescNamespacePulumiFlagValue       = "The value for the flag. Optional for boolean flags."
-)
-
 func (r *namespacePulumiFlagResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: `Engine Flags --- Manages a Namespace Pulumi Flag in Snap CD.`,
+		MarkdownDescription: `Engine Flags --- Manages a Namespace Pulumi Flag in Snap CD.` + "\n\n## Required permissions\n\n" + openapidocs.ResourcePermissions["NamespacePulumiFlag"],
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
-				Description: DescNamespacePulumiFlagId,
+				Description: openapidocs.NamespacePulumiFlagReadDto_Id,
 			},
 			"namespace_id": schema.StringAttribute{
 				Required:    true,
-				Description: DescNamespacePulumiFlagNamespaceId,
+				Description: openapidocs.NamespacePulumiFlagCreateDto_NamespaceId,
 			},
 			"task": schema.StringAttribute{
 				Required:    true,
-				Description: DescNamespacePulumiFlagTask,
+				Description: openapidocs.NamespacePulumiFlagCreateDto_Task,
 				Validators: []validator.String{
-					stringvalidator.OneOf(pulumiCommandTaskValues...),
+					stringvalidator.OneOf(openapidocs.PulumiCommandTaskValues...),
 				},
 			},
 			"flag": schema.StringAttribute{
 				Required:    true,
-				Description: DescNamespacePulumiFlagFlag,
+				Description: openapidocs.NamespacePulumiFlagCreateDto_Flag,
 				Validators: []validator.String{
-					stringvalidator.OneOf(pulumiFlagValues...),
+					stringvalidator.OneOf(openapidocs.PulumiFlagValues...),
 				},
 			},
 			"value": schema.StringAttribute{
 				Optional:    true,
-				Description: DescNamespacePulumiFlagValue,
+				Description: openapidocs.NamespacePulumiFlagCreateDto_Value,
 			},
 		},
 	}

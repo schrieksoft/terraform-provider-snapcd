@@ -1,6 +1,8 @@
 package identity
 
 import (
+	"terraform-provider-snapcd/internal/provider/openapidocs"
+
 	"fmt"
 
 	"context"
@@ -63,38 +65,32 @@ type groupMemberModel struct {
 	GroupMemberDiscriminator types.String `tfsdk:"group_member_discriminator"`
 }
 
-const (
-	DescGroupMemberId            = "Unique ID of the Group Member."
-	DescGroupMemberGroupId       = "ID of the Group to assign membership of."
-	DescGroupMemberPrincipalId   = "ID of the Principal to assign to the Group."
-	DescGroupMemberDiscriminator = "Type of Principal to assign to the Group. Must be one of 'User' and 'ServicePrincipal'"
-)
-
 func (r *groupMemberResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: `Identity Access Management --- Manages a Group Member in Snap CD.`,
+		MarkdownDescription: `Identity Access Management --- Manages a Group Member in Snap CD.` + "\n\n## Required permissions\n\n" + openapidocs.ResourcePermissions["GroupMember"],
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
-				Description: DescGroupMemberId,
+				Description: openapidocs.GroupMemberReadDto_Id,
 			},
 			"group_id": schema.StringAttribute{
 				Required:    true,
-				Description: DescGroupMemberGroupId,
+				Description: openapidocs.GroupMemberReadDto_GroupId,
 			},
 			"principal_id": schema.StringAttribute{
 				Required:    true,
-				Description: DescGroupMemberPrincipalId,
+				Description: openapidocs.GroupMemberReadDto_PrincipalId,
 			},
 			"group_member_discriminator": schema.StringAttribute{
 				Required: true,
 				Validators: []validator.String{
+					// Intentionally narrower than the spec enum: `Base` is an internal discriminator.
 					stringvalidator.OneOf("User", "ServicePrincipal", "Group"),
 				},
-				Description: DescGroupMemberDiscriminator,
+				Description: openapidocs.GroupMemberReadDto_GroupMemberDiscriminator,
 			},
 		},
 	}

@@ -9,6 +9,10 @@ description: |-
 
 Look up an existing Integration (created/managed in the SnapCd UI) by name.
 
+## Required permissions
+
+Any of: `Organization.Contributor`, `Organization.IntegrationContributor`, `Organization.IntegrationReader`, `Organization.Owner`, `Organization.Reader`, `Integration.Contributor`, `Integration.Owner`, `Integration.Reader`
+
 
 ## Example Usage
 

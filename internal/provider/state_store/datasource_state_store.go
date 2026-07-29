@@ -1,6 +1,8 @@
 package state_store
 
 import (
+	"terraform-provider-snapcd/internal/provider/openapidocs"
+
 	"fmt"
 
 	"context"
@@ -48,15 +50,15 @@ func (d *stateStoreDataSource) Metadata(ctx context.Context, req datasource.Meta
 
 func (d *stateStoreDataSource) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: "State Stores --- Use this data source to access information about an existing State Store in Snap CD.",
+		MarkdownDescription: "State Stores --- Use this data source to access information about an existing State Store in Snap CD." + "\n\n## Required permissions\n\n" + openapidocs.DataSourcePermissions["StateStore"],
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed:    true,
-				Description: DescStateStoreId,
+				Description: openapidocs.StateStoreReadDto_Id,
 			},
 			"name": schema.StringAttribute{
 				Required:    true,
-				Description: DescStateStoreName,
+				Description: openapidocs.StateStoreReadDto_Name,
 			},
 		},
 	}

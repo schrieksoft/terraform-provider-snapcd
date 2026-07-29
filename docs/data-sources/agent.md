@@ -9,6 +9,10 @@ description: |-
 
 Use this data source to access information about an existing Agent in Snap CD.
 
+## Required permissions
+
+Any of: `Organization.AgentContributor`, `Organization.AgentReader`, `Organization.Contributor`, `Organization.Owner`, `Organization.Reader`, `Agent.Contributor`, `Agent.Owner`, `Agent.Reader`
+
 
 ## Example Usage
 

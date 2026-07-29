@@ -1,6 +1,8 @@
 package missions
 
 import (
+	"terraform-provider-snapcd/internal/provider/openapidocs"
+
 	"fmt"
 
 	"context"
@@ -65,38 +67,38 @@ type moduleMissionModel struct {
 
 func (r *moduleMissionResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: "Missions --- Manages a module-scoped Mission in Snap CD.",
+		MarkdownDescription: "Missions --- Manages a module-scoped Mission in Snap CD." + "\n\n## Required permissions\n\n" + openapidocs.ResourcePermissions["ModuleMission"],
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
-				Description: DescMissionId,
+				Description: openapidocs.ModuleMissionReadDto_Id,
 			},
 			"agent_id": schema.StringAttribute{
 				Required:    true,
-				Description: DescMissionAgentId,
+				Description: openapidocs.ModuleMissionCreateDto_AgentId,
 			},
 			"module_id": schema.StringAttribute{
 				Required:    true,
-				Description: DescMissionModuleId,
+				Description: openapidocs.ModuleMissionCreateDto_ModuleId,
 			},
 			"mission_type": schema.StringAttribute{
 				Required: true,
 				Validators: []validator.String{
-					stringvalidator.OneOf(missionTypeValues...),
+					stringvalidator.OneOf(openapidocs.MissionTypeValues...),
 				},
-				Description: DescMissionType,
+				Description: openapidocs.ModuleMissionCreateDto_MissionType,
 			},
 			"sidecar_name": schema.StringAttribute{
 				Optional:    true,
-				Description: DescMissionSidecarName,
+				Description: openapidocs.ModuleMissionCreateDto_SidecarName,
 			},
 			"is_disabled": schema.BoolAttribute{
 				Optional:    true,
 				Computed:    true,
-				Description: DescMissionIsDisabled,
+				Description: openapidocs.ModuleMissionCreateDto_IsDisabled,
 				Default:     booldefault.StaticBool(false),
 			},
 		},

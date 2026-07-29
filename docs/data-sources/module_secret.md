@@ -9,6 +9,10 @@ description: |-
 
 Use this data source to access information about an existing Secret (Scoped to Module) in Snap CD.
 
+## Required permissions
+
+Any of: `Organization.Contributor`, `Organization.Owner`, `Organization.Reader`, `Organization.StackContributor`, `Organization.StackReader`, `Stack.Contributor`, `Stack.Owner`, `Stack.Reader`, `Namespace.Contributor`, `Namespace.Owner`, `Namespace.Reader`, `Module.Owner`, `Module.Reader`
+
 
 ## Example Usage
 
@@ -39,7 +43,7 @@ data "snapcd_module_secret" "mysecret" {
 ### Required
 
 - `module_id` (String) Id of the Module to scope the Secret to
-- `name` (String) Unique Name within of the Secret within the Secret Store.
+- `name` (String) Name of the Secret. Must be unique within its scope.
 
 ### Read-Only
 

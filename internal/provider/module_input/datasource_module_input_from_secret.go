@@ -1,6 +1,8 @@
 package module_input
 
 import (
+	"terraform-provider-snapcd/internal/provider/openapidocs"
+
 	"fmt"
 
 	"context"
@@ -48,31 +50,31 @@ func (d *moduleInputFromSecretDataSource) Metadata(ctx context.Context, req data
 
 func (d *moduleInputFromSecretDataSource) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: "Module Inputs --- Use this data source to access information about an existing Module Input (From Secret) in Snap CD.",
+		MarkdownDescription: "Module Inputs --- Use this data source to access information about an existing Module Input (From Secret) in Snap CD." + "\n\n## Required permissions\n\n" + openapidocs.DataSourcePermissions["ModuleInputFromSecret"],
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed:    true,
-				Description: DescSharedId + "Module Input (From Secret).",
+				Description: openapidocs.ModuleInputFromSecretReadDto_Id,
 			},
 			"name": schema.StringAttribute{
 				Required:    true,
-				Description: DescSharedName1 + "Module Input (From Secret). " + DescSharedName2,
+				Description: openapidocs.ModuleInputFromSecretReadDto_Name,
 			},
 			"module_id": schema.StringAttribute{
 				Required:    true,
-				Description: DescSharedModuleId1 + "Module Input (From Secret)" + DescSharedModuleId2,
+				Description: openapidocs.ModuleInputFromSecretReadDto_ModuleId,
 			},
 			"input_kind": schema.StringAttribute{
 				Required:    true,
-				Description: DescSharedInputKind,
+				Description: openapidocs.ModuleInputFromSecretReadDto_InputKind,
 			},
 			"type": schema.StringAttribute{
 				Computed:    true,
-				Description: DescSharedSecretType,
+				Description: openapidocs.ModuleInputFromSecretReadDto_Type,
 			},
 			"secret_id": schema.StringAttribute{
 				Computed:    true,
-				Description: "ID of the Secret to take as input.",
+				Description: openapidocs.ModuleInputFromSecretReadDto_SecretId,
 			},
 		},
 	}

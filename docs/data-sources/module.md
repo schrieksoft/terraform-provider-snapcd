@@ -9,6 +9,10 @@ description: |-
 
 Use this data source to access information about an existing Module in Snap CD.
 
+## Required permissions
+
+Any of: `Organization.Contributor`, `Organization.Owner`, `Organization.Reader`, `Organization.StackContributor`, `Organization.StackReader`, `Stack.Contributor`, `Stack.Owner`, `Stack.Reader`, `Namespace.Contributor`, `Namespace.Owner`, `Namespace.Reader`, `Module.Owner`, `Module.Reader`
+
 
 ## Example Usage
 

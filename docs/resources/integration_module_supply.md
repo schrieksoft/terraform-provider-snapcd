@@ -9,6 +9,10 @@ description: |-
 
 Manages an Integration Module Supply in Snap CD. Supplies the integration to the given module.
 
+## Required permissions
+
+Any of: `Organization.IntegrationContributor`, `Organization.Owner`, `Integration.Contributor`, `Integration.Owner`
+
 
 ## Example Usage
 

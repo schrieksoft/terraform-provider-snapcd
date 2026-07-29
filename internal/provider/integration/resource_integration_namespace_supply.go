@@ -1,6 +1,8 @@
 package integration
 
 import (
+	"terraform-provider-snapcd/internal/provider/openapidocs"
+
 	"fmt"
 
 	"context"
@@ -62,22 +64,22 @@ type integrationNamespaceSupplyModel struct {
 
 func (r *integrationNamespaceSupplyResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: "Integrations --- Manages an Integration Namespace Supply in Snap CD. Supplies the integration to every module in the given namespace.",
+		MarkdownDescription: "Integrations --- Manages an Integration Namespace Supply in Snap CD. Supplies the integration to every module in the given namespace." + "\n\n## Required permissions\n\n" + openapidocs.ResourcePermissions["IntegrationNamespaceSupply"],
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
-				Description: "Unique ID of the Integration Namespace Supply.",
+				Description: openapidocs.IntegrationNamespaceSupplyReadDto_Id,
 			},
 			"namespace_id": schema.StringAttribute{
 				Required:    true,
-				Description: "ID of the Namespace the integration is supplied to.",
+				Description: openapidocs.IntegrationNamespaceSupplyCreateDto_NamespaceId,
 			},
 			"integration_id": schema.StringAttribute{
 				Required:    true,
-				Description: "ID of the Integration that is supplied to the Namespace.",
+				Description: openapidocs.IntegrationNamespaceSupplyCreateDto_IntegrationId,
 			},
 		},
 	}

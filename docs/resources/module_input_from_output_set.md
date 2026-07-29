@@ -9,6 +9,10 @@ description: |-
 
 Manages a Module Input (From Output Set) in Snap CD.
 
+## Required permissions
+
+Any of: `Organization.Contributor`, `Organization.Owner`, `Organization.StackContributor`, `Stack.Contributor`, `Stack.Owner`, `Namespace.Contributor`, `Namespace.Owner`, `Module.Owner`
+
 
 ## Example Usage
 
@@ -64,9 +68,9 @@ resource "snapcd_module_input_from_output_set" "myparam" {
 
 ### Required
 
-- `input_kind` (String) The kind of input. Must be one of 'Param' or 'EnvVar'. Changing this will force the resource to be recreated.
-- `module_id` (String) ID of the Module Input (From Output Set)'s parent Module.
-- `name` (String) Name of the Module Input (From Output Set).  Must be unique in combination with `module_id`.
+- `input_kind` (String) The kind of input. Must be one of 'Param', 'EnvVar'.
+- `module_id` (String) ID of the Module Input's parent Module.
+- `name` (String) Name of the Module Input. Must be unique in combination with `moduleId`.
 - `output_module_id` (String) ID of the Module from which to take the Output.
 
 ### Read-Only

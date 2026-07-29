@@ -45,6 +45,13 @@ jobs:
         with:
           terraform_wrapper: false
 
+      # The vendored spec and everything generated from it must match the pinned snapcd
+      # release: re-sync, regenerate, and fail on any drift.
+      - name: Sync OpenAPI spec and regenerate
+        run: |
+          make sync generate
+          git diff --exit-code
+
       - name: Start SnapCD stack
         run: docker compose -f .github/ci/docker-compose.yml up -d
 

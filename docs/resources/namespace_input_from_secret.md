@@ -9,6 +9,10 @@ description: |-
 
 Manages a Namespace Input (From Secret) in Snap CD.
 
+## Required permissions
+
+Any of: `Organization.Contributor`, `Organization.Owner`, `Organization.StackContributor`, `Stack.Contributor`, `Stack.Owner`, `Namespace.Contributor`, `Namespace.Owner`
+
 
 ## Example Usage
 
@@ -45,15 +49,15 @@ resource "snapcd_namespace_input_from_secret" "myparam" {
 
 ### Required
 
-- `input_kind` (String) The kind of input. Must be one of 'Param' or 'EnvVar'. Changing this will force the resource to be recreated.
-- `name` (String) Name of the Namespace Input (From Secret).  Must be unique in combination with `namespace_id`.
-- `namespace_id` (String) ID of the Namespace Input (From Secret)'s parent Namespace.
+- `input_kind` (String) The kind of input. Must be one of 'Param', 'EnvVar'.
+- `name` (String) Name of the Namespace Input. Must be unique in combination with `namespaceId`.
+- `namespace_id` (String) ID of the Namespace Input's parent Namespace.
 - `secret_id` (String) ID of the Secret to take as input.
 
 ### Optional
 
 - `type` (String) Type of literal input the secret value should be formatted as. Must be one of 'String' and 'NotString'. Use 'NotString' for values such as numbers, bools, list, maps etc.
-- `usage_mode` (String) Whether the input should be used by default on all Modules, or only when explicitly selected on the Module itself. Must be one of 'UseIfSelected' and 'UseByDefault'
+- `usage_mode` (String) Whether the input should be used by default on all Modules, or only when explicitly selected on the Module itself. Must be one of 'UseIfSelected', 'UseByDefault'.
 
 ### Read-Only
 

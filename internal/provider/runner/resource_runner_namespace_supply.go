@@ -1,6 +1,8 @@
 package runner
 
 import (
+	"terraform-provider-snapcd/internal/provider/openapidocs"
+
 	"fmt"
 
 	"context"
@@ -62,22 +64,22 @@ type runnerNamespaceSupplyModel struct {
 
 func (r *runnerNamespaceSupplyResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: "Runners --- Manages a Runner Namespace Supply in Snap CD.",
+		MarkdownDescription: "Runners --- Manages a Runner Namespace Supply in Snap CD." + "\n\n## Required permissions\n\n" + openapidocs.ResourcePermissions["RunnerNamespaceSupply"],
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
-				Description: "Unique ID of the Runner Namespace Supply.",
+				Description: openapidocs.RunnerNamespaceSupplyReadDto_Id,
 			},
 			"namespace_id": schema.StringAttribute{
 				Required:    true,
-				Description: "ID of the Namespace to which the Runner is assigned.",
+				Description: openapidocs.RunnerNamespaceSupplyCreateDto_NamespaceId,
 			},
 			"runner_id": schema.StringAttribute{
 				Required:    true,
-				Description: "ID of the Runner that is assigned to the Namespace.",
+				Description: openapidocs.RunnerNamespaceSupplyCreateDto_RunnerId,
 			},
 		},
 	}

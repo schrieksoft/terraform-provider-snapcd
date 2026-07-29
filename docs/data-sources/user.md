@@ -9,6 +9,10 @@ description: |-
 
 Use this data source to access information about an existing User in Snap CD.
 
+## Required permissions
+
+Any of: `Organization.IdentityAccessManager`, `Organization.Owner`
+
 
 ## Example Usage
 
@@ -23,7 +27,7 @@ data "snapcd_user" "myuser" {
 
 ### Required
 
-- `user_name` (String) Unique username (email) of the user.
+- `user_name` (String) Username of the User.
 
 ### Read-Only
 

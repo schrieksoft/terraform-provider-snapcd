@@ -9,6 +9,10 @@ description: |-
 
 Manages a State Store in Snap CD.
 
+## Required permissions
+
+Any of: `Organization.Contributor`, `Organization.Owner`, `Organization.StateStoreContributor`
+
 
 ## Example Usage
 

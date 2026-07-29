@@ -9,6 +9,10 @@ description: |-
 
 Grants an integration role to a principal on a specific integration.
 
+## Required permissions
+
+Any of: `Organization.IdentityAccessManager`, `Organization.Owner`, `Integration.IdentityAccessManager`, `Integration.Owner`
+
 
 ## Example Usage
 
@@ -28,9 +32,9 @@ resource "snapcd_integration_role_assignment" "alerts_owner" {
 ### Required
 
 - `integration_id` (String) ID of the integration the role is granted on.
-- `principal_discriminator` (String) Principal type: User, Group, or ServicePrincipal.
+- `principal_discriminator` (String) Principal type: User, Group, or ServicePrincipal. Must be one of 'Base', 'User', 'ServicePrincipal', 'Group'.
 - `principal_id` (String) ID of the principal (user / group / service principal).
-- `role_name` (String) Integration role: Owner, Contributor, Reader, or IdentityAccessManager.
+- `role_name` (String) Integration role: Owner, Contributor, Reader, or IdentityAccessManager. Must be one of 'Owner', 'Contributor', 'Reader', 'IdentityAccessManager'.
 
 ### Read-Only
 

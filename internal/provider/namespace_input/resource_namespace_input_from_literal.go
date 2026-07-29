@@ -1,6 +1,8 @@
 package namespace_input
 
 import (
+	"terraform-provider-snapcd/internal/provider/openapidocs"
+
 	"fmt"
 
 	"context"
@@ -69,53 +71,53 @@ type namespaceInputFromLiteralModel struct {
 
 func (r *namespaceInputFromLiteralResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: `Namespace Inputs --- Manages a Namespace Input (From Literal) in Snap CD.`,
+		MarkdownDescription: `Namespace Inputs --- Manages a Namespace Input (From Literal) in Snap CD.` + "\n\n## Required permissions\n\n" + openapidocs.ResourcePermissions["NamespaceInputFromLiteral"],
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
-				Description: DescSharedId + "Namespace Input (From Literal).",
+				Description: openapidocs.NamespaceInputFromLiteralReadDto_Id,
 			},
 			"name": schema.StringAttribute{
 				Required:    true,
-				Description: DescSharedName1 + "Namespace Input (From Literal). " + DescSharedName2,
+				Description: openapidocs.NamespaceInputFromLiteralCreateDto_Name,
 			},
 			"type": schema.StringAttribute{
 				Optional: true,
 				Computed: true,
 				Validators: []validator.String{
-					stringvalidator.OneOf("String", "NotString")},
+					stringvalidator.OneOf(openapidocs.InputTypeValues...)},
 				Default:     stringdefault.StaticString("String"),
-				Description: DescSharedLiteralType,
+				Description: openapidocs.NamespaceInputFromLiteralCreateDto_Type,
 			},
 			"literal_value": schema.StringAttribute{
 				Required:    true,
-				Description: DescSharedLiteralValue,
+				Description: openapidocs.NamespaceInputFromLiteralCreateDto_LiteralValue,
 			},
 			"usage_mode": schema.StringAttribute{
 				Optional: true,
 				Computed: true,
 				Validators: []validator.String{
-					stringvalidator.OneOf("UseIfSelected", "UseByDefault"),
+					stringvalidator.OneOf(openapidocs.NamespaceInputUsageModeValues...),
 				},
 				Default:     stringdefault.StaticString("UseByDefault"),
-				Description: DescSharedUsage,
+				Description: openapidocs.NamespaceInputFromLiteralCreateDto_UsageMode,
 			},
 			"namespace_id": schema.StringAttribute{
 				Required:    true,
-				Description: DescSharedNamespaceId1 + "Namespace Input (From Literal)" + DescSharedNamespaceId2,
+				Description: openapidocs.NamespaceInputFromLiteralCreateDto_NamespaceId,
 			},
 			"input_kind": schema.StringAttribute{
 				Required: true,
 				Validators: []validator.String{
-					stringvalidator.OneOf("Param", "EnvVar"),
+					stringvalidator.OneOf(openapidocs.InputKindValues...),
 				},
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.RequiresReplace(),
 				},
-				Description: DescSharedInputKind,
+				Description: openapidocs.NamespaceInputFromLiteralCreateDto_InputKind,
 			},
 		},
 	}

@@ -1,6 +1,8 @@
 package module_input
 
 import (
+	"terraform-provider-snapcd/internal/provider/openapidocs"
+
 	"fmt"
 
 	"context"
@@ -48,31 +50,31 @@ func (d *moduleInputFromOutputDataSource) Metadata(ctx context.Context, req data
 
 func (d *moduleInputFromOutputDataSource) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: "Module Inputs --- Use this data source to access information about an existing Module Input (From Output) in Snap CD.",
+		MarkdownDescription: "Module Inputs --- Use this data source to access information about an existing Module Input (From Output) in Snap CD." + "\n\n## Required permissions\n\n" + openapidocs.DataSourcePermissions["ModuleInputFromOutput"],
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed:    true,
-				Description: DescSharedId + "Module Input (From Output).",
+				Description: openapidocs.ModuleInputFromOutputUpdateDto_Id,
 			},
 			"name": schema.StringAttribute{
 				Required:    true,
-				Description: DescSharedName1 + "Module Input (From Output). " + DescSharedName2,
+				Description: openapidocs.ModuleInputFromOutputCreateDto_Name,
 			},
 			"output_name": schema.StringAttribute{
 				Computed:    true,
-				Description: DescSharedOutputName,
+				Description: openapidocs.ModuleInputFromOutputCreateDto_OutputName,
 			},
 			"output_module_id": schema.StringAttribute{
 				Computed:    true,
-				Description: DescSharedOutputModuleId,
+				Description: openapidocs.ModuleInputFromOutputCreateDto_OutputModuleId,
 			},
 			"module_id": schema.StringAttribute{
 				Required:    true,
-				Description: DescSharedModuleId1 + "Module Input (From Output)" + DescSharedModuleId2,
+				Description: openapidocs.ModuleInputFromOutputCreateDto_ModuleId,
 			},
 			"input_kind": schema.StringAttribute{
 				Required:    true,
-				Description: DescSharedInputKind,
+				Description: openapidocs.ModuleInputFromOutputCreateDto_InputKind,
 			},
 		},
 	}

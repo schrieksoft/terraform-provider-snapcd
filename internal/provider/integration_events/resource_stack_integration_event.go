@@ -1,6 +1,8 @@
 package integration_events
 
 import (
+	"terraform-provider-snapcd/internal/provider/openapidocs"
+
 	"fmt"
 
 	"context"
@@ -67,43 +69,43 @@ type stackIntegrationEventModel struct {
 
 func (r *stackIntegrationEventResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: "Integration Events --- Manages a stack-scoped Integration Event in Snap CD.",
+		MarkdownDescription: "Integration Events --- Manages a stack-scoped Integration Event in Snap CD." + "\n\n## Required permissions\n\n" + openapidocs.ResourcePermissions["StackIntegrationEvent"],
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
-				Description: DescEventId,
+				Description: openapidocs.StackIntegrationEventReadDto_Id,
 			},
 			"stack_id": schema.StringAttribute{
 				Required:    true,
-				Description: DescEventStackId,
+				Description: openapidocs.StackIntegrationEventCreateDto_StackId,
 			},
 			"integration_id": schema.StringAttribute{
 				Required:    true,
-				Description: DescEventIntegrationId,
+				Description: openapidocs.StackIntegrationEventCreateDto_IntegrationId,
 			},
 			"trigger": schema.StringAttribute{
 				Required: true,
 				Validators: []validator.String{
-					stringvalidator.OneOf(integrationTriggerValues...),
+					stringvalidator.OneOf(openapidocs.IntegrationTriggerValues...),
 				},
-				Description: DescEventTrigger,
+				Description: openapidocs.StackIntegrationEventCreateDto_Trigger,
 			},
 			"template": schema.StringAttribute{
 				Optional:    true,
-				Description: DescEventTemplate,
+				Description: openapidocs.StackIntegrationEventCreateDto_Template,
 			},
 			"filter": schema.StringAttribute{
 				Optional:    true,
-				Description: DescEventFilter,
+				Description: openapidocs.StackIntegrationEventCreateDto_Filter,
 			},
 			"is_disabled": schema.BoolAttribute{
 				Optional:    true,
 				Computed:    true,
 				Default:     booldefault.StaticBool(false),
-				Description: DescEventIsDisabled,
+				Description: openapidocs.StackIntegrationEventCreateDto_IsDisabled,
 			},
 		},
 	}

@@ -9,6 +9,10 @@ description: |-
 
 Manages a Module Terraform Array Flag in Snap CD.
 
+## Required permissions
+
+Any of: `Organization.Contributor`, `Organization.Owner`, `Organization.StackContributor`, `Stack.Contributor`, `Stack.Owner`, `Namespace.Contributor`, `Namespace.Owner`, `Module.Owner`
+
 
 ## Example Usage
 
@@ -27,9 +31,9 @@ resource "snapcd_module_terraform_array_flag" "targets" {
 
 ### Required
 
-- `flag` (String) The Terraform CLI array flag name.
+- `flag` (String) The Terraform CLI array flag name. Must be one of 'Target', 'Replace', 'Exclude', 'Var', 'BackendConfig'.
 - `module_id` (String) ID of the parent Module.
-- `task` (String) The command task this flag applies to. Valid values: `Init`, `Plan`, `Apply`, `Destroy`, `Output`.
+- `task` (String) The command task this flag applies to. Must be one of 'Init', 'Plan', 'Apply', 'Destroy', 'Output'.
 - `value` (String) The value for the flag.
 
 ### Read-Only

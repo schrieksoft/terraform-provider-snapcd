@@ -9,6 +9,10 @@ description: |-
 
 Manages a Namespace Hook in Snap CD. Used as the default for all modules in the namespace unless overridden by a Module Hook with the same task and phase.
 
+## Required permissions
+
+Any of: `Organization.Contributor`, `Organization.Owner`, `Organization.StackContributor`, `Stack.Contributor`, `Stack.Owner`, `Namespace.Contributor`, `Namespace.Owner`
+
 
 ## Example Usage
 
@@ -27,9 +31,9 @@ resource "snapcd_namespace_hook" "before_plan" {
 ### Required
 
 - `namespace_id` (String) ID of the parent Namespace.
-- `phase` (String) When the hook runs relative to the task. Valid values: `Before`, `After`.
+- `phase` (String) When the hook runs relative to the task. Must be one of 'Before', 'After'.
 - `script` (String) The shell script that runs at the configured task and phase. Used as default for all modules in the namespace unless overridden.
-- `task` (String) The lifecycle task this hook applies to. Valid values: `Init`, `Plan`, `PlanDestroy`, `Apply`, `Destroy`, `Output`, `Validate`.
+- `task` (String) The lifecycle task this hook applies to. Must be one of 'Init', 'Plan', 'PlanDestroy', 'Apply', 'Destroy', 'Output', 'Validate'.
 
 ### Read-Only
 

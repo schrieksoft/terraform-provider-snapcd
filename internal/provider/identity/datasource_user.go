@@ -1,6 +1,8 @@
 package identity
 
 import (
+	"terraform-provider-snapcd/internal/provider/openapidocs"
+
 	"fmt"
 
 	"context"
@@ -51,11 +53,6 @@ func (d *userDataSource) Metadata(ctx context.Context, req datasource.MetadataRe
 	resp.TypeName = req.ProviderTypeName + "_user"
 }
 
-const (
-	DescUserId   = "Unique ID of the User."
-	DescUserName = "Unique username (email) of the user."
-)
-
 type userModel struct {
 	Id       types.String `tfsdk:"id"`
 	UserName types.String `tfsdk:"user_name"`
@@ -63,15 +60,15 @@ type userModel struct {
 
 func (d *userDataSource) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: "Identity Access Management --- Use this data source to access information about an existing User in Snap CD.",
+		MarkdownDescription: "Identity Access Management --- Use this data source to access information about an existing User in Snap CD." + "\n\n## Required permissions\n\n" + openapidocs.DataSourcePermissions["User"],
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed:    true,
-				Description: DescUserId,
+				Description: openapidocs.UserViewDto_Id,
 			},
 			"user_name": schema.StringAttribute{
 				Required:    true,
-				Description: DescUserName,
+				Description: openapidocs.UserViewDto_UserName,
 			},
 		},
 	}

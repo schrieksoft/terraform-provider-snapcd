@@ -7,6 +7,18 @@
   "gitAuthor": "snapcd-bot <noreply@snapcd.io>",
   "labels": ["dependencies"],
 
+  "customManagers": [
+    {
+      "customType": "regex",
+      "managerFilePatterns": ["/^versions\\.env$/"],
+      "matchStrings": [
+        "SNAPCD_VERSION=(?<currentValue>\\S+)"
+      ],
+      "depNameTemplate": "schrieksoft/snapcd",
+      "datasourceTemplate": "github-releases"
+    }
+  ],
+
   "packageRules": [
     {
       "matchPackageNames": ["*"],
@@ -20,6 +32,14 @@
       "platformAutomerge": true,
       "matchPackageNames": [
         "/^ghcr\\.io\\/schrieksoft\\/snapcd/"
+      ],
+      "enabled": true
+    },
+    {
+      "groupName": "snapcd-openapi",
+      "commitMessageTopic": "snapcd OpenAPI document",
+      "matchPackageNames": [
+        "schrieksoft/snapcd"
       ],
       "enabled": true
     }

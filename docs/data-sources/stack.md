@@ -9,6 +9,10 @@ description: |-
 
 Use this data source to access information about an existing Stack in Snap CD.
 
+## Required permissions
+
+Any of: `Organization.Contributor`, `Organization.Owner`, `Organization.Reader`, `Organization.StackContributor`, `Organization.StackReader`, `Stack.Contributor`, `Stack.Owner`, `Stack.Reader`, or *any* role on a contained Namespace (`Namespace.*`), or *any* role on a contained Module (`Module.*`)
+
 
 ## Example Usage
 

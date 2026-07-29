@@ -9,6 +9,10 @@ description: |-
 
 Manages a stack-scoped Integration Event in Snap CD.
 
+## Required permissions
+
+Any of: `Organization.Contributor`, `Organization.IntegrationContributor`, `Organization.Owner`, `Organization.StackContributor`, `Stack.Contributor`, `Stack.Owner`
+
 
 ## Example Usage
 

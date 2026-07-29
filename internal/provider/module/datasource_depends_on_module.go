@@ -1,6 +1,8 @@
 package module
 
 import (
+	"terraform-provider-snapcd/internal/provider/openapidocs"
+
 	"fmt"
 
 	"context"
@@ -48,19 +50,19 @@ func (d *dependsOnModuleDataSource) Metadata(ctx context.Context, req datasource
 
 func (d *dependsOnModuleDataSource) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: "Modules --- Use this data source to access information about an existing Module dependency relationship in Snap CD.",
+		MarkdownDescription: "Modules --- Use this data source to access information about an existing Module dependency relationship in Snap CD." + "\n\n## Required permissions\n\n" + openapidocs.DataSourcePermissions["DependsOnModule"],
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Required:    true,
-				Description: DescDependsOnModuleId,
+				Description: openapidocs.DependsOnModuleReadDto_Id,
 			},
 			"module_id": schema.StringAttribute{
 				Computed:    true,
-				Description: DescDependsOnModuleModuleId,
+				Description: openapidocs.DependsOnModuleReadDto_ModuleId,
 			},
 			"depends_on_module_id": schema.StringAttribute{
 				Computed:    true,
-				Description: DescDependsOnModuleDependsOnId,
+				Description: openapidocs.DependsOnModuleReadDto_DependsOnModuleId,
 			},
 		},
 	}

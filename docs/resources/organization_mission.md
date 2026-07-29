@@ -9,6 +9,10 @@ description: |-
 
 Manages an organization-scoped Mission in Snap CD.
 
+## Required permissions
+
+Any of: `Organization.AgentContributor`, `Organization.Contributor`, `Organization.Owner`
+
 
 ## Example Usage
 
@@ -29,7 +33,7 @@ resource "snapcd_organization_mission" "diagnose_all" {
 ### Required
 
 - `agent_id` (String) ID of the Agent that runs this Mission.
-- `mission_type` (String) Which named mission definition this row references. Must be one of 'AutoDiagnose', 'ApprovalRecommend' and 'SummarizeJob'.
+- `mission_type` (String) Which named mission definition this row references. Must be one of 'AutoDiagnose', 'ApprovalRecommend', 'SummarizeJob', 'AutoFix'.
 
 ### Optional
 

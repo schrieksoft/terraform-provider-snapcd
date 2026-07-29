@@ -9,6 +9,10 @@ description: |-
 
 Manages a Namespace Input (From Literal) in Snap CD.
 
+## Required permissions
+
+Any of: `Organization.Contributor`, `Organization.Owner`, `Organization.StackContributor`, `Stack.Contributor`, `Stack.Owner`, `Namespace.Contributor`, `Namespace.Owner`
+
 
 ## Example Usage
 
@@ -37,15 +41,15 @@ resource "snapcd_namespace_input_from_literal" "myparam" {
 
 ### Required
 
-- `input_kind` (String) The kind of input. Must be one of 'Param' or 'EnvVar'. Changing this will force the resource to be recreated.
+- `input_kind` (String) The kind of input. Must be one of 'Param', 'EnvVar'.
 - `literal_value` (String) Literal value of the input.
-- `name` (String) Name of the Namespace Input (From Literal).  Must be unique in combination with `namespace_id`.
-- `namespace_id` (String) ID of the Namespace Input (From Literal)'s parent Namespace.
+- `name` (String) Name of the Namespace Input. Must be unique in combination with `namespaceId`.
+- `namespace_id` (String) ID of the Namespace Input's parent Namespace.
 
 ### Optional
 
 - `type` (String) Type of literal input. Must be one of 'String' and 'NotString'. Use 'NotString' for values such as numbers, bools, list, maps etc.
-- `usage_mode` (String) Whether the input should be used by default on all Modules, or only when explicitly selected on the Module itself. Must be one of 'UseIfSelected' and 'UseByDefault'
+- `usage_mode` (String) Whether the input should be used by default on all Modules, or only when explicitly selected on the Module itself. Must be one of 'UseIfSelected', 'UseByDefault'.
 
 ### Read-Only
 

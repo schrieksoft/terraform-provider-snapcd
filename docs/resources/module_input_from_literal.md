@@ -9,6 +9,10 @@ description: |-
 
 Manages a Module Input (From Literal) in Snap CD.
 
+## Required permissions
+
+Any of: `Organization.Contributor`, `Organization.Owner`, `Organization.StackContributor`, `Stack.Contributor`, `Stack.Owner`, `Namespace.Contributor`, `Namespace.Owner`, `Module.Owner`
+
 
 ## Example Usage
 
@@ -50,14 +54,14 @@ resource "snapcd_module_input_from_literal" "myparam" {
 
 ### Required
 
-- `input_kind` (String) The kind of input. Must be one of 'Param' or 'EnvVar'. Changing this will force the resource to be recreated.
-- `literal_value` (String)
-- `module_id` (String) ID of the Module Input (From Literal)'s parent Module.
-- `name` (String) Name of the Module Input (From Literal).  Must be unique in combination with `module_id`.
+- `input_kind` (String) The kind of input. Must be one of 'Param', 'EnvVar'.
+- `literal_value` (String) Literal value of the input.
+- `module_id` (String) ID of the Module Input's parent Module.
+- `name` (String) Name of the Module Input. Must be unique in combination with `moduleId`.
 
 ### Optional
 
-- `type` (String)
+- `type` (String) Type of literal input. Must be one of 'String' and 'NotString'. Use 'NotString' for values such as numbers, bools, list, maps etc.
 
 ### Read-Only
 

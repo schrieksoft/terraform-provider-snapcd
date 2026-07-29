@@ -1,9 +1,9 @@
 repos:
   - repo: local
     hooks:
-      - id: make-generate
-        name: make generate
-        entry: make generate
+      - id: make-sync-generate
+        name: make sync generate
+        entry: make sync generate
         language: system
         pass_filenames: false # setting this to "false" means the hook will only run once per commit, *not* once per file
 

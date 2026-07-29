@@ -9,6 +9,10 @@ description: |-
 
 Manages an Agent Namespace Supply in Snap CD. Permits modules within the Namespace to select this Agent for missions.
 
+## Required permissions
+
+Any of: `Organization.AgentContributor`, `Organization.Owner`, `Agent.Contributor`, `Agent.Owner`
+
 
 
 

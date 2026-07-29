@@ -1,6 +1,8 @@
 package integration
 
 import (
+	"terraform-provider-snapcd/internal/provider/openapidocs"
+
 	"context"
 	"fmt"
 
@@ -54,7 +56,7 @@ func (d *integrationDataSource) Metadata(_ context.Context, req datasource.Metad
 
 func (d *integrationDataSource) Schema(_ context.Context, _ datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: "Integrations --- Look up an existing Integration (created/managed in the SnapCd UI) by name.",
+		MarkdownDescription: "Integrations --- Look up an existing Integration (created/managed in the SnapCd UI) by name." + "\n\n## Required permissions\n\n" + openapidocs.DataSourcePermissions["Integration"],
 		Attributes: map[string]schema.Attribute{
 			"id":                         schema.StringAttribute{Computed: true, Description: "Unique ID of the integration."},
 			"name":                       schema.StringAttribute{Required: true, Description: "Name of the integration."},

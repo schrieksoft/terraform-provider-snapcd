@@ -9,6 +9,10 @@ description: |-
 
 Use this data source to access information about an existing State Store in Snap CD.
 
+## Required permissions
+
+Any of: `Organization.Contributor`, `Organization.Owner`, `Organization.Reader`, `Organization.StateStoreContributor`, `Organization.StateStoreReader`, `StateStore.Contributor`, `StateStore.Owner`, `StateStore.Reader`
+
 
 ## Example Usage
 

@@ -9,6 +9,10 @@ description: |-
 
 Manages an Agent Role Assignment in Snap CD.
 
+## Required permissions
+
+Any of: `Organization.IdentityAccessManager`, `Organization.Owner`, `Agent.IdentityAccessManager`, `Agent.Owner`
+
 
 ## Example Usage
 
@@ -68,7 +72,7 @@ resource "snapcd_agent_role_assignment" "mygroup_contributor" {
 - `agent_id` (String) ID of the Agent on which the role applies.
 - `principal_discriminator` (String) Type of Principal that the `principal_id` identifies. Must be one of 'User', 'ServicePrincipal' and 'Group'
 - `principal_id` (String) ID of the Principal to which the role is assigned.
-- `role_name` (String) Name of the Role that is assigned. Must be one of 'Owner', 'Contributor', 'Reader' and 'IdentityAccessManager'
+- `role_name` (String) Name of the Role that is assigned. Must be one of 'Owner', 'Contributor', 'Reader', 'IdentityAccessManager'.
 
 ### Read-Only
 

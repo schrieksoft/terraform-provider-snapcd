@@ -1,6 +1,8 @@
 package agent
 
 import (
+	"terraform-provider-snapcd/internal/provider/openapidocs"
+
 	"fmt"
 
 	"context"
@@ -64,43 +66,35 @@ type agentModel struct {
 	AllowMultipleInstances types.Bool   `tfsdk:"allow_multiple_instances"`
 }
 
-const (
-	DescAgentId                 = "Unique ID of the Agent."
-	DescAgentName               = "Unique name of the Agent."
-	DescAgentServicePrincipalId = "ID of the Service Principal that the Agent authenticates as."
-	DescAgentIsDisabled         = "Indicates whether or not the Agent is disabled."
-	DescAgentAllowMultiple      = "Setting this to 'true' allows you to connect multiple instances of this Agent simultaneously."
-)
-
 func (r *agentResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: "Agents --- Manages an Agent in Snap CD.",
+		MarkdownDescription: "Agents --- Manages an Agent in Snap CD." + "\n\n## Required permissions\n\n" + openapidocs.ResourcePermissions["Agent"],
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
-				Description: DescAgentId,
+				Description: openapidocs.AgentReadDto_Id,
 			},
 			"name": schema.StringAttribute{
 				Required:    true,
-				Description: DescAgentName,
+				Description: openapidocs.AgentCreateDto_Name,
 			},
 			"service_principal_id": schema.StringAttribute{
 				Required:    true,
-				Description: DescAgentServicePrincipalId,
+				Description: openapidocs.AgentCreateDto_ServicePrincipalId,
 			},
 			"is_disabled": schema.BoolAttribute{
 				Optional:    true,
 				Computed:    true,
-				Description: DescAgentIsDisabled,
+				Description: openapidocs.AgentCreateDto_IsDisabled,
 				Default:     booldefault.StaticBool(false),
 			},
 			"allow_multiple_instances": schema.BoolAttribute{
 				Optional:    true,
 				Computed:    true,
-				Description: DescAgentAllowMultiple,
+				Description: openapidocs.AgentCreateDto_AllowMultipleInstances,
 				Default:     booldefault.StaticBool(false),
 			},
 		},

@@ -1,6 +1,8 @@
 package namespace_input
 
 import (
+	"terraform-provider-snapcd/internal/provider/openapidocs"
+
 	"fmt"
 
 	"context"
@@ -50,34 +52,34 @@ func (d *namespaceInputFromDefinitionDataSource) Metadata(ctx context.Context, r
 
 func (d *namespaceInputFromDefinitionDataSource) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: "Namespace Inputs --- Use this data source to access information about an existing Namesapce Param (From Definition) in Snap CD.",
+		MarkdownDescription: "Namespace Inputs --- Use this data source to access information about an existing Namesapce Param (From Definition) in Snap CD." + "\n\n## Required permissions\n\n" + openapidocs.DataSourcePermissions["NamespaceInputFromDefinition"],
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed:    true,
-				Description: DescSharedId + "Namespace Input (From Definition).",
+				Description: openapidocs.NamespaceInputFromDefinitionReadDto_Id,
 			},
 			"name": schema.StringAttribute{
 				Required:    true,
-				Description: DescSharedName1 + "Namespace Input (From Definition). " + DescSharedName2,
+				Description: openapidocs.NamespaceInputFromDefinitionReadDto_Name,
 			},
 			"definition_name": schema.StringAttribute{
 				Computed:    true,
-				Description: DescSharedDefinitionName,
+				Description: openapidocs.NamespaceInputFromDefinitionReadDto_DefinitionName,
 				Validators: []validator.String{
-					stringvalidator.OneOf("ModuleId", "NamespaceId", "StackId", "ModuleName", "NamespaceName", "StackName", "SourceUrl", "SourceRevision", "SourceSubdirectory", "SourceDefinitiveRevision"),
+					stringvalidator.OneOf(openapidocs.DefinitionInputTypeValues...),
 				},
 			},
 			"usage_mode": schema.StringAttribute{
 				Computed:    true,
-				Description: DescSharedUsage,
+				Description: openapidocs.NamespaceInputFromDefinitionReadDto_UsageMode,
 			},
 			"namespace_id": schema.StringAttribute{
 				Required:    true,
-				Description: DescSharedNamespaceId1 + "Namespace Input (From Definition)" + DescSharedNamespaceId2,
+				Description: openapidocs.NamespaceInputFromDefinitionReadDto_NamespaceId,
 			},
 			"input_kind": schema.StringAttribute{
 				Required:    true,
-				Description: DescSharedInputKind,
+				Description: openapidocs.NamespaceInputFromDefinitionReadDto_InputKind,
 			},
 		},
 	}

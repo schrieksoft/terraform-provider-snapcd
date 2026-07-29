@@ -1,6 +1,8 @@
 package stack
 
 import (
+	"terraform-provider-snapcd/internal/provider/openapidocs"
+
 	"fmt"
 
 	"context"
@@ -48,19 +50,19 @@ func (d *stackDataSource) Metadata(ctx context.Context, req datasource.MetadataR
 
 func (d *stackDataSource) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: "Stacks --- Use this data source to access information about an existing Stack in Snap CD.",
+		MarkdownDescription: "Stacks --- Use this data source to access information about an existing Stack in Snap CD." + "\n\n## Required permissions\n\n" + openapidocs.DataSourcePermissions["Stack"],
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed:    true,
-				Description: DescStackId,
+				Description: openapidocs.StackReadDto_Id,
 			},
 			"name": schema.StringAttribute{
 				Required:    true,
-				Description: DescStackName,
+				Description: openapidocs.StackReadDto_Name,
 			},
 			"trigger_behaviour_on_modified": schema.StringAttribute{
 				Computed:    true,
-				Description: DescStackTriggerBehaviourOnModified,
+				Description: openapidocs.StackReadDto_TriggerBehaviourOnModified,
 			},
 		},
 	}

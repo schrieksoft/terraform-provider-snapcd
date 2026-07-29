@@ -1,6 +1,8 @@
 package agent
 
 import (
+	"terraform-provider-snapcd/internal/provider/openapidocs"
+
 	"fmt"
 
 	"context"
@@ -48,27 +50,27 @@ func (d *agentDataSource) Metadata(ctx context.Context, req datasource.MetadataR
 
 func (d *agentDataSource) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: "Agents --- Use this data source to access information about an existing Agent in Snap CD.",
+		MarkdownDescription: "Agents --- Use this data source to access information about an existing Agent in Snap CD." + "\n\n## Required permissions\n\n" + openapidocs.DataSourcePermissions["Agent"],
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed:    true,
-				Description: DescAgentId,
+				Description: openapidocs.AgentReadDto_Id,
 			},
 			"name": schema.StringAttribute{
 				Required:    true,
-				Description: DescAgentName,
+				Description: openapidocs.AgentReadDto_Name,
 			},
 			"service_principal_id": schema.StringAttribute{
 				Computed:    true,
-				Description: DescAgentServicePrincipalId,
+				Description: openapidocs.AgentReadDto_ServicePrincipalId,
 			},
 			"is_disabled": schema.BoolAttribute{
 				Computed:    true,
-				Description: DescAgentIsDisabled,
+				Description: openapidocs.AgentReadDto_IsDisabled,
 			},
 			"allow_multiple_instances": schema.BoolAttribute{
 				Computed:    true,
-				Description: DescAgentAllowMultiple,
+				Description: openapidocs.AgentReadDto_AllowMultipleInstances,
 			},
 		},
 	}

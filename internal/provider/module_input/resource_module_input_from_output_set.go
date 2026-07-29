@@ -1,6 +1,8 @@
 package module_input
 
 import (
+	"terraform-provider-snapcd/internal/provider/openapidocs"
+
 	"fmt"
 
 	"context"
@@ -66,36 +68,37 @@ type moduleInputFromOutputSetModel struct {
 
 func (r *moduleInputFromOutputSetResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: `Module Inputs --- Manages a Module Input (From Output Set) in Snap CD.`,
+		MarkdownDescription: `Module Inputs --- Manages a Module Input (From Output Set) in Snap CD.` + "\n\n## Required permissions\n\n" + openapidocs.ResourcePermissions["ModuleInputFromOutputSet"],
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
-				Description: DescSharedId + "Module Input (From Output Set).",
+				Description: openapidocs.ModuleInputFromOutputSetReadDto_Id,
 			},
 			"name": schema.StringAttribute{
 				Required:    true,
-				Description: DescSharedName1 + "Module Input (From Output Set). " + DescSharedName2,
+				Description: openapidocs.ModuleInputFromOutputSetCreateDto_Name,
 			},
 			"output_module_id": schema.StringAttribute{
 				Required:    true,
-				Description: DescSharedOutputModuleId,
+				Description: openapidocs.ModuleInputFromOutputSetCreateDto_OutputModuleId,
 			},
 			"module_id": schema.StringAttribute{
 				Required:    true,
-				Description: DescSharedModuleId1 + "Module Input (From Output Set)" + DescSharedModuleId2,
+				Description: openapidocs.ModuleInputFromOutputSetCreateDto_ModuleId,
 			},
 			"input_kind": schema.StringAttribute{
 				Required: true,
 				Validators: []validator.String{
+					// Intentionally narrower than the spec enum: output sets are Param-only.
 					stringvalidator.OneOf("Param"),
 				},
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.RequiresReplace(),
 				},
-				Description: DescSharedInputKind,
+				Description: openapidocs.ModuleInputFromOutputSetCreateDto_InputKind,
 			},
 		},
 	}

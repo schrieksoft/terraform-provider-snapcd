@@ -1,6 +1,8 @@
 package role_assignments
 
 import (
+	"terraform-provider-snapcd/internal/provider/openapidocs"
+
 	"fmt"
 
 	"context"
@@ -64,46 +66,39 @@ type moduleRoleAssignmentModel struct {
 	RoleName               types.String `tfsdk:"role_name"`
 }
 
-const (
-	DescModuleRoleAssignmentId                     = "Unique ID of the Module Role Assignment."
-	DescModuleRoleAssignmentModuleId               = "ID of the Module on which the role applies."
-	DescModuleRoleAssignmentPrincipalId            = "ID of the Principal to which the role is assigned."
-	DescModuleRoleAssignmentPrincipalDiscriminator = "Type of Principal that the `principal_id` identifies. Must be one of 'User', 'ServicePrincipal' and 'Group'"
-	DescModuleRoleAssignmentRoleName               = "Name of the Role that is assigned. Must be one of 'Owner', 'Contributor', 'Reader', 'IdentityAccessManager', 'SourceChangeNotifier', 'Runner' and 'JobManager'"
-)
-
 func (r *moduleRoleAssignmentResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: `Role Assignments --- Manages a Module Role Assignment in Snap CD.`,
+		MarkdownDescription: `Role Assignments --- Manages a Module Role Assignment in Snap CD.` + "\n\n## Required permissions\n\n" + openapidocs.ResourcePermissions["ModuleRoleAssignment"],
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
-				Description: DescModuleRoleAssignmentId,
+				Description: openapidocs.ModuleRoleAssignmentReadDto_Id,
 			},
 			"module_id": schema.StringAttribute{
 				Required:    true,
-				Description: DescModuleRoleAssignmentModuleId,
+				Description: openapidocs.ModuleRoleAssignmentReadDto_ModuleId,
 			},
 			"principal_id": schema.StringAttribute{
 				Required:    true,
-				Description: DescModuleRoleAssignmentPrincipalId,
+				Description: openapidocs.ModuleRoleAssignmentReadDto_PrincipalId,
 			},
 			"principal_discriminator": schema.StringAttribute{
 				Required: true,
 				Validators: []validator.String{
+					// Intentionally narrower than the spec enum: `Base` is an internal discriminator.
 					stringvalidator.OneOf("User", "ServicePrincipal", "Group"),
 				},
-				Description: DescModuleRoleAssignmentPrincipalDiscriminator,
+				Description: openapidocs.ModuleRoleAssignmentReadDto_PrincipalDiscriminator,
 			},
 			"role_name": schema.StringAttribute{
 				Required: true,
 				Validators: []validator.String{
-					stringvalidator.OneOf("Owner", "Contributor", "Reader", "IdentityAccessManager", "SourceChangeNotifier", "Runner", "JobManager"),
+					stringvalidator.OneOf(openapidocs.ModuleRoleValues...),
 				},
-				Description: DescModuleRoleAssignmentRoleName,
+				Description: openapidocs.ModuleRoleAssignmentReadDto_RoleName,
 			},
 		},
 	}

@@ -1,6 +1,8 @@
 package role_assignments
 
 import (
+	"terraform-provider-snapcd/internal/provider/openapidocs"
+
 	"fmt"
 
 	"context"
@@ -64,46 +66,39 @@ type runnerRoleAssignmentModel struct {
 	RoleName               types.String `tfsdk:"role_name"`
 }
 
-const (
-	DescRunnerRoleAssignmentId                     = "Unique ID of the Runner Role Assignment."
-	DescRunnerRoleAssignmentRunnerId               = "ID of the Runner on which the role applies."
-	DescRunnerRoleAssignmentPrincipalId            = "ID of the Principal to which the role is assigned."
-	DescRunnerRoleAssignmentPrincipalDiscriminator = "Type of Principal that the `principal_id` identifies. Must be one of 'User', 'ServicePrincipal' and 'Group'"
-	DescRunnerRoleAssignmentRoleName               = "Name of the Role that is assigned. Must be one of 'Owner', 'Contributor', 'Reader', 'IdentityAccessManager', 'JobManager' and 'Runner'"
-)
-
 func (r *runnerRoleAssignmentResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: `Role Assignments --- Manages a Runner Role Assignment in Snap CD.`,
+		MarkdownDescription: `Role Assignments --- Manages a Runner Role Assignment in Snap CD.` + "\n\n## Required permissions\n\n" + openapidocs.ResourcePermissions["RunnerRoleAssignment"],
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
-				Description: DescRunnerRoleAssignmentId,
+				Description: openapidocs.RunnerRoleAssignmentReadDto_Id,
 			},
 			"runner_id": schema.StringAttribute{
 				Required:    true,
-				Description: DescRunnerRoleAssignmentRunnerId,
+				Description: openapidocs.RunnerRoleAssignmentReadDto_RunnerId,
 			},
 			"principal_id": schema.StringAttribute{
 				Required:    true,
-				Description: DescRunnerRoleAssignmentPrincipalId,
+				Description: openapidocs.RunnerRoleAssignmentReadDto_PrincipalId,
 			},
 			"principal_discriminator": schema.StringAttribute{
 				Required: true,
 				Validators: []validator.String{
+					// Intentionally narrower than the spec enum: `Base` is an internal discriminator.
 					stringvalidator.OneOf("User", "ServicePrincipal", "Group"),
 				},
-				Description: DescRunnerRoleAssignmentPrincipalDiscriminator,
+				Description: openapidocs.RunnerRoleAssignmentReadDto_PrincipalDiscriminator,
 			},
 			"role_name": schema.StringAttribute{
 				Required: true,
 				Validators: []validator.String{
-					stringvalidator.OneOf("Owner", "Contributor", "Reader", "IdentityAccessManager"),
+					stringvalidator.OneOf(openapidocs.RunnerRoleValues...),
 				},
-				Description: DescRunnerRoleAssignmentRoleName,
+				Description: openapidocs.RunnerRoleAssignmentReadDto_RoleName,
 			},
 		},
 	}

@@ -9,6 +9,10 @@ description: |-
 
 Manages an Agent Module Supply in Snap CD. Permits the Module to select this Agent for missions.
 
+## Required permissions
+
+Any of: `Organization.AgentContributor`, `Organization.Owner`, `Agent.Contributor`, `Agent.Owner`
+
 
 
 

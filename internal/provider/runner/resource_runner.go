@@ -1,6 +1,8 @@
 package runner
 
 import (
+	"terraform-provider-snapcd/internal/provider/openapidocs"
+
 	"fmt"
 
 	"context"
@@ -65,48 +67,40 @@ type runnerModel struct {
 	AllowMultipleInstances types.Bool   `tfsdk:"allow_multiple_instances"`
 }
 
-const (
-	DescRunnerId                 = "Unique ID of the Runner."
-	DescRunnerName               = "Unique name of the Runner."
-	DescIsSuppliedToAllModules   = "Setting this to 'true' allows this Runner to be selected for deployment by any Module in the system."
-	DescRunnerServicePrincipalId = "ID of the Service Principal associated with the Runner."
-	DescAllowMultipleInstances   = "Setting this to 'true' allows you to connect multiple instances of this Runner (for example a StatefulSet with multiple replicas) simultaneously."
-)
-
 func (r *runnerResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: "Runners --- Manages a Runner in Snap CD.",
+		MarkdownDescription: "Runners --- Manages a Runner in Snap CD." + "\n\n## Required permissions\n\n" + openapidocs.ResourcePermissions["Runner"],
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
-				Description: DescRunnerId,
+				Description: openapidocs.RunnerReadDto_Id,
 			},
 			"name": schema.StringAttribute{
 				Required:    true,
-				Description: DescRunnerName,
+				Description: openapidocs.RunnerCreateDto_Name,
 			},
 			"service_principal_id": schema.StringAttribute{
 				Required:    true,
-				Description: DescRunnerServicePrincipalId,
+				Description: openapidocs.RunnerCreateDto_ServicePrincipalId,
 			},
 			"is_supplied_to_all_modules": schema.BoolAttribute{
 				Optional:    true,
 				Computed:    true,
-				Description: DescIsSuppliedToAllModules,
+				Description: openapidocs.RunnerCreateDto_IsSuppliedToAllModules,
 				Default:     booldefault.StaticBool(false),
 			},
 			"is_disabled": schema.BoolAttribute{
 				Optional:    true,
 				Computed:    true,
-				Description: DescRunnerIsDisabled,
+				Description: openapidocs.RunnerCreateDto_IsDisabled,
 			},
 			"allow_multiple_instances": schema.BoolAttribute{
 				Optional:    true,
 				Computed:    true,
-				Description: DescRunnerIsDisabled,
+				Description: openapidocs.RunnerCreateDto_AllowMultipleInstances,
 			},
 		},
 	}

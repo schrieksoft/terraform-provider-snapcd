@@ -9,6 +9,10 @@ description: |-
 
 Use this data source to access information about an existing Group in Snap CD.
 
+## Required permissions
+
+Any of: `Organization.IdentityAccessManager`, `Organization.Owner`
+
 
 ## Example Usage
 

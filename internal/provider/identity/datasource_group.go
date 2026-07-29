@@ -1,6 +1,8 @@
 package identity
 
 import (
+	"terraform-provider-snapcd/internal/provider/openapidocs"
+
 	"fmt"
 
 	"context"
@@ -48,19 +50,19 @@ func (d *groupDataSource) Metadata(ctx context.Context, req datasource.MetadataR
 
 func (d *groupDataSource) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: "Identity Access Management --- Use this data source to access information about an existing Group in Snap CD.",
+		MarkdownDescription: "Identity Access Management --- Use this data source to access information about an existing Group in Snap CD." + "\n\n## Required permissions\n\n" + openapidocs.DataSourcePermissions["Group"],
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed:    true,
-				Description: DescGroupId,
+				Description: openapidocs.GroupReadDto_Id,
 			},
 			"name": schema.StringAttribute{
 				Required:    true,
-				Description: DescGroupName,
+				Description: openapidocs.GroupReadDto_Name,
 			},
 			"description": schema.StringAttribute{
 				Computed:    true,
-				Description: DescGroupDescription,
+				Description: openapidocs.GroupReadDto_Description,
 			},
 		},
 	}

@@ -1,6 +1,8 @@
 package runner
 
 import (
+	"terraform-provider-snapcd/internal/provider/openapidocs"
+
 	"fmt"
 
 	"context"
@@ -48,31 +50,31 @@ func (d *runnerDataSource) Metadata(ctx context.Context, req datasource.Metadata
 
 func (d *runnerDataSource) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: "Runners --- Use this data source to access information about an existing Runner in Snap CD.",
+		MarkdownDescription: "Runners --- Use this data source to access information about an existing Runner in Snap CD." + "\n\n## Required permissions\n\n" + openapidocs.DataSourcePermissions["Runner"],
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed:    true,
-				Description: DescRunnerId,
+				Description: openapidocs.RunnerReadDto_Id,
 			},
 			"name": schema.StringAttribute{
 				Required:    true,
-				Description: DescRunnerName,
+				Description: openapidocs.RunnerReadDto_Name,
 			},
 			"service_principal_id": schema.StringAttribute{
 				Computed:    true,
-				Description: DescRunnerServicePrincipalId,
+				Description: openapidocs.RunnerReadDto_ServicePrincipalId,
 			},
 			"is_supplied_to_all_modules": schema.BoolAttribute{
 				Computed:    true,
-				Description: DescIsSuppliedToAllModules,
+				Description: openapidocs.RunnerReadDto_IsSuppliedToAllModules,
 			},
 			"is_disabled": schema.BoolAttribute{
 				Computed:    true,
-				Description: DescRunnerIsDisabled,
+				Description: openapidocs.RunnerReadDto_IsDisabled,
 			},
 			"allow_multiple_instances": schema.BoolAttribute{
 				Computed:    true,
-				Description: DescRunnerIsDisabled,
+				Description: openapidocs.RunnerReadDto_AllowMultipleInstances,
 			},
 		},
 	}

@@ -1,6 +1,8 @@
 package hooks
 
 import (
+	"terraform-provider-snapcd/internal/provider/openapidocs"
+
 	"fmt"
 
 	"context"
@@ -63,46 +65,38 @@ type moduleHookModel struct {
 	Script   types.String `tfsdk:"script"`
 }
 
-const (
-	DescModuleHookId       = "Unique ID of the Module Hook."
-	DescModuleHookModuleId = "ID of the parent Module."
-	DescModuleHookTask     = "The lifecycle task this hook applies to. Valid values: `Init`, `Plan`, `PlanDestroy`, `Apply`, `Destroy`, `Output`, `Validate`."
-	DescModuleHookPhase    = "When the hook runs relative to the task. Valid values: `Before`, `After`."
-	DescModuleHookScript   = "The shell script that runs at the configured task and phase."
-)
-
 func (r *moduleHookResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: `Hooks --- Manages a Module Hook in Snap CD. A hook is a shell script that runs before or after a Terraform/Pulumi lifecycle task on a specific Module.`,
+		MarkdownDescription: `Hooks --- Manages a Module Hook in Snap CD. A hook is a shell script that runs before or after a Terraform/Pulumi lifecycle task on a specific Module.` + "\n\n## Required permissions\n\n" + openapidocs.ResourcePermissions["ModuleHook"],
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
-				Description: DescModuleHookId,
+				Description: openapidocs.ModuleHookReadDto_Id,
 			},
 			"module_id": schema.StringAttribute{
 				Required:    true,
-				Description: DescModuleHookModuleId,
+				Description: openapidocs.ModuleHookCreateDto_ModuleId,
 			},
 			"task": schema.StringAttribute{
 				Required:    true,
-				Description: DescModuleHookTask,
+				Description: openapidocs.ModuleHookCreateDto_Task,
 				Validators: []validator.String{
-					stringvalidator.OneOf(hookTaskValues...),
+					stringvalidator.OneOf(openapidocs.HookTaskValues...),
 				},
 			},
 			"phase": schema.StringAttribute{
 				Required:    true,
-				Description: DescModuleHookPhase,
+				Description: openapidocs.ModuleHookCreateDto_Phase,
 				Validators: []validator.String{
-					stringvalidator.OneOf(hookPhaseValues...),
+					stringvalidator.OneOf(openapidocs.HookPhaseValues...),
 				},
 			},
 			"script": schema.StringAttribute{
 				Required:    true,
-				Description: DescModuleHookScript,
+				Description: openapidocs.ModuleHookCreateDto_Script,
 			},
 		},
 	}
