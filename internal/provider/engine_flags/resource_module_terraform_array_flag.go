@@ -1,6 +1,8 @@
 package engine_flags
 
 import (
+	"terraform-provider-snapcd/internal/provider/openapidocs"
+
 	"fmt"
 
 	"context"
@@ -63,46 +65,38 @@ type moduleTerraformArrayFlagModel struct {
 	Value    types.String `tfsdk:"value"`
 }
 
-const (
-	DescModuleTerraformArrayFlagId       = "Unique ID of the Module Terraform Array Flag."
-	DescModuleTerraformArrayFlagModuleId = "ID of the parent Module."
-	DescModuleTerraformArrayFlagTask     = "The command task this flag applies to. Valid values: `Init`, `Plan`, `Apply`, `Destroy`, `Output`."
-	DescModuleTerraformArrayFlagFlag     = "The Terraform CLI array flag name."
-	DescModuleTerraformArrayFlagValue    = "The value for the flag."
-)
-
 func (r *moduleTerraformArrayFlagResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: `Engine Flags --- Manages a Module Terraform Array Flag in Snap CD.`,
+		MarkdownDescription: `Engine Flags --- Manages a Module Terraform Array Flag in Snap CD.` + "\n\n## Required permissions\n\n" + openapidocs.ResourcePermissions["ModuleTerraformArrayFlag"],
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
-				Description: DescModuleTerraformArrayFlagId,
+				Description: openapidocs.ModuleTerraformArrayFlagReadDto_Id,
 			},
 			"module_id": schema.StringAttribute{
 				Required:    true,
-				Description: DescModuleTerraformArrayFlagModuleId,
+				Description: openapidocs.ModuleTerraformArrayFlagCreateDto_ModuleId,
 			},
 			"task": schema.StringAttribute{
 				Required:    true,
-				Description: DescModuleTerraformArrayFlagTask,
+				Description: openapidocs.ModuleTerraformArrayFlagCreateDto_Task,
 				Validators: []validator.String{
-					stringvalidator.OneOf(terraformCommandTaskValues...),
+					stringvalidator.OneOf(openapidocs.TerraformCommandTaskValues...),
 				},
 			},
 			"flag": schema.StringAttribute{
 				Required:    true,
-				Description: DescModuleTerraformArrayFlagFlag,
+				Description: openapidocs.ModuleTerraformArrayFlagCreateDto_Flag,
 				Validators: []validator.String{
-					stringvalidator.OneOf(terraformArrayFlagValues...),
+					stringvalidator.OneOf(openapidocs.TerraformArrayFlagValues...),
 				},
 			},
 			"value": schema.StringAttribute{
 				Required:    true,
-				Description: DescModuleTerraformArrayFlagValue,
+				Description: openapidocs.ModuleTerraformArrayFlagCreateDto_Value,
 			},
 		},
 	}

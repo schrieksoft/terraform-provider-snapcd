@@ -1,6 +1,8 @@
 package identity
 
 import (
+	"terraform-provider-snapcd/internal/provider/openapidocs"
+
 	"fmt"
 
 	"context"
@@ -29,12 +31,6 @@ type servicePrincipalModel struct {
 	ClientId   types.String `tfsdk:"client_id"`
 	IsDisabled types.Bool   `tfsdk:"is_disabled"`
 }
-
-const (
-	DescServicePrincipalId         = "Unique ID of the Service Principal."
-	DescServicePrincipalClientId   = "Client Id of the Service Principal. This value must be unique."
-	DescServicePrincipalIsDisabled = "Indicates whether the Service Principal is disabled."
-)
 
 type servicePrincipalDataSource struct {
 	client *snapcd.Client
@@ -65,19 +61,19 @@ func (d *servicePrincipalDataSource) Metadata(ctx context.Context, req datasourc
 
 func (d *servicePrincipalDataSource) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: "Identity Access Management --- Use this data source to access information about an existing Service Principal in Snap CD.",
+		MarkdownDescription: "Identity Access Management --- Use this data source to access information about an existing Service Principal in Snap CD." + "\n\n## Required permissions\n\n" + openapidocs.DataSourcePermissions["ServicePrincipal"],
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed:    true,
-				Description: DescServicePrincipalId,
+				Description: openapidocs.ServicePrincipalReadDto_Id,
 			},
 			"client_id": schema.StringAttribute{
 				Required:    true,
-				Description: DescServicePrincipalClientId,
+				Description: openapidocs.ServicePrincipalReadDto_ClientId,
 			},
 			"is_disabled": schema.BoolAttribute{
 				Computed:    true,
-				Description: DescServicePrincipalIsDisabled,
+				Description: openapidocs.ServicePrincipalReadDto_IsDisabled,
 			},
 		},
 	}

@@ -1,6 +1,8 @@
 package integration_events
 
 import (
+	"terraform-provider-snapcd/internal/provider/openapidocs"
+
 	"fmt"
 
 	"context"
@@ -67,43 +69,43 @@ type namespaceIntegrationEventModel struct {
 
 func (r *namespaceIntegrationEventResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: "Integration Events --- Manages a namespace-scoped Integration Event in Snap CD.",
+		MarkdownDescription: "Integration Events --- Manages a namespace-scoped Integration Event in Snap CD." + "\n\n## Required permissions\n\n" + openapidocs.ResourcePermissions["NamespaceIntegrationEvent"],
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
-				Description: DescEventId,
+				Description: openapidocs.NamespaceIntegrationEventReadDto_Id,
 			},
 			"namespace_id": schema.StringAttribute{
 				Required:    true,
-				Description: DescEventNamespaceId,
+				Description: openapidocs.NamespaceIntegrationEventCreateDto_NamespaceId,
 			},
 			"integration_id": schema.StringAttribute{
 				Required:    true,
-				Description: DescEventIntegrationId,
+				Description: openapidocs.NamespaceIntegrationEventCreateDto_IntegrationId,
 			},
 			"trigger": schema.StringAttribute{
 				Required: true,
 				Validators: []validator.String{
-					stringvalidator.OneOf(integrationTriggerValues...),
+					stringvalidator.OneOf(openapidocs.IntegrationTriggerValues...),
 				},
-				Description: DescEventTrigger,
+				Description: openapidocs.NamespaceIntegrationEventCreateDto_Trigger,
 			},
 			"template": schema.StringAttribute{
 				Optional:    true,
-				Description: DescEventTemplate,
+				Description: openapidocs.NamespaceIntegrationEventCreateDto_Template,
 			},
 			"filter": schema.StringAttribute{
 				Optional:    true,
-				Description: DescEventFilter,
+				Description: openapidocs.NamespaceIntegrationEventCreateDto_Filter,
 			},
 			"is_disabled": schema.BoolAttribute{
 				Optional:    true,
 				Computed:    true,
 				Default:     booldefault.StaticBool(false),
-				Description: DescEventIsDisabled,
+				Description: openapidocs.NamespaceIntegrationEventCreateDto_IsDisabled,
 			},
 		},
 	}

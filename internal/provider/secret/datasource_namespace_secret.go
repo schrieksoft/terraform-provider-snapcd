@@ -1,6 +1,8 @@
 package secret
 
 import (
+	"terraform-provider-snapcd/internal/provider/openapidocs"
+
 	"fmt"
 
 	"context"
@@ -59,19 +61,19 @@ func (d *namespaceSecretDataSource) Metadata(ctx context.Context, req datasource
 
 func (d *namespaceSecretDataSource) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: "Secrets --- Use this data source to access information about an existing Secret (Scoped to Namespace) in Snap CD.",
+		MarkdownDescription: "Secrets --- Use this data source to access information about an existing Secret (Scoped to Namespace) in Snap CD." + "\n\n## Required permissions\n\n" + openapidocs.DataSourcePermissions["NamespaceSecret"],
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed:    true,
-				Description: DescId,
+				Description: openapidocs.NamespaceSecretDto_Id,
 			},
 			"name": schema.StringAttribute{
 				Required:    true,
-				Description: DescName,
+				Description: openapidocs.NamespaceSecretDto_Name,
 			},
 			"namespace_id": schema.StringAttribute{
 				Required:    true,
-				Description: DescNamespaceId,
+				Description: openapidocs.NamespaceSecretDto_NamespaceId,
 			},
 		},
 	}

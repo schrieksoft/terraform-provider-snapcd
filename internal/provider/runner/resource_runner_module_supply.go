@@ -1,6 +1,8 @@
 package runner
 
 import (
+	"terraform-provider-snapcd/internal/provider/openapidocs"
+
 	"fmt"
 
 	"context"
@@ -62,22 +64,22 @@ type runnerModuleSupplyModel struct {
 
 func (r *runnerModuleSupplyResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: "Runners --- Manages a Runner Module Supply in Snap CD.",
+		MarkdownDescription: "Runners --- Manages a Runner Module Supply in Snap CD." + "\n\n## Required permissions\n\n" + openapidocs.ResourcePermissions["RunnerModuleSupply"],
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
-				Description: "Unique ID of the Runner Module Supply.",
+				Description: openapidocs.RunnerModuleSupplyReadDto_Id,
 			},
 			"module_id": schema.StringAttribute{
 				Required:    true,
-				Description: "ID of the Module to which the Runner is assigned.",
+				Description: openapidocs.RunnerModuleSupplyCreateDto_ModuleId,
 			},
 			"runner_id": schema.StringAttribute{
 				Required:    true,
-				Description: "ID of the Runner that is assigned to the Module.",
+				Description: openapidocs.RunnerModuleSupplyCreateDto_RunnerId,
 			},
 		},
 	}

@@ -1,6 +1,8 @@
 package namespace_input
 
 import (
+	"terraform-provider-snapcd/internal/provider/openapidocs"
+
 	"fmt"
 
 	"context"
@@ -48,35 +50,35 @@ func (d *namespaceInputFromLiteralDataSource) Metadata(ctx context.Context, req 
 
 func (d *namespaceInputFromLiteralDataSource) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: "Namespace Inputs --- Use this data source to access information about an existing Namesapce Param (From Literal) in Snap CD.",
+		MarkdownDescription: "Namespace Inputs --- Use this data source to access information about an existing Namesapce Param (From Literal) in Snap CD." + "\n\n## Required permissions\n\n" + openapidocs.DataSourcePermissions["NamespaceInputFromLiteral"],
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed:    true,
-				Description: DescSharedId + "Namespace Input (From Literal).",
+				Description: openapidocs.NamespaceInputFromLiteralReadDto_Id,
 			},
 			"name": schema.StringAttribute{
 				Required:    true,
-				Description: DescSharedName1 + "Namespace Input (From Literal). " + DescSharedName2,
+				Description: openapidocs.NamespaceInputFromLiteralReadDto_Name,
 			},
 			"literal_value": schema.StringAttribute{
 				Computed:    true,
-				Description: DescSharedLiteralValue,
+				Description: openapidocs.NamespaceInputFromLiteralReadDto_LiteralValue,
 			},
 			"type": schema.StringAttribute{
 				Computed:    true,
-				Description: DescSharedLiteralType,
+				Description: openapidocs.NamespaceInputFromLiteralReadDto_Type,
 			},
 			"usage_mode": schema.StringAttribute{
 				Computed:    true,
-				Description: DescSharedUsage,
+				Description: openapidocs.NamespaceInputFromLiteralReadDto_UsageMode,
 			},
 			"namespace_id": schema.StringAttribute{
 				Required:    true,
-				Description: DescSharedNamespaceId1 + "Namespace Input (From Literal)" + DescSharedNamespaceId2,
+				Description: openapidocs.NamespaceInputFromLiteralReadDto_NamespaceId,
 			},
 			"input_kind": schema.StringAttribute{
 				Required:    true,
-				Description: DescSharedInputKind,
+				Description: openapidocs.NamespaceInputFromLiteralReadDto_InputKind,
 			},
 		},
 	}

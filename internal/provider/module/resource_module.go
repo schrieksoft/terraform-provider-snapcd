@@ -1,6 +1,8 @@
 package module
 
 import (
+	"terraform-provider-snapcd/internal/provider/openapidocs"
+
 	"fmt"
 
 	"context"
@@ -15,7 +17,6 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types"
 
 	snapcd "terraform-provider-snapcd/client"
-	"terraform-provider-snapcd/internal/provider/shared"
 	utils "terraform-provider-snapcd/utils"
 
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
@@ -89,189 +90,158 @@ type moduleModel struct {
 	WaitForDestroyDependencies         types.String `tfsdk:"wait_for_destroy_dependencies"`
 }
 
-const (
-	DescModuleOverride = "Setting this will override any default value set on the Module's parent Namespace."
-
-	DescModuleId                           = "Unique ID of the Module."
-	DescModuleName                         = "Name of the Module. Must be unique in combination with `namespace_id`."
-	DescModuleNamespaceId                  = "ID of the Module's parent Namespace."
-	DescModuleRunnerId                     = "ID of the Runner that will receive the instructions when triggering a deployment on this Module."
-	DescModuleSourceRevision               = "Remote revision (e.g. version number, branch, commit or tag) where the source module code is found."
-	DescModuleSourceUrl                    = "Remote URL where the source module code is found."
-	DescModuleSourceSubdirectory           = "Subdirectory where the source module code is found."
-	DescModuleDependsOnModules             = "A list on Snap CD Modules that this Module depends on. Note that Snap CD will automatically discover depedencies based on the Module using as inputs the outputs from another Module, so use `depends_on_modules` where you want to explicitly establish a dependency where outputs are not referenced as inputs."
-	DescModuleSourceType                   = "The type of remote module store that the source module code should be retrieved from. Must be one of 'Git' or 'Registry'"
-	DescModuleSourceRevisionType           = "How Snap CD should interpret the `source_revision` field. Must be one of 'Default' or 'SemanticVersionRange'. Setting to 'Default' means Snap CD will interpret the revision type based on the source type (for example, for a 'Git' source type it will automatically figure out whether the `source_revision` refers to a branch, tag or commit). Setting to 'SemanticVersionRange' means that Snap CD will resolve the revision to a semantic version line `vX.Y.Z` (alternatively witout the 'v' prefix of that is how your semantic version are tagged, i.e. 'X.Y.Z'). It will take the highest version within the major or minor version range that you specify. For example, specify `v2.20.*` or `v2.*`. You can also specify a specific semantic version here, e.g. `v2.20.7`. In that case the behaviour is the same as with when using 'Default', except that only valid semantic versions are accepted. NOTE that 'SemanticVersionRange' is currently only supported in combination with the 'Git' `source_type`."
-	DescModuleRunnerInstanceName           = "Name a specific runner instance to select (should unique identify the the instance). Use this if you have enabled multiple instances on your runner, but want all jobs for this Module to go to a specific instance."
-	DescModuleEngine                       = shared.DescSharedEngine + DescModuleOverride
-	DescModuleApplyApprovalThreshold       = shared.DescSharedApplyApprovalThreshold + DescModuleOverride + shared.DescZeroThreshold
-	DescModuleDestroyApprovalThreshold     = shared.DescSharedDestroyApprovalThreshold + DescModuleOverride + shared.DescZeroThreshold
-	DescModuleApprovalTimeoutMinutes       = shared.DescSharedApprovalTimeoutMinutes + DescModuleOverride + shared.DescZeroTimeout
-	DescModuleCleanInitEnabled             = shared.DescSharedCleanInitEnabled + DescModuleOverride
-	DescModuleDriftCheckEnabled            = shared.DescSharedDriftCheckEnabled + DescModuleOverride
-	DescModuleDriftCheckIntervalMinutes    = shared.DescSharedDriftCheckIntervalMinutes + DescModuleOverride
-	DescModuleIgnoreNamespaceExtraFiles    = "If this is set to true, any Extra Files that have been set on Namespace level will not be used on this specific Module."
-	DescModuleIgnoreNamespaceFlags         = "If this is set to true, any Flags (Terraform Flags, Terraform Array Flags, Pulumi Flags, Pulumi Array Flags) that have been set on Namespace level will not be used on this specific Module."
-	DescModuleIgnoreNamespaceHooks         = "If this is set to true, any Hooks set on Namespace level will not be used on this specific Module."
-	DescTriggerOnSourceChanged             = "Defaults to 'true'. If 'true', the Module will automatically be applied when the source it is referencing has changed. For example, if tracking a Git branch: a new commit would constitute a change."
-	DescTriggerOnSourceChangedNotification = "Defaults to 'false'. If 'true', the Module will automatically be applied when the 'api/Hooks/SourceChanged' endpoint is called for this Module. Use this if you want to use external tooling to inform Snap CD that a source has been changed. Consider setting `trigger_on_definition_changed` to 'false' when setting `trigger_on_definition_changed_hook` to 'true'"
-	DescTriggerOnUpstreamOutputChanged     = "Defaults to 'true'. If 'true', the Module will automatically be applied when any Outputs from other Modules that it references as Inputs (Param or Env Var) have changed."
-	DescTriggerOnDefinitionChanged         = "Defaults to 'true'. If 'true', the Module will automatically be applied when its definition changes. A definition change results from fields on the Module itself, on any of its Inputs (Param or Env Var) or Extra Files being altered. So too changes to its Namespace (including Inputs and Extra Files) or Stack. Note however that Namespace and Stack changes are not notified by default. This behaviour can be changed in `snapcd_namespace` and `snapcd_stack` resource definitions."
-	DescWaitForApplyDependencies           = "Defaults to 'OnFirstApply'. Controls when the Module should wait for dependencies during apply operations. Valid values are 'Always', 'Never', or 'OnFirstApply'. 'Always' means the Module will always wait for Modules its depends on to reach the 'Applied' state before applying. 'Never' means dependencies are ignored. 'OnFirstApply' means the Module will wait for dependencies only on its first apply."
-	DescWaitForDestroyDependencies         = "Defaults to 'Always'. Controls when the Module should wait for dependencies during destroy operations. Valid values are 'Always' or 'Never'. 'Always' means the Module will always wait Modules that depend on it to reach the 'Destroyed' state before destroying. 'Never' means dependencies are ignored."
-)
-
 func (r *moduleResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: `Modules --- Manages a Module in Snap CD.`,
+		MarkdownDescription: `Modules --- Manages a Module in Snap CD.` + "\n\n## Required permissions\n\n" + openapidocs.ResourcePermissions["Module"],
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
-				Description: DescModuleId,
+				Description: openapidocs.ModuleReadDto_Id,
 			},
 			"name": schema.StringAttribute{
 				Required:    true,
-				Description: DescModuleName,
+				Description: openapidocs.ModuleCreateDto_Name,
 			},
 			"namespace_id": schema.StringAttribute{
 				Required:    true,
-				Description: DescModuleNamespaceId,
+				Description: openapidocs.ModuleCreateDto_NamespaceId,
 			},
 			"runner_id": schema.StringAttribute{
 				Required:    true,
-				Description: DescModuleRunnerId,
+				Description: openapidocs.ModuleCreateDto_RunnerId,
 			},
 			"source_revision": schema.StringAttribute{
 				Required:    true,
-				Description: DescModuleSourceRevision,
+				Description: openapidocs.ModuleCreateDto_SourceRevision,
 			},
 			"source_url": schema.StringAttribute{
 				Required:    true,
-				Description: DescModuleSourceUrl,
+				Description: openapidocs.ModuleCreateDto_SourceUrl,
 			},
 			"source_type": schema.StringAttribute{
 				Optional: true,
 				Computed: true,
 				Validators: []validator.String{
+					// Intentionally narrower than the spec enum: the other source types are internal.
 					stringvalidator.OneOf("Git", "Registry"),
 				},
 				Default:     stringdefault.StaticString("Git"),
-				Description: DescModuleSourceType,
+				Description: openapidocs.ModuleCreateDto_SourceType,
 			},
 			"source_revision_type": schema.StringAttribute{
 				Optional: true,
 				Computed: true,
 				Validators: []validator.String{
-					stringvalidator.OneOf("Default", "SemanticVersionRange"),
+					stringvalidator.OneOf(openapidocs.SourceRevisionTypeValues...),
 				},
 				Default:     stringdefault.StaticString("Default"),
-				Description: DescModuleSourceRevisionType,
+				Description: openapidocs.ModuleCreateDto_SourceRevisionType,
 			},
 			"source_subdirectory": schema.StringAttribute{
 				Optional:    true,
 				Computed:    true,
 				Default:     stringdefault.StaticString(""),
-				Description: DescModuleSourceSubdirectory,
+				Description: openapidocs.ModuleCreateDto_SourceSubdirectory,
 			},
 			"runner_instance_name": schema.StringAttribute{
 				Optional:    true,
-				Description: DescModuleRunnerInstanceName,
+				Description: openapidocs.ModuleCreateDto_RunnerInstanceName,
 			},
 			"clean_init_enabled": schema.BoolAttribute{
 				Optional:    true,
-				Description: DescModuleCleanInitEnabled,
+				Description: openapidocs.ModuleCreateDto_CleanInitEnabled,
 			},
 			"drift_check_enabled": schema.BoolAttribute{
 				Optional:    true,
-				Description: DescModuleDriftCheckEnabled,
+				Description: openapidocs.ModuleCreateDto_DriftCheckEnabled,
 			},
 			"drift_check_interval_minutes": schema.Int64Attribute{
 				Optional:    true,
-				Description: DescModuleDriftCheckIntervalMinutes,
+				Description: openapidocs.ModuleCreateDto_DriftCheckIntervalMinutes,
 			},
 			"ignore_namespace_extra_files": schema.BoolAttribute{
 				Optional:    true,
 				Computed:    true,
-				Description: DescModuleIgnoreNamespaceExtraFiles,
+				Description: openapidocs.ModuleCreateDto_IgnoreNamespaceExtraFiles,
 				Default:     booldefault.StaticBool(false),
 			},
 			"ignore_namespace_flags": schema.BoolAttribute{
 				Optional:    true,
 				Computed:    true,
-				Description: DescModuleIgnoreNamespaceFlags,
+				Description: openapidocs.ModuleCreateDto_IgnoreNamespaceFlags,
 				Default:     booldefault.StaticBool(false),
 			},
 			"ignore_namespace_hooks": schema.BoolAttribute{
 				Optional:    true,
 				Computed:    true,
-				Description: DescModuleIgnoreNamespaceHooks,
+				Description: openapidocs.ModuleCreateDto_IgnoreNamespaceHooks,
 				Default:     booldefault.StaticBool(false),
 			},
 			"engine": schema.StringAttribute{
 				Optional: true,
 				Validators: []validator.String{
-					stringvalidator.OneOf("OpenTofu", "Terraform", "Pulumi"),
+					stringvalidator.OneOf(openapidocs.StateManagementEngineValues...),
 				},
-				Description: DescModuleEngine,
+				Description: openapidocs.ModuleCreateDto_Engine,
 			},
 			"apply_approval_threshold": schema.Int64Attribute{
 				Optional:    true,
-				Description: DescModuleApplyApprovalThreshold,
+				Description: openapidocs.ModuleCreateDto_ApplyApprovalThreshold,
 			},
 
 			"destroy_approval_threshold": schema.Int64Attribute{
 				Optional:    true,
-				Description: DescModuleDestroyApprovalThreshold,
+				Description: openapidocs.ModuleCreateDto_DestroyApprovalThreshold,
 			},
 			"approval_timeout_minutes": schema.Int64Attribute{
 				Optional:    true,
-				Description: DescModuleApprovalTimeoutMinutes,
+				Description: openapidocs.ModuleCreateDto_ApprovalTimeoutMinutes,
 			},
 
 			"trigger_on_definition_changed": schema.BoolAttribute{
 				Optional:    true,
 				Computed:    true,
-				Description: DescTriggerOnDefinitionChanged,
+				Description: openapidocs.ModuleCreateDto_TriggerOnDefinitionChanged,
 				Default:     booldefault.StaticBool(true),
 			},
 			"trigger_on_upstream_output_changed": schema.BoolAttribute{
 				Optional:    true,
 				Computed:    true,
-				Description: DescTriggerOnUpstreamOutputChanged,
+				Description: openapidocs.ModuleCreateDto_TriggerOnUpstreamOutputChanged,
 				Default:     booldefault.StaticBool(true),
 			},
 			"trigger_on_source_changed": schema.BoolAttribute{
 				Optional:    true,
 				Computed:    true,
-				Description: DescTriggerOnSourceChanged,
+				Description: openapidocs.ModuleCreateDto_TriggerOnSourceChanged,
 				Default:     booldefault.StaticBool(true),
 			},
 			"trigger_on_source_changed_notification": schema.BoolAttribute{
 				Optional:    true,
 				Computed:    true,
-				Description: DescTriggerOnSourceChangedNotification,
+				Description: openapidocs.ModuleCreateDto_TriggerOnSourceChangedNotification,
 				Default:     booldefault.StaticBool(false),
 			},
 			"wait_for_apply_dependencies": schema.StringAttribute{
 				Optional: true,
 				Computed: true,
 				Validators: []validator.String{
-					stringvalidator.OneOf("Always", "Never", "OnFirstApply"),
+					stringvalidator.OneOf(openapidocs.WaitForApplyDependenciesValues...),
 				},
 				Default:     stringdefault.StaticString("OnFirstApply"),
-				Description: DescWaitForApplyDependencies,
+				Description: openapidocs.ModuleCreateDto_WaitForApplyDependencies,
 			},
 			"wait_for_destroy_dependencies": schema.StringAttribute{
 				Optional: true,
 				Computed: true,
 				Validators: []validator.String{
-					stringvalidator.OneOf("Always", "Never"),
+					stringvalidator.OneOf(openapidocs.WaitForDestroyDependenciesValues...),
 				},
 				Default:     stringdefault.StaticString("Always"),
-				Description: DescWaitForDestroyDependencies,
+				Description: openapidocs.ModuleCreateDto_WaitForDestroyDependencies,
 			},
 		},
 	}

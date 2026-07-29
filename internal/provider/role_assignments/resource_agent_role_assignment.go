@@ -1,6 +1,8 @@
 package role_assignments
 
 import (
+	"terraform-provider-snapcd/internal/provider/openapidocs"
+
 	"fmt"
 
 	"context"
@@ -64,46 +66,39 @@ type agentRoleAssignmentModel struct {
 	RoleName               types.String `tfsdk:"role_name"`
 }
 
-const (
-	DescAgentRoleAssignmentId                     = "Unique ID of the Agent Role Assignment."
-	DescAgentRoleAssignmentAgentId                = "ID of the Agent on which the role applies."
-	DescAgentRoleAssignmentPrincipalId            = "ID of the Principal to which the role is assigned."
-	DescAgentRoleAssignmentPrincipalDiscriminator = "Type of Principal that the `principal_id` identifies. Must be one of 'User', 'ServicePrincipal' and 'Group'"
-	DescAgentRoleAssignmentRoleName               = "Name of the Role that is assigned. Must be one of 'Owner', 'Contributor', 'Reader' and 'IdentityAccessManager'"
-)
-
 func (r *agentRoleAssignmentResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: `Role Assignments --- Manages an Agent Role Assignment in Snap CD.`,
+		MarkdownDescription: `Role Assignments --- Manages an Agent Role Assignment in Snap CD.` + "\n\n## Required permissions\n\n" + openapidocs.ResourcePermissions["AgentRoleAssignment"],
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
-				Description: DescAgentRoleAssignmentId,
+				Description: openapidocs.AgentRoleAssignmentReadDto_Id,
 			},
 			"agent_id": schema.StringAttribute{
 				Required:    true,
-				Description: DescAgentRoleAssignmentAgentId,
+				Description: openapidocs.AgentRoleAssignmentReadDto_AgentId,
 			},
 			"principal_id": schema.StringAttribute{
 				Required:    true,
-				Description: DescAgentRoleAssignmentPrincipalId,
+				Description: openapidocs.AgentRoleAssignmentReadDto_PrincipalId,
 			},
 			"principal_discriminator": schema.StringAttribute{
 				Required: true,
 				Validators: []validator.String{
+					// Intentionally narrower than the spec enum: `Base` is an internal discriminator.
 					stringvalidator.OneOf("User", "ServicePrincipal", "Group"),
 				},
-				Description: DescAgentRoleAssignmentPrincipalDiscriminator,
+				Description: openapidocs.AgentRoleAssignmentReadDto_PrincipalDiscriminator,
 			},
 			"role_name": schema.StringAttribute{
 				Required: true,
 				Validators: []validator.String{
-					stringvalidator.OneOf("Owner", "Contributor", "Reader", "IdentityAccessManager"),
+					stringvalidator.OneOf(openapidocs.AgentRoleValues...),
 				},
-				Description: DescAgentRoleAssignmentRoleName,
+				Description: openapidocs.AgentRoleAssignmentReadDto_RoleName,
 			},
 		},
 	}

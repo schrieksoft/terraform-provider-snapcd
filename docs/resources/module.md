@@ -9,6 +9,10 @@ description: |-
 
 Manages a Module in Snap CD.
 
+## Required permissions
+
+Any of: `Organization.Contributor`, `Organization.Owner`, `Organization.StackContributor`, `Stack.Contributor`, `Stack.Owner`, `Namespace.Contributor`, `Namespace.Owner`
+
 
 ## Example Usage
 

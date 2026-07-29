@@ -1,6 +1,8 @@
 package module_input
 
 import (
+	"terraform-provider-snapcd/internal/provider/openapidocs"
+
 	"fmt"
 
 	"context"
@@ -67,40 +69,40 @@ type moduleInputFromOutputModel struct {
 
 func (r *moduleInputFromOutputResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: `Module Inputs --- Manages a Module Input (From Output) in Snap CD.`,
+		MarkdownDescription: `Module Inputs --- Manages a Module Input (From Output) in Snap CD.` + "\n\n## Required permissions\n\n" + openapidocs.ResourcePermissions["ModuleInputFromOutput"],
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
-				Description: DescSharedId + "Module Input (From Output).",
+				Description: openapidocs.ModuleInputFromOutputUpdateDto_Id,
 			},
 			"name": schema.StringAttribute{
 				Required:    true,
-				Description: DescSharedName1 + "Module Input (From Output). " + DescSharedName2,
+				Description: openapidocs.ModuleInputFromOutputCreateDto_Name,
 			},
 			"output_name": schema.StringAttribute{
 				Required:    true,
-				Description: DescSharedOutputName,
+				Description: openapidocs.ModuleInputFromOutputCreateDto_OutputName,
 			},
 			"output_module_id": schema.StringAttribute{
 				Required:    true,
-				Description: DescSharedOutputModuleId,
+				Description: openapidocs.ModuleInputFromOutputCreateDto_OutputModuleId,
 			},
 			"module_id": schema.StringAttribute{
 				Required:    true,
-				Description: DescSharedModuleId1 + "Module Input (From Output)" + DescSharedModuleId2,
+				Description: openapidocs.ModuleInputFromOutputCreateDto_ModuleId,
 			},
 			"input_kind": schema.StringAttribute{
 				Required: true,
 				Validators: []validator.String{
-					stringvalidator.OneOf("Param", "EnvVar"),
+					stringvalidator.OneOf(openapidocs.InputKindValues...),
 				},
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.RequiresReplace(),
 				},
-				Description: DescSharedInputKind,
+				Description: openapidocs.ModuleInputFromOutputCreateDto_InputKind,
 			},
 		},
 	}

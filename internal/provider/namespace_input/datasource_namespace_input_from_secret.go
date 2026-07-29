@@ -1,6 +1,8 @@
 package namespace_input
 
 import (
+	"terraform-provider-snapcd/internal/provider/openapidocs"
+
 	"context"
 	"fmt"
 
@@ -31,35 +33,35 @@ func (d *namespaceInputFromSecretDataSource) Metadata(_ context.Context, req dat
 
 func (d *namespaceInputFromSecretDataSource) Schema(_ context.Context, _ datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: `Namespace Inputs --- Retrieves a Namespace Input (From Secret) from Snap CD.`,
+		MarkdownDescription: `Namespace Inputs --- Retrieves a Namespace Input (From Secret) from Snap CD.` + "\n\n## Required permissions\n\n" + openapidocs.DataSourcePermissions["NamespaceInputFromSecret"],
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed:    true,
-				Description: DescSharedId + "Namespace Input (From Secret).",
+				Description: openapidocs.NamespaceInputFromSecretReadDto_Id,
 			},
 			"name": schema.StringAttribute{
 				Required:    true,
-				Description: DescSharedName1 + "Namespace Input (From Secret). " + DescSharedName2,
+				Description: openapidocs.NamespaceInputFromSecretReadDto_Name,
 			},
 			"type": schema.StringAttribute{
 				Computed:    true,
-				Description: DescSharedSecretType,
+				Description: openapidocs.NamespaceInputFromSecretReadDto_Type,
 			},
 			"secret_id": schema.StringAttribute{
 				Computed:    true,
-				Description: "ID of the Secret to take as input.",
+				Description: openapidocs.NamespaceInputFromSecretReadDto_SecretId,
 			},
 			"usage_mode": schema.StringAttribute{
 				Computed:    true,
-				Description: DescSharedUsage,
+				Description: openapidocs.NamespaceInputFromSecretReadDto_UsageMode,
 			},
 			"namespace_id": schema.StringAttribute{
 				Required:    true,
-				Description: DescSharedNamespaceId1 + "Namespace Input (From Secret)" + DescSharedNamespaceId2,
+				Description: openapidocs.NamespaceInputFromSecretReadDto_NamespaceId,
 			},
 			"input_kind": schema.StringAttribute{
 				Required:    true,
-				Description: DescSharedInputKind,
+				Description: openapidocs.NamespaceInputFromSecretReadDto_InputKind,
 			},
 		},
 	}

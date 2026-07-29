@@ -9,6 +9,10 @@ description: |-
 
 Manages a Runner in Snap CD.
 
+## Required permissions
+
+Any of: `Organization.Contributor`, `Organization.Owner`, `Organization.RunnerContributor`
+
 
 ## Example Usage
 

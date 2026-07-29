@@ -1,6 +1,8 @@
 package module_input
 
 import (
+	"terraform-provider-snapcd/internal/provider/openapidocs"
+
 	"fmt"
 
 	"context"
@@ -48,31 +50,31 @@ func (d *moduleInputFromLiteralDataSource) Metadata(ctx context.Context, req dat
 
 func (d *moduleInputFromLiteralDataSource) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: "Module Inputs --- Use this data source to access information about an existing Module Input (From Literal) in Snap CD.",
+		MarkdownDescription: "Module Inputs --- Use this data source to access information about an existing Module Input (From Literal) in Snap CD." + "\n\n## Required permissions\n\n" + openapidocs.DataSourcePermissions["ModuleInputFromLiteral"],
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed:    true,
-				Description: DescSharedId + "Module Input (From Literal).",
+				Description: openapidocs.ModuleInputFromLiteralReadDto_Id,
 			},
 			"name": schema.StringAttribute{
 				Required:    true,
-				Description: DescSharedName1 + "Module Input (From Literal). " + DescSharedName2,
+				Description: openapidocs.ModuleInputFromLiteralReadDto_Name,
 			},
 			"type": schema.StringAttribute{
 				Computed:    true,
-				Description: DescSharedLiteralType,
+				Description: openapidocs.ModuleInputFromLiteralReadDto_Type,
 			},
 			"literal_value": schema.StringAttribute{
 				Computed:    true,
-				Description: DescSharedLiteralValue,
+				Description: openapidocs.ModuleInputFromLiteralReadDto_LiteralValue,
 			},
 			"module_id": schema.StringAttribute{
 				Required:    true,
-				Description: DescSharedModuleId1 + "Module Input (From Literal)" + DescSharedModuleId2,
+				Description: openapidocs.ModuleInputFromLiteralReadDto_ModuleId,
 			},
 			"input_kind": schema.StringAttribute{
 				Required:    true,
-				Description: DescSharedInputKind,
+				Description: openapidocs.ModuleInputFromLiteralReadDto_InputKind,
 			},
 		},
 	}

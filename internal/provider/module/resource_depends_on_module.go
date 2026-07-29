@@ -1,6 +1,8 @@
 package module
 
 import (
+	"terraform-provider-snapcd/internal/provider/openapidocs"
+
 	"fmt"
 
 	"context"
@@ -60,30 +62,24 @@ type dependsOnModuleModel struct {
 	DependsOnModuleId types.String `tfsdk:"depends_on_module_id"`
 }
 
-const (
-	DescDependsOnModuleId          = "Unique ID of the dependency relationship."
-	DescDependsOnModuleModuleId    = "ID of the module that depends on another module."
-	DescDependsOnModuleDependsOnId = "ID of the module that this module depends on."
-)
-
 func (r *dependsOnModuleResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: `Modules --- Manages a Module dependency relationship in Snap CD.`,
+		MarkdownDescription: `Modules --- Manages a Module dependency relationship in Snap CD.` + "\n\n## Required permissions\n\n" + openapidocs.ResourcePermissions["DependsOnModule"],
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
-				Description: DescDependsOnModuleId,
+				Description: openapidocs.DependsOnModuleReadDto_Id,
 			},
 			"module_id": schema.StringAttribute{
 				Required:    true,
-				Description: DescDependsOnModuleModuleId,
+				Description: openapidocs.DependsOnModuleCreateDto_ModuleId,
 			},
 			"depends_on_module_id": schema.StringAttribute{
 				Required:    true,
-				Description: DescDependsOnModuleDependsOnId,
+				Description: openapidocs.DependsOnModuleCreateDto_DependsOnModuleId,
 			},
 		},
 	}

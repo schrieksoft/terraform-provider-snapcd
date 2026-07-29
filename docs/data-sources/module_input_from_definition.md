@@ -9,6 +9,10 @@ description: |-
 
 Use this data source to access information about an existing Module Input (From Definition) in Snap CD.
 
+## Required permissions
+
+Any of: `Organization.Contributor`, `Organization.Owner`, `Organization.Reader`, `Organization.StackContributor`, `Organization.StackReader`, `Stack.Contributor`, `Stack.Owner`, `Stack.Reader`, `Namespace.Contributor`, `Namespace.Owner`, `Namespace.Reader`, `Module.Owner`, `Module.Reader`
+
 
 ## Example Usage
 
@@ -37,11 +41,11 @@ data "snapcd_module_input_from_definition" "myvar" {
 
 ### Required
 
-- `input_kind` (String) The kind of input. Must be one of 'Param' or 'EnvVar'. Changing this will force the resource to be recreated.
-- `module_id` (String) ID of the Module Input (From Definition)'s parent Module.
-- `name` (String) Name of the Module Input (From Definition).  Must be unique in combination with `module_id`.
+- `input_kind` (String) The kind of input. Must be one of 'Param', 'EnvVar'.
+- `module_id` (String) ID of the Module Input's parent Module.
+- `name` (String) Name of the Module Input. Must be unique in combination with `moduleId`.
 
 ### Read-Only
 
-- `definition_name` (String) Name of the Definition from which to get take the input. Must be one of 'ModuleId', 'NamespaceId', 'StackId', 'ModuleName', 'NamespaceName', 'StackName', 'SourceUrl', 'SourceRevision' or 'SourceSubdirectory'.
+- `definition_name` (String) Name of the Definition from which to get take the input. Must be one of 'StackId', 'StackName', 'NamespaceId', 'NamespaceName', 'ModuleId', 'ModuleName', 'SourceRevision', 'SourceUrl', 'SourceSubdirectory'.
 - `id` (String) Unique ID of the Module Input (From Definition).

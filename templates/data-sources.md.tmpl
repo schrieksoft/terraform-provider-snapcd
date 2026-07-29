@@ -7,9 +7,9 @@ subcategory: ""
 {{- end }}
 description: |-
 {{ if gt (len (split .Description " --- ")) 1 -}}
-{{ index (split .Description " --- ") 1 | plainmarkdown | trimspace | prefixlines "  " }}
+{{ index (split (index (split .Description " --- ") 1) "## Required permissions") 0 | plainmarkdown | trimspace | prefixlines "  " }}
 {{- else -}} 
-{{ .Description | plainmarkdown | trimspace | prefixlines "  " }}
+{{ index (split .Description "## Required permissions") 0 | plainmarkdown | trimspace | prefixlines "  " }}
 {{- end }}
 ---
 

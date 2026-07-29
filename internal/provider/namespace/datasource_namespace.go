@@ -1,6 +1,8 @@
 package namespace
 
 import (
+	"terraform-provider-snapcd/internal/provider/openapidocs"
+
 	"fmt"
 
 	"context"
@@ -48,51 +50,51 @@ func (d *namespaceDataSource) Metadata(ctx context.Context, req datasource.Metad
 
 func (d *namespaceDataSource) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: "Namespaces --- Use this data source to access information about an existing Namespace in Snap CD.",
+		MarkdownDescription: "Namespaces --- Use this data source to access information about an existing Namespace in Snap CD." + "\n\n## Required permissions\n\n" + openapidocs.DataSourcePermissions["Namespace"],
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed:    true,
-				Description: DescNamespaceId,
+				Description: openapidocs.NamespaceReadDto_Id,
 			},
 			"name": schema.StringAttribute{
 				Required:    true,
-				Description: DescNamespaceName,
+				Description: openapidocs.NamespaceReadDto_Name,
 			},
 			"stack_id": schema.StringAttribute{
 				Required:    true,
-				Description: DescNamespaceStackId,
+				Description: openapidocs.NamespaceReadDto_StackId,
 			},
 			"default_clean_init_enabled": schema.BoolAttribute{
 				Computed:    true,
-				Description: DescNamespaceCleanInitEnabled,
+				Description: openapidocs.NamespaceReadDto_DefaultCleanInitEnabled,
 			},
 			"default_drift_check_enabled": schema.BoolAttribute{
 				Computed:    true,
-				Description: DescNamespaceDefaultDriftCheckEnabled,
+				Description: openapidocs.NamespaceReadDto_DefaultDriftCheckEnabled,
 			},
 			"default_drift_check_interval_minutes": schema.Int64Attribute{
 				Computed:    true,
-				Description: DescNamespaceDefaultDriftCheckIntervalMinutes,
+				Description: openapidocs.NamespaceReadDto_DefaultDriftCheckIntervalMinutes,
 			},
 			"default_engine": schema.StringAttribute{
 				Computed:    true,
-				Description: DescNamespaceDefaultEngine,
+				Description: openapidocs.NamespaceReadDto_DefaultEngine,
 			},
 			"trigger_behaviour_on_modified": schema.StringAttribute{
 				Computed:    true,
-				Description: DescNamespaceTriggerBehaviourOnModified,
+				Description: openapidocs.NamespaceReadDto_TriggerBehaviourOnModified,
 			},
 			"default_apply_approval_threshold": schema.Int64Attribute{
 				Computed:    true,
-				Description: DescNamespaceDefaultApplyApprovalThreshold,
+				Description: openapidocs.NamespaceReadDto_DefaultApplyApprovalThreshold,
 			},
 			"default_destroy_approval_threshold": schema.Int64Attribute{
 				Computed:    true,
-				Description: DescNamespaceDefaultDestroyApprovalThreshold,
+				Description: openapidocs.NamespaceReadDto_DefaultDestroyApprovalThreshold,
 			},
 			"default_approval_timeout_minutes": schema.Int64Attribute{
 				Computed:    true,
-				Description: DescNamespaceDefaultApprovalTimeoutMinutes,
+				Description: openapidocs.NamespaceReadDto_DefaultApprovalTimeoutMinutes,
 			},
 		},
 	}

@@ -9,6 +9,10 @@ description: |-
 
 Manages a Module Pulumi Array Flag in Snap CD.
 
+## Required permissions
+
+Any of: `Organization.Contributor`, `Organization.Owner`, `Organization.StackContributor`, `Stack.Contributor`, `Stack.Owner`, `Namespace.Contributor`, `Namespace.Owner`, `Module.Owner`
+
 
 ## Example Usage
 
@@ -27,9 +31,9 @@ resource "snapcd_module_pulumi_array_flag" "targets" {
 
 ### Required
 
-- `flag` (String) The Pulumi CLI array flag name.
+- `flag` (String) The Pulumi CLI array flag name. Must be one of 'PolicyPack', 'PolicyPackConfig', 'AttachDebugger', 'Target', 'Replace', 'Exclude', 'TargetReplace', 'Config'.
 - `module_id` (String) ID of the parent Module.
-- `task` (String) The command task this flag applies to. Valid values: `Init`, `Plan`, `Apply`, `Destroy`, `Output`.
+- `task` (String) The command task this flag applies to. Must be one of 'Init', 'Plan', 'Apply', 'Destroy', 'Output'.
 - `value` (String) The value for the flag.
 
 ### Read-Only

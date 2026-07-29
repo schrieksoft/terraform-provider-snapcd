@@ -1,6 +1,8 @@
 package namespace
 
 import (
+	"terraform-provider-snapcd/internal/provider/openapidocs"
+
 	"fmt"
 
 	"context"
@@ -14,7 +16,6 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types"
 
 	snapcd "terraform-provider-snapcd/client"
-	"terraform-provider-snapcd/internal/provider/shared"
 	utils "terraform-provider-snapcd/utils"
 
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
@@ -71,20 +72,6 @@ type namespaceModel struct {
 
 const (
 	DescNamespaceDefault = "All modules in this Namespace will use this value, unless explicitly overriden on the Module itself."
-
-	DescNamespaceId      = "Unique ID of the Namespace"
-	DescNamespaceName    = "Name of the Namespace. Must be unique in combination with `stack_id`."
-	DescNamespaceStackId = "ID of the Namespace's parent Stack."
-
-	DescNamespaceDefaultEngine                    = shared.DescSharedEngine + DescNamespaceDefault
-	DescNamespaceDefaultApplyApprovalThreshold    = shared.DescSharedApplyApprovalThreshold + DescNamespaceDefault + shared.DescZeroThreshold
-	DescNamespaceDefaultDestroyApprovalThreshold  = shared.DescSharedDestroyApprovalThreshold + DescNamespaceDefault + shared.DescZeroThreshold
-	DescNamespaceCleanInitEnabled                 = shared.DescSharedCleanInitEnabled + DescNamespaceDefault
-	DescNamespaceDefaultDriftCheckEnabled         = shared.DescSharedDriftCheckEnabled + DescNamespaceDefault
-	DescNamespaceDefaultDriftCheckIntervalMinutes = shared.DescSharedDriftCheckIntervalMinutes + DescNamespaceDefault
-	DescNamespaceDefaultApprovalTimeoutMinutes    = shared.DescSharedApprovalTimeoutMinutes + DescNamespaceDefault + shared.DescZeroTimeout
-
-	DescNamespaceTriggerBehaviourOnModified = "Behaviour with respect to applying modules within the Namespace if any of the fields on the Namespace resource (or any of its Param, Env Var or Extra File resources) has changed. Must be one of 'TriggerAllImmediately' or 'DoNotTrigger'. Setting to 'TriggerAllImmediately' will trigger *all* Modules within the Stack to run an apply Job simultaneously. Setting to 'DoNotTrigger' will do nothing. The default (and recommended) setting is 'DoNotTrigger'."
 )
 
 func (r *namespaceResource) Metadata(ctx context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
@@ -93,64 +80,64 @@ func (r *namespaceResource) Metadata(ctx context.Context, req resource.MetadataR
 
 func (r *namespaceResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: "Namespaces --- Manages a Namespace in Snap CD.",
+		MarkdownDescription: "Namespaces --- Manages a Namespace in Snap CD." + "\n\n## Required permissions\n\n" + openapidocs.ResourcePermissions["Namespace"],
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
-				Description: DescNamespaceId,
+				Description: openapidocs.NamespaceReadDto_Id,
 			},
 			"name": schema.StringAttribute{
 				Required:    true,
-				Description: DescNamespaceName,
+				Description: openapidocs.NamespaceCreateDto_Name,
 			},
 			"stack_id": schema.StringAttribute{
 				Required:    true,
-				Description: DescNamespaceStackId,
+				Description: openapidocs.NamespaceCreateDto_StackId,
 			},
 			"default_clean_init_enabled": schema.BoolAttribute{
 				Optional:    true,
-				Description: DescNamespaceCleanInitEnabled,
+				Description: openapidocs.NamespaceCreateDto_DefaultCleanInitEnabled,
 			},
 			"default_drift_check_enabled": schema.BoolAttribute{
 				Optional:    true,
-				Description: DescNamespaceDefaultDriftCheckEnabled,
+				Description: openapidocs.NamespaceCreateDto_DefaultDriftCheckEnabled,
 			},
 			"default_drift_check_interval_minutes": schema.Int64Attribute{
 				Optional:    true,
-				Description: DescNamespaceDefaultDriftCheckIntervalMinutes,
+				Description: openapidocs.NamespaceCreateDto_DefaultDriftCheckIntervalMinutes,
 			},
 
 			"default_engine": schema.StringAttribute{
 				Optional: true,
 				Validators: []validator.String{
-					stringvalidator.OneOf("OpenTofu", "Terraform", "Pulumi"),
+					stringvalidator.OneOf(openapidocs.StateManagementEngineValues...),
 				},
-				Description: DescNamespaceDefaultEngine,
+				Description: openapidocs.NamespaceCreateDto_DefaultEngine,
 			},
 			"default_apply_approval_threshold": schema.Int64Attribute{
 				Optional:    true,
-				Description: DescNamespaceDefaultApplyApprovalThreshold,
+				Description: openapidocs.NamespaceCreateDto_DefaultApplyApprovalThreshold,
 			},
 
 			"default_destroy_approval_threshold": schema.Int64Attribute{
 				Optional:    true,
-				Description: DescNamespaceDefaultDestroyApprovalThreshold,
+				Description: openapidocs.NamespaceCreateDto_DefaultDestroyApprovalThreshold,
 			},
 
 			"default_approval_timeout_minutes": schema.Int64Attribute{
 				Optional:    true,
-				Description: DescNamespaceDefaultApprovalTimeoutMinutes,
+				Description: openapidocs.NamespaceCreateDto_DefaultApprovalTimeoutMinutes,
 			},
 
 			"trigger_behaviour_on_modified": schema.StringAttribute{
 				Optional:    true,
 				Computed:    true,
-				Description: DescNamespaceTriggerBehaviourOnModified,
+				Description: openapidocs.NamespaceCreateDto_TriggerBehaviourOnModified,
 				Validators: []validator.String{
-					stringvalidator.OneOf("DoNotTrigger", "TriggerAllImmediately"),
+					stringvalidator.OneOf(openapidocs.NamespaceTriggerBehaviourValues...),
 				},
 				Default: stringdefault.StaticString("DoNotTrigger"),
 			},

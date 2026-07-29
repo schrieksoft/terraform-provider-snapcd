@@ -9,6 +9,10 @@ description: |-
 
 Manages a Namespace Input (From Definition) in Snap CD.
 
+## Required permissions
+
+Any of: `Organization.Contributor`, `Organization.Owner`, `Organization.StackContributor`, `Stack.Contributor`, `Stack.Owner`, `Namespace.Contributor`, `Namespace.Owner`
+
 
 ## Example Usage
 
@@ -38,14 +42,14 @@ resource "snapcd_namespace_input_from_definition" "myparam" {
 
 ### Required
 
-- `definition_name` (String) Name of the Definition from which to get take the input. Must be one of 'ModuleId', 'NamespaceId', 'StackId', 'ModuleName', 'NamespaceName', 'StackName', 'SourceUrl', 'SourceRevision' and 'SourceSubdirectory'
-- `input_kind` (String) The kind of input. Must be one of 'Param' or 'EnvVar'. Changing this will force the resource to be recreated.
-- `name` (String) Name of the Namespace Input (From Definition).  Must be unique in combination with `namespace_id`.
-- `namespace_id` (String) ID of the Namespace Input (From Definition)'s parent Namespace.
+- `definition_name` (String) Name of the Definition from which to get take the input. Must be one of 'StackId', 'StackName', 'NamespaceId', 'NamespaceName', 'ModuleId', 'ModuleName', 'SourceRevision', 'SourceUrl', 'SourceSubdirectory'.
+- `input_kind` (String) The kind of input. Must be one of 'Param', 'EnvVar'.
+- `name` (String) Name of the Namespace Input. Must be unique in combination with `namespaceId`.
+- `namespace_id` (String) ID of the Namespace Input's parent Namespace.
 
 ### Optional
 
-- `usage_mode` (String) Whether the input should be used by default on all Modules, or only when explicitly selected on the Module itself. Must be one of 'UseIfSelected' and 'UseByDefault'
+- `usage_mode` (String) Whether the input should be used by default on all Modules, or only when explicitly selected on the Module itself. Must be one of 'UseIfSelected', 'UseByDefault'.
 
 ### Read-Only
 

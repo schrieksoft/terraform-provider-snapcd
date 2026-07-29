@@ -1,6 +1,8 @@
 package role_assignments
 
 import (
+	"terraform-provider-snapcd/internal/provider/openapidocs"
+
 	"fmt"
 
 	"context"
@@ -63,46 +65,39 @@ type stateStoreRoleAssignmentModel struct {
 	RoleName               types.String `tfsdk:"role_name"`
 }
 
-const (
-	DescStateStoreRoleAssignmentId                     = "Unique ID of the State Store Role Assignment."
-	DescStateStoreRoleAssignmentStateStoreId           = "ID of the State Store on which the role applies."
-	DescStateStoreRoleAssignmentPrincipalId            = "ID of the Principal to which the role is assigned."
-	DescStateStoreRoleAssignmentPrincipalDiscriminator = "Type of Principal that the `principal_id` identifies. Must be one of 'User', 'ServicePrincipal' and 'Group'."
-	DescStateStoreRoleAssignmentRoleName               = "Name of the Role that is assigned. Must be one of 'Owner', 'Contributor', 'Reader' and 'IdentityAccessManager'."
-)
-
 func (r *stateStoreRoleAssignmentResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: `Role Assignments --- Manages a State Store Role Assignment in Snap CD.`,
+		MarkdownDescription: `Role Assignments --- Manages a State Store Role Assignment in Snap CD.` + "\n\n## Required permissions\n\n" + openapidocs.ResourcePermissions["StateStoreRoleAssignment"],
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
-				Description: DescStateStoreRoleAssignmentId,
+				Description: openapidocs.StateStoreRoleAssignmentUpdateDto_Id,
 			},
 			"state_store_id": schema.StringAttribute{
 				Required:    true,
-				Description: DescStateStoreRoleAssignmentStateStoreId,
+				Description: openapidocs.StateStoreRoleAssignmentUpdateDto_StateStoreId,
 			},
 			"principal_id": schema.StringAttribute{
 				Required:    true,
-				Description: DescStateStoreRoleAssignmentPrincipalId,
+				Description: openapidocs.StateStoreRoleAssignmentUpdateDto_PrincipalId,
 			},
 			"principal_discriminator": schema.StringAttribute{
 				Required: true,
 				Validators: []validator.String{
+					// Intentionally narrower than the spec enum: `Base` is an internal discriminator.
 					stringvalidator.OneOf("User", "ServicePrincipal", "Group"),
 				},
-				Description: DescStateStoreRoleAssignmentPrincipalDiscriminator,
+				Description: openapidocs.StateStoreRoleAssignmentUpdateDto_PrincipalDiscriminator,
 			},
 			"role_name": schema.StringAttribute{
 				Required: true,
 				Validators: []validator.String{
-					stringvalidator.OneOf("Owner", "Contributor", "Reader", "IdentityAccessManager"),
+					stringvalidator.OneOf(openapidocs.StateStoreRoleValues...),
 				},
-				Description: DescStateStoreRoleAssignmentRoleName,
+				Description: openapidocs.StateStoreRoleAssignmentUpdateDto_RoleName,
 			},
 		},
 	}

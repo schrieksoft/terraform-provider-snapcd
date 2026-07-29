@@ -9,6 +9,10 @@ description: |-
 
 Manages a Source Refresher Preselection in Snap CD.
 
+## Required permissions
+
+Any of: `Organization.Contributor`, `Organization.Owner`, `Organization.SourceRefresherPreselectionContributor`
+
 
 ## Example Usage
 

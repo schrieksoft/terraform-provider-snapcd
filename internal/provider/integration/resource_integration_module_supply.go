@@ -1,6 +1,8 @@
 package integration
 
 import (
+	"terraform-provider-snapcd/internal/provider/openapidocs"
+
 	"fmt"
 
 	"context"
@@ -62,22 +64,22 @@ type integrationModuleSupplyModel struct {
 
 func (r *integrationModuleSupplyResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: "Integrations --- Manages an Integration Module Supply in Snap CD. Supplies the integration to the given module.",
+		MarkdownDescription: "Integrations --- Manages an Integration Module Supply in Snap CD. Supplies the integration to the given module." + "\n\n## Required permissions\n\n" + openapidocs.ResourcePermissions["IntegrationModuleSupply"],
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
-				Description: "Unique ID of the Integration Module Supply.",
+				Description: openapidocs.IntegrationModuleSupplyReadDto_Id,
 			},
 			"module_id": schema.StringAttribute{
 				Required:    true,
-				Description: "ID of the Module the integration is supplied to.",
+				Description: openapidocs.IntegrationModuleSupplyCreateDto_ModuleId,
 			},
 			"integration_id": schema.StringAttribute{
 				Required:    true,
-				Description: "ID of the Integration that is supplied to the Module.",
+				Description: openapidocs.IntegrationModuleSupplyCreateDto_IntegrationId,
 			},
 		},
 	}

@@ -9,6 +9,10 @@ description: |-
 
 Manages a Module Role Assignment in Snap CD.
 
+## Required permissions
+
+Any of: `Organization.IdentityAccessManager`, `Organization.Owner`, `Stack.IdentityAccessManager`, `Stack.Owner`, `Namespace.IdentityAccessManager`, `Namespace.Owner`, `Module.IdentityAccessManager`, `Module.Owner`
+
 
 ## Example Usage
 
@@ -79,7 +83,7 @@ resource "snapcd_module_role_assignment" "mygroup_contributor" {
 - `module_id` (String) ID of the Module on which the role applies.
 - `principal_discriminator` (String) Type of Principal that the `principal_id` identifies. Must be one of 'User', 'ServicePrincipal' and 'Group'
 - `principal_id` (String) ID of the Principal to which the role is assigned.
-- `role_name` (String) Name of the Role that is assigned. Must be one of 'Owner', 'Contributor', 'Reader', 'IdentityAccessManager', 'SourceChangeNotifier', 'Runner' and 'JobManager'
+- `role_name` (String) Name of the Role that is assigned. Must be one of 'Owner', 'Contributor', 'Reader', 'IdentityAccessManager', 'JobManager'.
 
 ### Read-Only
 

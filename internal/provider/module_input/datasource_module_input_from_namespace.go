@@ -1,6 +1,8 @@
 package module_input
 
 import (
+	"terraform-provider-snapcd/internal/provider/openapidocs"
+
 	"fmt"
 
 	"context"
@@ -48,27 +50,27 @@ func (d *moduleInputFromNamespaceDataSource) Metadata(ctx context.Context, req d
 
 func (d *moduleInputFromNamespaceDataSource) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: "Module Inputs --- Use this data source to access information about an existing Module Input (From Namespace) in Snap CD.",
+		MarkdownDescription: "Module Inputs --- Use this data source to access information about an existing Module Input (From Namespace) in Snap CD." + "\n\n## Required permissions\n\n" + openapidocs.DataSourcePermissions["ModuleInputFromNamespace"],
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed:    true,
-				Description: DescSharedId + "Module Input (From Namespace).",
+				Description: openapidocs.ModuleInputFromNamespaceReadDto_Id,
 			},
 			"name": schema.StringAttribute{
 				Required:    true,
-				Description: DescSharedName1 + "Module Input (From Namespace). " + DescSharedName2,
+				Description: openapidocs.ModuleInputFromNamespaceReadDto_Name,
 			},
 			"namespace_input_id": schema.StringAttribute{
 				Computed:    true,
-				Description: DescSharedNamespaceInputId,
+				Description: openapidocs.ModuleInputFromNamespaceReadDto_NamespaceInputId,
 			},
 			"module_id": schema.StringAttribute{
 				Required:    true,
-				Description: DescSharedModuleId1 + "Module Input (From Namespace)" + DescSharedModuleId2,
+				Description: openapidocs.ModuleInputFromNamespaceReadDto_ModuleId,
 			},
 			"input_kind": schema.StringAttribute{
 				Required:    true,
-				Description: DescSharedInputKind,
+				Description: openapidocs.ModuleInputFromNamespaceReadDto_InputKind,
 			},
 		},
 	}

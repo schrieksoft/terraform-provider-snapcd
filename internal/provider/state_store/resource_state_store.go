@@ -1,6 +1,8 @@
 package state_store
 
 import (
+	"terraform-provider-snapcd/internal/provider/openapidocs"
+
 	"fmt"
 
 	"context"
@@ -59,25 +61,20 @@ type stateStoreModel struct {
 	Id   types.String `tfsdk:"id"`
 }
 
-const (
-	DescStateStoreId   = "Unique ID of the State Store."
-	DescStateStoreName = "Unique name of the State Store."
-)
-
 func (r *stateStoreResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: "State Stores --- Manages a State Store in Snap CD.",
+		MarkdownDescription: "State Stores --- Manages a State Store in Snap CD." + "\n\n## Required permissions\n\n" + openapidocs.ResourcePermissions["StateStore"],
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
-				Description: DescStateStoreId,
+				Description: openapidocs.StateStoreReadDto_Id,
 			},
 			"name": schema.StringAttribute{
 				Required:    true,
-				Description: DescStateStoreName,
+				Description: openapidocs.StateStoreCreateDto_Name,
 			},
 		},
 	}

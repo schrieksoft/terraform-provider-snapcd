@@ -1,6 +1,8 @@
 package extra_files
 
 import (
+	"terraform-provider-snapcd/internal/provider/openapidocs"
+
 	"fmt"
 
 	"context"
@@ -48,27 +50,27 @@ func (d *namespaceExtraFileDataSource) Metadata(ctx context.Context, req datasou
 
 func (d *namespaceExtraFileDataSource) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: "Extra Files --- Use this data source to access information about an existing Namespace Extra File in Snap CD.",
+		MarkdownDescription: "Extra Files --- Use this data source to access information about an existing Namespace Extra File in Snap CD." + "\n\n## Required permissions\n\n" + openapidocs.DataSourcePermissions["NamespaceExtraFile"],
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed:    true,
-				Description: DescNamespaceExtraFileId,
+				Description: openapidocs.NamespaceExtraFileReadDto_Id,
 			},
 			"namespace_id": schema.StringAttribute{
 				Required:    true,
-				Description: DescNamespaceExtraFileNamespaceId,
+				Description: openapidocs.NamespaceExtraFileReadDto_NamespaceId,
 			},
 			"file_name": schema.StringAttribute{
 				Required:    true,
-				Description: DescNamespaceExtraFileFilename,
+				Description: openapidocs.NamespaceExtraFileReadDto_FileName,
 			},
 			"contents": schema.StringAttribute{
 				Computed:    true,
-				Description: DescNamespaceExtraFileContents,
+				Description: openapidocs.NamespaceExtraFileReadDto_Contents,
 			},
 			"overwrite": schema.BoolAttribute{
 				Computed:    true,
-				Description: DescNamespaceExtraFileOverwrite,
+				Description: openapidocs.NamespaceExtraFileReadDto_Overwrite,
 			},
 		},
 	}

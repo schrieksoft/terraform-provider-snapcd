@@ -9,6 +9,10 @@ description: |-
 
 Manages a Module Pulumi Flag in Snap CD.
 
+## Required permissions
+
+Any of: `Organization.Contributor`, `Organization.Owner`, `Organization.StackContributor`, `Stack.Contributor`, `Stack.Owner`, `Namespace.Contributor`, `Namespace.Owner`, `Module.Owner`
+
 
 ## Example Usage
 
@@ -32,9 +36,9 @@ resource "snapcd_module_pulumi_flag" "debug" {
 
 ### Required
 
-- `flag` (String) The Pulumi CLI flag name.
+- `flag` (String) The Pulumi CLI flag name. Must be one of 'CloudUrl', 'LoginLocal', 'LoginCloud', 'DefaultOrg', 'Insecure', 'OidcExpiration', 'OidcOrg', 'OidcTeam', 'OidcToken', 'OidcUser', 'StackName', 'SecretsProvider', 'CreateStack', 'ConfigFile', 'Debug', 'Diff', 'ExpectNoChanges', 'Json', 'Message', 'Parallel', 'Refresh', 'RunProgram', 'ShowConfig', 'ShowFullOutput', 'ShowReads', 'ShowReplacementSteps', 'ShowSames', 'ShowSecrets', 'SuppressOutputs', 'SuppressProgress', 'TargetDependents', 'ExcludeDependents', 'Neo', 'ImportFile', 'ContinueOnError', 'SkipPreview', 'Strict', 'ExcludeProtected', 'Remove', 'Shell', 'Color', 'Verbose', 'Emoji'.
 - `module_id` (String) ID of the parent Module.
-- `task` (String) The command task this flag applies to. Valid values: `Init`, `Plan`, `Apply`, `Destroy`, `Output`.
+- `task` (String) The command task this flag applies to. Must be one of 'Init', 'Plan', 'Apply', 'Destroy', 'Output'.
 
 ### Optional
 

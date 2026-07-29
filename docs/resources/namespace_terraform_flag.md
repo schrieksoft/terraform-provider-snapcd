@@ -9,6 +9,10 @@ description: |-
 
 Manages a Namespace Terraform Flag in Snap CD.
 
+## Required permissions
+
+Any of: `Organization.Contributor`, `Organization.Owner`, `Organization.StackContributor`, `Stack.Contributor`, `Stack.Owner`, `Namespace.Contributor`, `Namespace.Owner`
+
 
 ## Example Usage
 
@@ -32,9 +36,9 @@ resource "snapcd_namespace_terraform_flag" "no_color" {
 
 ### Required
 
-- `flag` (String) The Terraform CLI flag name.
+- `flag` (String) The Terraform CLI flag name. Must be one of 'ForceCopy', 'FromModule', 'GetPlugins', 'LockTimeout', 'Lockfile', 'MigrateState', 'Plugin', 'Reconfigure', 'TestDirectory', 'Upgrade', 'CompactWarnings', 'Concurrency', 'Lock', 'NoColor', 'Parallelism', 'Refresh', 'RefreshOnly', 'DetailedExitcode', 'GenerateConfigOut', 'CreateBeforeDestroy', 'Raw'.
 - `namespace_id` (String) ID of the parent Namespace.
-- `task` (String) The command task this flag applies to. Valid values: `Init`, `Plan`, `Apply`, `Destroy`, `Output`.
+- `task` (String) The command task this flag applies to. Must be one of 'Init', 'Plan', 'Apply', 'Destroy', 'Output'.
 
 ### Optional
 

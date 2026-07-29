@@ -9,6 +9,10 @@ description: |-
 
 Manages a namespace-scoped Mission in Snap CD.
 
+## Required permissions
+
+Any of: `Organization.AgentContributor`, `Organization.Contributor`, `Organization.Owner`, `Organization.StackContributor`, `Stack.Contributor`, `Stack.Owner`, `Namespace.Contributor`, `Namespace.Owner`
+
 
 ## Example Usage
 
@@ -39,7 +43,7 @@ resource "snapcd_namespace_mission" "summarize_jobs" {
 ### Required
 
 - `agent_id` (String) ID of the Agent that runs this Mission.
-- `mission_type` (String) Which named mission definition this row references. Must be one of 'AutoDiagnose', 'ApprovalRecommend' and 'SummarizeJob'.
+- `mission_type` (String) Which named mission definition this row references. Must be one of 'AutoDiagnose', 'ApprovalRecommend', 'SummarizeJob', 'AutoFix'.
 - `namespace_id` (String) ID of the Namespace this Mission is scoped to.
 
 ### Optional

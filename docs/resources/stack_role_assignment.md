@@ -9,6 +9,10 @@ description: |-
 
 Manages a Stack Role Assignment in Snap CD.
 
+## Required permissions
+
+Any of: `Organization.IdentityAccessManager`, `Organization.Owner`, `Stack.IdentityAccessManager`, `Stack.Owner`
+
 
 ## Example Usage
 
@@ -67,7 +71,7 @@ resource "snapcd_stack_role_assignment" "mygroup_contributor" {
 
 - `principal_discriminator` (String) Type of Principal that the `principal_id` identifies. Must be one of 'User', 'ServicePrincipal' and 'Group'
 - `principal_id` (String) ID of the Principal to which the role is assigned.
-- `role_name` (String) Name of the Role that is assigned. Must be one of 'Owner', 'Contributor', 'Reader', 'IdentityAccessManager', 'NamespaceCreator', 'SourceChangeNotifier', 'JobManager' and 'Runner'
+- `role_name` (String) Name of the Role that is assigned. Must be one of 'Owner', 'Contributor', 'Reader', 'NamespaceCreator', 'IdentityAccessManager', 'JobManager'.
 - `stack_id` (String) ID of the Stack on which the role applies.
 
 ### Read-Only

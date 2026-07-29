@@ -1,6 +1,8 @@
 package engine_flags
 
 import (
+	"terraform-provider-snapcd/internal/provider/openapidocs"
+
 	"fmt"
 
 	"context"
@@ -63,46 +65,38 @@ type namespaceTerraformArrayFlagModel struct {
 	Value       types.String `tfsdk:"value"`
 }
 
-const (
-	DescNamespaceTerraformArrayFlagId          = "Unique ID of the Namespace Terraform Array Flag."
-	DescNamespaceTerraformArrayFlagNamespaceId = "ID of the parent Namespace."
-	DescNamespaceTerraformArrayFlagTask        = "The command task this flag applies to. Valid values: `Init`, `Plan`, `Apply`, `Destroy`, `Output`."
-	DescNamespaceTerraformArrayFlagFlag        = "The Terraform CLI array flag name."
-	DescNamespaceTerraformArrayFlagValue       = "The value for the flag."
-)
-
 func (r *namespaceTerraformArrayFlagResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: `Engine Flags --- Manages a Namespace Terraform Array Flag in Snap CD.`,
+		MarkdownDescription: `Engine Flags --- Manages a Namespace Terraform Array Flag in Snap CD.` + "\n\n## Required permissions\n\n" + openapidocs.ResourcePermissions["NamespaceTerraformArrayFlag"],
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
-				Description: DescNamespaceTerraformArrayFlagId,
+				Description: openapidocs.NamespaceTerraformArrayFlagReadDto_Id,
 			},
 			"namespace_id": schema.StringAttribute{
 				Required:    true,
-				Description: DescNamespaceTerraformArrayFlagNamespaceId,
+				Description: openapidocs.NamespaceTerraformArrayFlagCreateDto_NamespaceId,
 			},
 			"task": schema.StringAttribute{
 				Required:    true,
-				Description: DescNamespaceTerraformArrayFlagTask,
+				Description: openapidocs.NamespaceTerraformArrayFlagCreateDto_Task,
 				Validators: []validator.String{
-					stringvalidator.OneOf(terraformCommandTaskValues...),
+					stringvalidator.OneOf(openapidocs.TerraformCommandTaskValues...),
 				},
 			},
 			"flag": schema.StringAttribute{
 				Required:    true,
-				Description: DescNamespaceTerraformArrayFlagFlag,
+				Description: openapidocs.NamespaceTerraformArrayFlagCreateDto_Flag,
 				Validators: []validator.String{
-					stringvalidator.OneOf(terraformArrayFlagValues...),
+					stringvalidator.OneOf(openapidocs.TerraformArrayFlagValues...),
 				},
 			},
 			"value": schema.StringAttribute{
 				Required:    true,
-				Description: DescNamespaceTerraformArrayFlagValue,
+				Description: openapidocs.NamespaceTerraformArrayFlagCreateDto_Value,
 			},
 		},
 	}

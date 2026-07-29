@@ -9,6 +9,10 @@ description: |-
 
 Manages a Stack in Snap CD.
 
+## Required permissions
+
+Any of: `Organization.Contributor`, `Organization.Owner`, `Organization.StackContributor`
+
 
 ## Example Usage
 

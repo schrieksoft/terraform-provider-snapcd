@@ -1,6 +1,8 @@
 package namespace_input
 
 import (
+	"terraform-provider-snapcd/internal/provider/openapidocs"
+
 	"fmt"
 
 	"context"
@@ -69,53 +71,53 @@ type namespaceInputFromSecretModel struct {
 
 func (r *namespaceInputFromSecretResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: `Namespace Inputs --- Manages a Namespace Input (From Secret) in Snap CD.`,
+		MarkdownDescription: `Namespace Inputs --- Manages a Namespace Input (From Secret) in Snap CD.` + "\n\n## Required permissions\n\n" + openapidocs.ResourcePermissions["NamespaceInputFromSecret"],
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
-				Description: DescSharedId + "Namespace Input (From Secret).",
+				Description: openapidocs.NamespaceInputFromSecretReadDto_Id,
 			},
 			"name": schema.StringAttribute{
 				Required:    true,
-				Description: DescSharedName1 + "Namespace Input (From Secret). " + DescSharedName2,
+				Description: openapidocs.NamespaceInputFromSecretCreateDto_Name,
 			},
 			"type": schema.StringAttribute{
 				Optional: true,
 				Computed: true,
 				Validators: []validator.String{
-					stringvalidator.OneOf("String", "NotString")},
+					stringvalidator.OneOf(openapidocs.InputTypeValues...)},
 				Default:     stringdefault.StaticString("String"),
-				Description: DescSharedSecretType,
+				Description: openapidocs.NamespaceInputFromSecretCreateDto_Type,
 			},
 			"secret_id": schema.StringAttribute{
 				Required:    true,
-				Description: "ID of the Secret to take as input.",
+				Description: openapidocs.NamespaceInputFromSecretCreateDto_SecretId,
 			},
 			"usage_mode": schema.StringAttribute{
 				Optional: true,
 				Computed: true,
 				Validators: []validator.String{
-					stringvalidator.OneOf("UseIfSelected", "UseByDefault"),
+					stringvalidator.OneOf(openapidocs.NamespaceInputUsageModeValues...),
 				},
 				Default:     stringdefault.StaticString("UseIfSelected"),
-				Description: DescSharedUsage,
+				Description: openapidocs.NamespaceInputFromSecretCreateDto_UsageMode,
 			},
 			"namespace_id": schema.StringAttribute{
 				Required:    true,
-				Description: DescSharedNamespaceId1 + "Namespace Input (From Secret)" + DescSharedNamespaceId2,
+				Description: openapidocs.NamespaceInputFromSecretCreateDto_NamespaceId,
 			},
 			"input_kind": schema.StringAttribute{
 				Required: true,
 				Validators: []validator.String{
-					stringvalidator.OneOf("Param", "EnvVar"),
+					stringvalidator.OneOf(openapidocs.InputKindValues...),
 				},
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.RequiresReplace(),
 				},
-				Description: DescSharedInputKind,
+				Description: openapidocs.NamespaceInputFromSecretCreateDto_InputKind,
 			},
 		},
 	}

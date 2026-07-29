@@ -1,6 +1,8 @@
 package module_input
 
 import (
+	"terraform-provider-snapcd/internal/provider/openapidocs"
+
 	"fmt"
 
 	"context"
@@ -68,44 +70,44 @@ type moduleInputFromSecretModel struct {
 
 func (r *moduleInputFromSecretResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: `Module Inputs --- Manages a Module Input (From Secret) in Snap CD.`,
+		MarkdownDescription: `Module Inputs --- Manages a Module Input (From Secret) in Snap CD.` + "\n\n## Required permissions\n\n" + openapidocs.ResourcePermissions["ModuleInputFromSecret"],
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
-				Description: DescSharedId + "Module Input (From Secret).",
+				Description: openapidocs.ModuleInputFromSecretReadDto_Id,
 			},
 			"name": schema.StringAttribute{
 				Required:    true,
-				Description: DescSharedName1 + "Module Input (From Secret). " + DescSharedName2,
+				Description: openapidocs.ModuleInputFromSecretCreateDto_Name,
 			},
 			"secret_id": schema.StringAttribute{
 				Required:    true,
-				Description: "ID of the Secret to take as input.",
+				Description: openapidocs.ModuleInputFromSecretCreateDto_SecretId,
 			},
 			"type": schema.StringAttribute{
 				Optional: true,
 				Computed: true,
 				Validators: []validator.String{
-					stringvalidator.OneOf("String", "NotString")},
+					stringvalidator.OneOf(openapidocs.InputTypeValues...)},
 				Default:     stringdefault.StaticString("String"),
-				Description: DescSharedSecretType,
+				Description: openapidocs.ModuleInputFromSecretCreateDto_Type,
 			},
 			"module_id": schema.StringAttribute{
 				Required:    true,
-				Description: DescSharedModuleId1 + "Module Input (From Secret)" + DescSharedModuleId2,
+				Description: openapidocs.ModuleInputFromSecretCreateDto_ModuleId,
 			},
 			"input_kind": schema.StringAttribute{
 				Required: true,
 				Validators: []validator.String{
-					stringvalidator.OneOf("Param", "EnvVar"),
+					stringvalidator.OneOf(openapidocs.InputKindValues...),
 				},
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.RequiresReplace(),
 				},
-				Description: DescSharedInputKind,
+				Description: openapidocs.ModuleInputFromSecretCreateDto_InputKind,
 			},
 		},
 	}

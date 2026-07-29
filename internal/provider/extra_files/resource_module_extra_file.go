@@ -1,6 +1,8 @@
 package extra_files
 
 import (
+	"terraform-provider-snapcd/internal/provider/openapidocs"
+
 	"fmt"
 
 	"context"
@@ -63,41 +65,33 @@ type moduleExtraFileModel struct {
 	Overwrite types.Bool   `tfsdk:"overwrite"`
 }
 
-const (
-	DescModuleExtraFileId        = "Unique ID of the Module Extra File."
-	DescModuleExtraFileModuleId  = "ID of the Module Extra File's parent Module."
-	DescModuleExtraFileFilename  = "Name of the Module Extra File. This name will be use as the name of the file that is created. Must be unique in combination with `module_id`."
-	DescModuleExtraFileContents  = "Contents of the Module Extra File"
-	DescModuleExtraFileOverwrite = "If true any pre-existing file with the same name will be overwritten."
-)
-
 func (r *moduleExtraFileResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: `Extra Files --- Manages a Module Extra File in Snap CD.`,
+		MarkdownDescription: `Extra Files --- Manages a Module Extra File in Snap CD.` + "\n\n## Required permissions\n\n" + openapidocs.ResourcePermissions["ModuleExtraFile"],
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
-				Description: DescModuleExtraFileId,
+				Description: openapidocs.ModuleExtraFileReadDto_Id,
 			},
 			"module_id": schema.StringAttribute{
 				Required:    true,
-				Description: DescModuleExtraFileModuleId,
+				Description: openapidocs.ModuleExtraFileCreateDto_ModuleId,
 			},
 			"file_name": schema.StringAttribute{
 				Required:    true,
-				Description: DescModuleExtraFileFilename,
+				Description: openapidocs.ModuleExtraFileCreateDto_FileName,
 			},
 			"contents": schema.StringAttribute{
 				Required:    true,
-				Description: DescModuleExtraFileContents,
+				Description: openapidocs.ModuleExtraFileCreateDto_Contents,
 			},
 			"overwrite": schema.BoolAttribute{
 				Optional:    true,
 				Computed:    true,
-				Description: DescModuleExtraFileOverwrite,
+				Description: openapidocs.ModuleExtraFileCreateDto_Overwrite,
 				Default:     booldefault.StaticBool(false),
 			},
 		},

@@ -1,6 +1,8 @@
 package extra_files
 
 import (
+	"terraform-provider-snapcd/internal/provider/openapidocs"
+
 	"fmt"
 
 	"context"
@@ -73,31 +75,31 @@ const (
 
 func (r *namespaceExtraFileResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: `Extra Files --- Manages a Namespace Extra File in Snap CD.`,
+		MarkdownDescription: `Extra Files --- Manages a Namespace Extra File in Snap CD.` + "\n\n## Required permissions\n\n" + openapidocs.ResourcePermissions["NamespaceExtraFile"],
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
-				Description: DescNamespaceExtraFileId,
+				Description: openapidocs.NamespaceExtraFileReadDto_Id,
 			},
 			"namespace_id": schema.StringAttribute{
 				Required:    true,
-				Description: DescNamespaceExtraFileNamespaceId,
+				Description: openapidocs.NamespaceExtraFileCreateDto_NamespaceId,
 			},
 			"file_name": schema.StringAttribute{
 				Required:    true,
-				Description: DescNamespaceExtraFileFilename,
+				Description: openapidocs.NamespaceExtraFileCreateDto_FileName,
 			},
 			"contents": schema.StringAttribute{
 				Required:    true,
-				Description: DescNamespaceExtraFileContents,
+				Description: openapidocs.NamespaceExtraFileCreateDto_Contents,
 			},
 			"overwrite": schema.BoolAttribute{
 				Optional:    true,
 				Computed:    true,
-				Description: DescModuleExtraFileOverwrite,
+				Description: openapidocs.NamespaceExtraFileCreateDto_Overwrite,
 				Default:     booldefault.StaticBool(false),
 			},
 		},

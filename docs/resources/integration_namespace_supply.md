@@ -9,6 +9,10 @@ description: |-
 
 Manages an Integration Namespace Supply in Snap CD. Supplies the integration to every module in the given namespace.
 
+## Required permissions
+
+Any of: `Organization.IntegrationContributor`, `Organization.Owner`, `Integration.Contributor`, `Integration.Owner`
+
 
 ## Example Usage
 

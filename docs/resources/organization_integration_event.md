@@ -9,6 +9,10 @@ description: |-
 
 Manages an organization-scoped Integration Event in Snap CD.
 
+## Required permissions
+
+Any of: `Organization.IntegrationContributor`, `Organization.Owner`, `Integration.Contributor`, `Integration.Owner`
+
 
 ## Example Usage
 

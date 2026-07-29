@@ -9,6 +9,10 @@ description: |-
 
 Manages a Runner Module Supply in Snap CD.
 
+## Required permissions
+
+Any of: `Organization.Owner`, `Organization.RunnerContributor`, `Runner.Contributor`, `Runner.Owner`
+
 
 ## Example Usage
 

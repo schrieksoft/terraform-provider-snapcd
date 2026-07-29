@@ -1,6 +1,11 @@
 package integration
 
 import (
+	"terraform-provider-snapcd/internal/provider/openapidocs"
+
+	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
+
 	"context"
 	"fmt"
 
@@ -55,31 +60,34 @@ type integrationRoleAssignmentModel struct {
 func (r *integrationRoleAssignmentResource) Schema(_ context.Context, _ resource.SchemaRequest, resp *resource.SchemaResponse) {
 	requiresReplace := []planmodifier.String{stringplanmodifier.RequiresReplace()}
 	resp.Schema = schema.Schema{
-		MarkdownDescription: "Integrations --- Grants an integration role to a principal on a specific integration.",
+		MarkdownDescription: "Integrations --- Grants an integration role to a principal on a specific integration." + "\n\n## Required permissions\n\n" + openapidocs.ResourcePermissions["IntegrationRoleAssignment"],
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed:      true,
 				PlanModifiers: []planmodifier.String{stringplanmodifier.UseStateForUnknown()},
-				Description:   "Unique ID of the role assignment.",
+				Description:   openapidocs.IntegrationRoleAssignmentReadDto_Id,
 			},
 			"integration_id": schema.StringAttribute{
 				Required:      true,
 				PlanModifiers: requiresReplace,
-				Description:   "ID of the integration the role is granted on.",
+				Description:   openapidocs.IntegrationRoleAssignmentReadDto_IntegrationId,
 			},
 			"principal_id": schema.StringAttribute{
 				Required:      true,
 				PlanModifiers: requiresReplace,
-				Description:   "ID of the principal (user / group / service principal).",
+				Description:   openapidocs.IntegrationRoleAssignmentReadDto_PrincipalId,
 			},
 			"principal_discriminator": schema.StringAttribute{
 				Required:      true,
 				PlanModifiers: requiresReplace,
-				Description:   "Principal type: User, Group, or ServicePrincipal.",
+				Description:   openapidocs.IntegrationRoleAssignmentReadDto_PrincipalDiscriminator,
 			},
 			"role_name": schema.StringAttribute{
 				Required:    true,
-				Description: "Integration role: Owner, Contributor, Reader, or IdentityAccessManager.",
+				Description: openapidocs.IntegrationRoleAssignmentReadDto_RoleName,
+				Validators: []validator.String{
+					stringvalidator.OneOf(openapidocs.IntegrationRoleValues...),
+				},
 			},
 		},
 	}

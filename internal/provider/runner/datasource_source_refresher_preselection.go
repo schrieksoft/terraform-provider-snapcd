@@ -1,6 +1,8 @@
 package runner
 
 import (
+	"terraform-provider-snapcd/internal/provider/openapidocs"
+
 	"fmt"
 
 	"context"
@@ -48,24 +50,24 @@ func (d *sourceRefresherPreselectionDataSource) Metadata(ctx context.Context, re
 
 func (d *sourceRefresherPreselectionDataSource) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: "Runners --- Use this data source to access information about an existing Source Refresher Preselection in Snap CD.",
+		MarkdownDescription: "Runners --- Use this data source to access information about an existing Source Refresher Preselection in Snap CD." + "\n\n## Required permissions\n\n" + openapidocs.DataSourcePermissions["SourceRefresherPreselection"],
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed:    true,
-				Description: DescSourceRefresherPreselectionId,
+				Description: openapidocs.SourceRefresherPreselectionReadDto_Id,
 			},
 			"source_url": schema.StringAttribute{
 				Required:    true,
-				Description: DescSourceRefresherPreselectionSourceUrl,
+				Description: openapidocs.SourceRefresherPreselectionReadDto_SourceUrl,
 			},
 			"runner_id": schema.StringAttribute{
 				Computed:    true,
-				Description: DescSourceRefresherPreselectionRunnerId,
+				Description: openapidocs.SourceRefresherPreselectionReadDto_RunnerId,
 			},
 
 			"runner_instance_name": schema.StringAttribute{
 				Computed:    true,
-				Description: DescSourceRefresherPreselectionRunnerInstanceName,
+				Description: openapidocs.SourceRefresherPreselectionReadDto_RunnerInstanceName,
 			},
 		},
 	}

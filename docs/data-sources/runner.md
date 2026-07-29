@@ -9,6 +9,10 @@ description: |-
 
 Use this data source to access information about an existing Runner in Snap CD.
 
+## Required permissions
+
+Any of: `Organization.Contributor`, `Organization.Owner`, `Organization.Reader`, `Organization.RunnerContributor`, `Organization.RunnerReader`, `Runner.Contributor`, `Runner.Owner`, `Runner.Reader`
+
 
 ## Example Usage
 

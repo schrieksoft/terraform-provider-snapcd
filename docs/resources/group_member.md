@@ -9,6 +9,10 @@ description: |-
 
 Manages a Group Member in Snap CD.
 
+## Required permissions
+
+Any of: `Organization.IdentityAccessManager`, `Organization.Owner`
+
 
 ## Example Usage
 

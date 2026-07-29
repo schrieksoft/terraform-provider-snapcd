@@ -1,6 +1,8 @@
 package hooks
 
 import (
+	"terraform-provider-snapcd/internal/provider/openapidocs"
+
 	"fmt"
 
 	"context"
@@ -63,46 +65,38 @@ type namespaceHookModel struct {
 	Script      types.String `tfsdk:"script"`
 }
 
-const (
-	DescNamespaceHookId          = "Unique ID of the Namespace Hook."
-	DescNamespaceHookNamespaceId = "ID of the parent Namespace."
-	DescNamespaceHookTask        = "The lifecycle task this hook applies to. Valid values: `Init`, `Plan`, `PlanDestroy`, `Apply`, `Destroy`, `Output`, `Validate`."
-	DescNamespaceHookPhase       = "When the hook runs relative to the task. Valid values: `Before`, `After`."
-	DescNamespaceHookScript      = "The shell script that runs at the configured task and phase. Used as default for all modules in the namespace unless overridden."
-)
-
 func (r *namespaceHookResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: `Hooks --- Manages a Namespace Hook in Snap CD. Used as the default for all modules in the namespace unless overridden by a Module Hook with the same task and phase.`,
+		MarkdownDescription: `Hooks --- Manages a Namespace Hook in Snap CD. Used as the default for all modules in the namespace unless overridden by a Module Hook with the same task and phase.` + "\n\n## Required permissions\n\n" + openapidocs.ResourcePermissions["NamespaceHook"],
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
-				Description: DescNamespaceHookId,
+				Description: openapidocs.NamespaceHookReadDto_Id,
 			},
 			"namespace_id": schema.StringAttribute{
 				Required:    true,
-				Description: DescNamespaceHookNamespaceId,
+				Description: openapidocs.NamespaceHookCreateDto_NamespaceId,
 			},
 			"task": schema.StringAttribute{
 				Required:    true,
-				Description: DescNamespaceHookTask,
+				Description: openapidocs.NamespaceHookCreateDto_Task,
 				Validators: []validator.String{
-					stringvalidator.OneOf(hookTaskValues...),
+					stringvalidator.OneOf(openapidocs.HookTaskValues...),
 				},
 			},
 			"phase": schema.StringAttribute{
 				Required:    true,
-				Description: DescNamespaceHookPhase,
+				Description: openapidocs.NamespaceHookCreateDto_Phase,
 				Validators: []validator.String{
-					stringvalidator.OneOf(hookPhaseValues...),
+					stringvalidator.OneOf(openapidocs.HookPhaseValues...),
 				},
 			},
 			"script": schema.StringAttribute{
 				Required:    true,
-				Description: DescNamespaceHookScript,
+				Description: openapidocs.NamespaceHookCreateDto_Script,
 			},
 		},
 	}

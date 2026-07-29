@@ -9,6 +9,10 @@ description: |-
 
 Manages a Module Input (From Definition) in Snap CD.
 
+## Required permissions
+
+Any of: `Organization.Contributor`, `Organization.Owner`, `Organization.StackContributor`, `Stack.Contributor`, `Stack.Owner`, `Namespace.Contributor`, `Namespace.Owner`, `Module.Owner`
+
 
 ## Example Usage
 
@@ -50,10 +54,10 @@ resource "snapcd_module_input_from_definition" "mypparam" {
 
 ### Required
 
-- `definition_name` (String) Name of the Definition from which to get take the input. Must be one of 'ModuleId', 'NamespaceId', 'StackId', 'ModuleName', 'NamespaceName', 'StackName', 'SourceUrl', 'SourceRevision' or 'SourceSubdirectory'.
-- `input_kind` (String) The kind of input. Must be one of 'Param' or 'EnvVar'. Changing this will force the resource to be recreated.
-- `module_id` (String) ID of the Module Input (From Definition)'s parent Module.
-- `name` (String) Name of the Module Input (From Definition).  Must be unique in combination with `module_id`.
+- `definition_name` (String) Name of the Definition from which to get take the input. Must be one of 'StackId', 'StackName', 'NamespaceId', 'NamespaceName', 'ModuleId', 'ModuleName', 'SourceRevision', 'SourceUrl', 'SourceSubdirectory'.
+- `input_kind` (String) The kind of input. Must be one of 'Param', 'EnvVar'.
+- `module_id` (String) ID of the Module Input's parent Module.
+- `name` (String) Name of the Module Input. Must be unique in combination with `moduleId`.
 
 ### Read-Only
 

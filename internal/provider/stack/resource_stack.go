@@ -1,6 +1,8 @@
 package stack
 
 import (
+	"terraform-provider-snapcd/internal/provider/openapidocs"
+
 	"fmt"
 
 	"context"
@@ -57,13 +59,6 @@ func (r *stackResource) Metadata(ctx context.Context, req resource.MetadataReque
 	resp.TypeName = req.ProviderTypeName + "_stack"
 }
 
-const (
-	DescStackDefault                    = " All modules in this Stack will use this value, unless explicitly overriden on its Namespace or on the Module itself."
-	DescStackId                         = "Unique ID of the Stack."
-	DescStackName                       = "Unique name of the Stack."
-	DescStackTriggerBehaviourOnModified = "Behaviour with respect to applying modules within the Stack if any of the fields on the Stack resource has changed. Must be one of 'TriggerAllImmediately' or 'DoNotTrigger'. Setting to 'TriggerAllImmediately' will trigger *all* Modules within the Stack to run an apply Job simultaneously. Setting to 'DoNotTrigger' will do nothing. The default (and recommended) setting is 'DoNotTrigger'."
-)
-
 type stackModel struct {
 	Name                       types.String `tfsdk:"name"`
 	Id                         types.String `tfsdk:"id"`
@@ -72,25 +67,25 @@ type stackModel struct {
 
 func (r *stackResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: "Stacks --- Manages a Stack in Snap CD.",
+		MarkdownDescription: "Stacks --- Manages a Stack in Snap CD." + "\n\n## Required permissions\n\n" + openapidocs.ResourcePermissions["Stack"],
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
-				Description: DescStackId,
+				Description: openapidocs.StackReadDto_Id,
 			},
 			"name": schema.StringAttribute{
 				Required:    true,
-				Description: DescStackName,
+				Description: openapidocs.StackCreateDto_Name,
 			},
 			"trigger_behaviour_on_modified": schema.StringAttribute{
 				Optional:    true,
 				Computed:    true,
-				Description: DescStackTriggerBehaviourOnModified,
+				Description: openapidocs.StackCreateDto_TriggerBehaviourOnModified,
 				Validators: []validator.String{
-					stringvalidator.OneOf("DoNotTrigger", "TriggerAllImmediately"),
+					stringvalidator.OneOf(openapidocs.StackTriggerBehaviourValues...),
 				},
 				Default: stringdefault.StaticString("DoNotTrigger"),
 			},
