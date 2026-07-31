@@ -81,6 +81,7 @@ type moduleModel struct {
 	DestroyApprovalThreshold           types.Int64  `tfsdk:"destroy_approval_threshold"`
 	ApprovalTimeoutMinutes             types.Int64  `tfsdk:"approval_timeout_minutes"`
 	CleanInitEnabled                   types.Bool   `tfsdk:"clean_init_enabled"`
+	TriggerPathFilterEnabled           types.Bool   `tfsdk:"trigger_path_filter_enabled"`
 	DriftCheckEnabled                  types.Bool   `tfsdk:"drift_check_enabled"`
 	DriftCheckIntervalMinutes          types.Int64  `tfsdk:"drift_check_interval_minutes"`
 	IgnoreNamespaceExtraFiles          types.Bool   `tfsdk:"ignore_namespace_extra_files"`
@@ -153,6 +154,10 @@ func (r *moduleResource) Schema(ctx context.Context, req resource.SchemaRequest,
 			"clean_init_enabled": schema.BoolAttribute{
 				Optional:    true,
 				Description: openapidocs.ModuleCreateDto_CleanInitEnabled,
+			},
+			"trigger_path_filter_enabled": schema.BoolAttribute{
+				Optional:    true,
+				Description: openapidocs.ModuleCreateDto_TriggerPathFilterEnabled,
 			},
 			"drift_check_enabled": schema.BoolAttribute{
 				Optional:    true,

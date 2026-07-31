@@ -65,6 +65,7 @@ type namespaceModel struct {
 	DefaultDestroyApprovalThreshold  types.Int64  `tfsdk:"default_destroy_approval_threshold"`
 	DefaultApprovalTimeoutMinutes    types.Int64  `tfsdk:"default_approval_timeout_minutes"`
 	DefaultCleanInitEnabled          types.Bool   `tfsdk:"default_clean_init_enabled"`
+	DefaultTriggerPathFilterEnabled  types.Bool   `tfsdk:"default_trigger_path_filter_enabled"`
 	DefaultDriftCheckEnabled         types.Bool   `tfsdk:"default_drift_check_enabled"`
 	DefaultDriftCheckIntervalMinutes types.Int64  `tfsdk:"default_drift_check_interval_minutes"`
 	TriggerBehaviourOnModified       types.String `tfsdk:"trigger_behaviour_on_modified"`
@@ -100,6 +101,10 @@ func (r *namespaceResource) Schema(ctx context.Context, req resource.SchemaReque
 			"default_clean_init_enabled": schema.BoolAttribute{
 				Optional:    true,
 				Description: openapidocs.NamespaceCreateDto_DefaultCleanInitEnabled,
+			},
+			"default_trigger_path_filter_enabled": schema.BoolAttribute{
+				Optional:    true,
+				Description: openapidocs.NamespaceCreateDto_DefaultTriggerPathFilterEnabled,
 			},
 			"default_drift_check_enabled": schema.BoolAttribute{
 				Optional:    true,

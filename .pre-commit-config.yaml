@@ -13,7 +13,7 @@ repos:
       - id: golangci-lint
 
   # terraform
-  # NOTE this repo has other terraform-related hooks that we could consider using, include "infracost" that produces cloud cost estimates
+  # NOTE this repo has other terraform-related hooks that we could consider using
   - repo: https://github.com/antonbabenko/pre-commit-terraform
     rev: v1.74.2
     hooks:

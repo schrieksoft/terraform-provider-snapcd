@@ -25,6 +25,7 @@ import (
 	"terraform-provider-snapcd/internal/provider/secret"
 	"terraform-provider-snapcd/internal/provider/stack"
 	"terraform-provider-snapcd/internal/provider/state_store"
+	"terraform-provider-snapcd/internal/provider/trigger_paths"
 	"terraform-provider-snapcd/utils"
 
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
@@ -418,6 +419,8 @@ func (p *snapcdProvider) DataSources(_ context.Context) []func() datasource.Data
 
 		extra_files.NamespaceExtraFileDataSource,
 		extra_files.ModuleExtraFileDataSource,
+		trigger_paths.NamespaceAdditionalTriggerPathDataSource,
+		trigger_paths.ModuleAdditionalTriggerPathDataSource,
 	}
 }
 
@@ -480,6 +483,8 @@ func (p *snapcdProvider) Resources(_ context.Context) []func() resource.Resource
 
 		extra_files.NamespaceExtraFileResource,
 		extra_files.ModuleExtraFileResource,
+		trigger_paths.NamespaceAdditionalTriggerPathResource,
+		trigger_paths.ModuleAdditionalTriggerPathResource,
 
 		engine_flags.NamespacePulumiFlagResource,
 		engine_flags.NamespacePulumiArrayFlagResource,
