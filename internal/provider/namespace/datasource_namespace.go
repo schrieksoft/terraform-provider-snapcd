@@ -68,6 +68,10 @@ func (d *namespaceDataSource) Schema(ctx context.Context, req datasource.SchemaR
 				Computed:    true,
 				Description: openapidocs.NamespaceReadDto_DefaultCleanInitEnabled,
 			},
+			"default_trigger_path_filter_enabled": schema.BoolAttribute{
+				Computed:    true,
+				Description: openapidocs.NamespaceReadDto_DefaultTriggerPathFilterEnabled,
+			},
 			"default_drift_check_enabled": schema.BoolAttribute{
 				Computed:    true,
 				Description: openapidocs.NamespaceReadDto_DefaultDriftCheckEnabled,

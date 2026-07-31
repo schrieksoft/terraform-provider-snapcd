@@ -1,0 +1,267 @@
+package trigger_paths
+
+import (
+	"terraform-provider-snapcd/internal/provider/openapidocs"
+
+	"fmt"
+
+	"context"
+
+	"github.com/hashicorp/terraform-plugin-framework/resource"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
+	"github.com/hashicorp/terraform-plugin-framework/types"
+
+	snapcd "terraform-provider-snapcd/client"
+	utils "terraform-provider-snapcd/utils"
+
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
+)
+
+var moduleAdditionalTriggerPathDefaultError = "snapcd_moduleAdditionalTriggerPath error"
+
+var moduleAdditionalTriggerPathEndpoint = "/ModuleAdditionalTriggerPath"
+
+var _ resource.Resource = (*moduleAdditionalTriggerPathResource)(nil)
+
+func ModuleAdditionalTriggerPathResource() resource.Resource {
+	return &moduleAdditionalTriggerPathResource{}
+}
+
+type moduleAdditionalTriggerPathResource struct {
+	client *snapcd.Client
+}
+
+// Configure adds the provider configured client to the resource.
+func (r *moduleAdditionalTriggerPathResource) Configure(_ context.Context, req resource.ConfigureRequest, resp *resource.ConfigureResponse) {
+	if req.ProviderData == nil {
+		return
+	}
+
+	client, ok := req.ProviderData.(*snapcd.Client)
+
+	if !ok {
+		resp.Diagnostics.AddError(
+			"Unexpected Resource Configure Type",
+			fmt.Sprintf("Expected *snapcd.Client, got: %T. Please report this issue to the provider developers.", req.ProviderData),
+		)
+
+		return
+	}
+
+	r.client = client
+}
+
+func (r *moduleAdditionalTriggerPathResource) Metadata(ctx context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
+	resp.TypeName = req.ProviderTypeName + "_module_additional_trigger_path"
+}
+
+type moduleAdditionalTriggerPathModel struct {
+	Id       types.String `tfsdk:"id"`
+	ModuleId types.String `tfsdk:"module_id"`
+	Path     types.String `tfsdk:"path"`
+}
+
+func (r *moduleAdditionalTriggerPathResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
+	resp.Schema = schema.Schema{
+		MarkdownDescription: `Trigger Paths --- Manages a Module Additional Trigger Path in Snap CD.` + "\n\n## Required permissions\n\n" + openapidocs.ResourcePermissions["ModuleAdditionalTriggerPath"],
+		Attributes: map[string]schema.Attribute{
+			"id": schema.StringAttribute{
+				Computed: true,
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+				Description: openapidocs.ModuleAdditionalTriggerPathReadDto_Id,
+			},
+			"module_id": schema.StringAttribute{
+				Required:    true,
+				Description: openapidocs.ModuleAdditionalTriggerPathCreateDto_ModuleId,
+			},
+			"path": schema.StringAttribute{
+				Required:    true,
+				Description: openapidocs.ModuleAdditionalTriggerPathCreateDto_Path,
+			},
+		},
+	}
+}
+
+func (r *moduleAdditionalTriggerPathResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
+	var data moduleAdditionalTriggerPathModel
+
+	// Read Terraform plan data into the model
+	resp.Diagnostics.Append(req.Plan.Get(ctx, &data)...)
+
+	if resp.Diagnostics.HasError() {
+		return
+	}
+
+	jsonMap, err := utils.PlanToJson(data, []string{"id"})
+	if err != nil {
+		resp.Diagnostics.AddError(moduleAdditionalTriggerPathDefaultError, "Failed to convert json to plan: "+err.Error())
+	}
+
+	if err != nil {
+		resp.Diagnostics.AddError(moduleAdditionalTriggerPathDefaultError, "Failed to convert plan to json: "+err.Error())
+		return
+	}
+
+	result, httpError := r.client.Post(moduleAdditionalTriggerPathEndpoint, jsonMap)
+	if httpError != nil && httpError.StatusCode == snapcd.Status442EntityAlreadyExists {
+		resp.Diagnostics.AddError(moduleAdditionalTriggerPathDefaultError, "The resource you are trying to create already exists. To manage it with terraform you must import it")
+		return
+	}
+	if httpError != nil {
+		err = httpError.Error
+	} else {
+		err = nil
+	}
+	if err != nil {
+		resp.Diagnostics.AddError(moduleAdditionalTriggerPathDefaultError, "Error calling POST, unexpected error: "+err.Error())
+		return
+	}
+
+	err = utils.JsonToPlan(result, &data)
+
+	if err != nil {
+		resp.Diagnostics.AddError(moduleAdditionalTriggerPathDefaultError, "Failed to convert json to plan: "+err.Error())
+		return
+	}
+
+	// Save data into Terraform state
+	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
+}
+
+func (r *moduleAdditionalTriggerPathResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
+	var data moduleAdditionalTriggerPathModel
+
+	// Read Terraform prior state data into the model
+	resp.Diagnostics.Append(req.State.Get(ctx, &data)...)
+
+	if resp.Diagnostics.HasError() {
+		return
+	}
+
+	// Read API call logic
+	result, httpError := r.client.Get(fmt.Sprintf("%s/%s", moduleAdditionalTriggerPathEndpoint, data.Id.ValueString()))
+	if httpError != nil && httpError.StatusCode == snapcd.Status441EntityNotFound {
+		// Resource was not found, so remove it from state
+		resp.State.RemoveResource(ctx)
+		return
+	}
+	var err error
+	if httpError != nil {
+		err = httpError.Error
+	} else {
+		err = nil
+	}
+	if err != nil {
+		resp.Diagnostics.AddError(moduleAdditionalTriggerPathDefaultError, "Error calling GET, unexpected error: "+err.Error())
+		return
+	}
+
+	err = utils.JsonToPlan(result, &data)
+
+	if err != nil {
+		resp.Diagnostics.AddError(moduleAdditionalTriggerPathDefaultError, "Failed to convert json to plan: "+err.Error())
+		return
+	}
+
+	// Save updated data into Terraform state
+	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
+}
+
+func (r *moduleAdditionalTriggerPathResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
+	var data moduleAdditionalTriggerPathModel
+	var state moduleAdditionalTriggerPathModel
+
+	// Read Terraform prior state data into the model
+	resp.Diagnostics.Append(req.State.Get(ctx, &state)...)
+
+	// Read Terraform plan data into the model
+	resp.Diagnostics.Append(req.Plan.Get(ctx, &data)...)
+
+	if resp.Diagnostics.HasError() {
+		return
+	}
+
+	// Update API call logic
+
+	jsonMap, err := utils.PlanToJson(data)
+	if err != nil {
+		resp.Diagnostics.AddError(moduleAdditionalTriggerPathDefaultError, "Failed to convert json to plan: "+err.Error())
+	}
+
+	result, httpError := r.client.Put(fmt.Sprintf("%s/%s", moduleAdditionalTriggerPathEndpoint, state.Id.ValueString()), jsonMap)
+	if httpError != nil {
+		err = httpError.Error
+	} else {
+		err = nil
+	}
+	if err != nil {
+		resp.Diagnostics.AddError(moduleAdditionalTriggerPathDefaultError, "Error calling PUT, unexpected error: "+err.Error())
+		return
+	}
+
+	err = utils.JsonToPlan(result, &data)
+	if err != nil {
+		resp.Diagnostics.AddError(moduleAdditionalTriggerPathDefaultError, "Failed to convert json to plan: "+err.Error())
+		return
+	}
+
+	// Save updated data into Terraform state
+	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
+}
+
+func (r *moduleAdditionalTriggerPathResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
+	var data moduleAdditionalTriggerPathModel
+
+	// Read Terraform prior state data into the model
+	resp.Diagnostics.Append(req.State.Get(ctx, &data)...)
+
+	if resp.Diagnostics.HasError() {
+		return
+	}
+
+	// Delete API call logic
+	_, httpError := r.client.Delete(fmt.Sprintf("%s/%s", moduleAdditionalTriggerPathEndpoint, data.Id.ValueString()))
+	if httpError != nil && httpError.StatusCode == snapcd.Status441EntityNotFound {
+		// Resource was not found, so remove it from state
+		resp.State.RemoveResource(ctx)
+		return
+	}
+	var err error
+	if httpError != nil {
+		err = httpError.Error
+	} else {
+		err = nil
+	}
+	if err != nil {
+		resp.Diagnostics.AddError(moduleAdditionalTriggerPathDefaultError, "Error calling DELETE, unexpected error: "+err.Error())
+		return
+	}
+}
+
+func (r *moduleAdditionalTriggerPathResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
+	var data moduleAdditionalTriggerPathModel
+
+	result, httpError := r.client.Get(fmt.Sprintf("%s/%s", moduleAdditionalTriggerPathEndpoint, req.ID))
+	var err error
+	if httpError != nil {
+		err = httpError.Error
+	} else {
+		err = nil
+	}
+	if err != nil {
+		resp.Diagnostics.AddError(moduleAdditionalTriggerPathDefaultError, "Error calling GET, unexpected error: "+err.Error())
+		return
+	}
+
+	err = utils.JsonToPlan(result, &data)
+	if err != nil {
+		resp.Diagnostics.AddError(moduleAdditionalTriggerPathDefaultError, "Failed to convert json to plan: "+err.Error())
+		return
+	}
+
+	// Save updated data into Terraform state
+	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
+}

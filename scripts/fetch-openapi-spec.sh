@@ -6,6 +6,11 @@ set -euo pipefail
 # "Required permissions" blocks (see tools/openapigen). `make sync-local` is the
 # local-development shortcut that copies from a checkout instead.
 #
+# When the targeted release does not exist yet (development against an unreleased snapcd
+# version) and a local snapcd checkout is present (SNAPCD_REPO, defaulting to the sibling
+# monorepo path), the script falls back to the sync-local behaviour. CI has no checkout, so
+# there it still fails loudly rather than silently using an unpinned spec.
+#
 # The version comes from versions.env, which Renovate bumps when a new snapcd release
 # appears. After syncing, run `make generate` to refresh the generated code and docs.
 #
@@ -30,8 +35,20 @@ STAGING="$(mktemp)"
 trap 'rm -f "$STAGING"' EXIT
 
 if ! curl -fsSL "${BASE}/openapi.yaml" -o "$STAGING"; then
+    SNAPCD_REPO="${SNAPCD_REPO:-${REPO_ROOT}/../../../applications/snapcd}"
+    LOCAL_SPEC="${SNAPCD_REPO}/schemas/openapi.yaml"
+    if [[ -f "$LOCAL_SPEC" ]]; then
+        echo "  release ${VERSION} not available — falling back to the local checkout at ${SNAPCD_REPO}"
+        cp "$LOCAL_SPEC" schemas/openapi.yaml
+        rm -f "$STAGING"
+        trap - EXIT
+        echo "  schemas/openapi.yaml (from local checkout)"
+        exit 0
+    fi
+
     echo "  failed to download openapi.yaml from ${VERSION}" >&2
-    echo "  (releases before the artifact-publishing change do not carry it)" >&2
+    echo "  (releases before the artifact-publishing change do not carry it, and no local" >&2
+    echo "  snapcd checkout was found at ${SNAPCD_REPO} to fall back to)" >&2
     exit 1
 fi
 

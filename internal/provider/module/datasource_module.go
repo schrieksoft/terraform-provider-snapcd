@@ -106,6 +106,10 @@ func (d *moduleDataSource) Schema(ctx context.Context, req datasource.SchemaRequ
 				Computed:    true,
 				Description: openapidocs.ModuleReadDto_CleanInitEnabled,
 			},
+			"trigger_path_filter_enabled": schema.BoolAttribute{
+				Computed:    true,
+				Description: openapidocs.ModuleReadDto_TriggerPathFilterEnabled,
+			},
 			"ignore_namespace_extra_files": schema.BoolAttribute{
 				Computed:    true,
 				Description: openapidocs.ModuleReadDto_IgnoreNamespaceExtraFiles,
