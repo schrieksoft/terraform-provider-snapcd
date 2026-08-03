@@ -30,7 +30,7 @@ func TestAccResourceModulePulumiInlinePolicy_Create(t *testing.T) {
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_module_pulumi_inline_policy.this", "id"),
 					resource.TestCheckResourceAttr("snapcd_module_pulumi_inline_policy.this", "enabled", "true"),
-					resource.TestCheckResourceAttr("snapcd_module_pulumi_inline_policy.this", "evaluate_on", "ApplyAndDestroy"),
+					resource.TestCheckResourceAttr("snapcd_module_pulumi_inline_policy.this", "evaluate_on", "ApplyOnly"),
 				),
 			},
 		},
@@ -53,7 +53,6 @@ resource "snapcd_module_pulumi_inline_policy" "this" {
   name        = "mypolicy%s"
   module_id   = snapcd_module.this.id
   enabled     = false
-  evaluate_on = "ApplyOnly"
 
   runtime        = "Python"
   policy_content = "# CrossGuard pack entry module placeholder"

@@ -46,7 +46,7 @@ data "snapcd_module_pulumi_remote_policy" "mypolicy" {
 ### Read-Only
 
 - `enabled` (Boolean) Whether this policy is evaluated. Defaults to `true`; set `false` to switch the policy off without deleting it.
-- `evaluate_on` (String) Which job kinds evaluate this policy: `ApplyAndDestroy` (default), `ApplyOnly` or `DestroyOnly`. Must be one of 'ApplyAndDestroy', 'ApplyOnly', 'DestroyOnly'.
+- `evaluate_on` (String) When this policy is evaluated. Only `ApplyOnly` exists for Pulumi policies: CrossGuard evaluates apply-side previews only — the pulumi CLI has no policy support on destroy. Must be one of 'ApplyOnly'.
 - `id` (String) Unique ID of the ModulePulumiRemotePolicy.
 - `path` (String) Repo-root-relative directory of the policy pack within the repository. Empty means the repository root.
 - `repo_url` (String) URL of the git repository holding the CrossGuard policy pack.

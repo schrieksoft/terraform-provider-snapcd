@@ -117,9 +117,9 @@ func (r *namespacePulumiInlinePolicyResource) Schema(ctx context.Context, req re
 				Optional: true,
 				Computed: true,
 				Validators: []validator.String{
-					stringvalidator.OneOf(openapidocs.PolicyEvaluateOnValues...),
+					stringvalidator.OneOf(openapidocs.PulumiPolicyEvaluateOnValues...),
 				},
-				Default:     stringdefault.StaticString("ApplyAndDestroy"),
+				Default:     stringdefault.StaticString("ApplyOnly"),
 				Description: openapidocs.NamespacePulumiInlinePolicyCreateDto_EvaluateOn,
 			},
 		},

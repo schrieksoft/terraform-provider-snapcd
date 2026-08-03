@@ -29,7 +29,7 @@ func TestAccResourceNamespacePulumiLocalPolicy_Create(t *testing.T) {
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_namespace_pulumi_local_policy.this", "id"),
 					resource.TestCheckResourceAttr("snapcd_namespace_pulumi_local_policy.this", "enabled", "true"),
-					resource.TestCheckResourceAttr("snapcd_namespace_pulumi_local_policy.this", "evaluate_on", "ApplyAndDestroy"),
+					resource.TestCheckResourceAttr("snapcd_namespace_pulumi_local_policy.this", "evaluate_on", "ApplyOnly"),
 				),
 			},
 		},
@@ -52,7 +52,6 @@ resource "snapcd_namespace_pulumi_local_policy" "this" {
   name        = "mypolicy%s"
   namespace_id   = snapcd_namespace.this.id
   enabled     = false
-  evaluate_on = "ApplyOnly"
 
   path = "/etc/snapcd/policy-packs/aws-guardrails"
 }

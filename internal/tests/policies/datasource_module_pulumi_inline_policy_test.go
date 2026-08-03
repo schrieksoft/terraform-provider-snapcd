@@ -23,7 +23,7 @@ data "snapcd_module_pulumi_inline_policy" "this" {
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("data.snapcd_module_pulumi_inline_policy.this", "id"),
 					resource.TestCheckResourceAttr("data.snapcd_module_pulumi_inline_policy.this", "name", providerconfig.AppendRandomString("mypolicy%s")),
-					resource.TestCheckResourceAttr("data.snapcd_module_pulumi_inline_policy.this", "evaluate_on", "ApplyAndDestroy"),
+					resource.TestCheckResourceAttr("data.snapcd_module_pulumi_inline_policy.this", "evaluate_on", "ApplyOnly"),
 				),
 			},
 		},

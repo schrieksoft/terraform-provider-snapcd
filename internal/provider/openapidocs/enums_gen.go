@@ -58,6 +58,8 @@ var PulumiCommandTaskValues = []string{"Init", "Plan", "Apply", "Destroy", "Outp
 
 var PulumiFlagValues = []string{"CloudUrl", "LoginLocal", "LoginCloud", "DefaultOrg", "Insecure", "OidcExpiration", "OidcOrg", "OidcTeam", "OidcToken", "OidcUser", "StackName", "SecretsProvider", "CreateStack", "ConfigFile", "Debug", "Diff", "ExpectNoChanges", "Json", "Message", "Parallel", "Refresh", "RunProgram", "ShowConfig", "ShowFullOutput", "ShowReads", "ShowReplacementSteps", "ShowSames", "ShowSecrets", "SuppressOutputs", "SuppressProgress", "TargetDependents", "ExcludeDependents", "Neo", "ImportFile", "ContinueOnError", "SkipPreview", "Strict", "ExcludeProtected", "Remove", "Shell", "Color", "Verbose", "Emoji"}
 
+var PulumiPolicyEvaluateOnValues = []string{"ApplyOnly"}
+
 var PulumiPolicyRuntimeValues = []string{"Python", "NodeJS"}
 
 var RoleAssignmentPrincipalDiscriminatorValues = []string{"Base", "User", "ServicePrincipal", "Group"}

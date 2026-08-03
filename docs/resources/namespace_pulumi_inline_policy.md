@@ -68,7 +68,7 @@ resource "snapcd_namespace_pulumi_inline_policy" "mypolicy" {
 
 - `additional_dependencies` (String) Optional extra package dependencies required by the policy content, one per line (requirements.txt semantics), installed after the pinned policy SDK. Runners configured for operator-managed environments reject entities that set this.
 - `enabled` (Boolean) Whether this policy is evaluated. Defaults to `true`; set `false` to switch the policy off without deleting it.
-- `evaluate_on` (String) Which job kinds evaluate this policy: `ApplyAndDestroy` (default), `ApplyOnly` or `DestroyOnly`. Must be one of 'ApplyAndDestroy', 'ApplyOnly', 'DestroyOnly'.
+- `evaluate_on` (String) When this policy is evaluated. Only `ApplyOnly` exists for Pulumi policies: CrossGuard evaluates apply-side previews only — the pulumi CLI has no policy support on destroy. Must be one of 'ApplyOnly'.
 - `runtime` (String) Language runtime of the policy pack. Determines the scaffold the Runner synthesizes around the policy content. Must be one of 'Python', 'NodeJS'.
 
 ### Read-Only

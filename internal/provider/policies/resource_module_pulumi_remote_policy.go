@@ -114,9 +114,9 @@ func (r *modulePulumiRemotePolicyResource) Schema(ctx context.Context, req resou
 				Optional: true,
 				Computed: true,
 				Validators: []validator.String{
-					stringvalidator.OneOf(openapidocs.PolicyEvaluateOnValues...),
+					stringvalidator.OneOf(openapidocs.PulumiPolicyEvaluateOnValues...),
 				},
-				Default:     stringdefault.StaticString("ApplyAndDestroy"),
+				Default:     stringdefault.StaticString("ApplyOnly"),
 				Description: openapidocs.ModulePulumiRemotePolicyCreateDto_EvaluateOn,
 			},
 		},

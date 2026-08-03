@@ -561,7 +561,7 @@ const (
 	// ModulePulumiInlinePolicyCreateDto
 	ModulePulumiInlinePolicyCreateDto_AdditionalDependencies = "Optional extra package dependencies required by the policy content, one per line (requirements.txt semantics), installed after the pinned policy SDK. Runners configured for operator-managed environments reject entities that set this."
 	ModulePulumiInlinePolicyCreateDto_Enabled                = "Whether this policy is evaluated. Defaults to `true`; set `false` to switch the policy off without deleting it."
-	ModulePulumiInlinePolicyCreateDto_EvaluateOn             = "Which job kinds evaluate this policy: `ApplyAndDestroy` (default), `ApplyOnly` or `DestroyOnly`. Must be one of 'ApplyAndDestroy', 'ApplyOnly', 'DestroyOnly'."
+	ModulePulumiInlinePolicyCreateDto_EvaluateOn             = "When this policy is evaluated. Only `ApplyOnly` exists for Pulumi policies: CrossGuard evaluates apply-side previews only — the pulumi CLI has no policy support on destroy. Must be one of 'ApplyOnly'."
 	ModulePulumiInlinePolicyCreateDto_ModuleId               = "ID of the policy's parent Module."
 	ModulePulumiInlinePolicyCreateDto_Name                   = "Human-readable policy name. Must be unique in combination with `module_id`."
 	ModulePulumiInlinePolicyCreateDto_PolicyContent          = "Inline CrossGuard policy module (the pack's entry file, e.g. `__main__.py` defining a `PolicyPack`). The Runner synthesizes the surrounding pack scaffold. Policies declare `mandatory` (blocks the job) or `advisory` (warns and continues) enforcement in the pack itself."
@@ -570,7 +570,7 @@ const (
 	// ModulePulumiInlinePolicyReadDto
 	ModulePulumiInlinePolicyReadDto_AdditionalDependencies = "Optional extra package dependencies required by the policy content, one per line (requirements.txt semantics), installed after the pinned policy SDK. Runners configured for operator-managed environments reject entities that set this."
 	ModulePulumiInlinePolicyReadDto_Enabled                = "Whether this policy is evaluated. Defaults to `true`; set `false` to switch the policy off without deleting it."
-	ModulePulumiInlinePolicyReadDto_EvaluateOn             = "Which job kinds evaluate this policy: `ApplyAndDestroy` (default), `ApplyOnly` or `DestroyOnly`. Must be one of 'ApplyAndDestroy', 'ApplyOnly', 'DestroyOnly'."
+	ModulePulumiInlinePolicyReadDto_EvaluateOn             = "When this policy is evaluated. Only `ApplyOnly` exists for Pulumi policies: CrossGuard evaluates apply-side previews only — the pulumi CLI has no policy support on destroy. Must be one of 'ApplyOnly'."
 	ModulePulumiInlinePolicyReadDto_Id                     = "Unique ID of the ModulePulumiInlinePolicy."
 	ModulePulumiInlinePolicyReadDto_ModuleId               = "ID of the policy's parent Module."
 	ModulePulumiInlinePolicyReadDto_Name                   = "Human-readable policy name. Must be unique in combination with `module_id`."
@@ -580,7 +580,7 @@ const (
 	// ModulePulumiInlinePolicyUpdateDto
 	ModulePulumiInlinePolicyUpdateDto_AdditionalDependencies = "Optional extra package dependencies required by the policy content, one per line (requirements.txt semantics), installed after the pinned policy SDK. Runners configured for operator-managed environments reject entities that set this."
 	ModulePulumiInlinePolicyUpdateDto_Enabled                = "Whether this policy is evaluated. Defaults to `true`; set `false` to switch the policy off without deleting it."
-	ModulePulumiInlinePolicyUpdateDto_EvaluateOn             = "Which job kinds evaluate this policy: `ApplyAndDestroy` (default), `ApplyOnly` or `DestroyOnly`. Must be one of 'ApplyAndDestroy', 'ApplyOnly', 'DestroyOnly'."
+	ModulePulumiInlinePolicyUpdateDto_EvaluateOn             = "When this policy is evaluated. Only `ApplyOnly` exists for Pulumi policies: CrossGuard evaluates apply-side previews only — the pulumi CLI has no policy support on destroy. Must be one of 'ApplyOnly'."
 	ModulePulumiInlinePolicyUpdateDto_ModuleId               = "ID of the policy's parent Module."
 	ModulePulumiInlinePolicyUpdateDto_Name                   = "Human-readable policy name. Must be unique in combination with `module_id`."
 	ModulePulumiInlinePolicyUpdateDto_PolicyContent          = "Inline CrossGuard policy module (the pack's entry file, e.g. `__main__.py` defining a `PolicyPack`). The Runner synthesizes the surrounding pack scaffold. Policies declare `mandatory` (blocks the job) or `advisory` (warns and continues) enforcement in the pack itself."
@@ -588,14 +588,14 @@ const (
 
 	// ModulePulumiLocalPolicyCreateDto
 	ModulePulumiLocalPolicyCreateDto_Enabled    = "Whether this policy is evaluated. Defaults to `true`; set `false` to switch the policy off without deleting it."
-	ModulePulumiLocalPolicyCreateDto_EvaluateOn = "Which job kinds evaluate this policy: `ApplyAndDestroy` (default), `ApplyOnly` or `DestroyOnly`. Must be one of 'ApplyAndDestroy', 'ApplyOnly', 'DestroyOnly'."
+	ModulePulumiLocalPolicyCreateDto_EvaluateOn = "When this policy is evaluated. Only `ApplyOnly` exists for Pulumi policies: CrossGuard evaluates apply-side previews only — the pulumi CLI has no policy support on destroy. Must be one of 'ApplyOnly'."
 	ModulePulumiLocalPolicyCreateDto_ModuleId   = "ID of the policy's parent Module."
 	ModulePulumiLocalPolicyCreateDto_Name       = "Human-readable policy name. Must be unique in combination with `module_id`."
 	ModulePulumiLocalPolicyCreateDto_Path       = "Absolute directory path on the Runner host holding the CrossGuard policy pack. Operator-managed: the contents at evaluation time are whatever the folder holds — there is no revision pinning."
 
 	// ModulePulumiLocalPolicyReadDto
 	ModulePulumiLocalPolicyReadDto_Enabled    = "Whether this policy is evaluated. Defaults to `true`; set `false` to switch the policy off without deleting it."
-	ModulePulumiLocalPolicyReadDto_EvaluateOn = "Which job kinds evaluate this policy: `ApplyAndDestroy` (default), `ApplyOnly` or `DestroyOnly`. Must be one of 'ApplyAndDestroy', 'ApplyOnly', 'DestroyOnly'."
+	ModulePulumiLocalPolicyReadDto_EvaluateOn = "When this policy is evaluated. Only `ApplyOnly` exists for Pulumi policies: CrossGuard evaluates apply-side previews only — the pulumi CLI has no policy support on destroy. Must be one of 'ApplyOnly'."
 	ModulePulumiLocalPolicyReadDto_Id         = "Unique ID of the ModulePulumiLocalPolicy."
 	ModulePulumiLocalPolicyReadDto_ModuleId   = "ID of the policy's parent Module."
 	ModulePulumiLocalPolicyReadDto_Name       = "Human-readable policy name. Must be unique in combination with `module_id`."
@@ -603,14 +603,14 @@ const (
 
 	// ModulePulumiLocalPolicyUpdateDto
 	ModulePulumiLocalPolicyUpdateDto_Enabled    = "Whether this policy is evaluated. Defaults to `true`; set `false` to switch the policy off without deleting it."
-	ModulePulumiLocalPolicyUpdateDto_EvaluateOn = "Which job kinds evaluate this policy: `ApplyAndDestroy` (default), `ApplyOnly` or `DestroyOnly`. Must be one of 'ApplyAndDestroy', 'ApplyOnly', 'DestroyOnly'."
+	ModulePulumiLocalPolicyUpdateDto_EvaluateOn = "When this policy is evaluated. Only `ApplyOnly` exists for Pulumi policies: CrossGuard evaluates apply-side previews only — the pulumi CLI has no policy support on destroy. Must be one of 'ApplyOnly'."
 	ModulePulumiLocalPolicyUpdateDto_ModuleId   = "ID of the policy's parent Module."
 	ModulePulumiLocalPolicyUpdateDto_Name       = "Human-readable policy name. Must be unique in combination with `module_id`."
 	ModulePulumiLocalPolicyUpdateDto_Path       = "Absolute directory path on the Runner host holding the CrossGuard policy pack. Operator-managed: the contents at evaluation time are whatever the folder holds — there is no revision pinning."
 
 	// ModulePulumiRemotePolicyCreateDto
 	ModulePulumiRemotePolicyCreateDto_Enabled    = "Whether this policy is evaluated. Defaults to `true`; set `false` to switch the policy off without deleting it."
-	ModulePulumiRemotePolicyCreateDto_EvaluateOn = "Which job kinds evaluate this policy: `ApplyAndDestroy` (default), `ApplyOnly` or `DestroyOnly`. Must be one of 'ApplyAndDestroy', 'ApplyOnly', 'DestroyOnly'."
+	ModulePulumiRemotePolicyCreateDto_EvaluateOn = "When this policy is evaluated. Only `ApplyOnly` exists for Pulumi policies: CrossGuard evaluates apply-side previews only — the pulumi CLI has no policy support on destroy. Must be one of 'ApplyOnly'."
 	ModulePulumiRemotePolicyCreateDto_ModuleId   = "ID of the policy's parent Module."
 	ModulePulumiRemotePolicyCreateDto_Name       = "Human-readable policy name. Must be unique in combination with `module_id`."
 	ModulePulumiRemotePolicyCreateDto_Path       = "Repo-root-relative directory of the policy pack within the repository. Empty means the repository root."
@@ -619,7 +619,7 @@ const (
 
 	// ModulePulumiRemotePolicyReadDto
 	ModulePulumiRemotePolicyReadDto_Enabled    = "Whether this policy is evaluated. Defaults to `true`; set `false` to switch the policy off without deleting it."
-	ModulePulumiRemotePolicyReadDto_EvaluateOn = "Which job kinds evaluate this policy: `ApplyAndDestroy` (default), `ApplyOnly` or `DestroyOnly`. Must be one of 'ApplyAndDestroy', 'ApplyOnly', 'DestroyOnly'."
+	ModulePulumiRemotePolicyReadDto_EvaluateOn = "When this policy is evaluated. Only `ApplyOnly` exists for Pulumi policies: CrossGuard evaluates apply-side previews only — the pulumi CLI has no policy support on destroy. Must be one of 'ApplyOnly'."
 	ModulePulumiRemotePolicyReadDto_Id         = "Unique ID of the ModulePulumiRemotePolicy."
 	ModulePulumiRemotePolicyReadDto_ModuleId   = "ID of the policy's parent Module."
 	ModulePulumiRemotePolicyReadDto_Name       = "Human-readable policy name. Must be unique in combination with `module_id`."
@@ -629,7 +629,7 @@ const (
 
 	// ModulePulumiRemotePolicyUpdateDto
 	ModulePulumiRemotePolicyUpdateDto_Enabled    = "Whether this policy is evaluated. Defaults to `true`; set `false` to switch the policy off without deleting it."
-	ModulePulumiRemotePolicyUpdateDto_EvaluateOn = "Which job kinds evaluate this policy: `ApplyAndDestroy` (default), `ApplyOnly` or `DestroyOnly`. Must be one of 'ApplyAndDestroy', 'ApplyOnly', 'DestroyOnly'."
+	ModulePulumiRemotePolicyUpdateDto_EvaluateOn = "When this policy is evaluated. Only `ApplyOnly` exists for Pulumi policies: CrossGuard evaluates apply-side previews only — the pulumi CLI has no policy support on destroy. Must be one of 'ApplyOnly'."
 	ModulePulumiRemotePolicyUpdateDto_ModuleId   = "ID of the policy's parent Module."
 	ModulePulumiRemotePolicyUpdateDto_Name       = "Human-readable policy name. Must be unique in combination with `module_id`."
 	ModulePulumiRemotePolicyUpdateDto_Path       = "Repo-root-relative directory of the policy pack within the repository. Empty means the repository root."
@@ -1081,7 +1081,7 @@ const (
 	// NamespacePulumiInlinePolicyCreateDto
 	NamespacePulumiInlinePolicyCreateDto_AdditionalDependencies = "Optional extra package dependencies required by the policy content, one per line (requirements.txt semantics), installed after the pinned policy SDK. Runners configured for operator-managed environments reject entities that set this."
 	NamespacePulumiInlinePolicyCreateDto_Enabled                = "Whether this policy is evaluated. Defaults to `true`; set `false` to switch the policy off without deleting it."
-	NamespacePulumiInlinePolicyCreateDto_EvaluateOn             = "Which job kinds evaluate this policy: `ApplyAndDestroy` (default), `ApplyOnly` or `DestroyOnly`. Must be one of 'ApplyAndDestroy', 'ApplyOnly', 'DestroyOnly'."
+	NamespacePulumiInlinePolicyCreateDto_EvaluateOn             = "When this policy is evaluated. Only `ApplyOnly` exists for Pulumi policies: CrossGuard evaluates apply-side previews only — the pulumi CLI has no policy support on destroy. Must be one of 'ApplyOnly'."
 	NamespacePulumiInlinePolicyCreateDto_Name                   = "Human-readable policy name. Must be unique in combination with `namespace_id`."
 	NamespacePulumiInlinePolicyCreateDto_NamespaceId            = "ID of the policy's parent Namespace."
 	NamespacePulumiInlinePolicyCreateDto_PolicyContent          = "Inline CrossGuard policy module (the pack's entry file, e.g. `__main__.py` defining a `PolicyPack`). The Runner synthesizes the surrounding pack scaffold. Policies declare `mandatory` (blocks the job) or `advisory` (warns and continues) enforcement in the pack itself."
@@ -1090,7 +1090,7 @@ const (
 	// NamespacePulumiInlinePolicyReadDto
 	NamespacePulumiInlinePolicyReadDto_AdditionalDependencies = "Optional extra package dependencies required by the policy content, one per line (requirements.txt semantics), installed after the pinned policy SDK. Runners configured for operator-managed environments reject entities that set this."
 	NamespacePulumiInlinePolicyReadDto_Enabled                = "Whether this policy is evaluated. Defaults to `true`; set `false` to switch the policy off without deleting it."
-	NamespacePulumiInlinePolicyReadDto_EvaluateOn             = "Which job kinds evaluate this policy: `ApplyAndDestroy` (default), `ApplyOnly` or `DestroyOnly`. Must be one of 'ApplyAndDestroy', 'ApplyOnly', 'DestroyOnly'."
+	NamespacePulumiInlinePolicyReadDto_EvaluateOn             = "When this policy is evaluated. Only `ApplyOnly` exists for Pulumi policies: CrossGuard evaluates apply-side previews only — the pulumi CLI has no policy support on destroy. Must be one of 'ApplyOnly'."
 	NamespacePulumiInlinePolicyReadDto_Id                     = "Unique ID of the NamespacePulumiInlinePolicy."
 	NamespacePulumiInlinePolicyReadDto_Name                   = "Human-readable policy name. Must be unique in combination with `namespace_id`."
 	NamespacePulumiInlinePolicyReadDto_NamespaceId            = "ID of the policy's parent Namespace."
@@ -1100,7 +1100,7 @@ const (
 	// NamespacePulumiInlinePolicyUpdateDto
 	NamespacePulumiInlinePolicyUpdateDto_AdditionalDependencies = "Optional extra package dependencies required by the policy content, one per line (requirements.txt semantics), installed after the pinned policy SDK. Runners configured for operator-managed environments reject entities that set this."
 	NamespacePulumiInlinePolicyUpdateDto_Enabled                = "Whether this policy is evaluated. Defaults to `true`; set `false` to switch the policy off without deleting it."
-	NamespacePulumiInlinePolicyUpdateDto_EvaluateOn             = "Which job kinds evaluate this policy: `ApplyAndDestroy` (default), `ApplyOnly` or `DestroyOnly`. Must be one of 'ApplyAndDestroy', 'ApplyOnly', 'DestroyOnly'."
+	NamespacePulumiInlinePolicyUpdateDto_EvaluateOn             = "When this policy is evaluated. Only `ApplyOnly` exists for Pulumi policies: CrossGuard evaluates apply-side previews only — the pulumi CLI has no policy support on destroy. Must be one of 'ApplyOnly'."
 	NamespacePulumiInlinePolicyUpdateDto_Name                   = "Human-readable policy name. Must be unique in combination with `namespace_id`."
 	NamespacePulumiInlinePolicyUpdateDto_NamespaceId            = "ID of the policy's parent Namespace."
 	NamespacePulumiInlinePolicyUpdateDto_PolicyContent          = "Inline CrossGuard policy module (the pack's entry file, e.g. `__main__.py` defining a `PolicyPack`). The Runner synthesizes the surrounding pack scaffold. Policies declare `mandatory` (blocks the job) or `advisory` (warns and continues) enforcement in the pack itself."
@@ -1108,14 +1108,14 @@ const (
 
 	// NamespacePulumiLocalPolicyCreateDto
 	NamespacePulumiLocalPolicyCreateDto_Enabled     = "Whether this policy is evaluated. Defaults to `true`; set `false` to switch the policy off without deleting it."
-	NamespacePulumiLocalPolicyCreateDto_EvaluateOn  = "Which job kinds evaluate this policy: `ApplyAndDestroy` (default), `ApplyOnly` or `DestroyOnly`. Must be one of 'ApplyAndDestroy', 'ApplyOnly', 'DestroyOnly'."
+	NamespacePulumiLocalPolicyCreateDto_EvaluateOn  = "When this policy is evaluated. Only `ApplyOnly` exists for Pulumi policies: CrossGuard evaluates apply-side previews only — the pulumi CLI has no policy support on destroy. Must be one of 'ApplyOnly'."
 	NamespacePulumiLocalPolicyCreateDto_Name        = "Human-readable policy name. Must be unique in combination with `namespace_id`."
 	NamespacePulumiLocalPolicyCreateDto_NamespaceId = "ID of the policy's parent Namespace."
 	NamespacePulumiLocalPolicyCreateDto_Path        = "Absolute directory path on the Runner host holding the CrossGuard policy pack. Operator-managed: the contents at evaluation time are whatever the folder holds — there is no revision pinning."
 
 	// NamespacePulumiLocalPolicyReadDto
 	NamespacePulumiLocalPolicyReadDto_Enabled     = "Whether this policy is evaluated. Defaults to `true`; set `false` to switch the policy off without deleting it."
-	NamespacePulumiLocalPolicyReadDto_EvaluateOn  = "Which job kinds evaluate this policy: `ApplyAndDestroy` (default), `ApplyOnly` or `DestroyOnly`. Must be one of 'ApplyAndDestroy', 'ApplyOnly', 'DestroyOnly'."
+	NamespacePulumiLocalPolicyReadDto_EvaluateOn  = "When this policy is evaluated. Only `ApplyOnly` exists for Pulumi policies: CrossGuard evaluates apply-side previews only — the pulumi CLI has no policy support on destroy. Must be one of 'ApplyOnly'."
 	NamespacePulumiLocalPolicyReadDto_Id          = "Unique ID of the NamespacePulumiLocalPolicy."
 	NamespacePulumiLocalPolicyReadDto_Name        = "Human-readable policy name. Must be unique in combination with `namespace_id`."
 	NamespacePulumiLocalPolicyReadDto_NamespaceId = "ID of the policy's parent Namespace."
@@ -1123,14 +1123,14 @@ const (
 
 	// NamespacePulumiLocalPolicyUpdateDto
 	NamespacePulumiLocalPolicyUpdateDto_Enabled     = "Whether this policy is evaluated. Defaults to `true`; set `false` to switch the policy off without deleting it."
-	NamespacePulumiLocalPolicyUpdateDto_EvaluateOn  = "Which job kinds evaluate this policy: `ApplyAndDestroy` (default), `ApplyOnly` or `DestroyOnly`. Must be one of 'ApplyAndDestroy', 'ApplyOnly', 'DestroyOnly'."
+	NamespacePulumiLocalPolicyUpdateDto_EvaluateOn  = "When this policy is evaluated. Only `ApplyOnly` exists for Pulumi policies: CrossGuard evaluates apply-side previews only — the pulumi CLI has no policy support on destroy. Must be one of 'ApplyOnly'."
 	NamespacePulumiLocalPolicyUpdateDto_Name        = "Human-readable policy name. Must be unique in combination with `namespace_id`."
 	NamespacePulumiLocalPolicyUpdateDto_NamespaceId = "ID of the policy's parent Namespace."
 	NamespacePulumiLocalPolicyUpdateDto_Path        = "Absolute directory path on the Runner host holding the CrossGuard policy pack. Operator-managed: the contents at evaluation time are whatever the folder holds — there is no revision pinning."
 
 	// NamespacePulumiRemotePolicyCreateDto
 	NamespacePulumiRemotePolicyCreateDto_Enabled     = "Whether this policy is evaluated. Defaults to `true`; set `false` to switch the policy off without deleting it."
-	NamespacePulumiRemotePolicyCreateDto_EvaluateOn  = "Which job kinds evaluate this policy: `ApplyAndDestroy` (default), `ApplyOnly` or `DestroyOnly`. Must be one of 'ApplyAndDestroy', 'ApplyOnly', 'DestroyOnly'."
+	NamespacePulumiRemotePolicyCreateDto_EvaluateOn  = "When this policy is evaluated. Only `ApplyOnly` exists for Pulumi policies: CrossGuard evaluates apply-side previews only — the pulumi CLI has no policy support on destroy. Must be one of 'ApplyOnly'."
 	NamespacePulumiRemotePolicyCreateDto_Name        = "Human-readable policy name. Must be unique in combination with `namespace_id`."
 	NamespacePulumiRemotePolicyCreateDto_NamespaceId = "ID of the policy's parent Namespace."
 	NamespacePulumiRemotePolicyCreateDto_Path        = "Repo-root-relative directory of the policy pack within the repository. Empty means the repository root."
@@ -1139,7 +1139,7 @@ const (
 
 	// NamespacePulumiRemotePolicyReadDto
 	NamespacePulumiRemotePolicyReadDto_Enabled     = "Whether this policy is evaluated. Defaults to `true`; set `false` to switch the policy off without deleting it."
-	NamespacePulumiRemotePolicyReadDto_EvaluateOn  = "Which job kinds evaluate this policy: `ApplyAndDestroy` (default), `ApplyOnly` or `DestroyOnly`. Must be one of 'ApplyAndDestroy', 'ApplyOnly', 'DestroyOnly'."
+	NamespacePulumiRemotePolicyReadDto_EvaluateOn  = "When this policy is evaluated. Only `ApplyOnly` exists for Pulumi policies: CrossGuard evaluates apply-side previews only — the pulumi CLI has no policy support on destroy. Must be one of 'ApplyOnly'."
 	NamespacePulumiRemotePolicyReadDto_Id          = "Unique ID of the NamespacePulumiRemotePolicy."
 	NamespacePulumiRemotePolicyReadDto_Name        = "Human-readable policy name. Must be unique in combination with `namespace_id`."
 	NamespacePulumiRemotePolicyReadDto_NamespaceId = "ID of the policy's parent Namespace."
@@ -1149,7 +1149,7 @@ const (
 
 	// NamespacePulumiRemotePolicyUpdateDto
 	NamespacePulumiRemotePolicyUpdateDto_Enabled     = "Whether this policy is evaluated. Defaults to `true`; set `false` to switch the policy off without deleting it."
-	NamespacePulumiRemotePolicyUpdateDto_EvaluateOn  = "Which job kinds evaluate this policy: `ApplyAndDestroy` (default), `ApplyOnly` or `DestroyOnly`. Must be one of 'ApplyAndDestroy', 'ApplyOnly', 'DestroyOnly'."
+	NamespacePulumiRemotePolicyUpdateDto_EvaluateOn  = "When this policy is evaluated. Only `ApplyOnly` exists for Pulumi policies: CrossGuard evaluates apply-side previews only — the pulumi CLI has no policy support on destroy. Must be one of 'ApplyOnly'."
 	NamespacePulumiRemotePolicyUpdateDto_Name        = "Human-readable policy name. Must be unique in combination with `namespace_id`."
 	NamespacePulumiRemotePolicyUpdateDto_NamespaceId = "ID of the policy's parent Namespace."
 	NamespacePulumiRemotePolicyUpdateDto_Path        = "Repo-root-relative directory of the policy pack within the repository. Empty means the repository root."
