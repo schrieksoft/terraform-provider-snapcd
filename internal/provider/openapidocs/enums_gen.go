@@ -48,6 +48,8 @@ var NamespaceTriggerBehaviourValues = []string{"DoNotTrigger", "TriggerAllImmedi
 
 var OrganizationRoleValues = []string{"Owner", "Contributor", "Reader", "StackCreator", "IdentityAccessManager", "JobManager", "SourceChangeNotifier", "SubscriptionManager", "StackContributor", "StackReader", "RunnerCreator", "RunnerContributor", "RunnerReader", "AgentCreator", "AgentContributor", "AgentReader", "SourceRefresherPreselectionCreator", "SourceRefresherPreselectionContributor", "SourceRefresherPreselectionReader", "IntegrationCreator", "IntegrationContributor", "IntegrationReader", "StateStoreCreator", "StateStoreContributor", "StateStoreReader"}
 
+var PolicyEvaluateOnValues = []string{"ApplyAndDestroy", "ApplyOnly", "DestroyOnly"}
+
 var PrincipalDiscriminatorValues = []string{"User", "ServicePrincipal"}
 
 var PulumiArrayFlagValues = []string{"PolicyPack", "PolicyPackConfig", "AttachDebugger", "Target", "Replace", "Exclude", "TargetReplace", "Config"}
@@ -55,6 +57,10 @@ var PulumiArrayFlagValues = []string{"PolicyPack", "PolicyPackConfig", "AttachDe
 var PulumiCommandTaskValues = []string{"Init", "Plan", "Apply", "Destroy", "Output"}
 
 var PulumiFlagValues = []string{"CloudUrl", "LoginLocal", "LoginCloud", "DefaultOrg", "Insecure", "OidcExpiration", "OidcOrg", "OidcTeam", "OidcToken", "OidcUser", "StackName", "SecretsProvider", "CreateStack", "ConfigFile", "Debug", "Diff", "ExpectNoChanges", "Json", "Message", "Parallel", "Refresh", "RunProgram", "ShowConfig", "ShowFullOutput", "ShowReads", "ShowReplacementSteps", "ShowSames", "ShowSecrets", "SuppressOutputs", "SuppressProgress", "TargetDependents", "ExcludeDependents", "Neo", "ImportFile", "ContinueOnError", "SkipPreview", "Strict", "ExcludeProtected", "Remove", "Shell", "Color", "Verbose", "Emoji"}
+
+var PulumiPolicyEvaluateOnValues = []string{"ApplyOnly"}
+
+var PulumiPolicyRuntimeValues = []string{"Python", "NodeJS"}
 
 var RoleAssignmentPrincipalDiscriminatorValues = []string{"Base", "User", "ServicePrincipal", "Group"}
 

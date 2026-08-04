@@ -20,6 +20,7 @@ import (
 	"terraform-provider-snapcd/internal/provider/module_input"
 	"terraform-provider-snapcd/internal/provider/namespace"
 	"terraform-provider-snapcd/internal/provider/namespace_input"
+	"terraform-provider-snapcd/internal/provider/policies"
 	"terraform-provider-snapcd/internal/provider/role_assignments"
 	"terraform-provider-snapcd/internal/provider/runner"
 	"terraform-provider-snapcd/internal/provider/secret"
@@ -421,6 +422,18 @@ func (p *snapcdProvider) DataSources(_ context.Context) []func() datasource.Data
 		extra_files.ModuleExtraFileDataSource,
 		trigger_paths.NamespaceAdditionalTriggerPathDataSource,
 		trigger_paths.ModuleAdditionalTriggerPathDataSource,
+		policies.ModuleTerraformInlinePolicyDataSource,
+		policies.ModuleTerraformRemotePolicyDataSource,
+		policies.ModuleTerraformLocalPolicyDataSource,
+		policies.ModulePulumiInlinePolicyDataSource,
+		policies.ModulePulumiRemotePolicyDataSource,
+		policies.ModulePulumiLocalPolicyDataSource,
+		policies.NamespaceTerraformInlinePolicyDataSource,
+		policies.NamespaceTerraformRemotePolicyDataSource,
+		policies.NamespaceTerraformLocalPolicyDataSource,
+		policies.NamespacePulumiInlinePolicyDataSource,
+		policies.NamespacePulumiRemotePolicyDataSource,
+		policies.NamespacePulumiLocalPolicyDataSource,
 	}
 }
 
@@ -485,6 +498,18 @@ func (p *snapcdProvider) Resources(_ context.Context) []func() resource.Resource
 		extra_files.ModuleExtraFileResource,
 		trigger_paths.NamespaceAdditionalTriggerPathResource,
 		trigger_paths.ModuleAdditionalTriggerPathResource,
+		policies.ModuleTerraformInlinePolicyResource,
+		policies.ModuleTerraformRemotePolicyResource,
+		policies.ModuleTerraformLocalPolicyResource,
+		policies.ModulePulumiInlinePolicyResource,
+		policies.ModulePulumiRemotePolicyResource,
+		policies.ModulePulumiLocalPolicyResource,
+		policies.NamespaceTerraformInlinePolicyResource,
+		policies.NamespaceTerraformRemotePolicyResource,
+		policies.NamespaceTerraformLocalPolicyResource,
+		policies.NamespacePulumiInlinePolicyResource,
+		policies.NamespacePulumiRemotePolicyResource,
+		policies.NamespacePulumiLocalPolicyResource,
 
 		engine_flags.NamespacePulumiFlagResource,
 		engine_flags.NamespacePulumiArrayFlagResource,
