@@ -35,9 +35,16 @@ STAGING="$(mktemp)"
 trap 'rm -f "$STAGING"' EXIT
 
 if ! curl -fsSL "${BASE}/openapi.yaml" -o "$STAGING"; then
-    SNAPCD_REPO="${SNAPCD_REPO:-${REPO_ROOT}/../../../applications/snapcd}"
-    LOCAL_SPEC="${SNAPCD_REPO}/schemas/openapi.yaml"
-    if [[ -f "$LOCAL_SPEC" ]]; then
+    # The monorepo keeps this provider at providers/<name>, so the checkout is two levels up.
+    # The older three-level path is still tried, for clones that sit elsewhere.
+    for candidate in "${SNAPCD_REPO:-}" "${REPO_ROOT}/../../applications/snapcd" "${REPO_ROOT}/../../../applications/snapcd"; do
+        [[ -n "$candidate" && -f "${candidate}/schemas/openapi.yaml" ]] || continue
+        SNAPCD_REPO="$candidate"
+        break
+    done
+
+    LOCAL_SPEC="${SNAPCD_REPO:-}/schemas/openapi.yaml"
+    if [[ -n "${SNAPCD_REPO:-}" && -f "$LOCAL_SPEC" ]]; then
         echo "  release ${VERSION} not available — falling back to the local checkout at ${SNAPCD_REPO}"
         cp "$LOCAL_SPEC" schemas/openapi.yaml
         rm -f "$STAGING"

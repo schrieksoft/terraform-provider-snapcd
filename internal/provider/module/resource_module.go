@@ -10,6 +10,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/booldefault"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/int64default"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringdefault"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
@@ -78,6 +79,7 @@ type moduleModel struct {
 	TriggerOnSourceChanged             types.Bool   `tfsdk:"trigger_on_source_changed"`
 	TriggerOnSourceChangedNotification types.Bool   `tfsdk:"trigger_on_source_changed_notification"`
 	ApplyApprovalThreshold             types.Int64  `tfsdk:"apply_approval_threshold"`
+	SplitMonolithApprovalThreshold     types.Int64  `tfsdk:"split_monolith_approval_threshold"`
 	DestroyApprovalThreshold           types.Int64  `tfsdk:"destroy_approval_threshold"`
 	ApprovalTimeoutMinutes             types.Int64  `tfsdk:"approval_timeout_minutes"`
 	CleanInitEnabled                   types.Bool   `tfsdk:"clean_init_enabled"`
@@ -200,6 +202,13 @@ func (r *moduleResource) Schema(ctx context.Context, req resource.SchemaRequest,
 			"destroy_approval_threshold": schema.Int64Attribute{
 				Optional:    true,
 				Description: openapidocs.ModuleCreateDto_DestroyApprovalThreshold,
+			},
+
+			"split_monolith_approval_threshold": schema.Int64Attribute{
+				Optional:    true,
+				Computed:    true,
+				Default:     int64default.StaticInt64(1),
+				Description: openapidocs.ModuleCreateDto_SplitMonolithApprovalThreshold,
 			},
 			"approval_timeout_minutes": schema.Int64Attribute{
 				Optional:    true,
