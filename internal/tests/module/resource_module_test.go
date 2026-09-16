@@ -33,13 +33,15 @@ func TestAccResourceModule_CreateUpdate(t *testing.T) {
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_module.this", "id"),
 					resource.TestCheckResourceAttr("snapcd_module.this", "apply_approval_threshold", "1"),
+					resource.TestCheckResourceAttr("snapcd_module.this", "state_migration_approval_threshold", "1"),
 				),
 			},
 			{
-				Config: providerconfig.ProviderConfig() + strings.Replace(ModuleCreateConfig, "apply_approval_threshold               = 1", "apply_approval_threshold               = 2", -1),
+				Config: providerconfig.ProviderConfig() + strings.ReplaceAll(strings.ReplaceAll(ModuleCreateConfig, "apply_approval_threshold               = 1", "apply_approval_threshold               = 2"), "state_migration_approval_threshold     = 1", "state_migration_approval_threshold     = 2"),
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_module.this", "id"),
 					resource.TestCheckResourceAttr("snapcd_module.this", "apply_approval_threshold", "2"),
+					resource.TestCheckResourceAttr("snapcd_module.this", "state_migration_approval_threshold", "2"),
 				),
 			},
 		},

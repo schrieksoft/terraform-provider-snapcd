@@ -58,19 +58,19 @@ func (r *namespaceResource) Configure(_ context.Context, req resource.ConfigureR
 
 // ! Category: Namespace
 type namespaceModel struct {
-	Name                                  types.String `tfsdk:"name"`
-	Id                                    types.String `tfsdk:"id"`
-	StackId                               types.String `tfsdk:"stack_id"`
-	DefaultEngine                         types.String `tfsdk:"default_engine"`
-	DefaultApplyApprovalThreshold         types.Int64  `tfsdk:"default_apply_approval_threshold"`
-	DefaultDestroyApprovalThreshold       types.Int64  `tfsdk:"default_destroy_approval_threshold"`
-	DefaultSplitMonolithApprovalThreshold types.Int64  `tfsdk:"default_split_monolith_approval_threshold"`
-	DefaultApprovalTimeoutMinutes         types.Int64  `tfsdk:"default_approval_timeout_minutes"`
-	DefaultCleanInitEnabled               types.Bool   `tfsdk:"default_clean_init_enabled"`
-	DefaultTriggerPathFilterEnabled       types.Bool   `tfsdk:"default_trigger_path_filter_enabled"`
-	DefaultDriftCheckEnabled              types.Bool   `tfsdk:"default_drift_check_enabled"`
-	DefaultDriftCheckIntervalMinutes      types.Int64  `tfsdk:"default_drift_check_interval_minutes"`
-	TriggerBehaviourOnModified            types.String `tfsdk:"trigger_behaviour_on_modified"`
+	Name                                   types.String `tfsdk:"name"`
+	Id                                     types.String `tfsdk:"id"`
+	StackId                                types.String `tfsdk:"stack_id"`
+	DefaultEngine                          types.String `tfsdk:"default_engine"`
+	DefaultApplyApprovalThreshold          types.Int64  `tfsdk:"default_apply_approval_threshold"`
+	DefaultDestroyApprovalThreshold        types.Int64  `tfsdk:"default_destroy_approval_threshold"`
+	DefaultStateMigrationApprovalThreshold types.Int64  `tfsdk:"default_state_migration_approval_threshold"`
+	DefaultApprovalTimeoutMinutes          types.Int64  `tfsdk:"default_approval_timeout_minutes"`
+	DefaultCleanInitEnabled                types.Bool   `tfsdk:"default_clean_init_enabled"`
+	DefaultTriggerPathFilterEnabled        types.Bool   `tfsdk:"default_trigger_path_filter_enabled"`
+	DefaultDriftCheckEnabled               types.Bool   `tfsdk:"default_drift_check_enabled"`
+	DefaultDriftCheckIntervalMinutes       types.Int64  `tfsdk:"default_drift_check_interval_minutes"`
+	TriggerBehaviourOnModified             types.String `tfsdk:"trigger_behaviour_on_modified"`
 }
 
 const (
@@ -134,11 +134,11 @@ func (r *namespaceResource) Schema(ctx context.Context, req resource.SchemaReque
 				Description: openapidocs.NamespaceCreateDto_DefaultDestroyApprovalThreshold,
 			},
 
-			"default_split_monolith_approval_threshold": schema.Int64Attribute{
+			"default_state_migration_approval_threshold": schema.Int64Attribute{
 				Optional:    true,
 				Computed:    true,
 				Default:     int64default.StaticInt64(1),
-				Description: openapidocs.NamespaceCreateDto_DefaultSplitMonolithApprovalThreshold,
+				Description: openapidocs.NamespaceCreateDto_DefaultStateMigrationApprovalThreshold,
 			},
 
 			"default_approval_timeout_minutes": schema.Int64Attribute{
