@@ -14,6 +14,7 @@ resource "snapcd_namespace" "this" {
   name                      = "somevalue%s"
   stack_id			     		    = snapcd_stack.this.id
   default_apply_approval_threshold = 2
+  default_state_migration_approval_threshold = 2
 }
 
 `)
