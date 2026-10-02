@@ -6,6 +6,7 @@ import (
 )
 
 var ModuleCreateConfig = testdata.ModuleCreateConfig
+var ModuleUpdateConfig = testdata.ModuleUpdateConfig
 var ModuleCreateConfigDeltaTwo = testdata.ModuleCreateConfigDeltaTwo
 
 var DependsOnModuleCreateConfig = `

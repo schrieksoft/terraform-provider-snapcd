@@ -36,10 +36,37 @@ resource "snapcd_module" "this" {
   trigger_on_source_changed              = false
   trigger_on_source_changed_notification = false
   apply_approval_threshold               = 1
+  state_migration_approval_threshold     = 1
 }
 `)
 
 var ModuleCreateConfig = NamespaceCreateConfig + ModuleCreateConfigDelta
+
+// The same Module with every updatable attribute at a different value, so an update step asserts
+// the round trip rather than rewriting the create config by string replacement.
+var ModuleUpdateConfigDelta = providerconfig.AppendRandomString(`
+
+data "snapcd_runner" "debug" {
+  name = "debug"
+}
+
+resource "snapcd_module" "this" {
+  name                         	 = "somevalue%s"
+  namespace_id                	 = snapcd_namespace.this.id
+  runner_id                 = data.snapcd_runner.debug.id
+  source_subdirectory  	         = "modules/module1"
+  source_url                     = "foo"
+  source_revision                = "main"
+  trigger_on_definition_changed          = false
+  trigger_on_upstream_output_changed     = false
+  trigger_on_source_changed              = false
+  trigger_on_source_changed_notification = false
+  apply_approval_threshold               = 2
+  state_migration_approval_threshold     = 2
+}
+`)
+
+var ModuleUpdateConfig = NamespaceCreateConfig + ModuleUpdateConfigDelta
 
 var ModuleCreateConfigDeltaTwo = providerconfig.AppendRandomString(`
 

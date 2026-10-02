@@ -3,7 +3,6 @@
 package module
 
 import (
-	"strings"
 	providerconfig "terraform-provider-snapcd/internal/tests/providerconfig"
 	"testing"
 
@@ -37,7 +36,7 @@ func TestAccResourceModule_CreateUpdate(t *testing.T) {
 				),
 			},
 			{
-				Config: providerconfig.ProviderConfig() + strings.ReplaceAll(strings.ReplaceAll(ModuleCreateConfig, "apply_approval_threshold               = 1", "apply_approval_threshold               = 2"), "state_migration_approval_threshold     = 1", "state_migration_approval_threshold     = 2"),
+				Config: providerconfig.ProviderConfig() + ModuleUpdateConfig,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_module.this", "id"),
 					resource.TestCheckResourceAttr("snapcd_module.this", "apply_approval_threshold", "2"),
