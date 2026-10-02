@@ -163,6 +163,10 @@ func (d *moduleDataSource) Schema(ctx context.Context, req datasource.SchemaRequ
 				Computed:    true,
 				Description: openapidocs.ModuleReadDto_DestroyApprovalThreshold,
 			},
+			"state_migration_approval_threshold": schema.Int64Attribute{
+				Computed:    true,
+				Description: openapidocs.ModuleReadDto_StateMigrationApprovalThreshold,
+			},
 			"approval_timeout_minutes": schema.Int64Attribute{
 				Computed:    true,
 				Description: openapidocs.ModuleReadDto_ApprovalTimeoutMinutes,

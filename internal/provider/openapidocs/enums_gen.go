@@ -6,7 +6,7 @@ package openapidocs
 
 var AgentRoleValues = []string{"Owner", "Contributor", "Reader", "IdentityAccessManager"}
 
-var CancellationTypeValues = []string{"AfterCurrent", "ImmediateGraceful", "ImmediateKill"}
+var CancellationTypeValues = []string{"AfterCurrent", "ImmediateKill"}
 
 var ColorTargetTypeValues = []string{"Stack", "Namespace", "Module"}
 

@@ -96,6 +96,10 @@ func (d *namespaceDataSource) Schema(ctx context.Context, req datasource.SchemaR
 				Computed:    true,
 				Description: openapidocs.NamespaceReadDto_DefaultDestroyApprovalThreshold,
 			},
+			"default_state_migration_approval_threshold": schema.Int64Attribute{
+				Computed:    true,
+				Description: openapidocs.NamespaceReadDto_DefaultStateMigrationApprovalThreshold,
+			},
 			"default_approval_timeout_minutes": schema.Int64Attribute{
 				Computed:    true,
 				Description: openapidocs.NamespaceReadDto_DefaultApprovalTimeoutMinutes,

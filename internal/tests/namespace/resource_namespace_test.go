@@ -39,6 +39,7 @@ func TestAccResourceNamespace_CreateUpdate(t *testing.T) {
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("snapcd_namespace.this", "id"),
 					resource.TestCheckResourceAttr("snapcd_namespace.this", "default_apply_approval_threshold", "2"),
+					resource.TestCheckResourceAttr("snapcd_namespace.this", "default_state_migration_approval_threshold", "2"),
 				),
 			},
 		},
