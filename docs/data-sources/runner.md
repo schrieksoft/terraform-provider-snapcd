@@ -2,16 +2,16 @@
 page_title: "snapcd_runner Data Source - snapcd"
 subcategory: "Runners"
 description: |-
-  Use this data source to access information about an existing Runner in Snap CD.
+  Look up an existing Runner by name to obtain its ID. Returns name and ID only.
 ---
 
 # snapcd_runner (Data Source)
 
-Use this data source to access information about an existing Runner in Snap CD.
+Look up an existing Runner by name to obtain its ID. Returns name and ID only.
 
 ## Required permissions
 
-Any of: `Organization.Contributor`, `Organization.Owner`, `Organization.Reader`, `Organization.RunnerContributor`, `Organization.RunnerReader`, `Runner.Contributor`, `Runner.Owner`, `Runner.Reader`
+Any of: `Organization.Contributor`, `Organization.Owner`, `Organization.Reader`, `Organization.RunnerContributor`, `Organization.RunnerReader`, `Runner.Contributor`, `Runner.MetadataReader`, `Runner.Owner`, `Runner.Reader`
 
 
 ## Example Usage
@@ -27,12 +27,9 @@ data "snapcd_runner" "default" {
 
 ### Required
 
-- `name` (String) Unique name of the Runner.
+- `name` (String) Name of the Runner.
 
 ### Read-Only
 
-- `allow_multiple_instances` (Boolean) Indicates whether or not the Runner is disabled
 - `id` (String) Unique ID of the Runner.
-- `is_disabled` (Boolean) Indicates whether or not the Runner is disabled
-- `is_supplied_to_all_modules` (Boolean) Setting this to 'true' allows this Runner to be selected for deployment by any Module in the system.
-- `service_principal_id` (String) ID of the Service Principal associated with the Runner.
+- `is_disabled` (Boolean) Whether the Runner is disabled and will not pick up new work.

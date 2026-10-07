@@ -13,6 +13,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
+	"github.com/hashicorp/terraform-plugin-framework/types"
 )
 
 var _ datasource.DataSource = (*groupDataSource)(nil)
@@ -50,26 +51,22 @@ func (d *groupDataSource) Metadata(ctx context.Context, req datasource.MetadataR
 
 func (d *groupDataSource) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: "Identity Access Management --- Use this data source to access information about an existing Group in Snap CD." + "\n\n## Required permissions\n\n" + openapidocs.DataSourcePermissions["Group"],
+		MarkdownDescription: "Identity Access Management --- Look up an existing Group by name to obtain its ID. Returns name and ID only." + "\n\n## Required permissions\n\n" + openapidocs.DataSourceMetadataPermissions["Group"],
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed:    true,
-				Description: openapidocs.GroupReadDto_Id,
+				Description: openapidocs.GroupMetadataReadDto_Id,
 			},
 			"name": schema.StringAttribute{
 				Required:    true,
-				Description: openapidocs.GroupReadDto_Name,
-			},
-			"description": schema.StringAttribute{
-				Computed:    true,
-				Description: openapidocs.GroupReadDto_Description,
+				Description: openapidocs.GroupMetadataReadDto_Name,
 			},
 		},
 	}
 }
 
 func (d *groupDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var data groupModel
+	var data groupMetadataModel
 
 	resp.Diagnostics.Append(req.Config.Get(ctx, &data)...)
 
@@ -77,7 +74,7 @@ func (d *groupDataSource) Read(ctx context.Context, req datasource.ReadRequest, 
 		return
 	}
 
-	result, httpError := d.client.Get(fmt.Sprintf("%s/ByName/%s", groupEndpoint, data.Name.ValueString()))
+	result, httpError := d.client.Get(fmt.Sprintf("%s/Metadata/ByName/%s", groupEndpoint, data.Name.ValueString()))
 	var err error
 	if httpError != nil {
 		err = httpError.Error
@@ -98,4 +95,12 @@ func (d *groupDataSource) Read(ctx context.Context, req datasource.ReadRequest, 
 	}
 
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
+}
+
+// Name and ID only: a data source exists to resolve an ID, and narrowing it to metadata means a
+// principal who may only discover the Group can still use it. Separate from groupModel, which
+// carries the full shape the resource manages.
+type groupMetadataModel struct {
+	Name types.String `tfsdk:"name"`
+	Id   types.String `tfsdk:"id"`
 }

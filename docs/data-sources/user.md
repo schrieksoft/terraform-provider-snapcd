@@ -2,16 +2,16 @@
 page_title: "snapcd_user Data Source - snapcd"
 subcategory: "Identity Access Management"
 description: |-
-  Use this data source to access information about an existing User in Snap CD.
+  Look up an existing User by username to obtain their ID. Returns username and ID only.
 ---
 
 # snapcd_user (Data Source)
 
-Use this data source to access information about an existing User in Snap CD.
+Look up an existing User by username to obtain their ID. Returns username and ID only.
 
 ## Required permissions
 
-Any of: `Organization.IdentityAccessManager`, `Organization.Owner`
+Any of: `Organization.IdentityAccessManager`, `Organization.IdentityAccessMetadataReader`, `Organization.Owner`
 
 
 ## Example Usage
@@ -27,7 +27,7 @@ data "snapcd_user" "myuser" {
 
 ### Required
 
-- `user_name` (String) Username of the User.
+- `user_name` (String) Username of the User, which is also their email.
 
 ### Read-Only
 

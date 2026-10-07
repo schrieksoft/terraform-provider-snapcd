@@ -26,10 +26,13 @@ func ServicePrincipalDataSource() datasource.DataSource {
 	return &servicePrincipalDataSource{}
 }
 
+// Client ID, display name and ID only: a data source exists to resolve an ID, and narrowing it
+// to metadata means a principal who may only discover the Service Principal can still use it.
+// The client ID is the bare name, without the organization prefix it is stored with.
 type servicePrincipalModel struct {
-	Id         types.String `tfsdk:"id"`
-	ClientId   types.String `tfsdk:"client_id"`
-	IsDisabled types.Bool   `tfsdk:"is_disabled"`
+	Id          types.String `tfsdk:"id"`
+	ClientId    types.String `tfsdk:"client_id"`
+	DisplayName types.String `tfsdk:"display_name"`
 }
 
 type servicePrincipalDataSource struct {
@@ -61,19 +64,19 @@ func (d *servicePrincipalDataSource) Metadata(ctx context.Context, req datasourc
 
 func (d *servicePrincipalDataSource) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: "Identity Access Management --- Use this data source to access information about an existing Service Principal in Snap CD." + "\n\n## Required permissions\n\n" + openapidocs.DataSourcePermissions["ServicePrincipal"],
+		MarkdownDescription: "Identity Access Management --- Look up an existing Service Principal by client ID to obtain its ID. Returns client ID, display name and ID only." + "\n\n## Required permissions\n\n" + openapidocs.DataSourceMetadataPermissions["ServicePrincipal"],
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed:    true,
-				Description: openapidocs.ServicePrincipalReadDto_Id,
+				Description: openapidocs.ServicePrincipalMetadataReadDto_Id,
 			},
 			"client_id": schema.StringAttribute{
 				Required:    true,
-				Description: openapidocs.ServicePrincipalReadDto_ClientId,
+				Description: openapidocs.ServicePrincipalMetadataReadDto_ClientId,
 			},
-			"is_disabled": schema.BoolAttribute{
+			"display_name": schema.StringAttribute{
 				Computed:    true,
-				Description: openapidocs.ServicePrincipalReadDto_IsDisabled,
+				Description: openapidocs.ServicePrincipalMetadataReadDto_DisplayName,
 			},
 		},
 	}
@@ -88,7 +91,7 @@ func (d *servicePrincipalDataSource) Read(ctx context.Context, req datasource.Re
 		return
 	}
 
-	result, httpError := d.client.Get(fmt.Sprintf("%s/ByClientId/%s", servicePrincipalEndpoint, data.ClientId.ValueString()))
+	result, httpError := d.client.Get(fmt.Sprintf("%s/Metadata/ByClientId/%s", servicePrincipalEndpoint, data.ClientId.ValueString()))
 	var err error
 	if httpError != nil {
 		err = httpError.Error

@@ -63,7 +63,7 @@ resource "snapcd_organization_role_assignment" "mygroup_contributor" {
 
 - `principal_discriminator` (String) Type of Principal that the `principal_id` identifies. Must be one of 'User', 'ServicePrincipal' and 'Group'
 - `principal_id` (String) ID of the Principal to which the role is assigned.
-- `role_name` (String) Name of the Role that is assigned. Must be one of 'Owner', 'Contributor', 'Reader', 'StackCreator', 'IdentityAccessManager', 'JobManager', 'SourceChangeNotifier', 'SubscriptionManager', 'StackContributor', 'StackReader', 'RunnerCreator', 'RunnerContributor', 'RunnerReader', 'AgentCreator', 'AgentContributor', 'AgentReader', 'SourceRefresherPreselectionCreator', 'SourceRefresherPreselectionContributor', 'SourceRefresherPreselectionReader', 'IntegrationCreator', 'IntegrationContributor', 'IntegrationReader', 'StateStoreCreator', 'StateStoreContributor', 'StateStoreReader'.
+- `role_name` (String) Name of the Role that is assigned. Must be one of 'Owner', 'Contributor', 'Reader', 'StackCreator', 'IdentityAccessManager', 'IdentityAccessMetadataReader', 'JobManager', 'SourceChangeNotifier', 'SubscriptionManager', 'StackContributor', 'StackReader', 'StackMetadataReader', 'RunnerCreator', 'RunnerContributor', 'RunnerReader', 'AgentCreator', 'AgentContributor', 'AgentReader', 'SourceRefresherPreselectionCreator', 'SourceRefresherPreselectionContributor', 'SourceRefresherPreselectionReader', 'IntegrationCreator', 'IntegrationContributor', 'IntegrationReader', 'StateStoreCreator', 'StateStoreContributor', 'StateStoreReader'.
 
 ### Read-Only
 

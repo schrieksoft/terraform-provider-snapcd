@@ -2,16 +2,16 @@
 page_title: "snapcd_namespace Data Source - snapcd"
 subcategory: "Namespaces"
 description: |-
-  Use this data source to access information about an existing Namespace in Snap CD.
+  Look up an existing Namespace by Stack and name to obtain its ID. Returns name, ID and Stack ID only.
 ---
 
 # snapcd_namespace (Data Source)
 
-Use this data source to access information about an existing Namespace in Snap CD.
+Look up an existing Namespace by Stack and name to obtain its ID. Returns name, ID and Stack ID only.
 
 ## Required permissions
 
-Any of: `Organization.Contributor`, `Organization.Owner`, `Organization.Reader`, `Organization.StackContributor`, `Organization.StackReader`, `Stack.Contributor`, `Stack.Owner`, `Stack.Reader`, `Namespace.Contributor`, `Namespace.Owner`, `Namespace.Reader`, or *any* role on a contained Module (`Module.*`)
+Any of: `Organization.Contributor`, `Organization.Owner`, `Organization.Reader`, `Organization.StackContributor`, `Organization.StackMetadataReader`, `Organization.StackReader`, `Stack.Contributor`, `Stack.MetadataReader`, `Stack.Owner`, `Stack.Reader`, `Namespace.Contributor`, `Namespace.MetadataReader`, `Namespace.Owner`, `Namespace.Reader`
 
 
 ## Example Usage
@@ -32,19 +32,9 @@ data "snapcd_namespace" "mynamespace" {
 
 ### Required
 
-- `name` (String) Name of the Namespace. Must be unique in combination with `stack_id`.
-- `stack_id` (String) ID of the Namespace's parent Stack.
+- `name` (String) Name of the Namespace.
+- `stack_id` (String) ID of the Stack this Namespace belongs to.
 
 ### Read-Only
 
-- `default_apply_approval_threshold` (Number) The number of Users (or Service Principals) that need to approve before an 'Apply' plan is executed. All modules in this Namespace will use this value, unless explicitly overriden on the Module itself. If set neither on Module nor on Namespace then a threshold of 0 is used.
-- `default_approval_timeout_minutes` (Number) The number of minutes a Job should remain in the 'WaitingForApproval' in the case of an 'Apply' or 'Destroy' plan that requires approval. After this time elapses the Job will be stopped and any queued Jobs will start. All modules in this Namespace will use this value, unless explicitly overriden on the Module itself. If set neither on Module nor on Namespace the Jobs will wait for an approval decision indefinitely.
-- `default_clean_init_enabled` (Boolean) Setting will remove all .terraform* files and folders (state files, locks, downloaded providers, downloaded modules etc.) and perform a clean init every time the Module is executed. All modules in this Namespace will use this value, unless explicitly overriden on the Module itself.
-- `default_destroy_approval_threshold` (Number) The number of Users (or Service Principals) that need to approve before an 'Destroy' plan is executed. All modules in this Namespace will use this value, unless explicitly overriden on the Module itself. If set neither on Module nor on Namespace then a threshold of 0 is used.
-- `default_drift_check_enabled` (Boolean) Setting this to true will periodically trigger an Apply job to check for drift in the deployed infrastructure. All modules in this Namespace will use this value, unless explicitly overriden on the Module itself.
-- `default_drift_check_interval_minutes` (Number) The number of minutes between drift checks. If not set, the system default (24 hours) is used. Note that irrespective of what is set here, these those will not be fired more regularly than the minimum internal as defined by your subscription tier. All modules in this Namespace will use this value, unless explicitly overriden on the Module itself.
-- `default_engine` (String) Determines which binary will be used during deployment. Must be one of 'OpenTofu', 'Terraform' or 'Pulumi'. Setting this to 'OpenTofu' will use `tofu`. Setting it to 'Terraform' will use `terraform`. Setting this to 'Pulumi' will use `pulumi`. All modules in this Namespace will use this value, unless explicitly overriden on the Module itself.
-- `default_state_migration_approval_threshold` (Number) The number of Users (or Service Principals) that need to approve before a state migration (a split or transfer job) pushes state. All modules in this Namespace will use this value, unless explicitly overriden on the Module itself. If set neither on Module nor on Namespace then a threshold of 1 is used, since the push is irreversible.
-- `default_trigger_path_filter_enabled` (Boolean) Defaults to 'false'. If 'true', Modules in this Namespace with `trigger_on_source_changed` only fire when a commit actually changes their watched directories instead of on every commit to the tracked source. All modules in this Namespace will use this value, unless explicitly overriden on the Module itself.
-- `id` (String) Unique ID of the Namespace
-- `trigger_behaviour_on_modified` (String) Behaviour with respect to applying modules within the Namespace if any of the fields on the Namespace resource (or any of its Param, Env Var or Extra File resources) has changed. Must be one of 'TriggerAllImmediately' or 'DoNotTrigger'. Setting to 'TriggerAllImmediately' will trigger *all* Modules within the Stack to run an apply Job simultaneously. Setting to 'DoNotTrigger' will do nothing. The default (and recommended) setting is 'DoNotTrigger'.
+- `id` (String) Unique ID of the Namespace.

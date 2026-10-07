@@ -13,6 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
+
+	"github.com/hashicorp/terraform-plugin-framework/types"
 )
 
 var _ datasource.DataSource = (*stackDataSource)(nil)
@@ -50,26 +52,22 @@ func (d *stackDataSource) Metadata(ctx context.Context, req datasource.MetadataR
 
 func (d *stackDataSource) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: "Stacks --- Use this data source to access information about an existing Stack in Snap CD." + "\n\n## Required permissions\n\n" + openapidocs.DataSourcePermissions["Stack"],
+		MarkdownDescription: "Stacks --- Look up an existing Stack by name to obtain its ID. Returns name and ID only." + "\n\n## Required permissions\n\n" + openapidocs.DataSourceMetadataPermissions["Stack"],
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed:    true,
-				Description: openapidocs.StackReadDto_Id,
+				Description: openapidocs.StackMetadataReadDto_Id,
 			},
 			"name": schema.StringAttribute{
 				Required:    true,
-				Description: openapidocs.StackReadDto_Name,
-			},
-			"trigger_behaviour_on_modified": schema.StringAttribute{
-				Computed:    true,
-				Description: openapidocs.StackReadDto_TriggerBehaviourOnModified,
+				Description: openapidocs.StackMetadataReadDto_Name,
 			},
 		},
 	}
 }
 
 func (d *stackDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var data stackModel
+	var data stackMetadataModel
 
 	resp.Diagnostics.Append(req.Config.Get(ctx, &data)...)
 
@@ -77,7 +75,7 @@ func (d *stackDataSource) Read(ctx context.Context, req datasource.ReadRequest, 
 		return
 	}
 
-	result, httpError := d.client.Get(fmt.Sprintf("%s/ByName/%s", stackEndpoint, data.Name.ValueString()))
+	result, httpError := d.client.Get(fmt.Sprintf("%s/Metadata/ByName/%s", stackEndpoint, data.Name.ValueString()))
 	var err error
 	if httpError != nil {
 		err = httpError.Error
@@ -98,4 +96,11 @@ func (d *stackDataSource) Read(ctx context.Context, req datasource.ReadRequest, 
 	}
 
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
+}
+
+// Name and ID only: a data source exists to resolve an ID, and narrowing it to metadata
+// means a principal who may only discover the Stack can still use it.
+type stackMetadataModel struct {
+	Name types.String `tfsdk:"name"`
+	Id   types.String `tfsdk:"id"`
 }

@@ -2,16 +2,16 @@
 page_title: "snapcd_service_principal Data Source - snapcd"
 subcategory: "Identity Access Management"
 description: |-
-  Use this data source to access information about an existing Service Principal in Snap CD.
+  Look up an existing Service Principal by client ID to obtain its ID. Returns client ID, display name and ID only.
 ---
 
 # snapcd_service_principal (Data Source)
 
-Use this data source to access information about an existing Service Principal in Snap CD.
+Look up an existing Service Principal by client ID to obtain its ID. Returns client ID, display name and ID only.
 
 ## Required permissions
 
-Any of: `Organization.IdentityAccessManager`, `Organization.Owner`
+Any of: `Organization.IdentityAccessManager`, `Organization.IdentityAccessMetadataReader`, `Organization.Owner`
 
 
 ## Example Usage
@@ -27,9 +27,9 @@ data "snapcd_service_principal" "mysp" {
 
 ### Required
 
-- `client_id` (String) Client Id of the Service Principal. This value must be unique.
+- `client_id` (String) Client ID of the Service Principal, without the organization prefix it is stored with.
 
 ### Read-Only
 
+- `display_name` (String) Display name of the Service Principal.
 - `id` (String) Unique ID of the Service Principal.
-- `is_disabled` (Boolean) Indicates whether the Service Principal is disabled.

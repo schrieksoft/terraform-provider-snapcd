@@ -2,16 +2,16 @@
 page_title: "snapcd_agent Data Source - snapcd"
 subcategory: "Agents"
 description: |-
-  Use this data source to access information about an existing Agent in Snap CD.
+  Look up an existing Agent by name to obtain its ID. Returns name and ID only.
 ---
 
 # snapcd_agent (Data Source)
 
-Use this data source to access information about an existing Agent in Snap CD.
+Look up an existing Agent by name to obtain its ID. Returns name and ID only.
 
 ## Required permissions
 
-Any of: `Organization.AgentContributor`, `Organization.AgentReader`, `Organization.Contributor`, `Organization.Owner`, `Organization.Reader`, `Agent.Contributor`, `Agent.Owner`, `Agent.Reader`
+Any of: `Organization.AgentContributor`, `Organization.AgentReader`, `Organization.Contributor`, `Organization.Owner`, `Organization.Reader`, `Agent.Contributor`, `Agent.MetadataReader`, `Agent.Owner`, `Agent.Reader`
 
 
 ## Example Usage
@@ -27,11 +27,8 @@ data "snapcd_agent" "default" {
 
 ### Required
 
-- `name` (String) Unique name of the Agent.
+- `name` (String) Name of the Agent.
 
 ### Read-Only
 
-- `allow_multiple_instances` (Boolean) Setting this to 'true' allows you to connect multiple instances of this Agent simultaneously.
 - `id` (String) Unique ID of the Agent.
-- `is_disabled` (Boolean) Indicates whether or not the Agent is disabled.
-- `service_principal_id` (String) ID of the Service Principal that the Agent authenticates as.

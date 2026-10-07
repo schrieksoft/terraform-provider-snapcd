@@ -229,6 +229,16 @@ func emitPermissions(doc map[string]any) string {
 			sb.WriteString(fmt.Sprintf("\t%q: %q,\n", family, permissionLine(roles, reverseRead[family])))
 		}
 	}
+	sb.WriteString("}\n\n")
+
+	sb.WriteString("// DataSourceMetadataPermissions is the ReadMetadata variant, for data sources that\n")
+	sb.WriteString("// resolve a name to an ID and return nothing else.\n")
+	sb.WriteString("var DataSourceMetadataPermissions = map[string]string{\n")
+	for _, family := range sortedKeys(anyMap(families)) {
+		if roles, ok := families[family]["ReadMetadata"]; ok {
+			sb.WriteString(fmt.Sprintf("\t%q: %q,\n", family, permissionLine(roles, nil)))
+		}
+	}
 	sb.WriteString("}\n")
 	return sb.String()
 }

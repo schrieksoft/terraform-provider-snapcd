@@ -2,16 +2,16 @@
 page_title: "snapcd_module Data Source - snapcd"
 subcategory: "Modules"
 description: |-
-  Use this data source to access information about an existing Module in Snap CD.
+  Look up an existing Module by Namespace and name to obtain its ID. Returns name, ID and Namespace ID only.
 ---
 
 # snapcd_module (Data Source)
 
-Use this data source to access information about an existing Module in Snap CD.
+Look up an existing Module by Namespace and name to obtain its ID. Returns name, ID and Namespace ID only.
 
 ## Required permissions
 
-Any of: `Organization.Contributor`, `Organization.Owner`, `Organization.Reader`, `Organization.StackContributor`, `Organization.StackReader`, `Stack.Contributor`, `Stack.Owner`, `Stack.Reader`, `Namespace.Contributor`, `Namespace.Owner`, `Namespace.Reader`, `Module.Owner`, `Module.Reader`
+Any of: `Organization.Contributor`, `Organization.Owner`, `Organization.Reader`, `Organization.StackContributor`, `Organization.StackMetadataReader`, `Organization.StackReader`, `Stack.Contributor`, `Stack.MetadataReader`, `Stack.Owner`, `Stack.Reader`, `Namespace.Contributor`, `Namespace.MetadataReader`, `Namespace.Owner`, `Namespace.Reader`, `Module.MetadataReader`, `Module.Owner`, `Module.Reader`
 
 
 ## Example Usage
@@ -36,34 +36,10 @@ data "snapcd_module" "mymodule" {
 
 ### Required
 
-- `name` (String) Name of the Module. Must be unique in combination with `namespace_id`.
-- `namespace_id` (String) ID of the Module's parent Namespace.
+- `name` (String) Name of the Module.
+- `namespace_id` (String) ID of the Namespace this Module belongs to.
 
 ### Read-Only
 
-- `apply_approval_threshold` (Number) The number of Users (or Service Principals) that need to approve before an 'Apply' plan is executed. Setting this will override any default value set on the Module's parent Namespace. If set neither on Module nor on Namespace then a threshold of 0 is used.
-- `approval_timeout_minutes` (Number) The number of minutes a Job should remain in the 'WaitingForApproval' in the case of an 'Apply' or 'Destroy' plan that requires approval. After this time elapses the Job will be stopped and any queued Jobs will start. Setting this will override any default value set on the Module's parent Namespace. If set neither on Module nor on Namespace the Jobs will wait for an approval decision indefinitely.
-- `clean_init_enabled` (Boolean) Setting will remove all .terraform* files and folders (state files, locks, downloaded providers, downloaded modules etc.) and perform a clean init every time the Module is executed. Setting this will override any default value set on the Module's parent Namespace.
-- `destroy_approval_threshold` (Number) The number of Users (or Service Principals) that need to approve before an 'Destroy' plan is executed. Setting this will override any default value set on the Module's parent Namespace. If set neither on Module nor on Namespace then a threshold of 0 is used.
-- `drift_check_enabled` (Boolean) Setting this to true will periodically trigger an Apply job to check for drift in the deployed infrastructure. Setting this will override any default value set on the Module's parent Namespace.
-- `drift_check_interval_minutes` (Number) The number of minutes between drift checks. If not set, the system default (24 hours) is used. Note that irrespective of what is set here, these those will not be fired more regularly than the minimum internal as defined by your subscription tier. Setting this will override any default value set on the Module's parent Namespace.
-- `engine` (String) Determines which binary will be used during deployment. Must be one of 'OpenTofu', 'Terraform' or 'Pulumi'. Setting this to 'OpenTofu' will use `tofu`. Setting it to 'Terraform' will use `terraform`. Setting this to 'Pulumi' will use `pulumi`. Setting this will override any default value set on the Module's parent Namespace.
 - `id` (String) Unique ID of the Module.
-- `ignore_namespace_extra_files` (Boolean) If this is set to true, any Extra Files that have been set on Namespace level will not be used on this specific Module.
-- `ignore_namespace_flags` (Boolean) If this is set to true, any Flags (Terraform Flags, Terraform Array Flags, Pulumi Flags, Pulumi Array Flags) that have been set on Namespace level will not be used on this specific Module.
-- `ignore_namespace_hooks` (Boolean) If this is set to true, any Hooks set on Namespace level will not be used on this specific Module.
-- `runner_id` (String) ID of the Runner that will receive the instructions when triggering a deployment on this Module.
-- `runner_instance_name` (String) Name a specific runner instance to select (should unique identify the the instance). Use this if you have enabled multiple instances on your runner, but want all jobs for this Module to go to a specific instance.
-- `source_revision` (String) Remote revision (e.g. version number, branch, commit or tag) where the source module code is found.
-- `source_revision_type` (String) How Snap CD should interpret the `source_revision` field. Must be one of 'Default' or 'SemanticVersionRange'. Setting to 'Default' means Snap CD will interpret the revision type based on the source type (for example, for a 'Git' source type it will automatically figure out whether the `source_revision` refers to a branch, tag or commit). Setting to 'SemanticVersionRange' means that Snap CD will resolve the revision to the highest tagged version within the range that you specify: `v2.20.*` (patch range), `v2.*` (minor range) or `v*`/`*` (any version, later majors included). The 'v' is optional on both the range and the tags, i.e. `2.20.*` matches tags with or without it. Monorepo-style component tags are supported by anchoring a literal prefix and/or suffix around the wildcard core: `ui-v1.2.*`, `backend/v2.*` or `1.2.*-ui` match only tags of that shape. Pre-release tags (e.g. `-rc.1`) are only matched when the suffix spells them out explicitly. You can also specify a specific tag here, e.g. `v2.20.7` or `ui-v1.2.3`. In that case the behaviour is the same as when using 'Default', except that only tags containing a fully spelled-out `X.Y.Z` version are accepted. NOTE that 'SemanticVersionRange' is currently only supported in combination with the 'Git' `source_type`.
-- `source_subdirectory` (String) Subdirectory where the source module code is found.
-- `source_type` (String) The type of remote module store that the source module code should be retrieved from. Must be one of 'Git' or 'Registry'
-- `source_url` (String) Remote URL where the source module code is found.
-- `state_migration_approval_threshold` (Number) The number of Users (or Service Principals) that need to approve before a state migration (a split or transfer job) pushes state. Setting this will override any default value set on the Module's parent Namespace. If set neither on Module nor on Namespace then a threshold of 1 is used, since the push is irreversible.
-- `trigger_on_definition_changed` (Boolean) Defaults to 'true'. If 'true', the Module will automatically be applied when its definition changes. A definition change results from fields on the Module itself, on any of its Inputs (Param or Env Var) or Extra Files being altered. So too changes to its Namespace (including Inputs and Extra Files) or Stack. Note however that Namespace and Stack changes are not notified by default. This behaviour can be changed in `snapcd_namespace` and `snapcd_stack` resource definitions.
-- `trigger_on_source_changed` (Boolean) Defaults to 'true'. If 'true', the Module will automatically be applied when the source it is referencing has changed. For example, if tracking a Git branch: a new commit would constitute a change.
-- `trigger_on_source_changed_notification` (Boolean) Defaults to 'false'. If 'true', the Module will automatically be applied when the 'api/Hooks/SourceChanged' endpoint is called for this Module. Use this if you want to use external tooling to inform Snap CD that a source has been changed. Consider setting `trigger_on_definition_changed` to 'false' when setting `trigger_on_definition_changed_hook` to 'true'
-- `trigger_on_upstream_output_changed` (Boolean) Defaults to 'true'. If 'true', the Module will automatically be applied when any Outputs from other Modules that it references as Inputs (Param or Env Var) have changed.
-- `trigger_path_filter_enabled` (Boolean) Defaults to 'false'. If 'true', `trigger_on_source_changed` only fires when a commit actually changes the Module's watched directories — its `source_subdirectory` plus any Additional Trigger Paths declared on the Module or its Namespace — instead of on every commit to the tracked source. Only literal local paths are watched: dynamically computed paths, external programs and symlinked directories must be declared as Additional Trigger Paths. Setting this will override any default value set on the Module's parent Namespace.
-- `wait_for_apply_dependencies` (String) Defaults to 'OnFirstApply'. Controls when the Module should wait for dependencies during apply operations. Valid values are 'Always', 'Never', or 'OnFirstApply'. 'Always' means the Module will always wait for Modules its depends on to reach the 'Applied' state before applying. 'Never' means dependencies are ignored. 'OnFirstApply' means the Module will wait for dependencies only on its first apply.
-- `wait_for_destroy_dependencies` (String) Defaults to 'Always'. Controls when the Module should wait for dependencies during destroy operations. Valid values are 'Always' or 'Never'. 'Always' means the Module will always wait Modules that depend on it to reach the 'Destroyed' state before destroying. 'Never' means dependencies are ignored.
+- `runner_id` (String) ID of the Runner assigned to this Module, or empty when none is assigned.

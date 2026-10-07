@@ -13,6 +13,10 @@ const (
 	AgentCreateDto_Name                   = "Unique name of the Agent."
 	AgentCreateDto_ServicePrincipalId     = "ID of the Service Principal that the Agent authenticates as."
 
+	// AgentMetadataReadDto
+	AgentMetadataReadDto_Id   = "Unique ID of the Agent."
+	AgentMetadataReadDto_Name = "Name of the Agent."
+
 	// AgentModuleSupplyCreateDto
 	AgentModuleSupplyCreateDto_AgentId  = "ID of the Agent that is assigned to the Module."
 	AgentModuleSupplyCreateDto_ModuleId = "ID of the Module to which the Agent is assigned."
@@ -54,14 +58,14 @@ const (
 	AgentRoleAssignmentReadDto_Id                     = "Unique ID of the Agent Role Assignment."
 	AgentRoleAssignmentReadDto_PrincipalDiscriminator = "Type of Principal that the `principal_id` identifies. Must be one of 'User', 'ServicePrincipal' and 'Group'"
 	AgentRoleAssignmentReadDto_PrincipalId            = "ID of the Principal to which the role is assigned."
-	AgentRoleAssignmentReadDto_RoleName               = "Name of the Role that is assigned. Must be one of 'Owner', 'Contributor', 'Reader', 'IdentityAccessManager'."
+	AgentRoleAssignmentReadDto_RoleName               = "Name of the Role that is assigned. Must be one of 'Owner', 'Contributor', 'Reader', 'MetadataReader', 'IdentityAccessManager'."
 
 	// AgentRoleAssignmentUpdateDto
 	AgentRoleAssignmentUpdateDto_AgentId                = "ID of the Agent on which the role applies."
 	AgentRoleAssignmentUpdateDto_Id                     = "Unique ID of the Agent Role Assignment."
 	AgentRoleAssignmentUpdateDto_PrincipalDiscriminator = "Type of Principal that the `principal_id` identifies. Must be one of 'User', 'ServicePrincipal' and 'Group'"
 	AgentRoleAssignmentUpdateDto_PrincipalId            = "ID of the Principal to which the role is assigned."
-	AgentRoleAssignmentUpdateDto_RoleName               = "Name of the Role that is assigned. Must be one of 'Owner', 'Contributor', 'Reader', 'IdentityAccessManager'."
+	AgentRoleAssignmentUpdateDto_RoleName               = "Name of the Role that is assigned. Must be one of 'Owner', 'Contributor', 'Reader', 'MetadataReader', 'IdentityAccessManager'."
 
 	// AgentStackSupplyCreateDto
 	AgentStackSupplyCreateDto_AgentId = "ID of the Agent that is assigned to the Stack."
@@ -121,6 +125,10 @@ const (
 	GroupMemberUpdateDto_Id                       = "Unique ID of the Group Member."
 	GroupMemberUpdateDto_PrincipalId              = "ID of the Principal to assign to the Group."
 
+	// GroupMetadataReadDto
+	GroupMetadataReadDto_Id   = "Unique ID of the Group."
+	GroupMetadataReadDto_Name = "Name of the Group."
+
 	// GroupReadDto
 	GroupReadDto_Description = "Description of the Group."
 	GroupReadDto_Id          = "Unique ID of the Group."
@@ -136,6 +144,11 @@ const (
 	IntegrationCreateDto_IntegrationType        = "Integration type (e.g. Slack). Must be one of 'Slack'."
 	IntegrationCreateDto_IsSuppliedToAllModules = "Whether the integration is supplied org-wide."
 	IntegrationCreateDto_Name                   = "Name of the integration."
+
+	// IntegrationMetadataReadDto
+	IntegrationMetadataReadDto_Id              = "Unique ID of the Integration."
+	IntegrationMetadataReadDto_IntegrationType = "What kind of Integration this is, which the name does not tell you. Must be one of 'Slack'."
+	IntegrationMetadataReadDto_Name            = "Name of the Integration."
 
 	// IntegrationModuleSupplyCreateDto
 	IntegrationModuleSupplyCreateDto_IntegrationId = "ID of the Integration that is supplied to the Module."
@@ -171,21 +184,20 @@ const (
 	IntegrationReadDto_IntegrationType        = "Integration type (e.g. Slack). Must be one of 'Slack'."
 	IntegrationReadDto_IsSuppliedToAllModules = "Whether the integration is supplied org-wide."
 	IntegrationReadDto_Name                   = "Name of the integration."
-	IntegrationReadDto_OrganizationId         = "ID of the Organization the Integration belongs to."
 
 	// IntegrationRoleAssignmentReadDto
 	IntegrationRoleAssignmentReadDto_Id                     = "Unique ID of the role assignment."
 	IntegrationRoleAssignmentReadDto_IntegrationId          = "ID of the integration the role is granted on."
 	IntegrationRoleAssignmentReadDto_PrincipalDiscriminator = "Principal type: User, Group, or ServicePrincipal. Must be one of 'Base', 'User', 'ServicePrincipal', 'Group'."
 	IntegrationRoleAssignmentReadDto_PrincipalId            = "ID of the principal (user / group / service principal)."
-	IntegrationRoleAssignmentReadDto_RoleName               = "Integration role: Owner, Contributor, Reader, or IdentityAccessManager. Must be one of 'Owner', 'Contributor', 'Reader', 'IdentityAccessManager'."
+	IntegrationRoleAssignmentReadDto_RoleName               = "Integration role: Owner, Contributor, Reader, or IdentityAccessManager. Must be one of 'Owner', 'Contributor', 'Reader', 'MetadataReader', 'IdentityAccessManager'."
 
 	// IntegrationRoleAssignmentUpdateDto
 	IntegrationRoleAssignmentUpdateDto_Id                     = "Unique ID of the role assignment."
 	IntegrationRoleAssignmentUpdateDto_IntegrationId          = "ID of the integration the role is granted on."
 	IntegrationRoleAssignmentUpdateDto_PrincipalDiscriminator = "Principal type: User, Group, or ServicePrincipal. Must be one of 'Base', 'User', 'ServicePrincipal', 'Group'."
 	IntegrationRoleAssignmentUpdateDto_PrincipalId            = "ID of the principal (user / group / service principal)."
-	IntegrationRoleAssignmentUpdateDto_RoleName               = "Integration role: Owner, Contributor, Reader, or IdentityAccessManager. Must be one of 'Owner', 'Contributor', 'Reader', 'IdentityAccessManager'."
+	IntegrationRoleAssignmentUpdateDto_RoleName               = "Integration role: Owner, Contributor, Reader, or IdentityAccessManager. Must be one of 'Owner', 'Contributor', 'Reader', 'MetadataReader', 'IdentityAccessManager'."
 
 	// IntegrationStackSupplyCreateDto
 	IntegrationStackSupplyCreateDto_IntegrationId = "ID of the Integration that is supplied to the Stack."
@@ -485,6 +497,12 @@ const (
 	ModuleJobStatusDto_ServerSideErrorHeader = "Short server-side error header, when the Job failed outside runner execution."
 	ModuleJobStatusDto_WaitingForApproval    = "True while the Job is waiting for an approval decision."
 
+	// ModuleMetadataReadDto
+	ModuleMetadataReadDto_Id          = "Unique ID of the Module."
+	ModuleMetadataReadDto_Name        = "Name of the Module."
+	ModuleMetadataReadDto_NamespaceId = "ID of the Namespace this Module belongs to."
+	ModuleMetadataReadDto_RunnerId    = "ID of the Runner assigned to this Module, or empty when none is assigned."
+
 	// ModuleMissionCreateDto
 	ModuleMissionCreateDto_AgentId     = "ID of the Agent that runs this Mission."
 	ModuleMissionCreateDto_IsDisabled  = "Indicates whether or not the Mission is disabled."
@@ -683,14 +701,14 @@ const (
 	ModuleRoleAssignmentReadDto_ModuleId               = "ID of the Module on which the role applies."
 	ModuleRoleAssignmentReadDto_PrincipalDiscriminator = "Type of Principal that the `principal_id` identifies. Must be one of 'User', 'ServicePrincipal' and 'Group'"
 	ModuleRoleAssignmentReadDto_PrincipalId            = "ID of the Principal to which the role is assigned."
-	ModuleRoleAssignmentReadDto_RoleName               = "Name of the Role that is assigned. Must be one of 'Owner', 'Contributor', 'Reader', 'IdentityAccessManager', 'JobManager'."
+	ModuleRoleAssignmentReadDto_RoleName               = "Name of the Role that is assigned. Must be one of 'Owner', 'Contributor', 'Reader', 'MetadataReader', 'IdentityAccessManager', 'JobManager'."
 
 	// ModuleRoleAssignmentUpdateDto
 	ModuleRoleAssignmentUpdateDto_Id                     = "Unique ID of the Module Role Assignment."
 	ModuleRoleAssignmentUpdateDto_ModuleId               = "ID of the Module on which the role applies."
 	ModuleRoleAssignmentUpdateDto_PrincipalDiscriminator = "Type of Principal that the `principal_id` identifies. Must be one of 'User', 'ServicePrincipal' and 'Group'"
 	ModuleRoleAssignmentUpdateDto_PrincipalId            = "ID of the Principal to which the role is assigned."
-	ModuleRoleAssignmentUpdateDto_RoleName               = "Name of the Role that is assigned. Must be one of 'Owner', 'Contributor', 'Reader', 'IdentityAccessManager', 'JobManager'."
+	ModuleRoleAssignmentUpdateDto_RoleName               = "Name of the Role that is assigned. Must be one of 'Owner', 'Contributor', 'Reader', 'MetadataReader', 'IdentityAccessManager', 'JobManager'."
 
 	// ModuleSecretDto
 	ModuleSecretDto_Id       = "Unique ID of the Secret."
@@ -1029,6 +1047,11 @@ const (
 	NamespaceIntegrationEventUpdateDto_Template      = "Optional message template ({{token}} substitution). Omit to use the default for the trigger."
 	NamespaceIntegrationEventUpdateDto_Trigger       = "Trigger this subscription fires on. Must be one of 'JobSucceeded', 'JobFailed', 'JobAwaitingApproval', 'JobApproved', 'JobDeclined', 'JobCancelled', 'MissionStarted', 'MissionMilestoneReported', 'MissionCompleted', 'MissionFaulted'."
 
+	// NamespaceMetadataReadDto
+	NamespaceMetadataReadDto_Id      = "Unique ID of the Namespace."
+	NamespaceMetadataReadDto_Name    = "Name of the Namespace."
+	NamespaceMetadataReadDto_StackId = "ID of the Stack this Namespace belongs to."
+
 	// NamespaceMissionCreateDto
 	NamespaceMissionCreateDto_AgentId     = "ID of the Agent that runs this Mission."
 	NamespaceMissionCreateDto_IsDisabled  = "Indicates whether or not the Mission is disabled."
@@ -1190,14 +1213,14 @@ const (
 	NamespaceRoleAssignmentReadDto_NamespaceId            = "ID of the Namespace on which the role applies."
 	NamespaceRoleAssignmentReadDto_PrincipalDiscriminator = "Type of Principal that the `principal_id` identifies. Must be one of 'User', 'ServicePrincipal' and 'Group'"
 	NamespaceRoleAssignmentReadDto_PrincipalId            = "ID of the Principal to which the role is assigned."
-	NamespaceRoleAssignmentReadDto_RoleName               = "Name of the Role that is assigned. Must be one of 'Owner', 'Contributor', 'Reader', 'ModuleCreator', 'IdentityAccessManager', 'JobManager'."
+	NamespaceRoleAssignmentReadDto_RoleName               = "Name of the Role that is assigned. Must be one of 'Owner', 'Contributor', 'Reader', 'MetadataReader', 'ModuleCreator', 'IdentityAccessManager', 'JobManager'."
 
 	// NamespaceRoleAssignmentUpdateDto
 	NamespaceRoleAssignmentUpdateDto_Id                     = "Unique ID of the Namespace Role Assignment."
 	NamespaceRoleAssignmentUpdateDto_NamespaceId            = "ID of the Namespace on which the role applies."
 	NamespaceRoleAssignmentUpdateDto_PrincipalDiscriminator = "Type of Principal that the `principal_id` identifies. Must be one of 'User', 'ServicePrincipal' and 'Group'"
 	NamespaceRoleAssignmentUpdateDto_PrincipalId            = "ID of the Principal to which the role is assigned."
-	NamespaceRoleAssignmentUpdateDto_RoleName               = "Name of the Role that is assigned. Must be one of 'Owner', 'Contributor', 'Reader', 'ModuleCreator', 'IdentityAccessManager', 'JobManager'."
+	NamespaceRoleAssignmentUpdateDto_RoleName               = "Name of the Role that is assigned. Must be one of 'Owner', 'Contributor', 'Reader', 'MetadataReader', 'ModuleCreator', 'IdentityAccessManager', 'JobManager'."
 
 	// NamespaceSecretDto
 	NamespaceSecretDto_Id          = "Unique ID of the Secret."
@@ -1378,13 +1401,13 @@ const (
 	OrganizationRoleAssignmentReadDto_Id                     = "Unique ID of the Organization Role Assignment."
 	OrganizationRoleAssignmentReadDto_PrincipalDiscriminator = "Type of Principal that the `principal_id` identifies. Must be one of 'User', 'ServicePrincipal' and 'Group'"
 	OrganizationRoleAssignmentReadDto_PrincipalId            = "ID of the Principal to which the role is assigned."
-	OrganizationRoleAssignmentReadDto_RoleName               = "Name of the Role that is assigned. Must be one of 'Owner', 'Contributor', 'Reader', 'StackCreator', 'IdentityAccessManager', 'JobManager', 'SourceChangeNotifier', 'SubscriptionManager', 'StackContributor', 'StackReader', 'RunnerCreator', 'RunnerContributor', 'RunnerReader', 'AgentCreator', 'AgentContributor', 'AgentReader', 'SourceRefresherPreselectionCreator', 'SourceRefresherPreselectionContributor', 'SourceRefresherPreselectionReader', 'IntegrationCreator', 'IntegrationContributor', 'IntegrationReader', 'StateStoreCreator', 'StateStoreContributor', 'StateStoreReader'."
+	OrganizationRoleAssignmentReadDto_RoleName               = "Name of the Role that is assigned. Must be one of 'Owner', 'Contributor', 'Reader', 'StackCreator', 'IdentityAccessManager', 'IdentityAccessMetadataReader', 'JobManager', 'SourceChangeNotifier', 'SubscriptionManager', 'StackContributor', 'StackReader', 'StackMetadataReader', 'RunnerCreator', 'RunnerContributor', 'RunnerReader', 'AgentCreator', 'AgentContributor', 'AgentReader', 'SourceRefresherPreselectionCreator', 'SourceRefresherPreselectionContributor', 'SourceRefresherPreselectionReader', 'IntegrationCreator', 'IntegrationContributor', 'IntegrationReader', 'StateStoreCreator', 'StateStoreContributor', 'StateStoreReader'."
 
 	// OrganizationRoleAssignmentUpdateDto
 	OrganizationRoleAssignmentUpdateDto_Id                     = "Unique ID of the Organization Role Assignment."
 	OrganizationRoleAssignmentUpdateDto_PrincipalDiscriminator = "Type of Principal that the `principal_id` identifies. Must be one of 'User', 'ServicePrincipal' and 'Group'"
 	OrganizationRoleAssignmentUpdateDto_PrincipalId            = "ID of the Principal to which the role is assigned."
-	OrganizationRoleAssignmentUpdateDto_RoleName               = "Name of the Role that is assigned. Must be one of 'Owner', 'Contributor', 'Reader', 'StackCreator', 'IdentityAccessManager', 'JobManager', 'SourceChangeNotifier', 'SubscriptionManager', 'StackContributor', 'StackReader', 'RunnerCreator', 'RunnerContributor', 'RunnerReader', 'AgentCreator', 'AgentContributor', 'AgentReader', 'SourceRefresherPreselectionCreator', 'SourceRefresherPreselectionContributor', 'SourceRefresherPreselectionReader', 'IntegrationCreator', 'IntegrationContributor', 'IntegrationReader', 'StateStoreCreator', 'StateStoreContributor', 'StateStoreReader'."
+	OrganizationRoleAssignmentUpdateDto_RoleName               = "Name of the Role that is assigned. Must be one of 'Owner', 'Contributor', 'Reader', 'StackCreator', 'IdentityAccessManager', 'IdentityAccessMetadataReader', 'JobManager', 'SourceChangeNotifier', 'SubscriptionManager', 'StackContributor', 'StackReader', 'StackMetadataReader', 'RunnerCreator', 'RunnerContributor', 'RunnerReader', 'AgentCreator', 'AgentContributor', 'AgentReader', 'SourceRefresherPreselectionCreator', 'SourceRefresherPreselectionContributor', 'SourceRefresherPreselectionReader', 'IntegrationCreator', 'IntegrationContributor', 'IntegrationReader', 'StateStoreCreator', 'StateStoreContributor', 'StateStoreReader'."
 
 	// RunnerCreateDto
 	RunnerCreateDto_AllowMultipleInstances = "Indicates whether or not the Runner is disabled"
@@ -1392,6 +1415,11 @@ const (
 	RunnerCreateDto_IsSuppliedToAllModules = "Setting this to 'true' allows this Runner to be selected for deployment by any Module in the system."
 	RunnerCreateDto_Name                   = "Unique name of the Runner."
 	RunnerCreateDto_ServicePrincipalId     = "ID of the Service Principal associated with the Runner."
+
+	// RunnerMetadataReadDto
+	RunnerMetadataReadDto_Id         = "Unique ID of the Runner."
+	RunnerMetadataReadDto_IsDisabled = "Whether the Runner is disabled and will not pick up new work."
+	RunnerMetadataReadDto_Name       = "Name of the Runner."
 
 	// RunnerModuleSupplyCreateDto
 	RunnerModuleSupplyCreateDto_ModuleId = "ID of the Module to which the Runner is assigned."
@@ -1433,14 +1461,14 @@ const (
 	RunnerRoleAssignmentReadDto_Id                     = "Unique ID of the Runner Role Assignment."
 	RunnerRoleAssignmentReadDto_PrincipalDiscriminator = "Type of Principal that the `principal_id` identifies. Must be one of 'User', 'ServicePrincipal' and 'Group'"
 	RunnerRoleAssignmentReadDto_PrincipalId            = "ID of the Principal to which the role is assigned."
-	RunnerRoleAssignmentReadDto_RoleName               = "Name of the Role that is assigned. Must be one of 'Owner', 'Contributor', 'Reader', 'IdentityAccessManager'."
+	RunnerRoleAssignmentReadDto_RoleName               = "Name of the Role that is assigned. Must be one of 'Owner', 'Contributor', 'Reader', 'MetadataReader', 'IdentityAccessManager'."
 	RunnerRoleAssignmentReadDto_RunnerId               = "ID of the Runner on which the role applies."
 
 	// RunnerRoleAssignmentUpdateDto
 	RunnerRoleAssignmentUpdateDto_Id                     = "Unique ID of the Runner Role Assignment."
 	RunnerRoleAssignmentUpdateDto_PrincipalDiscriminator = "Type of Principal that the `principal_id` identifies. Must be one of 'User', 'ServicePrincipal' and 'Group'"
 	RunnerRoleAssignmentUpdateDto_PrincipalId            = "ID of the Principal to which the role is assigned."
-	RunnerRoleAssignmentUpdateDto_RoleName               = "Name of the Role that is assigned. Must be one of 'Owner', 'Contributor', 'Reader', 'IdentityAccessManager'."
+	RunnerRoleAssignmentUpdateDto_RoleName               = "Name of the Role that is assigned. Must be one of 'Owner', 'Contributor', 'Reader', 'MetadataReader', 'IdentityAccessManager'."
 	RunnerRoleAssignmentUpdateDto_RunnerId               = "ID of the Runner on which the role applies."
 
 	// RunnerStackSupplyCreateDto
@@ -1470,6 +1498,11 @@ const (
 	ServicePrincipalCreateDto_ClientSecret = "Client Secret credential. Write-only: supplied on create or update, never returned on reads."
 	ServicePrincipalCreateDto_IsDisabled   = "Indicates whether the Service Principal is disabled."
 	ServicePrincipalCreateDto_Scopes       = "OAuth scopes granted to tokens issued for this Service Principal. Defaults to `snapcd_scope`."
+
+	// ServicePrincipalMetadataReadDto
+	ServicePrincipalMetadataReadDto_ClientId    = "Client ID of the Service Principal, without the organization prefix it is stored with."
+	ServicePrincipalMetadataReadDto_DisplayName = "Display name of the Service Principal."
+	ServicePrincipalMetadataReadDto_Id          = "Unique ID of the Service Principal."
 
 	// ServicePrincipalReadDto
 	ServicePrincipalReadDto_ClientId     = "Client Id of the Service Principal. This value must be unique."
@@ -1536,6 +1569,10 @@ const (
 	StackIntegrationEventUpdateDto_Template      = "Optional message template ({{token}} substitution). Omit to use the default for the trigger."
 	StackIntegrationEventUpdateDto_Trigger       = "Trigger this subscription fires on. Must be one of 'JobSucceeded', 'JobFailed', 'JobAwaitingApproval', 'JobApproved', 'JobDeclined', 'JobCancelled', 'MissionStarted', 'MissionMilestoneReported', 'MissionCompleted', 'MissionFaulted'."
 
+	// StackMetadataReadDto
+	StackMetadataReadDto_Id   = "Unique ID of the Stack."
+	StackMetadataReadDto_Name = "Name of the Stack."
+
 	// StackMissionCreateDto
 	StackMissionCreateDto_AgentId     = "ID of the Agent that runs this Mission."
 	StackMissionCreateDto_IsDisabled  = "Indicates whether or not the Mission is disabled."
@@ -1568,14 +1605,14 @@ const (
 	StackRoleAssignmentDto_Id                     = "Unique ID of the Stack Role Assignment."
 	StackRoleAssignmentDto_PrincipalDiscriminator = "Type of Principal that the `principal_id` identifies. Must be one of 'User', 'ServicePrincipal' and 'Group'"
 	StackRoleAssignmentDto_PrincipalId            = "ID of the Principal to which the role is assigned."
-	StackRoleAssignmentDto_RoleName               = "Name of the Role that is assigned. Must be one of 'Owner', 'Contributor', 'Reader', 'NamespaceCreator', 'IdentityAccessManager', 'JobManager'."
+	StackRoleAssignmentDto_RoleName               = "Name of the Role that is assigned. Must be one of 'Owner', 'Contributor', 'Reader', 'MetadataReader', 'NamespaceCreator', 'IdentityAccessManager', 'JobManager'."
 	StackRoleAssignmentDto_StackId                = "ID of the Stack on which the role applies."
 
 	// StackRoleAssignmentUpdateDto
 	StackRoleAssignmentUpdateDto_Id                     = "Unique ID of the Stack Role Assignment."
 	StackRoleAssignmentUpdateDto_PrincipalDiscriminator = "Type of Principal that the `principal_id` identifies. Must be one of 'User', 'ServicePrincipal' and 'Group'"
 	StackRoleAssignmentUpdateDto_PrincipalId            = "ID of the Principal to which the role is assigned."
-	StackRoleAssignmentUpdateDto_RoleName               = "Name of the Role that is assigned. Must be one of 'Owner', 'Contributor', 'Reader', 'NamespaceCreator', 'IdentityAccessManager', 'JobManager'."
+	StackRoleAssignmentUpdateDto_RoleName               = "Name of the Role that is assigned. Must be one of 'Owner', 'Contributor', 'Reader', 'MetadataReader', 'NamespaceCreator', 'IdentityAccessManager', 'JobManager'."
 	StackRoleAssignmentUpdateDto_StackId                = "ID of the Stack on which the role applies."
 
 	// StackSecretDto
@@ -1650,6 +1687,10 @@ const (
 	// UserFavoriteReadDto
 	UserFavoriteReadDto_Id       = "Unique ID of the UserFavorite row."
 	UserFavoriteReadDto_TargetId = "ID of the Stack, Namespace or Module being favourited."
+
+	// UserMetadataReadDto
+	UserMetadataReadDto_Id       = "Unique ID of the User."
+	UserMetadataReadDto_UserName = "Username of the User, which is also their email."
 
 	// UserViewDto
 	UserViewDto_Id       = "Unique ID of the User."

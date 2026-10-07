@@ -13,6 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
+
+	"github.com/hashicorp/terraform-plugin-framework/types"
 )
 
 var _ datasource.DataSource = (*agentDataSource)(nil)
@@ -50,34 +52,22 @@ func (d *agentDataSource) Metadata(ctx context.Context, req datasource.MetadataR
 
 func (d *agentDataSource) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: "Agents --- Use this data source to access information about an existing Agent in Snap CD." + "\n\n## Required permissions\n\n" + openapidocs.DataSourcePermissions["Agent"],
+		MarkdownDescription: "Agents --- Look up an existing Agent by name to obtain its ID. Returns name and ID only." + "\n\n## Required permissions\n\n" + openapidocs.DataSourceMetadataPermissions["Agent"],
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed:    true,
-				Description: openapidocs.AgentReadDto_Id,
+				Description: openapidocs.AgentMetadataReadDto_Id,
 			},
 			"name": schema.StringAttribute{
 				Required:    true,
-				Description: openapidocs.AgentReadDto_Name,
-			},
-			"service_principal_id": schema.StringAttribute{
-				Computed:    true,
-				Description: openapidocs.AgentReadDto_ServicePrincipalId,
-			},
-			"is_disabled": schema.BoolAttribute{
-				Computed:    true,
-				Description: openapidocs.AgentReadDto_IsDisabled,
-			},
-			"allow_multiple_instances": schema.BoolAttribute{
-				Computed:    true,
-				Description: openapidocs.AgentReadDto_AllowMultipleInstances,
+				Description: openapidocs.AgentMetadataReadDto_Name,
 			},
 		},
 	}
 }
 
 func (d *agentDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var data agentModel
+	var data agentMetadataModel
 
 	resp.Diagnostics.Append(req.Config.Get(ctx, &data)...)
 
@@ -85,7 +75,7 @@ func (d *agentDataSource) Read(ctx context.Context, req datasource.ReadRequest, 
 		return
 	}
 
-	result, httpError := d.client.Get(fmt.Sprintf("%s/ByName/%s", agentEndpoint, data.Name.ValueString()))
+	result, httpError := d.client.Get(fmt.Sprintf("%s/Metadata/ByName/%s", agentEndpoint, data.Name.ValueString()))
 	var err error
 	if httpError != nil {
 		err = httpError.Error
@@ -106,4 +96,11 @@ func (d *agentDataSource) Read(ctx context.Context, req datasource.ReadRequest, 
 	}
 
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
+}
+
+// Name and ID only: a data source exists to resolve an ID, and narrowing it to metadata
+// means a principal who may only discover the resource can still use it.
+type agentMetadataModel struct {
+	Name types.String `tfsdk:"name"`
+	Id   types.String `tfsdk:"id"`
 }
