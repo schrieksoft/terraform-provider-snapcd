@@ -40,14 +40,9 @@ data "snapcd_module_pulumi_inline_policy" "mypolicy" {
 
 ### Required
 
-- `module_id` (String) ID of the policy's parent Module.
-- `name` (String) Human-readable policy name. Must be unique in combination with `module_id`.
+- `module_id` (String) ID of the Module this Module Pulumi Inline Policy belongs to.
+- `name` (String) Name of the Module Pulumi Inline Policy.
 
 ### Read-Only
 
-- `additional_dependencies` (String) Optional extra package dependencies required by the policy content, one per line (requirements.txt semantics), installed after the pinned policy SDK. Runners configured for operator-managed environments reject entities that set this.
-- `enabled` (Boolean) Whether this policy is evaluated. Defaults to `true`; set `false` to switch the policy off without deleting it.
-- `evaluate_on` (String) When this policy is evaluated. Only `ApplyOnly` exists for Pulumi policies: CrossGuard evaluates apply-side previews only — the pulumi CLI has no policy support on destroy. Must be one of 'ApplyOnly'.
-- `id` (String) Unique ID of the ModulePulumiInlinePolicy.
-- `policy_content` (String) Inline CrossGuard policy module (the pack's entry file, e.g. `__main__.py` defining a `PolicyPack`). The Runner synthesizes the surrounding pack scaffold. Policies declare `mandatory` (blocks the job) or `advisory` (warns and continues) enforcement in the pack itself.
-- `runtime` (String) Language runtime of the policy pack. Determines the scaffold the Runner synthesizes around the policy content. Must be one of 'Python', 'NodeJS'.
+- `id` (String) Unique ID of the Module Pulumi Inline Policy.

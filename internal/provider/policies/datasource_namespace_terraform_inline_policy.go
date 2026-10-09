@@ -13,6 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
+
+	"github.com/hashicorp/terraform-plugin-framework/types"
 )
 
 var _ datasource.DataSource = (*namespaceTerraformInlinePolicyDataSource)(nil)
@@ -50,38 +52,26 @@ func (d *namespaceTerraformInlinePolicyDataSource) Metadata(ctx context.Context,
 
 func (d *namespaceTerraformInlinePolicyDataSource) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: "Policies --- Use this data source to access information about an existing Namespace Terraform Inline Policy in Snap CD." + "\n\n## Required permissions\n\n" + openapidocs.DataSourcePermissions["NamespaceTerraformInlinePolicy"],
+		MarkdownDescription: "Policies --- Use this data source to access information about an existing Namespace Terraform Inline Policy in Snap CD." + "\n\n## Required permissions\n\n" + openapidocs.DataSourceMetadataPermissions["NamespaceTerraformInlinePolicy"],
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed:    true,
-				Description: openapidocs.NamespaceTerraformInlinePolicyReadDto_Id,
+				Description: openapidocs.NamespaceTerraformInlinePolicyMetadataReadDto_Id,
 			},
 			"namespace_id": schema.StringAttribute{
 				Required:    true,
-				Description: openapidocs.NamespaceTerraformInlinePolicyReadDto_NamespaceId,
+				Description: openapidocs.NamespaceTerraformInlinePolicyMetadataReadDto_NamespaceId,
 			},
 			"name": schema.StringAttribute{
 				Required:    true,
-				Description: openapidocs.NamespaceTerraformInlinePolicyReadDto_Name,
-			},
-			"policy_content": schema.StringAttribute{
-				Computed:    true,
-				Description: openapidocs.NamespaceTerraformInlinePolicyReadDto_PolicyContent,
-			},
-			"enabled": schema.BoolAttribute{
-				Computed:    true,
-				Description: openapidocs.NamespaceTerraformInlinePolicyReadDto_Enabled,
-			},
-			"evaluate_on": schema.StringAttribute{
-				Computed:    true,
-				Description: openapidocs.NamespaceTerraformInlinePolicyReadDto_EvaluateOn,
+				Description: openapidocs.NamespaceTerraformInlinePolicyMetadataReadDto_Name,
 			},
 		},
 	}
 }
 
 func (d *namespaceTerraformInlinePolicyDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var data namespaceTerraformInlinePolicyModel
+	var data namespaceTerraformInlinePolicyMetadataModel
 
 	resp.Diagnostics.Append(req.Config.Get(ctx, &data)...)
 
@@ -89,7 +79,7 @@ func (d *namespaceTerraformInlinePolicyDataSource) Read(ctx context.Context, req
 		return
 	}
 
-	result, httpError := d.client.Get(fmt.Sprintf("%s/%s/%s", namespaceTerraformInlinePolicyEndpoint, data.NamespaceId.ValueString(), data.Name.ValueString()))
+	result, httpError := d.client.Get(fmt.Sprintf("%s/Metadata/%s/%s", namespaceTerraformInlinePolicyEndpoint, data.NamespaceId.ValueString(), data.Name.ValueString()))
 	var err error
 	if httpError != nil {
 		err = httpError.Error
@@ -110,4 +100,12 @@ func (d *namespaceTerraformInlinePolicyDataSource) Read(ctx context.Context, req
 	}
 
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
+}
+
+// Metadata only: a data source exists to resolve an ID, and narrowing it means a
+// principal who may only discover the resource can still use it.
+type namespaceTerraformInlinePolicyMetadataModel struct {
+	Id          types.String `tfsdk:"id"`
+	NamespaceId types.String `tfsdk:"namespace_id"`
+	Name        types.String `tfsdk:"name"`
 }

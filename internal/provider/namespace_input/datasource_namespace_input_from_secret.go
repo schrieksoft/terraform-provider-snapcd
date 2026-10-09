@@ -9,6 +9,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
 
+	"github.com/hashicorp/terraform-plugin-framework/types"
+
 	snapcd "terraform-provider-snapcd/client"
 	utils "terraform-provider-snapcd/utils"
 )
@@ -33,31 +35,19 @@ func (d *namespaceInputFromSecretDataSource) Metadata(_ context.Context, req dat
 
 func (d *namespaceInputFromSecretDataSource) Schema(_ context.Context, _ datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: `Namespace Inputs --- Retrieves a Namespace Input (From Secret) from Snap CD.` + "\n\n## Required permissions\n\n" + openapidocs.DataSourcePermissions["NamespaceInputFromSecret"],
+		MarkdownDescription: `Namespace Inputs --- Retrieves a Namespace Input (From Secret) from Snap CD.` + "\n\n## Required permissions\n\n" + openapidocs.DataSourceMetadataPermissions["NamespaceInputFromSecret"],
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed:    true,
-				Description: openapidocs.NamespaceInputFromSecretReadDto_Id,
+				Description: openapidocs.NamespaceInputMetadataReadDto_Id,
 			},
 			"name": schema.StringAttribute{
 				Required:    true,
-				Description: openapidocs.NamespaceInputFromSecretReadDto_Name,
-			},
-			"type": schema.StringAttribute{
-				Computed:    true,
-				Description: openapidocs.NamespaceInputFromSecretReadDto_Type,
-			},
-			"secret_id": schema.StringAttribute{
-				Computed:    true,
-				Description: openapidocs.NamespaceInputFromSecretReadDto_SecretId,
-			},
-			"usage_mode": schema.StringAttribute{
-				Computed:    true,
-				Description: openapidocs.NamespaceInputFromSecretReadDto_UsageMode,
+				Description: openapidocs.NamespaceInputMetadataReadDto_Name,
 			},
 			"namespace_id": schema.StringAttribute{
 				Required:    true,
-				Description: openapidocs.NamespaceInputFromSecretReadDto_NamespaceId,
+				Description: openapidocs.NamespaceInputMetadataReadDto_NamespaceId,
 			},
 			"input_kind": schema.StringAttribute{
 				Required:    true,
@@ -85,7 +75,7 @@ func (d *namespaceInputFromSecretDataSource) Configure(_ context.Context, req da
 }
 
 func (d *namespaceInputFromSecretDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var data namespaceInputFromSecretModel
+	var data namespaceInputFromSecretMetadataModel
 
 	// Read Terraform configuration data into the model
 	resp.Diagnostics.Append(req.Config.Get(ctx, &data)...)
@@ -95,7 +85,7 @@ func (d *namespaceInputFromSecretDataSource) Read(ctx context.Context, req datas
 	}
 
 	// Read API call logic
-	result, httpError := d.client.Get(fmt.Sprintf("%s/%s/%s", namespaceInputFromSecretEndpoint, data.NamespaceId.ValueString(), data.Name.ValueString()))
+	result, httpError := d.client.Get(fmt.Sprintf("%s/Metadata/%s/%s", namespaceInputFromSecretEndpoint, data.NamespaceId.ValueString(), data.Name.ValueString()))
 
 	if httpError != nil {
 		resp.Diagnostics.AddError(namespaceInputFromSecretDefaultError, "Error calling GET: "+httpError.Error.Error())
@@ -110,4 +100,13 @@ func (d *namespaceInputFromSecretDataSource) Read(ctx context.Context, req datas
 
 	// Save data into Terraform state
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
+}
+
+// Metadata only: a data source exists to resolve an ID, and narrowing it means a
+// principal who may only discover the resource can still use it.
+type namespaceInputFromSecretMetadataModel struct {
+	Id          types.String `tfsdk:"id"`
+	Name        types.String `tfsdk:"name"`
+	NamespaceId types.String `tfsdk:"namespace_id"`
+	InputKind   types.String `tfsdk:"input_kind"`
 }

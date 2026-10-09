@@ -23,7 +23,6 @@ data "snapcd_module_terraform_local_policy" "this" {
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("data.snapcd_module_terraform_local_policy.this", "id"),
 					resource.TestCheckResourceAttr("data.snapcd_module_terraform_local_policy.this", "name", providerconfig.AppendRandomString("mypolicy%s")),
-					resource.TestCheckResourceAttr("data.snapcd_module_terraform_local_policy.this", "evaluate_on", "ApplyAndDestroy"),
 				),
 			},
 		},

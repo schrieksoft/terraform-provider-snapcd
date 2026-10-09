@@ -4,7 +4,7 @@
 
 package openapidocs
 
-var AgentRoleValues = []string{"Owner", "Contributor", "Reader", "IdentityAccessManager"}
+var AgentRoleValues = []string{"Owner", "Contributor", "Reader", "MetadataReader", "IdentityAccessManager"}
 
 var CancellationTypeValues = []string{"AfterCurrent", "ImmediateKill"}
 
@@ -26,7 +26,7 @@ var InputKindValues = []string{"Param", "EnvVar"}
 
 var InputTypeValues = []string{"String", "NotString"}
 
-var IntegrationRoleValues = []string{"Owner", "Contributor", "Reader", "IdentityAccessManager"}
+var IntegrationRoleValues = []string{"Owner", "Contributor", "Reader", "MetadataReader", "IdentityAccessManager"}
 
 var IntegrationSupplyScopeValues = []string{"Stack", "Namespace", "Module"}
 
@@ -38,15 +38,15 @@ var MissionStatusValues = []string{"Pending", "WaitingForAgent", "BlockedAgentNo
 
 var MissionTypeValues = []string{"AutoDiagnose", "ApprovalRecommend", "SummarizeJob", "AutoFix"}
 
-var ModuleRoleValues = []string{"Owner", "Contributor", "Reader", "IdentityAccessManager", "JobManager"}
+var ModuleRoleValues = []string{"Owner", "Contributor", "Reader", "MetadataReader", "IdentityAccessManager", "JobManager"}
 
 var NamespaceInputUsageModeValues = []string{"UseIfSelected", "UseByDefault"}
 
-var NamespaceRoleValues = []string{"Owner", "Contributor", "Reader", "ModuleCreator", "IdentityAccessManager", "JobManager"}
+var NamespaceRoleValues = []string{"Owner", "Contributor", "Reader", "MetadataReader", "ModuleCreator", "IdentityAccessManager", "JobManager"}
 
 var NamespaceTriggerBehaviourValues = []string{"DoNotTrigger", "TriggerAllImmediately"}
 
-var OrganizationRoleValues = []string{"Owner", "Contributor", "Reader", "StackCreator", "IdentityAccessManager", "JobManager", "SourceChangeNotifier", "SubscriptionManager", "StackContributor", "StackReader", "RunnerCreator", "RunnerContributor", "RunnerReader", "AgentCreator", "AgentContributor", "AgentReader", "SourceRefresherPreselectionCreator", "SourceRefresherPreselectionContributor", "SourceRefresherPreselectionReader", "IntegrationCreator", "IntegrationContributor", "IntegrationReader", "StateStoreCreator", "StateStoreContributor", "StateStoreReader"}
+var OrganizationRoleValues = []string{"Owner", "Contributor", "Reader", "StackCreator", "IdentityAccessManager", "IdentityAccessMetadataReader", "JobManager", "SourceChangeNotifier", "SubscriptionManager", "StackContributor", "StackReader", "StackMetadataReader", "RunnerCreator", "RunnerContributor", "RunnerReader", "AgentCreator", "AgentContributor", "AgentReader", "SourceRefresherPreselectionCreator", "SourceRefresherPreselectionContributor", "SourceRefresherPreselectionReader", "IntegrationCreator", "IntegrationContributor", "IntegrationReader", "StateStoreCreator", "StateStoreContributor", "StateStoreReader"}
 
 var PolicyEvaluateOnValues = []string{"ApplyAndDestroy", "ApplyOnly", "DestroyOnly"}
 
@@ -64,13 +64,13 @@ var PulumiPolicyRuntimeValues = []string{"Python", "NodeJS"}
 
 var RoleAssignmentPrincipalDiscriminatorValues = []string{"Base", "User", "ServicePrincipal", "Group"}
 
-var RunnerRoleValues = []string{"Owner", "Contributor", "Reader", "IdentityAccessManager"}
+var RunnerRoleValues = []string{"Owner", "Contributor", "Reader", "MetadataReader", "IdentityAccessManager"}
 
 var SourceRevisionTypeValues = []string{"Default", "SemanticVersionRange"}
 
 var SourceTypeValues = []string{"Git", "Registry", "S3", "Http", "Https", "Gcs", "Mercurial", "Unknown"}
 
-var StackRoleValues = []string{"Owner", "Contributor", "Reader", "NamespaceCreator", "IdentityAccessManager", "JobManager"}
+var StackRoleValues = []string{"Owner", "Contributor", "Reader", "MetadataReader", "NamespaceCreator", "IdentityAccessManager", "JobManager"}
 
 var StackTriggerBehaviourValues = []string{"DoNotTrigger", "TriggerAllImmediately"}
 

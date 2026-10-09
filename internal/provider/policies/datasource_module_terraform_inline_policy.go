@@ -13,6 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
+
+	"github.com/hashicorp/terraform-plugin-framework/types"
 )
 
 var _ datasource.DataSource = (*moduleTerraformInlinePolicyDataSource)(nil)
@@ -50,38 +52,26 @@ func (d *moduleTerraformInlinePolicyDataSource) Metadata(ctx context.Context, re
 
 func (d *moduleTerraformInlinePolicyDataSource) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: "Policies --- Use this data source to access information about an existing Module Terraform Inline Policy in Snap CD." + "\n\n## Required permissions\n\n" + openapidocs.DataSourcePermissions["ModuleTerraformInlinePolicy"],
+		MarkdownDescription: "Policies --- Use this data source to access information about an existing Module Terraform Inline Policy in Snap CD." + "\n\n## Required permissions\n\n" + openapidocs.DataSourceMetadataPermissions["ModuleTerraformInlinePolicy"],
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed:    true,
-				Description: openapidocs.ModuleTerraformInlinePolicyReadDto_Id,
+				Description: openapidocs.ModuleTerraformInlinePolicyMetadataReadDto_Id,
 			},
 			"module_id": schema.StringAttribute{
 				Required:    true,
-				Description: openapidocs.ModuleTerraformInlinePolicyReadDto_ModuleId,
+				Description: openapidocs.ModuleTerraformInlinePolicyMetadataReadDto_ModuleId,
 			},
 			"name": schema.StringAttribute{
 				Required:    true,
-				Description: openapidocs.ModuleTerraformInlinePolicyReadDto_Name,
-			},
-			"policy_content": schema.StringAttribute{
-				Computed:    true,
-				Description: openapidocs.ModuleTerraformInlinePolicyReadDto_PolicyContent,
-			},
-			"enabled": schema.BoolAttribute{
-				Computed:    true,
-				Description: openapidocs.ModuleTerraformInlinePolicyReadDto_Enabled,
-			},
-			"evaluate_on": schema.StringAttribute{
-				Computed:    true,
-				Description: openapidocs.ModuleTerraformInlinePolicyReadDto_EvaluateOn,
+				Description: openapidocs.ModuleTerraformInlinePolicyMetadataReadDto_Name,
 			},
 		},
 	}
 }
 
 func (d *moduleTerraformInlinePolicyDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var data moduleTerraformInlinePolicyModel
+	var data moduleTerraformInlinePolicyMetadataModel
 
 	resp.Diagnostics.Append(req.Config.Get(ctx, &data)...)
 
@@ -89,7 +79,7 @@ func (d *moduleTerraformInlinePolicyDataSource) Read(ctx context.Context, req da
 		return
 	}
 
-	result, httpError := d.client.Get(fmt.Sprintf("%s/%s/%s", moduleTerraformInlinePolicyEndpoint, data.ModuleId.ValueString(), data.Name.ValueString()))
+	result, httpError := d.client.Get(fmt.Sprintf("%s/Metadata/%s/%s", moduleTerraformInlinePolicyEndpoint, data.ModuleId.ValueString(), data.Name.ValueString()))
 	var err error
 	if httpError != nil {
 		err = httpError.Error
@@ -110,4 +100,12 @@ func (d *moduleTerraformInlinePolicyDataSource) Read(ctx context.Context, req da
 	}
 
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
+}
+
+// Metadata only: a data source exists to resolve an ID, and narrowing it means a
+// principal who may only discover the resource can still use it.
+type moduleTerraformInlinePolicyMetadataModel struct {
+	Id       types.String `tfsdk:"id"`
+	ModuleId types.String `tfsdk:"module_id"`
+	Name     types.String `tfsdk:"name"`
 }

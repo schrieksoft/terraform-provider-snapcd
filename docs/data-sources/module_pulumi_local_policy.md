@@ -40,12 +40,9 @@ data "snapcd_module_pulumi_local_policy" "mypolicy" {
 
 ### Required
 
-- `module_id` (String) ID of the policy's parent Module.
-- `name` (String) Human-readable policy name. Must be unique in combination with `module_id`.
+- `module_id` (String) ID of the Module this Module Pulumi Local Policy belongs to.
+- `name` (String) Name of the Module Pulumi Local Policy.
 
 ### Read-Only
 
-- `enabled` (Boolean) Whether this policy is evaluated. Defaults to `true`; set `false` to switch the policy off without deleting it.
-- `evaluate_on` (String) When this policy is evaluated. Only `ApplyOnly` exists for Pulumi policies: CrossGuard evaluates apply-side previews only — the pulumi CLI has no policy support on destroy. Must be one of 'ApplyOnly'.
-- `id` (String) Unique ID of the ModulePulumiLocalPolicy.
-- `path` (String) Absolute directory path on the Runner host holding the CrossGuard policy pack. Operator-managed: the contents at evaluation time are whatever the folder holds — there is no revision pinning.
+- `id` (String) Unique ID of the Module Pulumi Local Policy.

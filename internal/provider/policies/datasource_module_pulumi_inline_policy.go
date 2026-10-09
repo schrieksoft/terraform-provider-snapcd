@@ -13,6 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
+
+	"github.com/hashicorp/terraform-plugin-framework/types"
 )
 
 var _ datasource.DataSource = (*modulePulumiInlinePolicyDataSource)(nil)
@@ -50,46 +52,26 @@ func (d *modulePulumiInlinePolicyDataSource) Metadata(ctx context.Context, req d
 
 func (d *modulePulumiInlinePolicyDataSource) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: "Policies --- Use this data source to access information about an existing Module Pulumi Inline Policy in Snap CD." + "\n\n## Required permissions\n\n" + openapidocs.DataSourcePermissions["ModulePulumiInlinePolicy"],
+		MarkdownDescription: "Policies --- Use this data source to access information about an existing Module Pulumi Inline Policy in Snap CD." + "\n\n## Required permissions\n\n" + openapidocs.DataSourceMetadataPermissions["ModulePulumiInlinePolicy"],
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed:    true,
-				Description: openapidocs.ModulePulumiInlinePolicyReadDto_Id,
+				Description: openapidocs.ModulePulumiInlinePolicyMetadataReadDto_Id,
 			},
 			"module_id": schema.StringAttribute{
 				Required:    true,
-				Description: openapidocs.ModulePulumiInlinePolicyReadDto_ModuleId,
+				Description: openapidocs.ModulePulumiInlinePolicyMetadataReadDto_ModuleId,
 			},
 			"name": schema.StringAttribute{
 				Required:    true,
-				Description: openapidocs.ModulePulumiInlinePolicyReadDto_Name,
-			},
-			"policy_content": schema.StringAttribute{
-				Computed:    true,
-				Description: openapidocs.ModulePulumiInlinePolicyReadDto_PolicyContent,
-			},
-			"runtime": schema.StringAttribute{
-				Computed:    true,
-				Description: openapidocs.ModulePulumiInlinePolicyReadDto_Runtime,
-			},
-			"additional_dependencies": schema.StringAttribute{
-				Computed:    true,
-				Description: openapidocs.ModulePulumiInlinePolicyReadDto_AdditionalDependencies,
-			},
-			"enabled": schema.BoolAttribute{
-				Computed:    true,
-				Description: openapidocs.ModulePulumiInlinePolicyReadDto_Enabled,
-			},
-			"evaluate_on": schema.StringAttribute{
-				Computed:    true,
-				Description: openapidocs.ModulePulumiInlinePolicyReadDto_EvaluateOn,
+				Description: openapidocs.ModulePulumiInlinePolicyMetadataReadDto_Name,
 			},
 		},
 	}
 }
 
 func (d *modulePulumiInlinePolicyDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var data modulePulumiInlinePolicyModel
+	var data modulePulumiInlinePolicyMetadataModel
 
 	resp.Diagnostics.Append(req.Config.Get(ctx, &data)...)
 
@@ -97,7 +79,7 @@ func (d *modulePulumiInlinePolicyDataSource) Read(ctx context.Context, req datas
 		return
 	}
 
-	result, httpError := d.client.Get(fmt.Sprintf("%s/%s/%s", modulePulumiInlinePolicyEndpoint, data.ModuleId.ValueString(), data.Name.ValueString()))
+	result, httpError := d.client.Get(fmt.Sprintf("%s/Metadata/%s/%s", modulePulumiInlinePolicyEndpoint, data.ModuleId.ValueString(), data.Name.ValueString()))
 	var err error
 	if httpError != nil {
 		err = httpError.Error
@@ -118,4 +100,12 @@ func (d *modulePulumiInlinePolicyDataSource) Read(ctx context.Context, req datas
 	}
 
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
+}
+
+// Metadata only: a data source exists to resolve an ID, and narrowing it means a
+// principal who may only discover the resource can still use it.
+type modulePulumiInlinePolicyMetadataModel struct {
+	Id       types.String `tfsdk:"id"`
+	ModuleId types.String `tfsdk:"module_id"`
+	Name     types.String `tfsdk:"name"`
 }

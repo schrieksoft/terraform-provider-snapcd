@@ -47,6 +47,4 @@ data "snapcd_module_input_from_output" "myvar" {
 
 ### Read-Only
 
-- `id` (String) Unique ID of the Module Input (From Output).
-- `output_module_id` (String) ID of the Module from which to take the Output.
-- `output_name` (String) Name of Output to take as input.
+- `id` (String) Unique ID of the Module Input.

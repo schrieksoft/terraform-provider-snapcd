@@ -36,7 +36,7 @@ data "snapcd_namespace_additional_trigger_path" "mytriggerpath" {
 
 ### Required
 
-- `namespace_id` (String) ID of the Namespace Additional Trigger Path's parent Namespace.
+- `namespace_id` (String) Namespace Id of the Namespace Additional Trigger Path.
 - `path` (String) Repo-root-relative directory that joins the trigger watch set of every Module in the Namespace that has path-scoped triggering enabled. Must be a normalized relative path that stays inside the repository (no leading slash, no `..` escaping the root). Must be unique in combination with `namespace_id`.
 
 ### Read-Only

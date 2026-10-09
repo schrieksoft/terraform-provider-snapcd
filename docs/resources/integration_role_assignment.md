@@ -34,7 +34,7 @@ resource "snapcd_integration_role_assignment" "alerts_owner" {
 - `integration_id` (String) ID of the integration the role is granted on.
 - `principal_discriminator` (String) Principal type: User, Group, or ServicePrincipal. Must be one of 'Base', 'User', 'ServicePrincipal', 'Group'.
 - `principal_id` (String) ID of the principal (user / group / service principal).
-- `role_name` (String) Integration role: Owner, Contributor, Reader, or IdentityAccessManager. Must be one of 'Owner', 'Contributor', 'Reader', 'IdentityAccessManager'.
+- `role_name` (String) Integration role: Owner, Contributor, Reader, or IdentityAccessManager. Must be one of 'Owner', 'Contributor', 'Reader', 'MetadataReader', 'IdentityAccessManager'.
 
 ### Read-Only
 

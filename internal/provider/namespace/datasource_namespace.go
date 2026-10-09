@@ -13,6 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
+
+	"github.com/hashicorp/terraform-plugin-framework/types"
 )
 
 var _ datasource.DataSource = (*namespaceDataSource)(nil)
@@ -50,66 +52,26 @@ func (d *namespaceDataSource) Metadata(ctx context.Context, req datasource.Metad
 
 func (d *namespaceDataSource) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: "Namespaces --- Use this data source to access information about an existing Namespace in Snap CD." + "\n\n## Required permissions\n\n" + openapidocs.DataSourcePermissions["Namespace"],
+		MarkdownDescription: "Namespaces --- Look up an existing Namespace by Stack and name to obtain its ID. Returns name, ID and Stack ID only." + "\n\n## Required permissions\n\n" + openapidocs.DataSourceMetadataPermissions["Namespace"],
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed:    true,
-				Description: openapidocs.NamespaceReadDto_Id,
+				Description: openapidocs.NamespaceMetadataReadDto_Id,
 			},
 			"name": schema.StringAttribute{
 				Required:    true,
-				Description: openapidocs.NamespaceReadDto_Name,
+				Description: openapidocs.NamespaceMetadataReadDto_Name,
 			},
 			"stack_id": schema.StringAttribute{
 				Required:    true,
-				Description: openapidocs.NamespaceReadDto_StackId,
-			},
-			"default_clean_init_enabled": schema.BoolAttribute{
-				Computed:    true,
-				Description: openapidocs.NamespaceReadDto_DefaultCleanInitEnabled,
-			},
-			"default_trigger_path_filter_enabled": schema.BoolAttribute{
-				Computed:    true,
-				Description: openapidocs.NamespaceReadDto_DefaultTriggerPathFilterEnabled,
-			},
-			"default_drift_check_enabled": schema.BoolAttribute{
-				Computed:    true,
-				Description: openapidocs.NamespaceReadDto_DefaultDriftCheckEnabled,
-			},
-			"default_drift_check_interval_minutes": schema.Int64Attribute{
-				Computed:    true,
-				Description: openapidocs.NamespaceReadDto_DefaultDriftCheckIntervalMinutes,
-			},
-			"default_engine": schema.StringAttribute{
-				Computed:    true,
-				Description: openapidocs.NamespaceReadDto_DefaultEngine,
-			},
-			"trigger_behaviour_on_modified": schema.StringAttribute{
-				Computed:    true,
-				Description: openapidocs.NamespaceReadDto_TriggerBehaviourOnModified,
-			},
-			"default_apply_approval_threshold": schema.Int64Attribute{
-				Computed:    true,
-				Description: openapidocs.NamespaceReadDto_DefaultApplyApprovalThreshold,
-			},
-			"default_destroy_approval_threshold": schema.Int64Attribute{
-				Computed:    true,
-				Description: openapidocs.NamespaceReadDto_DefaultDestroyApprovalThreshold,
-			},
-			"default_state_migration_approval_threshold": schema.Int64Attribute{
-				Computed:    true,
-				Description: openapidocs.NamespaceReadDto_DefaultStateMigrationApprovalThreshold,
-			},
-			"default_approval_timeout_minutes": schema.Int64Attribute{
-				Computed:    true,
-				Description: openapidocs.NamespaceReadDto_DefaultApprovalTimeoutMinutes,
+				Description: openapidocs.NamespaceMetadataReadDto_StackId,
 			},
 		},
 	}
 }
 
 func (d *namespaceDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var data namespaceModel
+	var data namespaceMetadataModel
 
 	resp.Diagnostics.Append(req.Config.Get(ctx, &data)...)
 
@@ -117,7 +79,7 @@ func (d *namespaceDataSource) Read(ctx context.Context, req datasource.ReadReque
 		return
 	}
 
-	result, httpError := d.client.Get(fmt.Sprintf("%s/%s/%s", namespaceEndpoint, data.StackId.ValueString(), data.Name.ValueString()))
+	result, httpError := d.client.Get(fmt.Sprintf("%s/Metadata/%s/%s", namespaceEndpoint, data.StackId.ValueString(), data.Name.ValueString()))
 	var err error
 	if httpError != nil {
 		err = httpError.Error
@@ -138,4 +100,12 @@ func (d *namespaceDataSource) Read(ctx context.Context, req datasource.ReadReque
 	}
 
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
+}
+
+// Name and ID only: a data source exists to resolve an ID, and narrowing it to metadata
+// means a principal who may only discover the resource can still use it.
+type namespaceMetadataModel struct {
+	Name    types.String `tfsdk:"name"`
+	Id      types.String `tfsdk:"id"`
+	StackId types.String `tfsdk:"stack_id"`
 }

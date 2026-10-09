@@ -13,6 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
+
+	"github.com/hashicorp/terraform-plugin-framework/types"
 )
 
 var _ datasource.DataSource = (*moduleExtraFileDataSource)(nil)
@@ -50,34 +52,26 @@ func (d *moduleExtraFileDataSource) Metadata(ctx context.Context, req datasource
 
 func (d *moduleExtraFileDataSource) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: "Extra Files --- Use this data source to access information about an existing Module Extra File in Snap CD." + "\n\n## Required permissions\n\n" + openapidocs.DataSourcePermissions["ModuleExtraFile"],
+		MarkdownDescription: "Extra Files --- Use this data source to access information about an existing Module Extra File in Snap CD." + "\n\n## Required permissions\n\n" + openapidocs.DataSourceMetadataPermissions["ModuleExtraFile"],
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed:    true,
-				Description: openapidocs.ModuleExtraFileReadDto_Id,
+				Description: openapidocs.ModuleExtraFileMetadataReadDto_Id,
 			},
 			"module_id": schema.StringAttribute{
 				Required:    true,
-				Description: openapidocs.ModuleExtraFileReadDto_ModuleId,
+				Description: openapidocs.ModuleExtraFileMetadataReadDto_ModuleId,
 			},
 			"file_name": schema.StringAttribute{
 				Required:    true,
 				Description: openapidocs.ModuleExtraFileReadDto_FileName,
-			},
-			"contents": schema.StringAttribute{
-				Computed:    true,
-				Description: openapidocs.ModuleExtraFileReadDto_Contents,
-			},
-			"overwrite": schema.BoolAttribute{
-				Optional:    true,
-				Description: openapidocs.ModuleExtraFileReadDto_Overwrite,
 			},
 		},
 	}
 }
 
 func (d *moduleExtraFileDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var data moduleExtraFileModel
+	var data moduleExtraFileMetadataModel
 
 	resp.Diagnostics.Append(req.Config.Get(ctx, &data)...)
 
@@ -85,7 +79,7 @@ func (d *moduleExtraFileDataSource) Read(ctx context.Context, req datasource.Rea
 		return
 	}
 
-	result, httpError := d.client.Get(fmt.Sprintf("%s/%s/%s", moduleExtraFileEndpoint, data.ModuleId.ValueString(), data.FileName.ValueString()))
+	result, httpError := d.client.Get(fmt.Sprintf("%s/Metadata/%s/%s", moduleExtraFileEndpoint, data.ModuleId.ValueString(), data.FileName.ValueString()))
 	var err error
 	if httpError != nil {
 		err = httpError.Error
@@ -106,4 +100,12 @@ func (d *moduleExtraFileDataSource) Read(ctx context.Context, req datasource.Rea
 	}
 
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
+}
+
+// Metadata only: a data source exists to resolve an ID, and narrowing it means a
+// principal who may only discover the resource can still use it.
+type moduleExtraFileMetadataModel struct {
+	Id       types.String `tfsdk:"id"`
+	ModuleId types.String `tfsdk:"module_id"`
+	FileName types.String `tfsdk:"file_name"`
 }

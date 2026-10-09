@@ -2,16 +2,16 @@
 page_title: "snapcd_integration Data Source - snapcd"
 subcategory: "Integrations"
 description: |-
-  Look up an existing Integration (created/managed in the SnapCd UI) by name.
+  Look up an existing Integration by name to obtain its ID. Returns name, ID and type only.
 ---
 
 # snapcd_integration (Data Source)
 
-Look up an existing Integration (created/managed in the SnapCd UI) by name.
+Look up an existing Integration by name to obtain its ID. Returns name, ID and type only.
 
 ## Required permissions
 
-Any of: `Organization.Contributor`, `Organization.IntegrationContributor`, `Organization.IntegrationReader`, `Organization.Owner`, `Organization.Reader`, `Integration.Contributor`, `Integration.Owner`, `Integration.Reader`
+Any of: `Organization.Contributor`, `Organization.IntegrationContributor`, `Organization.IntegrationReader`, `Organization.Owner`, `Organization.Reader`, `Integration.Contributor`, `Integration.MetadataReader`, `Integration.Owner`, `Integration.Reader`
 
 
 ## Example Usage
@@ -29,11 +29,9 @@ data "snapcd_integration" "alerts" {
 
 ### Required
 
-- `name` (String) Name of the integration.
+- `name` (String) Name of the Integration.
 
 ### Read-Only
 
-- `enabled` (Boolean) Whether the integration is enabled.
-- `id` (String) Unique ID of the integration.
-- `integration_type` (String) Integration type (e.g. Slack).
-- `is_supplied_to_all_modules` (Boolean) Whether the integration is supplied org-wide.
+- `id` (String) Unique ID of the Integration.
+- `integration_type` (String) What kind of Integration this is, which the name does not tell you. Must be one of 'Slack'.

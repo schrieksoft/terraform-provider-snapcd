@@ -40,7 +40,7 @@ data "snapcd_module_additional_trigger_path" "mytriggerpath" {
 
 ### Required
 
-- `module_id` (String) ID of the Module Additional Trigger Path's parent Module.
+- `module_id` (String) Module Id of the Module Additional Trigger Path.
 - `path` (String) Repo-root-relative directory that joins the Module's trigger watch set when path-scoped triggering is enabled. Must be a normalized relative path that stays inside the repository (no leading slash, no `..` escaping the root). Must be unique in combination with `module_id`.
 
 ### Read-Only

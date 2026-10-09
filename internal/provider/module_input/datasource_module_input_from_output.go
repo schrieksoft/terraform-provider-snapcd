@@ -13,6 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
+
+	"github.com/hashicorp/terraform-plugin-framework/types"
 )
 
 var _ datasource.DataSource = (*moduleInputFromOutputDataSource)(nil)
@@ -50,23 +52,15 @@ func (d *moduleInputFromOutputDataSource) Metadata(ctx context.Context, req data
 
 func (d *moduleInputFromOutputDataSource) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: "Module Inputs --- Use this data source to access information about an existing Module Input (From Output) in Snap CD." + "\n\n## Required permissions\n\n" + openapidocs.DataSourcePermissions["ModuleInputFromOutput"],
+		MarkdownDescription: "Module Inputs --- Use this data source to access information about an existing Module Input (From Output) in Snap CD." + "\n\n## Required permissions\n\n" + openapidocs.DataSourceMetadataPermissions["ModuleInputFromOutput"],
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed:    true,
-				Description: openapidocs.ModuleInputFromOutputUpdateDto_Id,
+				Description: openapidocs.ModuleInputMetadataReadDto_Id,
 			},
 			"name": schema.StringAttribute{
 				Required:    true,
 				Description: openapidocs.ModuleInputFromOutputCreateDto_Name,
-			},
-			"output_name": schema.StringAttribute{
-				Computed:    true,
-				Description: openapidocs.ModuleInputFromOutputCreateDto_OutputName,
-			},
-			"output_module_id": schema.StringAttribute{
-				Computed:    true,
-				Description: openapidocs.ModuleInputFromOutputCreateDto_OutputModuleId,
 			},
 			"module_id": schema.StringAttribute{
 				Required:    true,
@@ -81,7 +75,7 @@ func (d *moduleInputFromOutputDataSource) Schema(ctx context.Context, req dataso
 }
 
 func (d *moduleInputFromOutputDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var data moduleInputFromOutputModel
+	var data moduleInputFromOutputMetadataModel
 
 	resp.Diagnostics.Append(req.Config.Get(ctx, &data)...)
 
@@ -89,7 +83,7 @@ func (d *moduleInputFromOutputDataSource) Read(ctx context.Context, req datasour
 		return
 	}
 
-	result, httpError := d.client.Get(fmt.Sprintf("%s/%s/%s", moduleInputFromOutputEndpoint, data.ModuleId.ValueString(), data.Name.ValueString()))
+	result, httpError := d.client.Get(fmt.Sprintf("%s/Metadata/%s/%s", moduleInputFromOutputEndpoint, data.ModuleId.ValueString(), data.Name.ValueString()))
 	var err error
 	if httpError != nil {
 		err = httpError.Error
@@ -110,4 +104,13 @@ func (d *moduleInputFromOutputDataSource) Read(ctx context.Context, req datasour
 	}
 
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
+}
+
+// Metadata only: a data source exists to resolve an ID, and narrowing it means a
+// principal who may only discover the resource can still use it.
+type moduleInputFromOutputMetadataModel struct {
+	Id        types.String `tfsdk:"id"`
+	Name      types.String `tfsdk:"name"`
+	ModuleId  types.String `tfsdk:"module_id"`
+	InputKind types.String `tfsdk:"input_kind"`
 }

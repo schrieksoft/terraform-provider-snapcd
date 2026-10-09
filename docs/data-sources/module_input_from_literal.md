@@ -42,11 +42,9 @@ data "snapcd_module_input_from_literal" "myvar" {
 ### Required
 
 - `input_kind` (String) The kind of input. Must be one of 'Param', 'EnvVar'.
-- `module_id` (String) ID of the Module Input's parent Module.
-- `name` (String) Name of the Module Input. Must be unique in combination with `moduleId`.
+- `module_id` (String) ID of the Module this Module Input belongs to.
+- `name` (String) Name of the Module Input.
 
 ### Read-Only
 
-- `id` (String) Unique ID of the Module Input (From Literal).
-- `literal_value` (String) Literal value of the input.
-- `type` (String) Type of literal input. Must be one of 'String' and 'NotString'. Use 'NotString' for values such as numbers, bools, list, maps etc.
+- `id` (String) Unique ID of the Module Input.

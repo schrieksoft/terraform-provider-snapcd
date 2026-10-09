@@ -2,16 +2,16 @@
 page_title: "snapcd_stack Data Source - snapcd"
 subcategory: "Stacks"
 description: |-
-  Use this data source to access information about an existing Stack in Snap CD.
+  Look up an existing Stack by name to obtain its ID. Returns name and ID only.
 ---
 
 # snapcd_stack (Data Source)
 
-Use this data source to access information about an existing Stack in Snap CD.
+Look up an existing Stack by name to obtain its ID. Returns name and ID only.
 
 ## Required permissions
 
-Any of: `Organization.Contributor`, `Organization.Owner`, `Organization.Reader`, `Organization.StackContributor`, `Organization.StackReader`, `Stack.Contributor`, `Stack.Owner`, `Stack.Reader`, or *any* role on a contained Namespace (`Namespace.*`), or *any* role on a contained Module (`Module.*`)
+Any of: `Organization.Contributor`, `Organization.Owner`, `Organization.Reader`, `Organization.StackContributor`, `Organization.StackMetadataReader`, `Organization.StackReader`, `Stack.Contributor`, `Stack.MetadataReader`, `Stack.Owner`, `Stack.Reader`
 
 
 ## Example Usage
@@ -27,9 +27,8 @@ data "snapcd_stack" "mystack" {
 
 ### Required
 
-- `name` (String) Unique name of the Stack.
+- `name` (String) Name of the Stack.
 
 ### Read-Only
 
 - `id` (String) Unique ID of the Stack.
-- `trigger_behaviour_on_modified` (String) Behaviour with respect to applying modules within the Stack if any of the fields on the Stack resource has changed. Must be one of 'TriggerAllImmediately' or 'DoNotTrigger'. Setting to 'TriggerAllImmediately' will trigger *all* Modules within the Stack to run an apply Job simultaneously. Setting to 'DoNotTrigger' will do nothing. The default (and recommended) setting is 'DoNotTrigger'.

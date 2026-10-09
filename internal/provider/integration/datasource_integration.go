@@ -56,25 +56,23 @@ func (d *integrationDataSource) Metadata(_ context.Context, req datasource.Metad
 
 func (d *integrationDataSource) Schema(_ context.Context, _ datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: "Integrations --- Look up an existing Integration (created/managed in the SnapCd UI) by name." + "\n\n## Required permissions\n\n" + openapidocs.DataSourcePermissions["Integration"],
+		MarkdownDescription: "Integrations --- Look up an existing Integration by name to obtain its ID. Returns name, ID and type only." + "\n\n## Required permissions\n\n" + openapidocs.DataSourceMetadataPermissions["Integration"],
 		Attributes: map[string]schema.Attribute{
-			"id":                         schema.StringAttribute{Computed: true, Description: "Unique ID of the integration."},
-			"name":                       schema.StringAttribute{Required: true, Description: "Name of the integration."},
-			"integration_type":           schema.StringAttribute{Computed: true, Description: "Integration type (e.g. Slack)."},
-			"enabled":                    schema.BoolAttribute{Computed: true, Description: "Whether the integration is enabled."},
-			"is_supplied_to_all_modules": schema.BoolAttribute{Computed: true, Description: "Whether the integration is supplied org-wide."},
+			"id":               schema.StringAttribute{Computed: true, Description: openapidocs.IntegrationMetadataReadDto_Id},
+			"name":             schema.StringAttribute{Required: true, Description: openapidocs.IntegrationMetadataReadDto_Name},
+			"integration_type": schema.StringAttribute{Computed: true, Description: openapidocs.IntegrationMetadataReadDto_IntegrationType},
 		},
 	}
 }
 
 func (d *integrationDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var data integrationDataSourceModel
+	var data integrationMetadataModel
 	resp.Diagnostics.Append(req.Config.Get(ctx, &data)...)
 	if resp.Diagnostics.HasError() {
 		return
 	}
 
-	result, httpError := d.client.Get(fmt.Sprintf("%s/ByName/%s", integrationEndpoint, data.Name.ValueString()))
+	result, httpError := d.client.Get(fmt.Sprintf("%s/Metadata/ByName/%s", integrationEndpoint, data.Name.ValueString()))
 	if httpError != nil {
 		resp.Diagnostics.AddError(integrationDataSourceError, "Error calling GET: "+httpError.Error.Error())
 		return
@@ -86,4 +84,12 @@ func (d *integrationDataSource) Read(ctx context.Context, req datasource.ReadReq
 	}
 
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
+}
+
+// Name and ID only: a data source exists to resolve an ID, and narrowing it to metadata
+// means a principal who may only discover the resource can still use it.
+type integrationMetadataModel struct {
+	Name            types.String `tfsdk:"name"`
+	Id              types.String `tfsdk:"id"`
+	IntegrationType types.String `tfsdk:"integration_type"`
 }

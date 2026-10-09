@@ -32,5 +32,4 @@ data "snapcd_source_refresher_preselection" "example" {
 ### Read-Only
 
 - `id` (String) Unique ID of the Source Refresher Preselection.
-- `runner_id` (String) ID of the Runner to preselect as 'refresher' for the given Source URL. Messages requesting a source refresh will always be sent to this Runner's
-- `runner_instance_name` (String) Name a specific runner instance to select (should unique identify the the instance). Use this if you have enabled multiple instances on your runner, but want all refresh requests for this source to go to a specific instance.
+- `runner_id` (String) Runner Id of the Source Refresher Preselection.

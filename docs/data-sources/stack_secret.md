@@ -2,12 +2,12 @@
 page_title: "snapcd_stack_secret Data Source - snapcd"
 subcategory: "Secrets"
 description: |-
-  Use this data source to access information about an existing Secret (Scoped to Stack) in Snap CD.
+  Look up an existing Secret (Scoped to Stack) by name to obtain its ID. Returns name, ID and stack_id only.
 ---
 
 # snapcd_stack_secret (Data Source)
 
-Use this data source to access information about an existing Secret (Scoped to Stack) in Snap CD.
+Look up an existing Secret (Scoped to Stack) by name to obtain its ID. Returns name, ID and stack_id only.
 
 ## Required permissions
 
@@ -32,9 +32,9 @@ data "snapcd_stack_secret" "mysecret" {
 
 ### Required
 
-- `name` (String) Name of the Secret. Must be unique within its scope.
-- `stack_id` (String) Id of the Stack to scope the Secret to
+- `name` (String) Name of the Stack Secret.
+- `stack_id` (String) Stack Id of the Stack Secret.
 
 ### Read-Only
 
-- `id` (String) Unique ID of the Secret.
+- `id` (String) Unique ID of the Stack Secret.

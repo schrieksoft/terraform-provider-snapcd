@@ -13,6 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
+
+	"github.com/hashicorp/terraform-plugin-framework/types"
 )
 
 var _ datasource.DataSource = (*runnerDataSource)(nil)
@@ -50,38 +52,26 @@ func (d *runnerDataSource) Metadata(ctx context.Context, req datasource.Metadata
 
 func (d *runnerDataSource) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: "Runners --- Use this data source to access information about an existing Runner in Snap CD." + "\n\n## Required permissions\n\n" + openapidocs.DataSourcePermissions["Runner"],
+		MarkdownDescription: "Runners --- Look up an existing Runner by name to obtain its ID. Returns name and ID only." + "\n\n## Required permissions\n\n" + openapidocs.DataSourceMetadataPermissions["Runner"],
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed:    true,
-				Description: openapidocs.RunnerReadDto_Id,
+				Description: openapidocs.RunnerMetadataReadDto_Id,
 			},
 			"name": schema.StringAttribute{
 				Required:    true,
-				Description: openapidocs.RunnerReadDto_Name,
-			},
-			"service_principal_id": schema.StringAttribute{
-				Computed:    true,
-				Description: openapidocs.RunnerReadDto_ServicePrincipalId,
-			},
-			"is_supplied_to_all_modules": schema.BoolAttribute{
-				Computed:    true,
-				Description: openapidocs.RunnerReadDto_IsSuppliedToAllModules,
+				Description: openapidocs.RunnerMetadataReadDto_Name,
 			},
 			"is_disabled": schema.BoolAttribute{
 				Computed:    true,
-				Description: openapidocs.RunnerReadDto_IsDisabled,
-			},
-			"allow_multiple_instances": schema.BoolAttribute{
-				Computed:    true,
-				Description: openapidocs.RunnerReadDto_AllowMultipleInstances,
+				Description: openapidocs.RunnerMetadataReadDto_IsDisabled,
 			},
 		},
 	}
 }
 
 func (d *runnerDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var data runnerModel
+	var data runnerMetadataModel
 
 	resp.Diagnostics.Append(req.Config.Get(ctx, &data)...)
 
@@ -89,7 +79,7 @@ func (d *runnerDataSource) Read(ctx context.Context, req datasource.ReadRequest,
 		return
 	}
 
-	result, httpError := d.client.Get(fmt.Sprintf("%s/ByName/%s", runnerEndpoint, data.Name.ValueString()))
+	result, httpError := d.client.Get(fmt.Sprintf("%s/Metadata/ByName/%s", runnerEndpoint, data.Name.ValueString()))
 	var err error
 	if httpError != nil {
 		err = httpError.Error
@@ -110,4 +100,12 @@ func (d *runnerDataSource) Read(ctx context.Context, req datasource.ReadRequest,
 	}
 
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
+}
+
+// Name and ID only: a data source exists to resolve an ID, and narrowing it to metadata
+// means a principal who may only discover the resource can still use it.
+type runnerMetadataModel struct {
+	Name       types.String `tfsdk:"name"`
+	Id         types.String `tfsdk:"id"`
+	IsDisabled types.Bool   `tfsdk:"is_disabled"`
 }

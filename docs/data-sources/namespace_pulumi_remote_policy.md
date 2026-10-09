@@ -36,14 +36,9 @@ data "snapcd_namespace_pulumi_remote_policy" "mypolicy" {
 
 ### Required
 
-- `name` (String) Human-readable policy name. Must be unique in combination with `namespace_id`.
-- `namespace_id` (String) ID of the policy's parent Namespace.
+- `name` (String) Name of the Namespace Pulumi Remote Policy.
+- `namespace_id` (String) ID of the Namespace this Namespace Pulumi Remote Policy belongs to.
 
 ### Read-Only
 
-- `enabled` (Boolean) Whether this policy is evaluated. Defaults to `true`; set `false` to switch the policy off without deleting it.
-- `evaluate_on` (String) When this policy is evaluated. Only `ApplyOnly` exists for Pulumi policies: CrossGuard evaluates apply-side previews only — the pulumi CLI has no policy support on destroy. Must be one of 'ApplyOnly'.
-- `id` (String) Unique ID of the NamespacePulumiRemotePolicy.
-- `path` (String) Repo-root-relative directory of the policy pack within the repository. Empty means the repository root.
-- `repo_url` (String) URL of the git repository holding the CrossGuard policy pack.
-- `revision` (String) Git revision (tag, branch or commit SHA) to evaluate. The revision is resolved at job dispatch, pinning the evaluated policy pack.
+- `id` (String) Unique ID of the Namespace Pulumi Remote Policy.

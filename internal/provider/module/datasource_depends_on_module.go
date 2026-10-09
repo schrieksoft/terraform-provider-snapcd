@@ -13,6 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
+
+	"github.com/hashicorp/terraform-plugin-framework/types"
 )
 
 var _ datasource.DataSource = (*dependsOnModuleDataSource)(nil)
@@ -50,26 +52,26 @@ func (d *dependsOnModuleDataSource) Metadata(ctx context.Context, req datasource
 
 func (d *dependsOnModuleDataSource) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: "Modules --- Use this data source to access information about an existing Module dependency relationship in Snap CD." + "\n\n## Required permissions\n\n" + openapidocs.DataSourcePermissions["DependsOnModule"],
+		MarkdownDescription: "Modules --- Use this data source to access information about an existing Module dependency relationship in Snap CD." + "\n\n## Required permissions\n\n" + openapidocs.DataSourceMetadataPermissions["DependsOnModule"],
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Required:    true,
-				Description: openapidocs.DependsOnModuleReadDto_Id,
+				Description: openapidocs.DependsOnModuleMetadataReadDto_Id,
 			},
 			"module_id": schema.StringAttribute{
 				Computed:    true,
-				Description: openapidocs.DependsOnModuleReadDto_ModuleId,
+				Description: openapidocs.DependsOnModuleMetadataReadDto_ModuleId,
 			},
 			"depends_on_module_id": schema.StringAttribute{
 				Computed:    true,
-				Description: openapidocs.DependsOnModuleReadDto_DependsOnModuleId,
+				Description: openapidocs.DependsOnModuleMetadataReadDto_DependsOnModuleId,
 			},
 		},
 	}
 }
 
 func (d *dependsOnModuleDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var data dependsOnModuleModel
+	var data dependsOnModuleMetadataModel
 
 	resp.Diagnostics.Append(req.Config.Get(ctx, &data)...)
 
@@ -77,7 +79,7 @@ func (d *dependsOnModuleDataSource) Read(ctx context.Context, req datasource.Rea
 		return
 	}
 
-	result, httpError := d.client.Get(fmt.Sprintf("%s/%s", dependsOnModuleEndpoint, data.Id.ValueString()))
+	result, httpError := d.client.Get(fmt.Sprintf("%s/Metadata/%s", dependsOnModuleEndpoint, data.Id.ValueString()))
 	var err error
 	if httpError != nil {
 		err = httpError.Error
@@ -98,4 +100,12 @@ func (d *dependsOnModuleDataSource) Read(ctx context.Context, req datasource.Rea
 	}
 
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
+}
+
+// Metadata only: a data source exists to resolve an ID, and narrowing it means a
+// principal who may only discover the resource can still use it.
+type dependsOnModuleMetadataModel struct {
+	Id                types.String `tfsdk:"id"`
+	ModuleId          types.String `tfsdk:"module_id"`
+	DependsOnModuleId types.String `tfsdk:"depends_on_module_id"`
 }

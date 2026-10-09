@@ -13,6 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
+
+	"github.com/hashicorp/terraform-plugin-framework/types"
 )
 
 var _ datasource.DataSource = (*namespacePulumiLocalPolicyDataSource)(nil)
@@ -50,38 +52,26 @@ func (d *namespacePulumiLocalPolicyDataSource) Metadata(ctx context.Context, req
 
 func (d *namespacePulumiLocalPolicyDataSource) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: "Policies --- Use this data source to access information about an existing Namespace Pulumi Local Policy in Snap CD." + "\n\n## Required permissions\n\n" + openapidocs.DataSourcePermissions["NamespacePulumiLocalPolicy"],
+		MarkdownDescription: "Policies --- Use this data source to access information about an existing Namespace Pulumi Local Policy in Snap CD." + "\n\n## Required permissions\n\n" + openapidocs.DataSourceMetadataPermissions["NamespacePulumiLocalPolicy"],
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed:    true,
-				Description: openapidocs.NamespacePulumiLocalPolicyReadDto_Id,
+				Description: openapidocs.NamespacePulumiLocalPolicyMetadataReadDto_Id,
 			},
 			"namespace_id": schema.StringAttribute{
 				Required:    true,
-				Description: openapidocs.NamespacePulumiLocalPolicyReadDto_NamespaceId,
+				Description: openapidocs.NamespacePulumiLocalPolicyMetadataReadDto_NamespaceId,
 			},
 			"name": schema.StringAttribute{
 				Required:    true,
-				Description: openapidocs.NamespacePulumiLocalPolicyReadDto_Name,
-			},
-			"path": schema.StringAttribute{
-				Computed:    true,
-				Description: openapidocs.NamespacePulumiLocalPolicyReadDto_Path,
-			},
-			"enabled": schema.BoolAttribute{
-				Computed:    true,
-				Description: openapidocs.NamespacePulumiLocalPolicyReadDto_Enabled,
-			},
-			"evaluate_on": schema.StringAttribute{
-				Computed:    true,
-				Description: openapidocs.NamespacePulumiLocalPolicyReadDto_EvaluateOn,
+				Description: openapidocs.NamespacePulumiLocalPolicyMetadataReadDto_Name,
 			},
 		},
 	}
 }
 
 func (d *namespacePulumiLocalPolicyDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var data namespacePulumiLocalPolicyModel
+	var data namespacePulumiLocalPolicyMetadataModel
 
 	resp.Diagnostics.Append(req.Config.Get(ctx, &data)...)
 
@@ -89,7 +79,7 @@ func (d *namespacePulumiLocalPolicyDataSource) Read(ctx context.Context, req dat
 		return
 	}
 
-	result, httpError := d.client.Get(fmt.Sprintf("%s/%s/%s", namespacePulumiLocalPolicyEndpoint, data.NamespaceId.ValueString(), data.Name.ValueString()))
+	result, httpError := d.client.Get(fmt.Sprintf("%s/Metadata/%s/%s", namespacePulumiLocalPolicyEndpoint, data.NamespaceId.ValueString(), data.Name.ValueString()))
 	var err error
 	if httpError != nil {
 		err = httpError.Error
@@ -110,4 +100,12 @@ func (d *namespacePulumiLocalPolicyDataSource) Read(ctx context.Context, req dat
 	}
 
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
+}
+
+// Metadata only: a data source exists to resolve an ID, and narrowing it means a
+// principal who may only discover the resource can still use it.
+type namespacePulumiLocalPolicyMetadataModel struct {
+	Id          types.String `tfsdk:"id"`
+	NamespaceId types.String `tfsdk:"namespace_id"`
+	Name        types.String `tfsdk:"name"`
 }

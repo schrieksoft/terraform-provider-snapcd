@@ -61,19 +61,19 @@ func (d *stackSecretDataSource) Metadata(ctx context.Context, req datasource.Met
 
 func (d *stackSecretDataSource) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: "Secrets --- Use this data source to access information about an existing Secret (Scoped to Stack) in Snap CD." + "\n\n## Required permissions\n\n" + openapidocs.DataSourcePermissions["StackSecret"],
+		MarkdownDescription: "Secrets --- Look up an existing Secret (Scoped to Stack) by name to obtain its ID. Returns name, ID and stack_id only." + "\n\n## Required permissions\n\n" + openapidocs.DataSourceMetadataPermissions["StackSecret"],
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed:    true,
-				Description: openapidocs.StackSecretDto_Id,
+				Description: openapidocs.StackSecretMetadataReadDto_Id,
 			},
 			"name": schema.StringAttribute{
 				Required:    true,
-				Description: openapidocs.StackSecretDto_Name,
+				Description: openapidocs.StackSecretMetadataReadDto_Name,
 			},
 			"stack_id": schema.StringAttribute{
 				Required:    true,
-				Description: openapidocs.StackSecretDto_StackId,
+				Description: openapidocs.StackSecretMetadataReadDto_StackId,
 			},
 		},
 	}
@@ -88,7 +88,7 @@ func (d *stackSecretDataSource) Read(ctx context.Context, req datasource.ReadReq
 		return
 	}
 
-	result, httpError := d.client.Get(fmt.Sprintf("%s/ByName/%s", stackSecretEndpoint, data.Name.ValueString()))
+	result, httpError := d.client.Get(fmt.Sprintf("%s/Metadata/ByName/%s", stackSecretEndpoint, data.Name.ValueString()))
 	var err error
 	if httpError != nil {
 		err = httpError.Error

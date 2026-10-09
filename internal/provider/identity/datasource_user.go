@@ -53,6 +53,9 @@ func (d *userDataSource) Metadata(ctx context.Context, req datasource.MetadataRe
 	resp.TypeName = req.ProviderTypeName + "_user"
 }
 
+// ID and username only: a data source exists to resolve an ID, and narrowing it to metadata
+// means a principal who may only discover the User can still use it. The id is the User's,
+// which is what a role assignment references.
 type userModel struct {
 	Id       types.String `tfsdk:"id"`
 	UserName types.String `tfsdk:"user_name"`
@@ -60,15 +63,15 @@ type userModel struct {
 
 func (d *userDataSource) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: "Identity Access Management --- Use this data source to access information about an existing User in Snap CD." + "\n\n## Required permissions\n\n" + openapidocs.DataSourcePermissions["User"],
+		MarkdownDescription: "Identity Access Management --- Look up an existing User by username to obtain their ID. Returns username and ID only." + "\n\n## Required permissions\n\n" + openapidocs.DataSourceMetadataPermissions["User"],
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed:    true,
-				Description: openapidocs.UserViewDto_Id,
+				Description: openapidocs.UserMetadataReadDto_Id,
 			},
 			"user_name": schema.StringAttribute{
 				Required:    true,
-				Description: openapidocs.UserViewDto_UserName,
+				Description: openapidocs.UserMetadataReadDto_UserName,
 			},
 		},
 	}
@@ -83,7 +86,7 @@ func (d *userDataSource) Read(ctx context.Context, req datasource.ReadRequest, r
 		return
 	}
 
-	result, httpError := d.client.Get(fmt.Sprintf("%s/ByUserName/%s", userEndpoint, data.UserName.ValueString()))
+	result, httpError := d.client.Get(fmt.Sprintf("%s/Metadata/ByUsername/%s", userEndpoint, data.UserName.ValueString()))
 	var err error
 	if httpError != nil {
 		err = httpError.Error

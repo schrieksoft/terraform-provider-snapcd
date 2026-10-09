@@ -13,6 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
+
+	"github.com/hashicorp/terraform-plugin-framework/types"
 )
 
 var _ datasource.DataSource = (*moduleTerraformLocalPolicyDataSource)(nil)
@@ -50,38 +52,26 @@ func (d *moduleTerraformLocalPolicyDataSource) Metadata(ctx context.Context, req
 
 func (d *moduleTerraformLocalPolicyDataSource) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: "Policies --- Use this data source to access information about an existing Module Terraform Local Policy in Snap CD." + "\n\n## Required permissions\n\n" + openapidocs.DataSourcePermissions["ModuleTerraformLocalPolicy"],
+		MarkdownDescription: "Policies --- Use this data source to access information about an existing Module Terraform Local Policy in Snap CD." + "\n\n## Required permissions\n\n" + openapidocs.DataSourceMetadataPermissions["ModuleTerraformLocalPolicy"],
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed:    true,
-				Description: openapidocs.ModuleTerraformLocalPolicyReadDto_Id,
+				Description: openapidocs.ModuleTerraformLocalPolicyMetadataReadDto_Id,
 			},
 			"module_id": schema.StringAttribute{
 				Required:    true,
-				Description: openapidocs.ModuleTerraformLocalPolicyReadDto_ModuleId,
+				Description: openapidocs.ModuleTerraformLocalPolicyMetadataReadDto_ModuleId,
 			},
 			"name": schema.StringAttribute{
 				Required:    true,
-				Description: openapidocs.ModuleTerraformLocalPolicyReadDto_Name,
-			},
-			"path": schema.StringAttribute{
-				Computed:    true,
-				Description: openapidocs.ModuleTerraformLocalPolicyReadDto_Path,
-			},
-			"enabled": schema.BoolAttribute{
-				Computed:    true,
-				Description: openapidocs.ModuleTerraformLocalPolicyReadDto_Enabled,
-			},
-			"evaluate_on": schema.StringAttribute{
-				Computed:    true,
-				Description: openapidocs.ModuleTerraformLocalPolicyReadDto_EvaluateOn,
+				Description: openapidocs.ModuleTerraformLocalPolicyMetadataReadDto_Name,
 			},
 		},
 	}
 }
 
 func (d *moduleTerraformLocalPolicyDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var data moduleTerraformLocalPolicyModel
+	var data moduleTerraformLocalPolicyMetadataModel
 
 	resp.Diagnostics.Append(req.Config.Get(ctx, &data)...)
 
@@ -89,7 +79,7 @@ func (d *moduleTerraformLocalPolicyDataSource) Read(ctx context.Context, req dat
 		return
 	}
 
-	result, httpError := d.client.Get(fmt.Sprintf("%s/%s/%s", moduleTerraformLocalPolicyEndpoint, data.ModuleId.ValueString(), data.Name.ValueString()))
+	result, httpError := d.client.Get(fmt.Sprintf("%s/Metadata/%s/%s", moduleTerraformLocalPolicyEndpoint, data.ModuleId.ValueString(), data.Name.ValueString()))
 	var err error
 	if httpError != nil {
 		err = httpError.Error
@@ -110,4 +100,12 @@ func (d *moduleTerraformLocalPolicyDataSource) Read(ctx context.Context, req dat
 	}
 
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
+}
+
+// Metadata only: a data source exists to resolve an ID, and narrowing it means a
+// principal who may only discover the resource can still use it.
+type moduleTerraformLocalPolicyMetadataModel struct {
+	Id       types.String `tfsdk:"id"`
+	ModuleId types.String `tfsdk:"module_id"`
+	Name     types.String `tfsdk:"name"`
 }

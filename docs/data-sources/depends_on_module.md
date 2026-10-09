@@ -27,9 +27,9 @@ data "snapcd_depends_on_module" "example" {
 
 ### Required
 
-- `id` (String) Unique ID of the dependency relationship.
+- `id` (String) Unique ID of the Depends On Module.
 
 ### Read-Only
 
-- `depends_on_module_id` (String) ID of the module that this module depends on.
-- `module_id` (String) ID of the module that depends on another module.
+- `depends_on_module_id` (String) Depends On Module Id of the Depends On Module.
+- `module_id` (String) Module Id of the Depends On Module.

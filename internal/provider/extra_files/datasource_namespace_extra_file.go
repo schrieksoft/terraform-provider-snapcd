@@ -13,6 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
+
+	"github.com/hashicorp/terraform-plugin-framework/types"
 )
 
 var _ datasource.DataSource = (*namespaceExtraFileDataSource)(nil)
@@ -50,34 +52,26 @@ func (d *namespaceExtraFileDataSource) Metadata(ctx context.Context, req datasou
 
 func (d *namespaceExtraFileDataSource) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: "Extra Files --- Use this data source to access information about an existing Namespace Extra File in Snap CD." + "\n\n## Required permissions\n\n" + openapidocs.DataSourcePermissions["NamespaceExtraFile"],
+		MarkdownDescription: "Extra Files --- Use this data source to access information about an existing Namespace Extra File in Snap CD." + "\n\n## Required permissions\n\n" + openapidocs.DataSourceMetadataPermissions["NamespaceExtraFile"],
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed:    true,
-				Description: openapidocs.NamespaceExtraFileReadDto_Id,
+				Description: openapidocs.NamespaceExtraFileMetadataReadDto_Id,
 			},
 			"namespace_id": schema.StringAttribute{
 				Required:    true,
-				Description: openapidocs.NamespaceExtraFileReadDto_NamespaceId,
+				Description: openapidocs.NamespaceExtraFileMetadataReadDto_NamespaceId,
 			},
 			"file_name": schema.StringAttribute{
 				Required:    true,
 				Description: openapidocs.NamespaceExtraFileReadDto_FileName,
-			},
-			"contents": schema.StringAttribute{
-				Computed:    true,
-				Description: openapidocs.NamespaceExtraFileReadDto_Contents,
-			},
-			"overwrite": schema.BoolAttribute{
-				Computed:    true,
-				Description: openapidocs.NamespaceExtraFileReadDto_Overwrite,
 			},
 		},
 	}
 }
 
 func (d *namespaceExtraFileDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var data namespaceExtraFileModel
+	var data namespaceExtraFileMetadataModel
 
 	resp.Diagnostics.Append(req.Config.Get(ctx, &data)...)
 
@@ -85,7 +79,7 @@ func (d *namespaceExtraFileDataSource) Read(ctx context.Context, req datasource.
 		return
 	}
 
-	result, httpError := d.client.Get(fmt.Sprintf("%s/%s/%s", namespaceExtraFileEndpoint, data.NamespaceId.ValueString(), data.FileName.ValueString()))
+	result, httpError := d.client.Get(fmt.Sprintf("%s/Metadata/%s/%s", namespaceExtraFileEndpoint, data.NamespaceId.ValueString(), data.FileName.ValueString()))
 	var err error
 	if httpError != nil {
 		err = httpError.Error
@@ -106,4 +100,12 @@ func (d *namespaceExtraFileDataSource) Read(ctx context.Context, req datasource.
 	}
 
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
+}
+
+// Metadata only: a data source exists to resolve an ID, and narrowing it means a
+// principal who may only discover the resource can still use it.
+type namespaceExtraFileMetadataModel struct {
+	Id          types.String `tfsdk:"id"`
+	NamespaceId types.String `tfsdk:"namespace_id"`
+	FileName    types.String `tfsdk:"file_name"`
 }
