@@ -2,12 +2,12 @@
 page_title: "snapcd_namespace_secret Data Source - snapcd"
 subcategory: "Secrets"
 description: |-
-  Use this data source to access information about an existing Secret (Scoped to Namespace) in Snap CD.
+  Look up an existing Secret (Scoped to Namespace) by name to obtain its ID. Returns name, ID and namespace_id only.
 ---
 
 # snapcd_namespace_secret (Data Source)
 
-Use this data source to access information about an existing Secret (Scoped to Namespace) in Snap CD.
+Look up an existing Secret (Scoped to Namespace) by name to obtain its ID. Returns name, ID and namespace_id only.
 
 ## Required permissions
 
@@ -37,9 +37,9 @@ data "snapcd_namespace_secret" "mysecret" {
 
 ### Required
 
-- `name` (String) Name of the Secret. Must be unique within its scope.
-- `namespace_id` (String) Id of the Namespace to scope the Secret to
+- `name` (String) Name of the Namespace Secret.
+- `namespace_id` (String) Namespace Id of the Namespace Secret.
 
 ### Read-Only
 
-- `id` (String) Unique ID of the Secret.
+- `id` (String) Unique ID of the Namespace Secret.

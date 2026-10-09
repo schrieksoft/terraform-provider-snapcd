@@ -13,6 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
+
+	"github.com/hashicorp/terraform-plugin-framework/types"
 )
 
 var _ datasource.DataSource = (*moduleTerraformRemotePolicyDataSource)(nil)
@@ -50,46 +52,26 @@ func (d *moduleTerraformRemotePolicyDataSource) Metadata(ctx context.Context, re
 
 func (d *moduleTerraformRemotePolicyDataSource) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: "Policies --- Use this data source to access information about an existing Module Terraform Remote Policy in Snap CD." + "\n\n## Required permissions\n\n" + openapidocs.DataSourcePermissions["ModuleTerraformRemotePolicy"],
+		MarkdownDescription: "Policies --- Use this data source to access information about an existing Module Terraform Remote Policy in Snap CD." + "\n\n## Required permissions\n\n" + openapidocs.DataSourceMetadataPermissions["ModuleTerraformRemotePolicy"],
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed:    true,
-				Description: openapidocs.ModuleTerraformRemotePolicyReadDto_Id,
+				Description: openapidocs.ModuleTerraformRemotePolicyMetadataReadDto_Id,
 			},
 			"module_id": schema.StringAttribute{
 				Required:    true,
-				Description: openapidocs.ModuleTerraformRemotePolicyReadDto_ModuleId,
+				Description: openapidocs.ModuleTerraformRemotePolicyMetadataReadDto_ModuleId,
 			},
 			"name": schema.StringAttribute{
 				Required:    true,
-				Description: openapidocs.ModuleTerraformRemotePolicyReadDto_Name,
-			},
-			"repo_url": schema.StringAttribute{
-				Computed:    true,
-				Description: openapidocs.ModuleTerraformRemotePolicyReadDto_RepoUrl,
-			},
-			"revision": schema.StringAttribute{
-				Computed:    true,
-				Description: openapidocs.ModuleTerraformRemotePolicyReadDto_Revision,
-			},
-			"path": schema.StringAttribute{
-				Computed:    true,
-				Description: openapidocs.ModuleTerraformRemotePolicyReadDto_Path,
-			},
-			"enabled": schema.BoolAttribute{
-				Computed:    true,
-				Description: openapidocs.ModuleTerraformRemotePolicyReadDto_Enabled,
-			},
-			"evaluate_on": schema.StringAttribute{
-				Computed:    true,
-				Description: openapidocs.ModuleTerraformRemotePolicyReadDto_EvaluateOn,
+				Description: openapidocs.ModuleTerraformRemotePolicyMetadataReadDto_Name,
 			},
 		},
 	}
 }
 
 func (d *moduleTerraformRemotePolicyDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var data moduleTerraformRemotePolicyModel
+	var data moduleTerraformRemotePolicyMetadataModel
 
 	resp.Diagnostics.Append(req.Config.Get(ctx, &data)...)
 
@@ -97,7 +79,7 @@ func (d *moduleTerraformRemotePolicyDataSource) Read(ctx context.Context, req da
 		return
 	}
 
-	result, httpError := d.client.Get(fmt.Sprintf("%s/%s/%s", moduleTerraformRemotePolicyEndpoint, data.ModuleId.ValueString(), data.Name.ValueString()))
+	result, httpError := d.client.Get(fmt.Sprintf("%s/Metadata/%s/%s", moduleTerraformRemotePolicyEndpoint, data.ModuleId.ValueString(), data.Name.ValueString()))
 	var err error
 	if httpError != nil {
 		err = httpError.Error
@@ -118,4 +100,12 @@ func (d *moduleTerraformRemotePolicyDataSource) Read(ctx context.Context, req da
 	}
 
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
+}
+
+// Metadata only: a data source exists to resolve an ID, and narrowing it means a
+// principal who may only discover the resource can still use it.
+type moduleTerraformRemotePolicyMetadataModel struct {
+	Id       types.String `tfsdk:"id"`
+	ModuleId types.String `tfsdk:"module_id"`
+	Name     types.String `tfsdk:"name"`
 }

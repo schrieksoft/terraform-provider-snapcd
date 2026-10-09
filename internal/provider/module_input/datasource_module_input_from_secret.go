@@ -13,6 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
+
+	"github.com/hashicorp/terraform-plugin-framework/types"
 )
 
 var _ datasource.DataSource = (*moduleInputFromSecretDataSource)(nil)
@@ -50,38 +52,30 @@ func (d *moduleInputFromSecretDataSource) Metadata(ctx context.Context, req data
 
 func (d *moduleInputFromSecretDataSource) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: "Module Inputs --- Use this data source to access information about an existing Module Input (From Secret) in Snap CD." + "\n\n## Required permissions\n\n" + openapidocs.DataSourcePermissions["ModuleInputFromSecret"],
+		MarkdownDescription: "Module Inputs --- Use this data source to access information about an existing Module Input (From Secret) in Snap CD." + "\n\n## Required permissions\n\n" + openapidocs.DataSourceMetadataPermissions["ModuleInputFromSecret"],
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed:    true,
-				Description: openapidocs.ModuleInputFromSecretReadDto_Id,
+				Description: openapidocs.ModuleInputMetadataReadDto_Id,
 			},
 			"name": schema.StringAttribute{
 				Required:    true,
-				Description: openapidocs.ModuleInputFromSecretReadDto_Name,
+				Description: openapidocs.ModuleInputMetadataReadDto_Name,
 			},
 			"module_id": schema.StringAttribute{
 				Required:    true,
-				Description: openapidocs.ModuleInputFromSecretReadDto_ModuleId,
+				Description: openapidocs.ModuleInputMetadataReadDto_ModuleId,
 			},
 			"input_kind": schema.StringAttribute{
 				Required:    true,
 				Description: openapidocs.ModuleInputFromSecretReadDto_InputKind,
-			},
-			"type": schema.StringAttribute{
-				Computed:    true,
-				Description: openapidocs.ModuleInputFromSecretReadDto_Type,
-			},
-			"secret_id": schema.StringAttribute{
-				Computed:    true,
-				Description: openapidocs.ModuleInputFromSecretReadDto_SecretId,
 			},
 		},
 	}
 }
 
 func (d *moduleInputFromSecretDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var data moduleInputFromSecretModel
+	var data moduleInputFromSecretMetadataModel
 
 	resp.Diagnostics.Append(req.Config.Get(ctx, &data)...)
 
@@ -89,7 +83,7 @@ func (d *moduleInputFromSecretDataSource) Read(ctx context.Context, req datasour
 		return
 	}
 
-	result, httpError := d.client.Get(fmt.Sprintf("%s/%s/%s", moduleInputFromSecretEndpoint, data.ModuleId.ValueString(), data.Name.ValueString()))
+	result, httpError := d.client.Get(fmt.Sprintf("%s/Metadata/%s/%s", moduleInputFromSecretEndpoint, data.ModuleId.ValueString(), data.Name.ValueString()))
 	var err error
 	if httpError != nil {
 		err = httpError.Error
@@ -110,4 +104,13 @@ func (d *moduleInputFromSecretDataSource) Read(ctx context.Context, req datasour
 	}
 
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
+}
+
+// Metadata only: a data source exists to resolve an ID, and narrowing it means a
+// principal who may only discover the resource can still use it.
+type moduleInputFromSecretMetadataModel struct {
+	Id        types.String `tfsdk:"id"`
+	Name      types.String `tfsdk:"name"`
+	ModuleId  types.String `tfsdk:"module_id"`
+	InputKind types.String `tfsdk:"input_kind"`
 }

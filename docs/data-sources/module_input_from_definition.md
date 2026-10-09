@@ -42,10 +42,9 @@ data "snapcd_module_input_from_definition" "myvar" {
 ### Required
 
 - `input_kind` (String) The kind of input. Must be one of 'Param', 'EnvVar'.
-- `module_id` (String) ID of the Module Input's parent Module.
-- `name` (String) Name of the Module Input. Must be unique in combination with `moduleId`.
+- `module_id` (String) ID of the Module this Module Input belongs to.
+- `name` (String) Name of the Module Input.
 
 ### Read-Only
 
-- `definition_name` (String) Name of the Definition from which to get take the input. Must be one of 'StackId', 'StackName', 'NamespaceId', 'NamespaceName', 'ModuleId', 'ModuleName', 'SourceRevision', 'SourceUrl', 'SourceSubdirectory'.
-- `id` (String) Unique ID of the Module Input (From Definition).
+- `id` (String) Unique ID of the Module Input.

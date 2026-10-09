@@ -40,14 +40,9 @@ data "snapcd_module_terraform_remote_policy" "mypolicy" {
 
 ### Required
 
-- `module_id` (String) ID of the policy's parent Module.
-- `name` (String) Human-readable policy name. Must be unique in combination with `module_id`.
+- `module_id` (String) ID of the Module this Module Terraform Remote Policy belongs to.
+- `name` (String) Name of the Module Terraform Remote Policy.
 
 ### Read-Only
 
-- `enabled` (Boolean) Whether this policy is evaluated. Defaults to `true`; set `false` to switch the policy off without deleting it.
-- `evaluate_on` (String) Which job kinds evaluate this policy: `ApplyAndDestroy` (default), `ApplyOnly` or `DestroyOnly`. Must be one of 'ApplyAndDestroy', 'ApplyOnly', 'DestroyOnly'.
-- `id` (String) Unique ID of the ModuleTerraformRemotePolicy.
-- `path` (String) Repo-root-relative directory of the policy bundle within the repository. Empty means the repository root. The whole tree is evaluated as one bundle: files may share helper packages and ship their own tests.
-- `repo_url` (String) URL of the git repository holding the policy bundle.
-- `revision` (String) Git revision (tag, branch or commit SHA) to evaluate. The revision is resolved at job dispatch, pinning the evaluated policy set.
+- `id` (String) Unique ID of the Module Terraform Remote Policy.

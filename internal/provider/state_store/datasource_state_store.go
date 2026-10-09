@@ -13,6 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
+
+	"github.com/hashicorp/terraform-plugin-framework/types"
 )
 
 var _ datasource.DataSource = (*stateStoreDataSource)(nil)
@@ -50,22 +52,22 @@ func (d *stateStoreDataSource) Metadata(ctx context.Context, req datasource.Meta
 
 func (d *stateStoreDataSource) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: "State Stores --- Use this data source to access information about an existing State Store in Snap CD." + "\n\n## Required permissions\n\n" + openapidocs.DataSourcePermissions["StateStore"],
+		MarkdownDescription: "State Stores --- Look up an existing State Store by name to obtain its ID. Returns name and ID only." + "\n\n## Required permissions\n\n" + openapidocs.DataSourceMetadataPermissions["StateStore"],
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed:    true,
-				Description: openapidocs.StateStoreReadDto_Id,
+				Description: openapidocs.StateStoreMetadataReadDto_Id,
 			},
 			"name": schema.StringAttribute{
 				Required:    true,
-				Description: openapidocs.StateStoreReadDto_Name,
+				Description: openapidocs.StateStoreMetadataReadDto_Name,
 			},
 		},
 	}
 }
 
 func (d *stateStoreDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var data stateStoreModel
+	var data stateStoreMetadataModel
 
 	resp.Diagnostics.Append(req.Config.Get(ctx, &data)...)
 
@@ -73,7 +75,7 @@ func (d *stateStoreDataSource) Read(ctx context.Context, req datasource.ReadRequ
 		return
 	}
 
-	result, httpError := d.client.Get(fmt.Sprintf("%s/ByName/%s", stateStoreEndpoint, data.Name.ValueString()))
+	result, httpError := d.client.Get(fmt.Sprintf("%s/Metadata/ByName/%s", stateStoreEndpoint, data.Name.ValueString()))
 	var err error
 	if httpError != nil {
 		err = httpError.Error
@@ -94,4 +96,11 @@ func (d *stateStoreDataSource) Read(ctx context.Context, req datasource.ReadRequ
 	}
 
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
+}
+
+// Name and ID only: a data source exists to resolve an ID, and narrowing it to metadata
+// means a principal who may only discover the State Store can still use it.
+type stateStoreMetadataModel struct {
+	Name types.String `tfsdk:"name"`
+	Id   types.String `tfsdk:"id"`
 }

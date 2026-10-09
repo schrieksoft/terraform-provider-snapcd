@@ -2,12 +2,12 @@
 page_title: "snapcd_module_secret Data Source - snapcd"
 subcategory: "Secrets"
 description: |-
-  Use this data source to access information about an existing Secret (Scoped to Module) in Snap CD.
+  Look up an existing Secret (Scoped to Module) by name to obtain its ID. Returns name, ID and module_id only.
 ---
 
 # snapcd_module_secret (Data Source)
 
-Use this data source to access information about an existing Secret (Scoped to Module) in Snap CD.
+Look up an existing Secret (Scoped to Module) by name to obtain its ID. Returns name, ID and module_id only.
 
 ## Required permissions
 
@@ -42,9 +42,9 @@ data "snapcd_module_secret" "mysecret" {
 
 ### Required
 
-- `module_id` (String) Id of the Module to scope the Secret to
-- `name` (String) Name of the Secret. Must be unique within its scope.
+- `module_id` (String) Module Id of the Module Secret.
+- `name` (String) Name of the Module Secret.
 
 ### Read-Only
 
-- `id` (String) Unique ID of the Secret.
+- `id` (String) Unique ID of the Module Secret.

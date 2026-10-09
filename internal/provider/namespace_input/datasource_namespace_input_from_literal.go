@@ -13,6 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
+
+	"github.com/hashicorp/terraform-plugin-framework/types"
 )
 
 var _ datasource.DataSource = (*namespaceInputFromLiteralDataSource)(nil)
@@ -50,31 +52,19 @@ func (d *namespaceInputFromLiteralDataSource) Metadata(ctx context.Context, req 
 
 func (d *namespaceInputFromLiteralDataSource) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: "Namespace Inputs --- Use this data source to access information about an existing Namesapce Param (From Literal) in Snap CD." + "\n\n## Required permissions\n\n" + openapidocs.DataSourcePermissions["NamespaceInputFromLiteral"],
+		MarkdownDescription: "Namespace Inputs --- Use this data source to access information about an existing Namesapce Param (From Literal) in Snap CD." + "\n\n## Required permissions\n\n" + openapidocs.DataSourceMetadataPermissions["NamespaceInputFromLiteral"],
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed:    true,
-				Description: openapidocs.NamespaceInputFromLiteralReadDto_Id,
+				Description: openapidocs.NamespaceInputMetadataReadDto_Id,
 			},
 			"name": schema.StringAttribute{
 				Required:    true,
-				Description: openapidocs.NamespaceInputFromLiteralReadDto_Name,
-			},
-			"literal_value": schema.StringAttribute{
-				Computed:    true,
-				Description: openapidocs.NamespaceInputFromLiteralReadDto_LiteralValue,
-			},
-			"type": schema.StringAttribute{
-				Computed:    true,
-				Description: openapidocs.NamespaceInputFromLiteralReadDto_Type,
-			},
-			"usage_mode": schema.StringAttribute{
-				Computed:    true,
-				Description: openapidocs.NamespaceInputFromLiteralReadDto_UsageMode,
+				Description: openapidocs.NamespaceInputMetadataReadDto_Name,
 			},
 			"namespace_id": schema.StringAttribute{
 				Required:    true,
-				Description: openapidocs.NamespaceInputFromLiteralReadDto_NamespaceId,
+				Description: openapidocs.NamespaceInputMetadataReadDto_NamespaceId,
 			},
 			"input_kind": schema.StringAttribute{
 				Required:    true,
@@ -85,7 +75,7 @@ func (d *namespaceInputFromLiteralDataSource) Schema(ctx context.Context, req da
 }
 
 func (d *namespaceInputFromLiteralDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var data namespaceInputFromLiteralModel
+	var data namespaceInputFromLiteralMetadataModel
 
 	resp.Diagnostics.Append(req.Config.Get(ctx, &data)...)
 
@@ -93,7 +83,7 @@ func (d *namespaceInputFromLiteralDataSource) Read(ctx context.Context, req data
 		return
 	}
 
-	result, httpError := d.client.Get(fmt.Sprintf("%s/%s/%s", namespaceInputFromLiteralEndpoint, data.NamespaceId.ValueString(), data.Name.ValueString()))
+	result, httpError := d.client.Get(fmt.Sprintf("%s/Metadata/%s/%s", namespaceInputFromLiteralEndpoint, data.NamespaceId.ValueString(), data.Name.ValueString()))
 	var err error
 	if httpError != nil {
 		err = httpError.Error
@@ -114,4 +104,13 @@ func (d *namespaceInputFromLiteralDataSource) Read(ctx context.Context, req data
 	}
 
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
+}
+
+// Metadata only: a data source exists to resolve an ID, and narrowing it means a
+// principal who may only discover the resource can still use it.
+type namespaceInputFromLiteralMetadataModel struct {
+	Id          types.String `tfsdk:"id"`
+	Name        types.String `tfsdk:"name"`
+	NamespaceId types.String `tfsdk:"namespace_id"`
+	InputKind   types.String `tfsdk:"input_kind"`
 }

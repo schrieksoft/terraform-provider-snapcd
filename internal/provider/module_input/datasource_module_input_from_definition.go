@@ -13,6 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
+
+	"github.com/hashicorp/terraform-plugin-framework/types"
 )
 
 var _ datasource.DataSource = (*moduleInputFromDefinitionDataSource)(nil)
@@ -50,23 +52,19 @@ func (d *moduleInputFromDefinitionDataSource) Metadata(ctx context.Context, req 
 
 func (d *moduleInputFromDefinitionDataSource) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: "Module Inputs --- Use this data source to access information about an existing Module Input (From Definition) in Snap CD." + "\n\n## Required permissions\n\n" + openapidocs.DataSourcePermissions["ModuleInputFromDefinition"],
+		MarkdownDescription: "Module Inputs --- Use this data source to access information about an existing Module Input (From Definition) in Snap CD." + "\n\n## Required permissions\n\n" + openapidocs.DataSourceMetadataPermissions["ModuleInputFromDefinition"],
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed:    true,
-				Description: openapidocs.ModuleInputFromDefinitionReadDto_Id,
+				Description: openapidocs.ModuleInputMetadataReadDto_Id,
 			},
 			"name": schema.StringAttribute{
 				Required:    true,
-				Description: openapidocs.ModuleInputFromDefinitionReadDto_Name,
-			},
-			"definition_name": schema.StringAttribute{
-				Computed:    true,
-				Description: openapidocs.ModuleInputFromDefinitionReadDto_DefinitionName,
+				Description: openapidocs.ModuleInputMetadataReadDto_Name,
 			},
 			"module_id": schema.StringAttribute{
 				Required:    true,
-				Description: openapidocs.ModuleInputFromDefinitionReadDto_ModuleId,
+				Description: openapidocs.ModuleInputMetadataReadDto_ModuleId,
 			},
 			"input_kind": schema.StringAttribute{
 				Required:    true,
@@ -77,7 +75,7 @@ func (d *moduleInputFromDefinitionDataSource) Schema(ctx context.Context, req da
 }
 
 func (d *moduleInputFromDefinitionDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var data moduleInputFromDefinitionModel
+	var data moduleInputFromDefinitionMetadataModel
 
 	resp.Diagnostics.Append(req.Config.Get(ctx, &data)...)
 
@@ -85,7 +83,7 @@ func (d *moduleInputFromDefinitionDataSource) Read(ctx context.Context, req data
 		return
 	}
 
-	result, httpError := d.client.Get(fmt.Sprintf("%s/%s/%s", moduleInputFromDefinitionEndpoint, data.ModuleId.ValueString(), data.Name.ValueString()))
+	result, httpError := d.client.Get(fmt.Sprintf("%s/Metadata/%s/%s", moduleInputFromDefinitionEndpoint, data.ModuleId.ValueString(), data.Name.ValueString()))
 	var err error
 	if httpError != nil {
 		err = httpError.Error
@@ -106,4 +104,13 @@ func (d *moduleInputFromDefinitionDataSource) Read(ctx context.Context, req data
 	}
 
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
+}
+
+// Metadata only: a data source exists to resolve an ID, and narrowing it means a
+// principal who may only discover the resource can still use it.
+type moduleInputFromDefinitionMetadataModel struct {
+	Id        types.String `tfsdk:"id"`
+	Name      types.String `tfsdk:"name"`
+	ModuleId  types.String `tfsdk:"module_id"`
+	InputKind types.String `tfsdk:"input_kind"`
 }

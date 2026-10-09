@@ -61,19 +61,19 @@ func (d *namespaceSecretDataSource) Metadata(ctx context.Context, req datasource
 
 func (d *namespaceSecretDataSource) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: "Secrets --- Use this data source to access information about an existing Secret (Scoped to Namespace) in Snap CD." + "\n\n## Required permissions\n\n" + openapidocs.DataSourcePermissions["NamespaceSecret"],
+		MarkdownDescription: "Secrets --- Look up an existing Secret (Scoped to Namespace) by name to obtain its ID. Returns name, ID and namespace_id only." + "\n\n## Required permissions\n\n" + openapidocs.DataSourceMetadataPermissions["NamespaceSecret"],
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed:    true,
-				Description: openapidocs.NamespaceSecretDto_Id,
+				Description: openapidocs.NamespaceSecretMetadataReadDto_Id,
 			},
 			"name": schema.StringAttribute{
 				Required:    true,
-				Description: openapidocs.NamespaceSecretDto_Name,
+				Description: openapidocs.NamespaceSecretMetadataReadDto_Name,
 			},
 			"namespace_id": schema.StringAttribute{
 				Required:    true,
-				Description: openapidocs.NamespaceSecretDto_NamespaceId,
+				Description: openapidocs.NamespaceSecretMetadataReadDto_NamespaceId,
 			},
 		},
 	}
@@ -88,7 +88,7 @@ func (d *namespaceSecretDataSource) Read(ctx context.Context, req datasource.Rea
 		return
 	}
 
-	result, httpError := d.client.Get(fmt.Sprintf("%s/ByName/%s", namespaceSecretEndpoint, data.Name.ValueString()))
+	result, httpError := d.client.Get(fmt.Sprintf("%s/Metadata/ByName/%s", namespaceSecretEndpoint, data.Name.ValueString()))
 	var err error
 	if httpError != nil {
 		err = httpError.Error

@@ -22,7 +22,6 @@ data "snapcd_module_additional_trigger_path" "this" {
 }`,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("data.snapcd_module_additional_trigger_path.this", "id"),
-					resource.TestCheckResourceAttr("data.snapcd_module_additional_trigger_path.this", "path", providerconfig.AppendRandomString("shared/scripts%s")),
 				),
 			},
 		},

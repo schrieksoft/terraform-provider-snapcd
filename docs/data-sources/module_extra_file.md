@@ -41,13 +41,8 @@ data "snapcd_module_extra_file" "myextrafile" {
 ### Required
 
 - `file_name` (String) Name of the Module Extra File. This name will be use as the name of the file that is created. Must be unique in combination with `module_id`.
-- `module_id` (String) ID of the Module Extra File's parent Module.
-
-### Optional
-
-- `overwrite` (Boolean) If true any pre-existing file with the same name will be overwritten.
+- `module_id` (String) Module Id of the Module Extra File.
 
 ### Read-Only
 
-- `contents` (String) Contents of the Module Extra File
 - `id` (String) Unique ID of the Module Extra File.

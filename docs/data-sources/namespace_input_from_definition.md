@@ -38,11 +38,9 @@ data "snapcd_namespace_input_from_definition" "myvar" {
 ### Required
 
 - `input_kind` (String) The kind of input. Must be one of 'Param', 'EnvVar'.
-- `name` (String) Name of the Namespace Input. Must be unique in combination with `namespaceId`.
-- `namespace_id` (String) ID of the Namespace Input's parent Namespace.
+- `name` (String) Name of the Namespace Input.
+- `namespace_id` (String) ID of the Namespace this Namespace Input belongs to.
 
 ### Read-Only
 
-- `definition_name` (String) Name of the Definition from which to get take the input. Must be one of 'StackId', 'StackName', 'NamespaceId', 'NamespaceName', 'ModuleId', 'ModuleName', 'SourceRevision', 'SourceUrl', 'SourceSubdirectory'.
-- `id` (String) Unique ID of the Namespace Input (From Definition).
-- `usage_mode` (String) Whether the input should be used by default on all Modules, or only when explicitly selected on the Module itself. Must be one of 'UseIfSelected', 'UseByDefault'.
+- `id` (String) Unique ID of the Namespace Input.

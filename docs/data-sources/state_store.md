@@ -2,12 +2,12 @@
 page_title: "snapcd_state_store Data Source - snapcd"
 subcategory: "State Stores"
 description: |-
-  Use this data source to access information about an existing State Store in Snap CD.
+  Look up an existing State Store by name to obtain its ID. Returns name and ID only.
 ---
 
 # snapcd_state_store (Data Source)
 
-Use this data source to access information about an existing State Store in Snap CD.
+Look up an existing State Store by name to obtain its ID. Returns name and ID only.
 
 ## Required permissions
 
@@ -27,7 +27,7 @@ data "snapcd_state_store" "my_state_store" {
 
 ### Required
 
-- `name` (String) Unique name of the State Store.
+- `name` (String) Name of the State Store.
 
 ### Read-Only
 

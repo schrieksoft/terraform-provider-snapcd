@@ -37,10 +37,8 @@ data "snapcd_namespace_extra_file" "myextrafile" {
 ### Required
 
 - `file_name` (String) Name of the Namespace Extra File. This name will be use as the name of the file that is created. Must be unique in combination with `namespace_id`.
-- `namespace_id` (String) ID of the Namespace Extra File's parent Namespace.
+- `namespace_id` (String) Namespace Id of the Namespace Extra File.
 
 ### Read-Only
 
-- `contents` (String) Contents of the Namespace Extra File
 - `id` (String) Unique ID of the Namespace Extra File.
-- `overwrite` (Boolean) If true any pre-existing file with the same name will be overwritten.

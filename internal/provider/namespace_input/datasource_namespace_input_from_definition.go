@@ -10,11 +10,11 @@ import (
 	snapcd "terraform-provider-snapcd/client"
 	utils "terraform-provider-snapcd/utils"
 
-	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
-	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
+
+	"github.com/hashicorp/terraform-plugin-framework/types"
 )
 
 var _ datasource.DataSource = (*namespaceInputFromDefinitionDataSource)(nil)
@@ -52,30 +52,19 @@ func (d *namespaceInputFromDefinitionDataSource) Metadata(ctx context.Context, r
 
 func (d *namespaceInputFromDefinitionDataSource) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: "Namespace Inputs --- Use this data source to access information about an existing Namesapce Param (From Definition) in Snap CD." + "\n\n## Required permissions\n\n" + openapidocs.DataSourcePermissions["NamespaceInputFromDefinition"],
+		MarkdownDescription: "Namespace Inputs --- Use this data source to access information about an existing Namesapce Param (From Definition) in Snap CD." + "\n\n## Required permissions\n\n" + openapidocs.DataSourceMetadataPermissions["NamespaceInputFromDefinition"],
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed:    true,
-				Description: openapidocs.NamespaceInputFromDefinitionReadDto_Id,
+				Description: openapidocs.NamespaceInputMetadataReadDto_Id,
 			},
 			"name": schema.StringAttribute{
 				Required:    true,
-				Description: openapidocs.NamespaceInputFromDefinitionReadDto_Name,
-			},
-			"definition_name": schema.StringAttribute{
-				Computed:    true,
-				Description: openapidocs.NamespaceInputFromDefinitionReadDto_DefinitionName,
-				Validators: []validator.String{
-					stringvalidator.OneOf(openapidocs.DefinitionInputTypeValues...),
-				},
-			},
-			"usage_mode": schema.StringAttribute{
-				Computed:    true,
-				Description: openapidocs.NamespaceInputFromDefinitionReadDto_UsageMode,
+				Description: openapidocs.NamespaceInputMetadataReadDto_Name,
 			},
 			"namespace_id": schema.StringAttribute{
 				Required:    true,
-				Description: openapidocs.NamespaceInputFromDefinitionReadDto_NamespaceId,
+				Description: openapidocs.NamespaceInputMetadataReadDto_NamespaceId,
 			},
 			"input_kind": schema.StringAttribute{
 				Required:    true,
@@ -86,7 +75,7 @@ func (d *namespaceInputFromDefinitionDataSource) Schema(ctx context.Context, req
 }
 
 func (d *namespaceInputFromDefinitionDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var data namespaceInputFromDefinitionModel
+	var data namespaceInputFromDefinitionMetadataModel
 
 	resp.Diagnostics.Append(req.Config.Get(ctx, &data)...)
 
@@ -94,7 +83,7 @@ func (d *namespaceInputFromDefinitionDataSource) Read(ctx context.Context, req d
 		return
 	}
 
-	result, httpError := d.client.Get(fmt.Sprintf("%s/%s/%s", namespaceInputFromDefinitionEndpoint, data.NamespaceId.ValueString(), data.Name.ValueString()))
+	result, httpError := d.client.Get(fmt.Sprintf("%s/Metadata/%s/%s", namespaceInputFromDefinitionEndpoint, data.NamespaceId.ValueString(), data.Name.ValueString()))
 	var err error
 	if httpError != nil {
 		err = httpError.Error
@@ -115,4 +104,13 @@ func (d *namespaceInputFromDefinitionDataSource) Read(ctx context.Context, req d
 	}
 
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
+}
+
+// Metadata only: a data source exists to resolve an ID, and narrowing it means a
+// principal who may only discover the resource can still use it.
+type namespaceInputFromDefinitionMetadataModel struct {
+	Id          types.String `tfsdk:"id"`
+	Name        types.String `tfsdk:"name"`
+	NamespaceId types.String `tfsdk:"namespace_id"`
+	InputKind   types.String `tfsdk:"input_kind"`
 }

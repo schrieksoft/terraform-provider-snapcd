@@ -13,6 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
+
+	"github.com/hashicorp/terraform-plugin-framework/types"
 )
 
 var _ datasource.DataSource = (*moduleInputFromLiteralDataSource)(nil)
@@ -50,27 +52,19 @@ func (d *moduleInputFromLiteralDataSource) Metadata(ctx context.Context, req dat
 
 func (d *moduleInputFromLiteralDataSource) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: "Module Inputs --- Use this data source to access information about an existing Module Input (From Literal) in Snap CD." + "\n\n## Required permissions\n\n" + openapidocs.DataSourcePermissions["ModuleInputFromLiteral"],
+		MarkdownDescription: "Module Inputs --- Use this data source to access information about an existing Module Input (From Literal) in Snap CD." + "\n\n## Required permissions\n\n" + openapidocs.DataSourceMetadataPermissions["ModuleInputFromLiteral"],
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed:    true,
-				Description: openapidocs.ModuleInputFromLiteralReadDto_Id,
+				Description: openapidocs.ModuleInputMetadataReadDto_Id,
 			},
 			"name": schema.StringAttribute{
 				Required:    true,
-				Description: openapidocs.ModuleInputFromLiteralReadDto_Name,
-			},
-			"type": schema.StringAttribute{
-				Computed:    true,
-				Description: openapidocs.ModuleInputFromLiteralReadDto_Type,
-			},
-			"literal_value": schema.StringAttribute{
-				Computed:    true,
-				Description: openapidocs.ModuleInputFromLiteralReadDto_LiteralValue,
+				Description: openapidocs.ModuleInputMetadataReadDto_Name,
 			},
 			"module_id": schema.StringAttribute{
 				Required:    true,
-				Description: openapidocs.ModuleInputFromLiteralReadDto_ModuleId,
+				Description: openapidocs.ModuleInputMetadataReadDto_ModuleId,
 			},
 			"input_kind": schema.StringAttribute{
 				Required:    true,
@@ -81,7 +75,7 @@ func (d *moduleInputFromLiteralDataSource) Schema(ctx context.Context, req datas
 }
 
 func (d *moduleInputFromLiteralDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var data moduleInputFromLiteralModel
+	var data moduleInputFromLiteralMetadataModel
 
 	resp.Diagnostics.Append(req.Config.Get(ctx, &data)...)
 
@@ -89,7 +83,7 @@ func (d *moduleInputFromLiteralDataSource) Read(ctx context.Context, req datasou
 		return
 	}
 
-	result, httpError := d.client.Get(fmt.Sprintf("%s/%s/%s", moduleInputFromLiteralEndpoint, data.ModuleId.ValueString(), data.Name.ValueString()))
+	result, httpError := d.client.Get(fmt.Sprintf("%s/Metadata/%s/%s", moduleInputFromLiteralEndpoint, data.ModuleId.ValueString(), data.Name.ValueString()))
 	var err error
 	if httpError != nil {
 		err = httpError.Error
@@ -110,4 +104,13 @@ func (d *moduleInputFromLiteralDataSource) Read(ctx context.Context, req datasou
 	}
 
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
+}
+
+// Metadata only: a data source exists to resolve an ID, and narrowing it means a
+// principal who may only discover the resource can still use it.
+type moduleInputFromLiteralMetadataModel struct {
+	Id        types.String `tfsdk:"id"`
+	Name      types.String `tfsdk:"name"`
+	ModuleId  types.String `tfsdk:"module_id"`
+	InputKind types.String `tfsdk:"input_kind"`
 }

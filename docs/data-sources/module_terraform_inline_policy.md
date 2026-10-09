@@ -40,12 +40,9 @@ data "snapcd_module_terraform_inline_policy" "mypolicy" {
 
 ### Required
 
-- `module_id` (String) ID of the policy's parent Module.
-- `name` (String) Human-readable policy name. Must be unique in combination with `module_id`.
+- `module_id` (String) ID of the Module this Module Terraform Inline Policy belongs to.
+- `name` (String) Name of the Module Terraform Inline Policy.
 
 ### Read-Only
 
-- `enabled` (Boolean) Whether this policy is evaluated. Defaults to `true`; set `false` to switch the policy off without deleting it.
-- `evaluate_on` (String) Which job kinds evaluate this policy: `ApplyAndDestroy` (default), `ApplyOnly` or `DestroyOnly`. Must be one of 'ApplyAndDestroy', 'ApplyOnly', 'DestroyOnly'.
-- `id` (String) Unique ID of the ModuleTerraformInlinePolicy.
-- `policy_content` (String) Inline OPA/Rego policy document evaluated with conftest against the JSON export of the plan. Severity is carried by rule names: `deny`/`violation` rules block the job, `warn` rules log a warning and continue. Any package name is accepted (all namespaces are evaluated).
+- `id` (String) Unique ID of the Module Terraform Inline Policy.

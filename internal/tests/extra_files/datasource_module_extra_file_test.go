@@ -22,7 +22,6 @@ data "snapcd_module_extra_file" "this" {
 }`,
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet("data.snapcd_module_extra_file.this", "id"),
-					resource.TestCheckResourceAttr("data.snapcd_module_extra_file.this", "file_name", providerconfig.AppendRandomString("somevalue%s")),
 				),
 			},
 		},

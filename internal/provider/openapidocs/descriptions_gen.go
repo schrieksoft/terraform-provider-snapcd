@@ -14,12 +14,18 @@ const (
 	AgentCreateDto_ServicePrincipalId     = "ID of the Service Principal that the Agent authenticates as."
 
 	// AgentMetadataReadDto
-	AgentMetadataReadDto_Id   = "Unique ID of the Agent."
-	AgentMetadataReadDto_Name = "Name of the Agent."
+	AgentMetadataReadDto_Id                 = "Unique ID of the Agent."
+	AgentMetadataReadDto_Name               = "Name of the Agent."
+	AgentMetadataReadDto_ServicePrincipalId = "ID of the Service Principal this Agent belongs to."
 
 	// AgentModuleSupplyCreateDto
 	AgentModuleSupplyCreateDto_AgentId  = "ID of the Agent that is assigned to the Module."
 	AgentModuleSupplyCreateDto_ModuleId = "ID of the Module to which the Agent is assigned."
+
+	// AgentModuleSupplyMetadataReadDto
+	AgentModuleSupplyMetadataReadDto_AgentId  = "Agent Id of the Agent Module Supply."
+	AgentModuleSupplyMetadataReadDto_Id       = "Unique ID of the Agent Module Supply."
+	AgentModuleSupplyMetadataReadDto_ModuleId = "Module Id of the Agent Module Supply."
 
 	// AgentModuleSupplyReadDto
 	AgentModuleSupplyReadDto_AgentId  = "ID of the Agent that is assigned to the Module."
@@ -34,6 +40,11 @@ const (
 	// AgentNamespaceSupplyCreateDto
 	AgentNamespaceSupplyCreateDto_AgentId     = "ID of the Agent that is assigned to the Namespace."
 	AgentNamespaceSupplyCreateDto_NamespaceId = "ID of the Namespace to which the Agent is assigned."
+
+	// AgentNamespaceSupplyMetadataReadDto
+	AgentNamespaceSupplyMetadataReadDto_AgentId     = "Agent Id of the Agent Namespace Supply."
+	AgentNamespaceSupplyMetadataReadDto_Id          = "Unique ID of the Agent Namespace Supply."
+	AgentNamespaceSupplyMetadataReadDto_NamespaceId = "Namespace Id of the Agent Namespace Supply."
 
 	// AgentNamespaceSupplyReadDto
 	AgentNamespaceSupplyReadDto_AgentId     = "ID of the Agent that is assigned to the Namespace."
@@ -71,6 +82,11 @@ const (
 	AgentStackSupplyCreateDto_AgentId = "ID of the Agent that is assigned to the Stack."
 	AgentStackSupplyCreateDto_StackId = "ID of the Stack to which the Agent is assigned."
 
+	// AgentStackSupplyMetadataReadDto
+	AgentStackSupplyMetadataReadDto_AgentId = "Agent Id of the Agent Stack Supply."
+	AgentStackSupplyMetadataReadDto_Id      = "Unique ID of the Agent Stack Supply."
+	AgentStackSupplyMetadataReadDto_StackId = "Stack Id of the Agent Stack Supply."
+
 	// AgentStackSupplyReadDto
 	AgentStackSupplyReadDto_AgentId = "ID of the Agent that is assigned to the Stack."
 	AgentStackSupplyReadDto_Id      = "Unique ID of the Agent Stack Supply."
@@ -98,6 +114,11 @@ const (
 	// DependsOnModuleCreateDto
 	DependsOnModuleCreateDto_DependsOnModuleId = "ID of the module that this module depends on."
 	DependsOnModuleCreateDto_ModuleId          = "ID of the module that depends on another module."
+
+	// DependsOnModuleMetadataReadDto
+	DependsOnModuleMetadataReadDto_DependsOnModuleId = "Depends On Module Id of the Depends On Module."
+	DependsOnModuleMetadataReadDto_Id                = "Unique ID of the Depends On Module."
+	DependsOnModuleMetadataReadDto_ModuleId          = "Module Id of the Depends On Module."
 
 	// DependsOnModuleReadDto
 	DependsOnModuleReadDto_DependsOnModuleId = "ID of the module that this module depends on."
@@ -154,6 +175,11 @@ const (
 	IntegrationModuleSupplyCreateDto_IntegrationId = "ID of the Integration that is supplied to the Module."
 	IntegrationModuleSupplyCreateDto_ModuleId      = "ID of the Module the integration is supplied to."
 
+	// IntegrationModuleSupplyMetadataReadDto
+	IntegrationModuleSupplyMetadataReadDto_Id            = "Unique ID of the Integration Module Supply."
+	IntegrationModuleSupplyMetadataReadDto_IntegrationId = "Integration Id of the Integration Module Supply."
+	IntegrationModuleSupplyMetadataReadDto_ModuleId      = "Module Id of the Integration Module Supply."
+
 	// IntegrationModuleSupplyReadDto
 	IntegrationModuleSupplyReadDto_Id            = "Unique ID of the Integration Module Supply."
 	IntegrationModuleSupplyReadDto_IntegrationId = "ID of the Integration that is supplied to the Module."
@@ -167,6 +193,11 @@ const (
 	// IntegrationNamespaceSupplyCreateDto
 	IntegrationNamespaceSupplyCreateDto_IntegrationId = "ID of the Integration that is supplied to the Namespace."
 	IntegrationNamespaceSupplyCreateDto_NamespaceId   = "ID of the Namespace the integration is supplied to."
+
+	// IntegrationNamespaceSupplyMetadataReadDto
+	IntegrationNamespaceSupplyMetadataReadDto_Id            = "Unique ID of the Integration Namespace Supply."
+	IntegrationNamespaceSupplyMetadataReadDto_IntegrationId = "Integration Id of the Integration Namespace Supply."
+	IntegrationNamespaceSupplyMetadataReadDto_NamespaceId   = "Namespace Id of the Integration Namespace Supply."
 
 	// IntegrationNamespaceSupplyReadDto
 	IntegrationNamespaceSupplyReadDto_Id            = "Unique ID of the Integration Namespace Supply."
@@ -203,6 +234,11 @@ const (
 	IntegrationStackSupplyCreateDto_IntegrationId = "ID of the Integration that is supplied to the Stack."
 	IntegrationStackSupplyCreateDto_StackId       = "ID of the Stack the integration is supplied to."
 
+	// IntegrationStackSupplyMetadataReadDto
+	IntegrationStackSupplyMetadataReadDto_Id            = "Unique ID of the Integration Stack Supply."
+	IntegrationStackSupplyMetadataReadDto_IntegrationId = "Integration Id of the Integration Stack Supply."
+	IntegrationStackSupplyMetadataReadDto_StackId       = "Stack Id of the Integration Stack Supply."
+
 	// IntegrationStackSupplyReadDto
 	IntegrationStackSupplyReadDto_Id            = "Unique ID of the Integration Stack Supply."
 	IntegrationStackSupplyReadDto_IntegrationId = "ID of the Integration that is supplied to the Stack."
@@ -232,6 +268,10 @@ const (
 	// ModuleAdditionalTriggerPathCreateDto
 	ModuleAdditionalTriggerPathCreateDto_ModuleId = "ID of the Module Additional Trigger Path's parent Module."
 	ModuleAdditionalTriggerPathCreateDto_Path     = "Repo-root-relative directory that joins the Module's trigger watch set when path-scoped triggering is enabled. Must be a normalized relative path that stays inside the repository (no leading slash, no `..` escaping the root). Must be unique in combination with `module_id`."
+
+	// ModuleAdditionalTriggerPathMetadataReadDto
+	ModuleAdditionalTriggerPathMetadataReadDto_Id       = "Unique ID of the Module Additional Trigger Path."
+	ModuleAdditionalTriggerPathMetadataReadDto_ModuleId = "Module Id of the Module Additional Trigger Path."
 
 	// ModuleAdditionalTriggerPathReadDto
 	ModuleAdditionalTriggerPathReadDto_Id       = "Unique ID of the Module Additional Trigger Path."
@@ -279,6 +319,10 @@ const (
 	ModuleExtraFileCreateDto_ModuleId  = "ID of the Module Extra File's parent Module."
 	ModuleExtraFileCreateDto_Overwrite = "If true any pre-existing file with the same name will be overwritten."
 
+	// ModuleExtraFileMetadataReadDto
+	ModuleExtraFileMetadataReadDto_Id       = "Unique ID of the Module Extra File."
+	ModuleExtraFileMetadataReadDto_ModuleId = "Module Id of the Module Extra File."
+
 	// ModuleExtraFileReadDto
 	ModuleExtraFileReadDto_Contents  = "Contents of the Module Extra File"
 	ModuleExtraFileReadDto_FileName  = "Name of the Module Extra File. This name will be use as the name of the file that is created. Must be unique in combination with `module_id`."
@@ -298,6 +342,10 @@ const (
 	ModuleHookCreateDto_Phase    = "When the hook runs relative to the task. Must be one of 'Before', 'After'."
 	ModuleHookCreateDto_Script   = "The shell script that runs at the configured task and phase."
 	ModuleHookCreateDto_Task     = "The lifecycle task this hook applies to. Must be one of 'Init', 'Plan', 'PlanDestroy', 'Apply', 'Destroy', 'Output', 'Validate'."
+
+	// ModuleHookMetadataReadDto
+	ModuleHookMetadataReadDto_Id       = "Unique ID of the Module Hook."
+	ModuleHookMetadataReadDto_ModuleId = "Module Id of the Module Hook."
 
 	// ModuleHookReadDto
 	ModuleHookReadDto_Id       = "Unique ID of the Module Hook."
@@ -442,6 +490,11 @@ const (
 	ModuleInputFromSecretUpdateDto_SecretId  = "ID of the Secret to take as input."
 	ModuleInputFromSecretUpdateDto_Type      = "The data type of the Secret to take as input. Must be one of 'String' and 'NotString'. Use 'NotString' for values such as numbers, bools, list, maps etc."
 
+	// ModuleInputMetadataReadDto
+	ModuleInputMetadataReadDto_Id       = "Unique ID of the Module Input."
+	ModuleInputMetadataReadDto_ModuleId = "ID of the Module this Module Input belongs to."
+	ModuleInputMetadataReadDto_Name     = "Name of the Module Input."
+
 	// ModuleIntegrationEventCreateDto
 	ModuleIntegrationEventCreateDto_Filter        = "Optional filter expression."
 	ModuleIntegrationEventCreateDto_IntegrationId = "ID of the target integration."
@@ -449,6 +502,11 @@ const (
 	ModuleIntegrationEventCreateDto_ModuleId      = "ID of the Module this event is scoped to."
 	ModuleIntegrationEventCreateDto_Template      = "Optional message template ({{token}} substitution). Omit to use the default for the trigger."
 	ModuleIntegrationEventCreateDto_Trigger       = "Trigger this subscription fires on. Must be one of 'JobSucceeded', 'JobFailed', 'JobAwaitingApproval', 'JobApproved', 'JobDeclined', 'JobCancelled', 'MissionStarted', 'MissionMilestoneReported', 'MissionCompleted', 'MissionFaulted'."
+
+	// ModuleIntegrationEventMetadataReadDto
+	ModuleIntegrationEventMetadataReadDto_Id            = "Unique ID of the Module Integration Event."
+	ModuleIntegrationEventMetadataReadDto_IntegrationId = "Integration Id of the Module Integration Event."
+	ModuleIntegrationEventMetadataReadDto_ModuleId      = "Module Id of the Module Integration Event."
 
 	// ModuleIntegrationEventReadDto
 	ModuleIntegrationEventReadDto_Filter        = "Optional filter expression."
@@ -521,6 +579,11 @@ const (
 	ModuleMissionHistoryEntryDto_RunId              = "ID of the mission run."
 	ModuleMissionHistoryEntryDto_StartedAt          = "When the mission run started (UTC)."
 
+	// ModuleMissionMetadataReadDto
+	ModuleMissionMetadataReadDto_AgentId  = "Agent Id of the Module Mission."
+	ModuleMissionMetadataReadDto_Id       = "Unique ID of the Module Mission."
+	ModuleMissionMetadataReadDto_ModuleId = "Module Id of the Module Mission."
+
 	// ModuleMissionReadDto
 	ModuleMissionReadDto_AgentId     = "ID of the Agent that runs this Mission."
 	ModuleMissionReadDto_Id          = "Unique ID of the Mission."
@@ -553,6 +616,10 @@ const (
 	ModulePulumiArrayFlagCreateDto_Task     = "The command task this flag applies to. Must be one of 'Init', 'Plan', 'Apply', 'Destroy', 'Output'."
 	ModulePulumiArrayFlagCreateDto_Value    = "The value for the flag."
 
+	// ModulePulumiArrayFlagMetadataReadDto
+	ModulePulumiArrayFlagMetadataReadDto_Id       = "Unique ID of the Module Pulumi Array Flag."
+	ModulePulumiArrayFlagMetadataReadDto_ModuleId = "Module Id of the Module Pulumi Array Flag."
+
 	// ModulePulumiArrayFlagReadDto
 	ModulePulumiArrayFlagReadDto_Flag     = "The Pulumi CLI array flag name. Must be one of 'PolicyPack', 'PolicyPackConfig', 'AttachDebugger', 'Target', 'Replace', 'Exclude', 'TargetReplace', 'Config'."
 	ModulePulumiArrayFlagReadDto_Id       = "Unique ID of the Module Pulumi Array Flag."
@@ -572,6 +639,10 @@ const (
 	ModulePulumiFlagCreateDto_ModuleId = "ID of the parent Module."
 	ModulePulumiFlagCreateDto_Task     = "The command task this flag applies to. Must be one of 'Init', 'Plan', 'Apply', 'Destroy', 'Output'."
 	ModulePulumiFlagCreateDto_Value    = "The value for the flag. Optional for boolean flags."
+
+	// ModulePulumiFlagMetadataReadDto
+	ModulePulumiFlagMetadataReadDto_Id       = "Unique ID of the Module Pulumi Flag."
+	ModulePulumiFlagMetadataReadDto_ModuleId = "Module Id of the Module Pulumi Flag."
 
 	// ModulePulumiFlagReadDto
 	ModulePulumiFlagReadDto_Flag     = "The Pulumi CLI flag name. Must be one of 'CloudUrl', 'LoginLocal', 'LoginCloud', 'DefaultOrg', 'Insecure', 'OidcExpiration', 'OidcOrg', 'OidcTeam', 'OidcToken', 'OidcUser', 'StackName', 'SecretsProvider', 'CreateStack', 'ConfigFile', 'Debug', 'Diff', 'ExpectNoChanges', 'Json', 'Message', 'Parallel', 'Refresh', 'RunProgram', 'ShowConfig', 'ShowFullOutput', 'ShowReads', 'ShowReplacementSteps', 'ShowSames', 'ShowSecrets', 'SuppressOutputs', 'SuppressProgress', 'TargetDependents', 'ExcludeDependents', 'Neo', 'ImportFile', 'ContinueOnError', 'SkipPreview', 'Strict', 'ExcludeProtected', 'Remove', 'Shell', 'Color', 'Verbose', 'Emoji'."
@@ -595,6 +666,11 @@ const (
 	ModulePulumiInlinePolicyCreateDto_Name                   = "Human-readable policy name. Must be unique in combination with `module_id`."
 	ModulePulumiInlinePolicyCreateDto_PolicyContent          = "Inline CrossGuard policy module (the pack's entry file, e.g. `__main__.py` defining a `PolicyPack`). The Runner synthesizes the surrounding pack scaffold. Policies declare `mandatory` (blocks the job) or `advisory` (warns and continues) enforcement in the pack itself."
 	ModulePulumiInlinePolicyCreateDto_Runtime                = "Language runtime of the policy pack. Determines the scaffold the Runner synthesizes around the policy content. Must be one of 'Python', 'NodeJS'."
+
+	// ModulePulumiInlinePolicyMetadataReadDto
+	ModulePulumiInlinePolicyMetadataReadDto_Id       = "Unique ID of the Module Pulumi Inline Policy."
+	ModulePulumiInlinePolicyMetadataReadDto_ModuleId = "ID of the Module this Module Pulumi Inline Policy belongs to."
+	ModulePulumiInlinePolicyMetadataReadDto_Name     = "Name of the Module Pulumi Inline Policy."
 
 	// ModulePulumiInlinePolicyReadDto
 	ModulePulumiInlinePolicyReadDto_AdditionalDependencies = "Optional extra package dependencies required by the policy content, one per line (requirements.txt semantics), installed after the pinned policy SDK. Runners configured for operator-managed environments reject entities that set this."
@@ -622,6 +698,11 @@ const (
 	ModulePulumiLocalPolicyCreateDto_Name       = "Human-readable policy name. Must be unique in combination with `module_id`."
 	ModulePulumiLocalPolicyCreateDto_Path       = "Absolute directory path on the Runner host holding the CrossGuard policy pack. Operator-managed: the contents at evaluation time are whatever the folder holds — there is no revision pinning."
 
+	// ModulePulumiLocalPolicyMetadataReadDto
+	ModulePulumiLocalPolicyMetadataReadDto_Id       = "Unique ID of the Module Pulumi Local Policy."
+	ModulePulumiLocalPolicyMetadataReadDto_ModuleId = "ID of the Module this Module Pulumi Local Policy belongs to."
+	ModulePulumiLocalPolicyMetadataReadDto_Name     = "Name of the Module Pulumi Local Policy."
+
 	// ModulePulumiLocalPolicyReadDto
 	ModulePulumiLocalPolicyReadDto_Enabled    = "Whether this policy is evaluated. Defaults to `true`; set `false` to switch the policy off without deleting it."
 	ModulePulumiLocalPolicyReadDto_EvaluateOn = "When this policy is evaluated. Only `ApplyOnly` exists for Pulumi policies: CrossGuard evaluates apply-side previews only — the pulumi CLI has no policy support on destroy. Must be one of 'ApplyOnly'."
@@ -645,6 +726,11 @@ const (
 	ModulePulumiRemotePolicyCreateDto_Path       = "Repo-root-relative directory of the policy pack within the repository. Empty means the repository root."
 	ModulePulumiRemotePolicyCreateDto_RepoUrl    = "URL of the git repository holding the CrossGuard policy pack."
 	ModulePulumiRemotePolicyCreateDto_Revision   = "Git revision (tag, branch or commit SHA) to evaluate. The revision is resolved at job dispatch, pinning the evaluated policy pack."
+
+	// ModulePulumiRemotePolicyMetadataReadDto
+	ModulePulumiRemotePolicyMetadataReadDto_Id       = "Unique ID of the Module Pulumi Remote Policy."
+	ModulePulumiRemotePolicyMetadataReadDto_ModuleId = "ID of the Module this Module Pulumi Remote Policy belongs to."
+	ModulePulumiRemotePolicyMetadataReadDto_Name     = "Name of the Module Pulumi Remote Policy."
 
 	// ModulePulumiRemotePolicyReadDto
 	ModulePulumiRemotePolicyReadDto_Enabled    = "Whether this policy is evaluated. Defaults to `true`; set `false` to switch the policy off without deleting it."
@@ -715,6 +801,11 @@ const (
 	ModuleSecretDto_ModuleId = "Id of the Module to scope the Secret to"
 	ModuleSecretDto_Name     = "Name of the Secret. Must be unique within its scope."
 
+	// ModuleSecretMetadataReadDto
+	ModuleSecretMetadataReadDto_Id       = "Unique ID of the Module Secret."
+	ModuleSecretMetadataReadDto_ModuleId = "Module Id of the Module Secret."
+	ModuleSecretMetadataReadDto_Name     = "Name of the Module Secret."
+
 	// ModuleSourceDto
 	ModuleSourceDto_Engine             = "The engine the Module deploys with ('OpenTofu', 'Terraform' or 'Pulumi'), when explicitly set. Must be one of 'OpenTofu', 'Terraform', 'Pulumi'."
 	ModuleSourceDto_Id                 = "Unique ID of the Module."
@@ -741,6 +832,10 @@ const (
 	ModuleTerraformArrayFlagCreateDto_Task     = "The command task this flag applies to. Must be one of 'Init', 'Plan', 'Apply', 'Destroy', 'Output'."
 	ModuleTerraformArrayFlagCreateDto_Value    = "The value for the flag."
 
+	// ModuleTerraformArrayFlagMetadataReadDto
+	ModuleTerraformArrayFlagMetadataReadDto_Id       = "Unique ID of the Module Terraform Array Flag."
+	ModuleTerraformArrayFlagMetadataReadDto_ModuleId = "Module Id of the Module Terraform Array Flag."
+
 	// ModuleTerraformArrayFlagReadDto
 	ModuleTerraformArrayFlagReadDto_Flag     = "The Terraform CLI array flag name. Must be one of 'Target', 'Replace', 'Exclude', 'Var', 'BackendConfig'."
 	ModuleTerraformArrayFlagReadDto_Id       = "Unique ID of the Module Terraform Array Flag."
@@ -760,6 +855,10 @@ const (
 	ModuleTerraformFlagCreateDto_ModuleId = "ID of the parent Module."
 	ModuleTerraformFlagCreateDto_Task     = "The command task this flag applies to. Must be one of 'Init', 'Plan', 'Apply', 'Destroy', 'Output'."
 	ModuleTerraformFlagCreateDto_Value    = "The value for the flag. Optional for boolean flags."
+
+	// ModuleTerraformFlagMetadataReadDto
+	ModuleTerraformFlagMetadataReadDto_Id       = "Unique ID of the Module Terraform Flag."
+	ModuleTerraformFlagMetadataReadDto_ModuleId = "Module Id of the Module Terraform Flag."
 
 	// ModuleTerraformFlagReadDto
 	ModuleTerraformFlagReadDto_Flag     = "The Terraform CLI flag name. Must be one of 'ForceCopy', 'FromModule', 'GetPlugins', 'LockTimeout', 'Lockfile', 'MigrateState', 'Plugin', 'Reconfigure', 'TestDirectory', 'Upgrade', 'CompactWarnings', 'Concurrency', 'Lock', 'NoColor', 'Parallelism', 'Refresh', 'RefreshOnly', 'DetailedExitcode', 'GenerateConfigOut', 'CreateBeforeDestroy', 'Raw'."
@@ -782,6 +881,11 @@ const (
 	ModuleTerraformInlinePolicyCreateDto_Name          = "Human-readable policy name. Must be unique in combination with `module_id`."
 	ModuleTerraformInlinePolicyCreateDto_PolicyContent = "Inline OPA/Rego policy document evaluated with conftest against the JSON export of the plan. Severity is carried by rule names: `deny`/`violation` rules block the job, `warn` rules log a warning and continue. Any package name is accepted (all namespaces are evaluated)."
 
+	// ModuleTerraformInlinePolicyMetadataReadDto
+	ModuleTerraformInlinePolicyMetadataReadDto_Id       = "Unique ID of the Module Terraform Inline Policy."
+	ModuleTerraformInlinePolicyMetadataReadDto_ModuleId = "ID of the Module this Module Terraform Inline Policy belongs to."
+	ModuleTerraformInlinePolicyMetadataReadDto_Name     = "Name of the Module Terraform Inline Policy."
+
 	// ModuleTerraformInlinePolicyReadDto
 	ModuleTerraformInlinePolicyReadDto_Enabled       = "Whether this policy is evaluated. Defaults to `true`; set `false` to switch the policy off without deleting it."
 	ModuleTerraformInlinePolicyReadDto_EvaluateOn    = "Which job kinds evaluate this policy: `ApplyAndDestroy` (default), `ApplyOnly` or `DestroyOnly`. Must be one of 'ApplyAndDestroy', 'ApplyOnly', 'DestroyOnly'."
@@ -803,6 +907,11 @@ const (
 	ModuleTerraformLocalPolicyCreateDto_ModuleId   = "ID of the policy's parent Module."
 	ModuleTerraformLocalPolicyCreateDto_Name       = "Human-readable policy name. Must be unique in combination with `module_id`."
 	ModuleTerraformLocalPolicyCreateDto_Path       = "Absolute directory path on the Runner host holding the policy bundle. Operator-managed: the contents at evaluation time are whatever the folder holds — there is no revision pinning."
+
+	// ModuleTerraformLocalPolicyMetadataReadDto
+	ModuleTerraformLocalPolicyMetadataReadDto_Id       = "Unique ID of the Module Terraform Local Policy."
+	ModuleTerraformLocalPolicyMetadataReadDto_ModuleId = "ID of the Module this Module Terraform Local Policy belongs to."
+	ModuleTerraformLocalPolicyMetadataReadDto_Name     = "Name of the Module Terraform Local Policy."
 
 	// ModuleTerraformLocalPolicyReadDto
 	ModuleTerraformLocalPolicyReadDto_Enabled    = "Whether this policy is evaluated. Defaults to `true`; set `false` to switch the policy off without deleting it."
@@ -827,6 +936,11 @@ const (
 	ModuleTerraformRemotePolicyCreateDto_Path       = "Repo-root-relative directory of the policy bundle within the repository. Empty means the repository root. The whole tree is evaluated as one bundle: files may share helper packages and ship their own tests."
 	ModuleTerraformRemotePolicyCreateDto_RepoUrl    = "URL of the git repository holding the policy bundle."
 	ModuleTerraformRemotePolicyCreateDto_Revision   = "Git revision (tag, branch or commit SHA) to evaluate. The revision is resolved at job dispatch, pinning the evaluated policy set."
+
+	// ModuleTerraformRemotePolicyMetadataReadDto
+	ModuleTerraformRemotePolicyMetadataReadDto_Id       = "Unique ID of the Module Terraform Remote Policy."
+	ModuleTerraformRemotePolicyMetadataReadDto_ModuleId = "ID of the Module this Module Terraform Remote Policy belongs to."
+	ModuleTerraformRemotePolicyMetadataReadDto_Name     = "Name of the Module Terraform Remote Policy."
 
 	// ModuleTerraformRemotePolicyReadDto
 	ModuleTerraformRemotePolicyReadDto_Enabled    = "Whether this policy is evaluated. Defaults to `true`; set `false` to switch the policy off without deleting it."
@@ -882,6 +996,10 @@ const (
 	NamespaceAdditionalTriggerPathCreateDto_NamespaceId = "ID of the Namespace Additional Trigger Path's parent Namespace."
 	NamespaceAdditionalTriggerPathCreateDto_Path        = "Repo-root-relative directory that joins the trigger watch set of every Module in the Namespace that has path-scoped triggering enabled. Must be a normalized relative path that stays inside the repository (no leading slash, no `..` escaping the root). Must be unique in combination with `namespace_id`."
 
+	// NamespaceAdditionalTriggerPathMetadataReadDto
+	NamespaceAdditionalTriggerPathMetadataReadDto_Id          = "Unique ID of the Namespace Additional Trigger Path."
+	NamespaceAdditionalTriggerPathMetadataReadDto_NamespaceId = "Namespace Id of the Namespace Additional Trigger Path."
+
 	// NamespaceAdditionalTriggerPathReadDto
 	NamespaceAdditionalTriggerPathReadDto_Id          = "Unique ID of the Namespace Additional Trigger Path."
 	NamespaceAdditionalTriggerPathReadDto_NamespaceId = "ID of the Namespace Additional Trigger Path's parent Namespace."
@@ -912,6 +1030,10 @@ const (
 	NamespaceExtraFileCreateDto_NamespaceId = "ID of the Namespace Extra File's parent Namespace."
 	NamespaceExtraFileCreateDto_Overwrite   = "If true any pre-existing file with the same name will be overwritten."
 
+	// NamespaceExtraFileMetadataReadDto
+	NamespaceExtraFileMetadataReadDto_Id          = "Unique ID of the Namespace Extra File."
+	NamespaceExtraFileMetadataReadDto_NamespaceId = "Namespace Id of the Namespace Extra File."
+
 	// NamespaceExtraFileReadDto
 	NamespaceExtraFileReadDto_Contents    = "Contents of the Namespace Extra File"
 	NamespaceExtraFileReadDto_FileName    = "Name of the Namespace Extra File. This name will be use as the name of the file that is created. Must be unique in combination with `namespace_id`."
@@ -931,6 +1053,10 @@ const (
 	NamespaceHookCreateDto_Phase       = "When the hook runs relative to the task. Must be one of 'Before', 'After'."
 	NamespaceHookCreateDto_Script      = "The shell script that runs at the configured task and phase. Used as default for all modules in the namespace unless overridden."
 	NamespaceHookCreateDto_Task        = "The lifecycle task this hook applies to. Must be one of 'Init', 'Plan', 'PlanDestroy', 'Apply', 'Destroy', 'Output', 'Validate'."
+
+	// NamespaceHookMetadataReadDto
+	NamespaceHookMetadataReadDto_Id          = "Unique ID of the Namespace Hook."
+	NamespaceHookMetadataReadDto_NamespaceId = "Namespace Id of the Namespace Hook."
 
 	// NamespaceHookReadDto
 	NamespaceHookReadDto_Id          = "Unique ID of the Namespace Hook."
@@ -1021,6 +1147,11 @@ const (
 	NamespaceInputFromSecretUpdateDto_Type        = "Type of literal input the secret value should be formatted as. Must be one of 'String' and 'NotString'. Use 'NotString' for values such as numbers, bools, list, maps etc."
 	NamespaceInputFromSecretUpdateDto_UsageMode   = "Whether the input should be used by default on all Modules, or only when explicitly selected on the Module itself. Must be one of 'UseIfSelected', 'UseByDefault'."
 
+	// NamespaceInputMetadataReadDto
+	NamespaceInputMetadataReadDto_Id          = "Unique ID of the Namespace Input."
+	NamespaceInputMetadataReadDto_Name        = "Name of the Namespace Input."
+	NamespaceInputMetadataReadDto_NamespaceId = "ID of the Namespace this Namespace Input belongs to."
+
 	// NamespaceIntegrationEventCreateDto
 	NamespaceIntegrationEventCreateDto_Filter        = "Optional filter expression."
 	NamespaceIntegrationEventCreateDto_IntegrationId = "ID of the target integration."
@@ -1028,6 +1159,11 @@ const (
 	NamespaceIntegrationEventCreateDto_NamespaceId   = "ID of the Namespace this event is scoped to."
 	NamespaceIntegrationEventCreateDto_Template      = "Optional message template ({{token}} substitution). Omit to use the default for the trigger."
 	NamespaceIntegrationEventCreateDto_Trigger       = "Trigger this subscription fires on. Must be one of 'JobSucceeded', 'JobFailed', 'JobAwaitingApproval', 'JobApproved', 'JobDeclined', 'JobCancelled', 'MissionStarted', 'MissionMilestoneReported', 'MissionCompleted', 'MissionFaulted'."
+
+	// NamespaceIntegrationEventMetadataReadDto
+	NamespaceIntegrationEventMetadataReadDto_Id            = "Unique ID of the Namespace Integration Event."
+	NamespaceIntegrationEventMetadataReadDto_IntegrationId = "Integration Id of the Namespace Integration Event."
+	NamespaceIntegrationEventMetadataReadDto_NamespaceId   = "Namespace Id of the Namespace Integration Event."
 
 	// NamespaceIntegrationEventReadDto
 	NamespaceIntegrationEventReadDto_Filter        = "Optional filter expression."
@@ -1059,6 +1195,11 @@ const (
 	NamespaceMissionCreateDto_NamespaceId = "ID of the Namespace this Mission is scoped to."
 	NamespaceMissionCreateDto_SidecarName = "Optional named-sidecar override sent to the agent at dispatch. When unset (null), the agent invokes its only registered sidecar; the run fails if the agent has zero or multiple sidecars and no name was supplied."
 
+	// NamespaceMissionMetadataReadDto
+	NamespaceMissionMetadataReadDto_AgentId     = "Agent Id of the Namespace Mission."
+	NamespaceMissionMetadataReadDto_Id          = "Unique ID of the Namespace Mission."
+	NamespaceMissionMetadataReadDto_NamespaceId = "Namespace Id of the Namespace Mission."
+
 	// NamespaceMissionReadDto
 	NamespaceMissionReadDto_AgentId     = "ID of the Agent that runs this Mission."
 	NamespaceMissionReadDto_Id          = "Unique ID of the Mission."
@@ -1081,6 +1222,10 @@ const (
 	NamespacePulumiArrayFlagCreateDto_Task        = "The command task this flag applies to. Must be one of 'Init', 'Plan', 'Apply', 'Destroy', 'Output'."
 	NamespacePulumiArrayFlagCreateDto_Value       = "The value for the flag."
 
+	// NamespacePulumiArrayFlagMetadataReadDto
+	NamespacePulumiArrayFlagMetadataReadDto_Id          = "Unique ID of the Namespace Pulumi Array Flag."
+	NamespacePulumiArrayFlagMetadataReadDto_NamespaceId = "Namespace Id of the Namespace Pulumi Array Flag."
+
 	// NamespacePulumiArrayFlagReadDto
 	NamespacePulumiArrayFlagReadDto_Flag        = "The Pulumi CLI array flag name. Must be one of 'PolicyPack', 'PolicyPackConfig', 'AttachDebugger', 'Target', 'Replace', 'Exclude', 'TargetReplace', 'Config'."
 	NamespacePulumiArrayFlagReadDto_Id          = "Unique ID of the Namespace Pulumi Array Flag."
@@ -1100,6 +1245,10 @@ const (
 	NamespacePulumiFlagCreateDto_NamespaceId = "ID of the parent Namespace."
 	NamespacePulumiFlagCreateDto_Task        = "The command task this flag applies to. Must be one of 'Init', 'Plan', 'Apply', 'Destroy', 'Output'."
 	NamespacePulumiFlagCreateDto_Value       = "The value for the flag. Optional for boolean flags."
+
+	// NamespacePulumiFlagMetadataReadDto
+	NamespacePulumiFlagMetadataReadDto_Id          = "Unique ID of the Namespace Pulumi Flag."
+	NamespacePulumiFlagMetadataReadDto_NamespaceId = "Namespace Id of the Namespace Pulumi Flag."
 
 	// NamespacePulumiFlagReadDto
 	NamespacePulumiFlagReadDto_Flag        = "The Pulumi CLI flag name. Must be one of 'CloudUrl', 'LoginLocal', 'LoginCloud', 'DefaultOrg', 'Insecure', 'OidcExpiration', 'OidcOrg', 'OidcTeam', 'OidcToken', 'OidcUser', 'StackName', 'SecretsProvider', 'CreateStack', 'ConfigFile', 'Debug', 'Diff', 'ExpectNoChanges', 'Json', 'Message', 'Parallel', 'Refresh', 'RunProgram', 'ShowConfig', 'ShowFullOutput', 'ShowReads', 'ShowReplacementSteps', 'ShowSames', 'ShowSecrets', 'SuppressOutputs', 'SuppressProgress', 'TargetDependents', 'ExcludeDependents', 'Neo', 'ImportFile', 'ContinueOnError', 'SkipPreview', 'Strict', 'ExcludeProtected', 'Remove', 'Shell', 'Color', 'Verbose', 'Emoji'."
@@ -1123,6 +1272,11 @@ const (
 	NamespacePulumiInlinePolicyCreateDto_NamespaceId            = "ID of the policy's parent Namespace."
 	NamespacePulumiInlinePolicyCreateDto_PolicyContent          = "Inline CrossGuard policy module (the pack's entry file, e.g. `__main__.py` defining a `PolicyPack`). The Runner synthesizes the surrounding pack scaffold. Policies declare `mandatory` (blocks the job) or `advisory` (warns and continues) enforcement in the pack itself."
 	NamespacePulumiInlinePolicyCreateDto_Runtime                = "Language runtime of the policy pack. Determines the scaffold the Runner synthesizes around the policy content. Must be one of 'Python', 'NodeJS'."
+
+	// NamespacePulumiInlinePolicyMetadataReadDto
+	NamespacePulumiInlinePolicyMetadataReadDto_Id          = "Unique ID of the Namespace Pulumi Inline Policy."
+	NamespacePulumiInlinePolicyMetadataReadDto_Name        = "Name of the Namespace Pulumi Inline Policy."
+	NamespacePulumiInlinePolicyMetadataReadDto_NamespaceId = "ID of the Namespace this Namespace Pulumi Inline Policy belongs to."
 
 	// NamespacePulumiInlinePolicyReadDto
 	NamespacePulumiInlinePolicyReadDto_AdditionalDependencies = "Optional extra package dependencies required by the policy content, one per line (requirements.txt semantics), installed after the pinned policy SDK. Runners configured for operator-managed environments reject entities that set this."
@@ -1150,6 +1304,11 @@ const (
 	NamespacePulumiLocalPolicyCreateDto_NamespaceId = "ID of the policy's parent Namespace."
 	NamespacePulumiLocalPolicyCreateDto_Path        = "Absolute directory path on the Runner host holding the CrossGuard policy pack. Operator-managed: the contents at evaluation time are whatever the folder holds — there is no revision pinning."
 
+	// NamespacePulumiLocalPolicyMetadataReadDto
+	NamespacePulumiLocalPolicyMetadataReadDto_Id          = "Unique ID of the Namespace Pulumi Local Policy."
+	NamespacePulumiLocalPolicyMetadataReadDto_Name        = "Name of the Namespace Pulumi Local Policy."
+	NamespacePulumiLocalPolicyMetadataReadDto_NamespaceId = "ID of the Namespace this Namespace Pulumi Local Policy belongs to."
+
 	// NamespacePulumiLocalPolicyReadDto
 	NamespacePulumiLocalPolicyReadDto_Enabled     = "Whether this policy is evaluated. Defaults to `true`; set `false` to switch the policy off without deleting it."
 	NamespacePulumiLocalPolicyReadDto_EvaluateOn  = "When this policy is evaluated. Only `ApplyOnly` exists for Pulumi policies: CrossGuard evaluates apply-side previews only — the pulumi CLI has no policy support on destroy. Must be one of 'ApplyOnly'."
@@ -1173,6 +1332,11 @@ const (
 	NamespacePulumiRemotePolicyCreateDto_Path        = "Repo-root-relative directory of the policy pack within the repository. Empty means the repository root."
 	NamespacePulumiRemotePolicyCreateDto_RepoUrl     = "URL of the git repository holding the CrossGuard policy pack."
 	NamespacePulumiRemotePolicyCreateDto_Revision    = "Git revision (tag, branch or commit SHA) to evaluate. The revision is resolved at job dispatch, pinning the evaluated policy pack."
+
+	// NamespacePulumiRemotePolicyMetadataReadDto
+	NamespacePulumiRemotePolicyMetadataReadDto_Id          = "Unique ID of the Namespace Pulumi Remote Policy."
+	NamespacePulumiRemotePolicyMetadataReadDto_Name        = "Name of the Namespace Pulumi Remote Policy."
+	NamespacePulumiRemotePolicyMetadataReadDto_NamespaceId = "ID of the Namespace this Namespace Pulumi Remote Policy belongs to."
 
 	// NamespacePulumiRemotePolicyReadDto
 	NamespacePulumiRemotePolicyReadDto_Enabled     = "Whether this policy is evaluated. Defaults to `true`; set `false` to switch the policy off without deleting it."
@@ -1227,11 +1391,20 @@ const (
 	NamespaceSecretDto_Name        = "Name of the Secret. Must be unique within its scope."
 	NamespaceSecretDto_NamespaceId = "Id of the Namespace to scope the Secret to"
 
+	// NamespaceSecretMetadataReadDto
+	NamespaceSecretMetadataReadDto_Id          = "Unique ID of the Namespace Secret."
+	NamespaceSecretMetadataReadDto_Name        = "Name of the Namespace Secret."
+	NamespaceSecretMetadataReadDto_NamespaceId = "Namespace Id of the Namespace Secret."
+
 	// NamespaceTerraformArrayFlagCreateDto
 	NamespaceTerraformArrayFlagCreateDto_Flag        = "The Terraform CLI array flag name. Must be one of 'Target', 'Replace', 'Exclude', 'Var', 'BackendConfig'."
 	NamespaceTerraformArrayFlagCreateDto_NamespaceId = "ID of the parent Namespace."
 	NamespaceTerraformArrayFlagCreateDto_Task        = "The command task this flag applies to. Must be one of 'Init', 'Plan', 'Apply', 'Destroy', 'Output'."
 	NamespaceTerraformArrayFlagCreateDto_Value       = "The value for the flag."
+
+	// NamespaceTerraformArrayFlagMetadataReadDto
+	NamespaceTerraformArrayFlagMetadataReadDto_Id          = "Unique ID of the Namespace Terraform Array Flag."
+	NamespaceTerraformArrayFlagMetadataReadDto_NamespaceId = "Namespace Id of the Namespace Terraform Array Flag."
 
 	// NamespaceTerraformArrayFlagReadDto
 	NamespaceTerraformArrayFlagReadDto_Flag        = "The Terraform CLI array flag name. Must be one of 'Target', 'Replace', 'Exclude', 'Var', 'BackendConfig'."
@@ -1252,6 +1425,10 @@ const (
 	NamespaceTerraformFlagCreateDto_NamespaceId = "ID of the parent Namespace."
 	NamespaceTerraformFlagCreateDto_Task        = "The command task this flag applies to. Must be one of 'Init', 'Plan', 'Apply', 'Destroy', 'Output'."
 	NamespaceTerraformFlagCreateDto_Value       = "The value for the flag. Optional for boolean flags."
+
+	// NamespaceTerraformFlagMetadataReadDto
+	NamespaceTerraformFlagMetadataReadDto_Id          = "Unique ID of the Namespace Terraform Flag."
+	NamespaceTerraformFlagMetadataReadDto_NamespaceId = "Namespace Id of the Namespace Terraform Flag."
 
 	// NamespaceTerraformFlagReadDto
 	NamespaceTerraformFlagReadDto_Flag        = "The Terraform CLI flag name. Must be one of 'ForceCopy', 'FromModule', 'GetPlugins', 'LockTimeout', 'Lockfile', 'MigrateState', 'Plugin', 'Reconfigure', 'TestDirectory', 'Upgrade', 'CompactWarnings', 'Concurrency', 'Lock', 'NoColor', 'Parallelism', 'Refresh', 'RefreshOnly', 'DetailedExitcode', 'GenerateConfigOut', 'CreateBeforeDestroy', 'Raw'."
@@ -1274,6 +1451,11 @@ const (
 	NamespaceTerraformInlinePolicyCreateDto_NamespaceId   = "ID of the policy's parent Namespace."
 	NamespaceTerraformInlinePolicyCreateDto_PolicyContent = "Inline OPA/Rego policy document evaluated with conftest against the JSON export of the plan. Severity is carried by rule names: `deny`/`violation` rules block the job, `warn` rules log a warning and continue. Any package name is accepted (all namespaces are evaluated)."
 
+	// NamespaceTerraformInlinePolicyMetadataReadDto
+	NamespaceTerraformInlinePolicyMetadataReadDto_Id          = "Unique ID of the Namespace Terraform Inline Policy."
+	NamespaceTerraformInlinePolicyMetadataReadDto_Name        = "Name of the Namespace Terraform Inline Policy."
+	NamespaceTerraformInlinePolicyMetadataReadDto_NamespaceId = "ID of the Namespace this Namespace Terraform Inline Policy belongs to."
+
 	// NamespaceTerraformInlinePolicyReadDto
 	NamespaceTerraformInlinePolicyReadDto_Enabled       = "Whether this policy is evaluated. Defaults to `true`; set `false` to switch the policy off without deleting it."
 	NamespaceTerraformInlinePolicyReadDto_EvaluateOn    = "Which job kinds evaluate this policy: `ApplyAndDestroy` (default), `ApplyOnly` or `DestroyOnly`. Must be one of 'ApplyAndDestroy', 'ApplyOnly', 'DestroyOnly'."
@@ -1295,6 +1477,11 @@ const (
 	NamespaceTerraformLocalPolicyCreateDto_Name        = "Human-readable policy name. Must be unique in combination with `namespace_id`."
 	NamespaceTerraformLocalPolicyCreateDto_NamespaceId = "ID of the policy's parent Namespace."
 	NamespaceTerraformLocalPolicyCreateDto_Path        = "Absolute directory path on the Runner host holding the policy bundle. Operator-managed: the contents at evaluation time are whatever the folder holds — there is no revision pinning."
+
+	// NamespaceTerraformLocalPolicyMetadataReadDto
+	NamespaceTerraformLocalPolicyMetadataReadDto_Id          = "Unique ID of the Namespace Terraform Local Policy."
+	NamespaceTerraformLocalPolicyMetadataReadDto_Name        = "Name of the Namespace Terraform Local Policy."
+	NamespaceTerraformLocalPolicyMetadataReadDto_NamespaceId = "ID of the Namespace this Namespace Terraform Local Policy belongs to."
 
 	// NamespaceTerraformLocalPolicyReadDto
 	NamespaceTerraformLocalPolicyReadDto_Enabled     = "Whether this policy is evaluated. Defaults to `true`; set `false` to switch the policy off without deleting it."
@@ -1319,6 +1506,11 @@ const (
 	NamespaceTerraformRemotePolicyCreateDto_Path        = "Repo-root-relative directory of the policy bundle within the repository. Empty means the repository root. The whole tree is evaluated as one bundle: files may share helper packages and ship their own tests."
 	NamespaceTerraformRemotePolicyCreateDto_RepoUrl     = "URL of the git repository holding the policy bundle."
 	NamespaceTerraformRemotePolicyCreateDto_Revision    = "Git revision (tag, branch or commit SHA) to evaluate. The revision is resolved at job dispatch, pinning the evaluated policy set."
+
+	// NamespaceTerraformRemotePolicyMetadataReadDto
+	NamespaceTerraformRemotePolicyMetadataReadDto_Id          = "Unique ID of the Namespace Terraform Remote Policy."
+	NamespaceTerraformRemotePolicyMetadataReadDto_Name        = "Name of the Namespace Terraform Remote Policy."
+	NamespaceTerraformRemotePolicyMetadataReadDto_NamespaceId = "ID of the Namespace this Namespace Terraform Remote Policy belongs to."
 
 	// NamespaceTerraformRemotePolicyReadDto
 	NamespaceTerraformRemotePolicyReadDto_Enabled     = "Whether this policy is evaluated. Defaults to `true`; set `false` to switch the policy off without deleting it."
@@ -1361,6 +1553,10 @@ const (
 	OrganizationIntegrationEventCreateDto_Template      = "Optional message template ({{token}} substitution). Omit to use the default for the trigger."
 	OrganizationIntegrationEventCreateDto_Trigger       = "Trigger this subscription fires on. Must be one of 'JobSucceeded', 'JobFailed', 'JobAwaitingApproval', 'JobApproved', 'JobDeclined', 'JobCancelled', 'MissionStarted', 'MissionMilestoneReported', 'MissionCompleted', 'MissionFaulted'."
 
+	// OrganizationIntegrationEventMetadataReadDto
+	OrganizationIntegrationEventMetadataReadDto_Id            = "Unique ID of the Organization Integration Event."
+	OrganizationIntegrationEventMetadataReadDto_IntegrationId = "Integration Id of the Organization Integration Event."
+
 	// OrganizationIntegrationEventReadDto
 	OrganizationIntegrationEventReadDto_Filter        = "Optional filter expression."
 	OrganizationIntegrationEventReadDto_Id            = "Unique ID of the Integration Event."
@@ -1382,6 +1578,10 @@ const (
 	OrganizationMissionCreateDto_IsDisabled  = "Indicates whether or not the Mission is disabled."
 	OrganizationMissionCreateDto_MissionType = "Which named mission definition this row references. Must be one of 'AutoDiagnose', 'ApprovalRecommend', 'SummarizeJob', 'AutoFix'."
 	OrganizationMissionCreateDto_SidecarName = "Optional named-sidecar override sent to the agent at dispatch. When unset (null), the agent invokes its only registered sidecar; the run fails if the agent has zero or multiple sidecars and no name was supplied."
+
+	// OrganizationMissionMetadataReadDto
+	OrganizationMissionMetadataReadDto_AgentId = "Agent Id of the Organization Mission."
+	OrganizationMissionMetadataReadDto_Id      = "Unique ID of the Organization Mission."
 
 	// OrganizationMissionReadDto
 	OrganizationMissionReadDto_AgentId     = "ID of the Agent that runs this Mission."
@@ -1417,13 +1617,19 @@ const (
 	RunnerCreateDto_ServicePrincipalId     = "ID of the Service Principal associated with the Runner."
 
 	// RunnerMetadataReadDto
-	RunnerMetadataReadDto_Id         = "Unique ID of the Runner."
-	RunnerMetadataReadDto_IsDisabled = "Whether the Runner is disabled and will not pick up new work."
-	RunnerMetadataReadDto_Name       = "Name of the Runner."
+	RunnerMetadataReadDto_Id                 = "Unique ID of the Runner."
+	RunnerMetadataReadDto_IsDisabled         = "Whether the Runner is disabled and will not pick up new work."
+	RunnerMetadataReadDto_Name               = "Name of the Runner."
+	RunnerMetadataReadDto_ServicePrincipalId = "ID of the Service Principal this Runner belongs to."
 
 	// RunnerModuleSupplyCreateDto
 	RunnerModuleSupplyCreateDto_ModuleId = "ID of the Module to which the Runner is assigned."
 	RunnerModuleSupplyCreateDto_RunnerId = "ID of the Runner that is assigned to the Module."
+
+	// RunnerModuleSupplyMetadataReadDto
+	RunnerModuleSupplyMetadataReadDto_Id       = "Unique ID of the Runner Module Supply."
+	RunnerModuleSupplyMetadataReadDto_ModuleId = "Module Id of the Runner Module Supply."
+	RunnerModuleSupplyMetadataReadDto_RunnerId = "Runner Id of the Runner Module Supply."
 
 	// RunnerModuleSupplyReadDto
 	RunnerModuleSupplyReadDto_Id       = "Unique ID of the Runner Module Supply."
@@ -1438,6 +1644,11 @@ const (
 	// RunnerNamespaceSupplyCreateDto
 	RunnerNamespaceSupplyCreateDto_NamespaceId = "ID of the Namespace to which the Runner is assigned."
 	RunnerNamespaceSupplyCreateDto_RunnerId    = "ID of the Runner that is assigned to the Namespace."
+
+	// RunnerNamespaceSupplyMetadataReadDto
+	RunnerNamespaceSupplyMetadataReadDto_Id          = "Unique ID of the Runner Namespace Supply."
+	RunnerNamespaceSupplyMetadataReadDto_NamespaceId = "Namespace Id of the Runner Namespace Supply."
+	RunnerNamespaceSupplyMetadataReadDto_RunnerId    = "Runner Id of the Runner Namespace Supply."
 
 	// RunnerNamespaceSupplyReadDto
 	RunnerNamespaceSupplyReadDto_Id          = "Unique ID of the Runner Namespace Supply."
@@ -1474,6 +1685,11 @@ const (
 	// RunnerStackSupplyCreateDto
 	RunnerStackSupplyCreateDto_RunnerId = "ID of the Runner that is assigned to the Stack."
 	RunnerStackSupplyCreateDto_StackId  = "ID of the Stack to which the Runner is assigned."
+
+	// RunnerStackSupplyMetadataReadDto
+	RunnerStackSupplyMetadataReadDto_Id       = "Unique ID of the Runner Stack Supply."
+	RunnerStackSupplyMetadataReadDto_RunnerId = "Runner Id of the Runner Stack Supply."
+	RunnerStackSupplyMetadataReadDto_StackId  = "Stack Id of the Runner Stack Supply."
 
 	// RunnerStackSupplyReadDto
 	RunnerStackSupplyReadDto_Id       = "Unique ID of the Runner Stack Supply."
@@ -1527,6 +1743,10 @@ const (
 	SourceRefresherPreselectionCreateDto_RunnerInstanceName = "Name a specific runner instance to select (should unique identify the the instance). Use this if you have enabled multiple instances on your runner, but want all refresh requests for this source to go to a specific instance."
 	SourceRefresherPreselectionCreateDto_SourceUrl          = "Unique Source URL to which a Runner (or specific Runner within the Runner based on `runner_instance_name`) is assigned as the preselected 'refresher'."
 
+	// SourceRefresherPreselectionMetadataReadDto
+	SourceRefresherPreselectionMetadataReadDto_Id       = "Unique ID of the Source Refresher Preselection."
+	SourceRefresherPreselectionMetadataReadDto_RunnerId = "Runner Id of the Source Refresher Preselection."
+
 	// SourceRefresherPreselectionReadDto
 	SourceRefresherPreselectionReadDto_Id                 = "Unique ID of the Source Refresher Preselection."
 	SourceRefresherPreselectionReadDto_RunnerId           = "ID of the Runner to preselect as 'refresher' for the given Source URL. Messages requesting a source refresh will always be sent to this Runner's"
@@ -1550,6 +1770,11 @@ const (
 	StackIntegrationEventCreateDto_StackId       = "ID of the Stack this event is scoped to."
 	StackIntegrationEventCreateDto_Template      = "Optional message template ({{token}} substitution). Omit to use the default for the trigger."
 	StackIntegrationEventCreateDto_Trigger       = "Trigger this subscription fires on. Must be one of 'JobSucceeded', 'JobFailed', 'JobAwaitingApproval', 'JobApproved', 'JobDeclined', 'JobCancelled', 'MissionStarted', 'MissionMilestoneReported', 'MissionCompleted', 'MissionFaulted'."
+
+	// StackIntegrationEventMetadataReadDto
+	StackIntegrationEventMetadataReadDto_Id            = "Unique ID of the Stack Integration Event."
+	StackIntegrationEventMetadataReadDto_IntegrationId = "Integration Id of the Stack Integration Event."
+	StackIntegrationEventMetadataReadDto_StackId       = "Stack Id of the Stack Integration Event."
 
 	// StackIntegrationEventReadDto
 	StackIntegrationEventReadDto_Filter        = "Optional filter expression."
@@ -1579,6 +1804,11 @@ const (
 	StackMissionCreateDto_MissionType = "Which named mission definition this row references. Must be one of 'AutoDiagnose', 'ApprovalRecommend', 'SummarizeJob', 'AutoFix'."
 	StackMissionCreateDto_SidecarName = "Optional named-sidecar override sent to the agent at dispatch. When unset (null), the agent invokes its only registered sidecar; the run fails if the agent has zero or multiple sidecars and no name was supplied."
 	StackMissionCreateDto_StackId     = "ID of the Stack this Mission is scoped to."
+
+	// StackMissionMetadataReadDto
+	StackMissionMetadataReadDto_AgentId = "Agent Id of the Stack Mission."
+	StackMissionMetadataReadDto_Id      = "Unique ID of the Stack Mission."
+	StackMissionMetadataReadDto_StackId = "Stack Id of the Stack Mission."
 
 	// StackMissionReadDto
 	StackMissionReadDto_AgentId     = "ID of the Agent that runs this Mission."
@@ -1620,6 +1850,11 @@ const (
 	StackSecretDto_Name    = "Name of the Secret. Must be unique within its scope."
 	StackSecretDto_StackId = "Id of the Stack to scope the Secret to"
 
+	// StackSecretMetadataReadDto
+	StackSecretMetadataReadDto_Id      = "Unique ID of the Stack Secret."
+	StackSecretMetadataReadDto_Name    = "Name of the Stack Secret."
+	StackSecretMetadataReadDto_StackId = "Stack Id of the Stack Secret."
+
 	// StackUpdateDto
 	StackUpdateDto_Id                         = "Unique ID of the Stack."
 	StackUpdateDto_Name                       = "Unique name of the Stack."
@@ -1629,6 +1864,11 @@ const (
 	StateFileCreateDto_Data         = "The state document content, as a JSON string."
 	StateFileCreateDto_Name         = "Name of the State File. Must be unique within the State Store."
 	StateFileCreateDto_StateStoreId = "ID of the State Store the State File belongs to."
+
+	// StateFileMetadataReadDto
+	StateFileMetadataReadDto_Id           = "Unique ID of the State File."
+	StateFileMetadataReadDto_Name         = "Name of the State File."
+	StateFileMetadataReadDto_StateStoreId = "ID of the State Store this State File belongs to."
 
 	// StateFileReadDto
 	StateFileReadDto_Data                           = "The state document content, as a JSON string."
@@ -1649,6 +1889,10 @@ const (
 
 	// StateStoreCreateDto
 	StateStoreCreateDto_Name = "Unique name of the State Store."
+
+	// StateStoreMetadataReadDto
+	StateStoreMetadataReadDto_Id   = "Unique ID of the State Store."
+	StateStoreMetadataReadDto_Name = "Name of the State Store."
 
 	// StateStoreReadDto
 	StateStoreReadDto_Id   = "Unique ID of the State Store."

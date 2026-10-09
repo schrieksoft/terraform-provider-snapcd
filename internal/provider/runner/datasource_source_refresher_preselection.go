@@ -13,6 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
+
+	"github.com/hashicorp/terraform-plugin-framework/types"
 )
 
 var _ datasource.DataSource = (*sourceRefresherPreselectionDataSource)(nil)
@@ -50,11 +52,11 @@ func (d *sourceRefresherPreselectionDataSource) Metadata(ctx context.Context, re
 
 func (d *sourceRefresherPreselectionDataSource) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: "Runners --- Use this data source to access information about an existing Source Refresher Preselection in Snap CD." + "\n\n## Required permissions\n\n" + openapidocs.DataSourcePermissions["SourceRefresherPreselection"],
+		MarkdownDescription: "Runners --- Use this data source to access information about an existing Source Refresher Preselection in Snap CD." + "\n\n## Required permissions\n\n" + openapidocs.DataSourceMetadataPermissions["SourceRefresherPreselection"],
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed:    true,
-				Description: openapidocs.SourceRefresherPreselectionReadDto_Id,
+				Description: openapidocs.SourceRefresherPreselectionMetadataReadDto_Id,
 			},
 			"source_url": schema.StringAttribute{
 				Required:    true,
@@ -62,19 +64,14 @@ func (d *sourceRefresherPreselectionDataSource) Schema(ctx context.Context, req 
 			},
 			"runner_id": schema.StringAttribute{
 				Computed:    true,
-				Description: openapidocs.SourceRefresherPreselectionReadDto_RunnerId,
-			},
-
-			"runner_instance_name": schema.StringAttribute{
-				Computed:    true,
-				Description: openapidocs.SourceRefresherPreselectionReadDto_RunnerInstanceName,
+				Description: openapidocs.SourceRefresherPreselectionMetadataReadDto_RunnerId,
 			},
 		},
 	}
 }
 
 func (d *sourceRefresherPreselectionDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var data sourceRefresherPreselectionModel
+	var data sourceRefresherPreselectionMetadataModel
 
 	resp.Diagnostics.Append(req.Config.Get(ctx, &data)...)
 
@@ -82,7 +79,7 @@ func (d *sourceRefresherPreselectionDataSource) Read(ctx context.Context, req da
 		return
 	}
 
-	result, httpError := d.client.Get(fmt.Sprintf("%s/BySourceUrl/%s", sourceRefresherPreselectionEndpoint, data.SourceUrl.ValueString()))
+	result, httpError := d.client.Get(fmt.Sprintf("%s/Metadata/BySourceUrl/%s", sourceRefresherPreselectionEndpoint, data.SourceUrl.ValueString()))
 	var err error
 	if httpError != nil {
 		err = httpError.Error
@@ -103,4 +100,12 @@ func (d *sourceRefresherPreselectionDataSource) Read(ctx context.Context, req da
 	}
 
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
+}
+
+// Metadata only: a data source exists to resolve an ID, and narrowing it means a
+// principal who may only discover the resource can still use it.
+type sourceRefresherPreselectionMetadataModel struct {
+	Id        types.String `tfsdk:"id"`
+	SourceUrl types.String `tfsdk:"source_url"`
+	RunnerId  types.String `tfsdk:"runner_id"`
 }

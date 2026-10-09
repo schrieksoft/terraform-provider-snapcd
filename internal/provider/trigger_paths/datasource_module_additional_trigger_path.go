@@ -13,6 +13,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
+
+	"github.com/hashicorp/terraform-plugin-framework/types"
 )
 
 var _ datasource.DataSource = (*moduleAdditionalTriggerPathDataSource)(nil)
@@ -50,15 +52,15 @@ func (d *moduleAdditionalTriggerPathDataSource) Metadata(ctx context.Context, re
 
 func (d *moduleAdditionalTriggerPathDataSource) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: "Trigger Paths --- Use this data source to access information about an existing Module Additional Trigger Path in Snap CD." + "\n\n## Required permissions\n\n" + openapidocs.DataSourcePermissions["ModuleAdditionalTriggerPath"],
+		MarkdownDescription: "Trigger Paths --- Use this data source to access information about an existing Module Additional Trigger Path in Snap CD." + "\n\n## Required permissions\n\n" + openapidocs.DataSourceMetadataPermissions["ModuleAdditionalTriggerPath"],
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed:    true,
-				Description: openapidocs.ModuleAdditionalTriggerPathReadDto_Id,
+				Description: openapidocs.ModuleAdditionalTriggerPathMetadataReadDto_Id,
 			},
 			"module_id": schema.StringAttribute{
 				Required:    true,
-				Description: openapidocs.ModuleAdditionalTriggerPathReadDto_ModuleId,
+				Description: openapidocs.ModuleAdditionalTriggerPathMetadataReadDto_ModuleId,
 			},
 			"path": schema.StringAttribute{
 				Required:    true,
@@ -69,7 +71,7 @@ func (d *moduleAdditionalTriggerPathDataSource) Schema(ctx context.Context, req 
 }
 
 func (d *moduleAdditionalTriggerPathDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var data moduleAdditionalTriggerPathModel
+	var data moduleAdditionalTriggerPathMetadataModel
 
 	resp.Diagnostics.Append(req.Config.Get(ctx, &data)...)
 
@@ -77,7 +79,7 @@ func (d *moduleAdditionalTriggerPathDataSource) Read(ctx context.Context, req da
 		return
 	}
 
-	result, httpError := d.client.Get(fmt.Sprintf("%s/%s/%s", moduleAdditionalTriggerPathEndpoint, data.ModuleId.ValueString(), data.Path.ValueString()))
+	result, httpError := d.client.Get(fmt.Sprintf("%s/Metadata/%s/%s", moduleAdditionalTriggerPathEndpoint, data.ModuleId.ValueString(), data.Path.ValueString()))
 	var err error
 	if httpError != nil {
 		err = httpError.Error
@@ -98,4 +100,12 @@ func (d *moduleAdditionalTriggerPathDataSource) Read(ctx context.Context, req da
 	}
 
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
+}
+
+// Metadata only: a data source exists to resolve an ID, and narrowing it means a
+// principal who may only discover the resource can still use it.
+type moduleAdditionalTriggerPathMetadataModel struct {
+	Id       types.String `tfsdk:"id"`
+	ModuleId types.String `tfsdk:"module_id"`
+	Path     types.String `tfsdk:"path"`
 }
