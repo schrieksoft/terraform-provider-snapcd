@@ -2,8 +2,10 @@ package namespace_input
 
 import (
 	"terraform-provider-snapcd/internal/provider/openapidocs"
+	"terraform-provider-snapcd/internal/validators"
 
 	"fmt"
+	"net/url"
 
 	"context"
 
@@ -13,6 +15,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
+	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 
 	"github.com/hashicorp/terraform-plugin-framework/types"
 )
@@ -61,10 +64,16 @@ func (d *namespaceInputFromDefinitionDataSource) Schema(ctx context.Context, req
 			"name": schema.StringAttribute{
 				Required:    true,
 				Description: openapidocs.NamespaceInputMetadataReadDto_Name,
+				Validators: []validator.String{
+					validators.NotBlank(),
+				},
 			},
 			"namespace_id": schema.StringAttribute{
 				Required:    true,
 				Description: openapidocs.NamespaceInputMetadataReadDto_NamespaceId,
+				Validators: []validator.String{
+					validators.NotBlank(),
+				},
 			},
 			"input_kind": schema.StringAttribute{
 				Required:    true,
@@ -83,7 +92,7 @@ func (d *namespaceInputFromDefinitionDataSource) Read(ctx context.Context, req d
 		return
 	}
 
-	result, httpError := d.client.Get(fmt.Sprintf("%s/Metadata/%s/%s", namespaceInputFromDefinitionEndpoint, data.NamespaceId.ValueString(), data.Name.ValueString()))
+	result, httpError := d.client.Get(fmt.Sprintf("%s/Metadata/%s/%s", namespaceInputFromDefinitionEndpoint, url.PathEscape(data.NamespaceId.ValueString()), url.PathEscape(data.Name.ValueString())))
 	var err error
 	if httpError != nil {
 		err = httpError.Error

@@ -2,8 +2,10 @@ package extra_files
 
 import (
 	"terraform-provider-snapcd/internal/provider/openapidocs"
+	"terraform-provider-snapcd/internal/validators"
 
 	"fmt"
+	"net/url"
 
 	"context"
 
@@ -13,6 +15,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
+	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 
 	"github.com/hashicorp/terraform-plugin-framework/types"
 )
@@ -61,10 +64,16 @@ func (d *moduleExtraFileDataSource) Schema(ctx context.Context, req datasource.S
 			"module_id": schema.StringAttribute{
 				Required:    true,
 				Description: openapidocs.ModuleExtraFileMetadataReadDto_ModuleId,
+				Validators: []validator.String{
+					validators.NotBlank(),
+				},
 			},
 			"file_name": schema.StringAttribute{
 				Required:    true,
 				Description: openapidocs.ModuleExtraFileReadDto_FileName,
+				Validators: []validator.String{
+					validators.NotBlank(),
+				},
 			},
 		},
 	}
@@ -79,7 +88,7 @@ func (d *moduleExtraFileDataSource) Read(ctx context.Context, req datasource.Rea
 		return
 	}
 
-	result, httpError := d.client.Get(fmt.Sprintf("%s/Metadata/%s/%s", moduleExtraFileEndpoint, data.ModuleId.ValueString(), data.FileName.ValueString()))
+	result, httpError := d.client.Get(fmt.Sprintf("%s/Metadata/%s/%s", moduleExtraFileEndpoint, url.PathEscape(data.ModuleId.ValueString()), url.PathEscape(data.FileName.ValueString())))
 	var err error
 	if httpError != nil {
 		err = httpError.Error

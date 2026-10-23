@@ -2,12 +2,15 @@ package integration
 
 import (
 	"terraform-provider-snapcd/internal/provider/openapidocs"
+	"terraform-provider-snapcd/internal/validators"
 
 	"context"
 	"fmt"
+	"net/url"
 
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
+	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 
 	snapcd "terraform-provider-snapcd/client"
@@ -58,8 +61,14 @@ func (d *integrationDataSource) Schema(_ context.Context, _ datasource.SchemaReq
 	resp.Schema = schema.Schema{
 		MarkdownDescription: "Integrations --- Look up an existing Integration by name to obtain its ID. Returns name, ID and type only." + "\n\n## Required permissions\n\n" + openapidocs.DataSourceMetadataPermissions["Integration"],
 		Attributes: map[string]schema.Attribute{
-			"id":               schema.StringAttribute{Computed: true, Description: openapidocs.IntegrationMetadataReadDto_Id},
-			"name":             schema.StringAttribute{Required: true, Description: openapidocs.IntegrationMetadataReadDto_Name},
+			"id": schema.StringAttribute{Computed: true, Description: openapidocs.IntegrationMetadataReadDto_Id},
+			"name": schema.StringAttribute{
+				Required:    true,
+				Description: openapidocs.IntegrationMetadataReadDto_Name,
+				Validators: []validator.String{
+					validators.NotBlank(),
+				},
+			},
 			"integration_type": schema.StringAttribute{Computed: true, Description: openapidocs.IntegrationMetadataReadDto_IntegrationType},
 		},
 	}
@@ -72,7 +81,7 @@ func (d *integrationDataSource) Read(ctx context.Context, req datasource.ReadReq
 		return
 	}
 
-	result, httpError := d.client.Get(fmt.Sprintf("%s/Metadata/ByName/%s", integrationEndpoint, data.Name.ValueString()))
+	result, httpError := d.client.Get(fmt.Sprintf("%s/Metadata/ByName/%s", integrationEndpoint, url.PathEscape(data.Name.ValueString())))
 	if httpError != nil {
 		resp.Diagnostics.AddError(integrationDataSourceError, "Error calling GET: "+httpError.Error.Error())
 		return

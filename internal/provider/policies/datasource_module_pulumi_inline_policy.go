@@ -2,8 +2,10 @@ package policies
 
 import (
 	"terraform-provider-snapcd/internal/provider/openapidocs"
+	"terraform-provider-snapcd/internal/validators"
 
 	"fmt"
+	"net/url"
 
 	"context"
 
@@ -13,6 +15,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
+	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 
 	"github.com/hashicorp/terraform-plugin-framework/types"
 )
@@ -61,10 +64,16 @@ func (d *modulePulumiInlinePolicyDataSource) Schema(ctx context.Context, req dat
 			"module_id": schema.StringAttribute{
 				Required:    true,
 				Description: openapidocs.ModulePulumiInlinePolicyMetadataReadDto_ModuleId,
+				Validators: []validator.String{
+					validators.NotBlank(),
+				},
 			},
 			"name": schema.StringAttribute{
 				Required:    true,
 				Description: openapidocs.ModulePulumiInlinePolicyMetadataReadDto_Name,
+				Validators: []validator.String{
+					validators.NotBlank(),
+				},
 			},
 		},
 	}
@@ -79,7 +88,7 @@ func (d *modulePulumiInlinePolicyDataSource) Read(ctx context.Context, req datas
 		return
 	}
 
-	result, httpError := d.client.Get(fmt.Sprintf("%s/Metadata/%s/%s", modulePulumiInlinePolicyEndpoint, data.ModuleId.ValueString(), data.Name.ValueString()))
+	result, httpError := d.client.Get(fmt.Sprintf("%s/Metadata/%s/%s", modulePulumiInlinePolicyEndpoint, url.PathEscape(data.ModuleId.ValueString()), url.PathEscape(data.Name.ValueString())))
 	var err error
 	if httpError != nil {
 		err = httpError.Error

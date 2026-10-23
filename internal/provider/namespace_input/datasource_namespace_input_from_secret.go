@@ -2,12 +2,15 @@ package namespace_input
 
 import (
 	"terraform-provider-snapcd/internal/provider/openapidocs"
+	"terraform-provider-snapcd/internal/validators"
 
 	"context"
 	"fmt"
+	"net/url"
 
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
+	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 
 	"github.com/hashicorp/terraform-plugin-framework/types"
 
@@ -44,10 +47,16 @@ func (d *namespaceInputFromSecretDataSource) Schema(_ context.Context, _ datasou
 			"name": schema.StringAttribute{
 				Required:    true,
 				Description: openapidocs.NamespaceInputMetadataReadDto_Name,
+				Validators: []validator.String{
+					validators.NotBlank(),
+				},
 			},
 			"namespace_id": schema.StringAttribute{
 				Required:    true,
 				Description: openapidocs.NamespaceInputMetadataReadDto_NamespaceId,
+				Validators: []validator.String{
+					validators.NotBlank(),
+				},
 			},
 			"input_kind": schema.StringAttribute{
 				Required:    true,
@@ -85,7 +94,7 @@ func (d *namespaceInputFromSecretDataSource) Read(ctx context.Context, req datas
 	}
 
 	// Read API call logic
-	result, httpError := d.client.Get(fmt.Sprintf("%s/Metadata/%s/%s", namespaceInputFromSecretEndpoint, data.NamespaceId.ValueString(), data.Name.ValueString()))
+	result, httpError := d.client.Get(fmt.Sprintf("%s/Metadata/%s/%s", namespaceInputFromSecretEndpoint, url.PathEscape(data.NamespaceId.ValueString()), url.PathEscape(data.Name.ValueString())))
 
 	if httpError != nil {
 		resp.Diagnostics.AddError(namespaceInputFromSecretDefaultError, "Error calling GET: "+httpError.Error.Error())

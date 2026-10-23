@@ -2,8 +2,10 @@ package identity
 
 import (
 	"terraform-provider-snapcd/internal/provider/openapidocs"
+	"terraform-provider-snapcd/internal/validators"
 
 	"fmt"
+	"net/url"
 
 	"context"
 
@@ -14,6 +16,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types"
 
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
+	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 )
 
 var _ datasource.DataSource = (*userDataSource)(nil)
@@ -72,6 +75,9 @@ func (d *userDataSource) Schema(ctx context.Context, req datasource.SchemaReques
 			"user_name": schema.StringAttribute{
 				Required:    true,
 				Description: openapidocs.UserMetadataReadDto_UserName,
+				Validators: []validator.String{
+					validators.NotBlank(),
+				},
 			},
 		},
 	}
@@ -86,7 +92,7 @@ func (d *userDataSource) Read(ctx context.Context, req datasource.ReadRequest, r
 		return
 	}
 
-	result, httpError := d.client.Get(fmt.Sprintf("%s/Metadata/ByUsername/%s", userEndpoint, data.UserName.ValueString()))
+	result, httpError := d.client.Get(fmt.Sprintf("%s/Metadata/ByUsername/%s", userEndpoint, url.PathEscape(data.UserName.ValueString())))
 	var err error
 	if httpError != nil {
 		err = httpError.Error

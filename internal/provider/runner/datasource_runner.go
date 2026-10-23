@@ -2,8 +2,10 @@ package runner
 
 import (
 	"terraform-provider-snapcd/internal/provider/openapidocs"
+	"terraform-provider-snapcd/internal/validators"
 
 	"fmt"
+	"net/url"
 
 	"context"
 
@@ -13,6 +15,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
+	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 
 	"github.com/hashicorp/terraform-plugin-framework/types"
 )
@@ -61,6 +64,9 @@ func (d *runnerDataSource) Schema(ctx context.Context, req datasource.SchemaRequ
 			"name": schema.StringAttribute{
 				Required:    true,
 				Description: openapidocs.RunnerMetadataReadDto_Name,
+				Validators: []validator.String{
+					validators.NotBlank(),
+				},
 			},
 			"is_disabled": schema.BoolAttribute{
 				Computed:    true,
@@ -79,7 +85,7 @@ func (d *runnerDataSource) Read(ctx context.Context, req datasource.ReadRequest,
 		return
 	}
 
-	result, httpError := d.client.Get(fmt.Sprintf("%s/Metadata/ByName/%s", runnerEndpoint, data.Name.ValueString()))
+	result, httpError := d.client.Get(fmt.Sprintf("%s/Metadata/ByName/%s", runnerEndpoint, url.PathEscape(data.Name.ValueString())))
 	var err error
 	if httpError != nil {
 		err = httpError.Error

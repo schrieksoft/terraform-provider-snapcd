@@ -2,8 +2,10 @@ package trigger_paths
 
 import (
 	"terraform-provider-snapcd/internal/provider/openapidocs"
+	"terraform-provider-snapcd/internal/validators"
 
 	"fmt"
+	"net/url"
 
 	"context"
 
@@ -13,6 +15,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
+	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 
 	"github.com/hashicorp/terraform-plugin-framework/types"
 )
@@ -61,10 +64,16 @@ func (d *namespaceAdditionalTriggerPathDataSource) Schema(ctx context.Context, r
 			"namespace_id": schema.StringAttribute{
 				Required:    true,
 				Description: openapidocs.NamespaceAdditionalTriggerPathMetadataReadDto_NamespaceId,
+				Validators: []validator.String{
+					validators.NotBlank(),
+				},
 			},
 			"path": schema.StringAttribute{
 				Required:    true,
 				Description: openapidocs.NamespaceAdditionalTriggerPathReadDto_Path,
+				Validators: []validator.String{
+					validators.NotBlank(),
+				},
 			},
 		},
 	}
@@ -79,7 +88,7 @@ func (d *namespaceAdditionalTriggerPathDataSource) Read(ctx context.Context, req
 		return
 	}
 
-	result, httpError := d.client.Get(fmt.Sprintf("%s/Metadata/%s/%s", namespaceAdditionalTriggerPathEndpoint, data.NamespaceId.ValueString(), data.Path.ValueString()))
+	result, httpError := d.client.Get(fmt.Sprintf("%s/Metadata/%s/%s", namespaceAdditionalTriggerPathEndpoint, url.PathEscape(data.NamespaceId.ValueString()), data.Path.ValueString()))
 	var err error
 	if httpError != nil {
 		err = httpError.Error
