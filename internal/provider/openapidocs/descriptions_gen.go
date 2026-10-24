@@ -292,6 +292,7 @@ const (
 	ModuleCreateDto_DriftCheckEnabled                  = "Setting this to true will periodically trigger an Apply job to check for drift in the deployed infrastructure. Setting this will override any default value set on the Module's parent Namespace."
 	ModuleCreateDto_DriftCheckIntervalMinutes          = "The number of minutes between drift checks. If not set, the system default (24 hours) is used. Note that irrespective of what is set here, these those will not be fired more regularly than the minimum internal as defined by your subscription tier. Setting this will override any default value set on the Module's parent Namespace."
 	ModuleCreateDto_Engine                             = "Determines which binary will be used during deployment. Must be one of 'OpenTofu', 'Terraform' or 'Pulumi'. Setting this to 'OpenTofu' will use `tofu`. Setting it to 'Terraform' will use `terraform`. Setting this to 'Pulumi' will use `pulumi`. Setting this will override any default value set on the Module's parent Namespace."
+	ModuleCreateDto_Hold                               = "On create only: hold the new Module out of deployment for a client still configuring it (the provider, during an apply), which keeps the hold alive with heartbeats. Unset, the Module is not held. Never returned."
 	ModuleCreateDto_IgnoreNamespaceExtraFiles          = "If this is set to true, any Extra Files that have been set on Namespace level will not be used on this specific Module."
 	ModuleCreateDto_IgnoreNamespaceFlags               = "If this is set to true, any Flags (Terraform Flags, Terraform Array Flags, Pulumi Flags, Pulumi Array Flags) that have been set on Namespace level will not be used on this specific Module."
 	ModuleCreateDto_IgnoreNamespaceHooks               = "If this is set to true, any Hooks set on Namespace level will not be used on this specific Module."
@@ -336,6 +337,25 @@ const (
 	ModuleExtraFileUpdateDto_Id        = "Unique ID of the Module Extra File."
 	ModuleExtraFileUpdateDto_ModuleId  = "ID of the Module Extra File's parent Module."
 	ModuleExtraFileUpdateDto_Overwrite = "If true any pre-existing file with the same name will be overwritten."
+
+	// ModuleHoldHeartbeatRequestDto
+	ModuleHoldHeartbeatRequestDto_HeartbeatBufferSeconds   = "How long past the heartbeat interval a hold lasts; when unset the server's default is used. Kept within the server's limits."
+	ModuleHoldHeartbeatRequestDto_HeartbeatIntervalSeconds = "How often the client sends a heartbeat; when unset the server's default is used. Kept within the server's limits."
+	ModuleHoldHeartbeatRequestDto_ModuleIds                = "Every Module the client is holding; those not yet held are held now."
+	ModuleHoldHeartbeatRequestDto_NamespaceIds             = "Every Namespace the client is holding, which holds every Module in it; those not yet held are held now."
+	ModuleHoldHeartbeatRequestDto_StackIds                 = "Every Stack the client is holding, which holds every Module in its Namespaces; those not yet held are held now."
+
+	// ModuleHoldHeartbeatResponseDto
+	ModuleHoldHeartbeatResponseDto_EffectiveExpirySeconds            = "How long each hold lasts after this heartbeat, after the server's limits are applied."
+	ModuleHoldHeartbeatResponseDto_EffectiveHeartbeatIntervalSeconds = "The interval the client must send heartbeats at, after the server's limits are applied."
+	ModuleHoldHeartbeatResponseDto_NotHeldModuleIds                  = "Modules that could not be held: the caller may not update them."
+	ModuleHoldHeartbeatResponseDto_NotHeldNamespaceIds               = "Namespaces that could not be held: the caller may not update them."
+	ModuleHoldHeartbeatResponseDto_NotHeldStackIds                   = "Stacks that could not be held: the caller may not update them."
+	ModuleHoldHeartbeatResponseDto_Warning                           = "Set when the server's limits changed the requested heartbeat interval or buffer, saying what was applied and why."
+
+	// ModuleHoldTimingDto
+	ModuleHoldTimingDto_HeartbeatBufferSeconds   = "How long past the heartbeat interval a hold lasts. Kept within the server's limits."
+	ModuleHoldTimingDto_HeartbeatIntervalSeconds = "How often the client sends a heartbeat. Kept within the server's limits."
 
 	// ModuleHookCreateDto
 	ModuleHookCreateDto_ModuleId = "ID of the parent Module."
@@ -760,6 +780,7 @@ const (
 	ModuleReadDto_DriftCheckEnabled                  = "Setting this to true will periodically trigger an Apply job to check for drift in the deployed infrastructure. Setting this will override any default value set on the Module's parent Namespace."
 	ModuleReadDto_DriftCheckIntervalMinutes          = "The number of minutes between drift checks. If not set, the system default (24 hours) is used. Note that irrespective of what is set here, these those will not be fired more regularly than the minimum internal as defined by your subscription tier. Setting this will override any default value set on the Module's parent Namespace."
 	ModuleReadDto_Engine                             = "Determines which binary will be used during deployment. Must be one of 'OpenTofu', 'Terraform' or 'Pulumi'. Setting this to 'OpenTofu' will use `tofu`. Setting it to 'Terraform' will use `terraform`. Setting this to 'Pulumi' will use `pulumi`. Setting this will override any default value set on the Module's parent Namespace."
+	ModuleReadDto_Hold                               = "On create only: hold the new Module out of deployment for a client still configuring it (the provider, during an apply), which keeps the hold alive with heartbeats. Unset, the Module is not held. Never returned."
 	ModuleReadDto_Id                                 = "Unique ID of the Module."
 	ModuleReadDto_IgnoreNamespaceExtraFiles          = "If this is set to true, any Extra Files that have been set on Namespace level will not be used on this specific Module."
 	ModuleReadDto_IgnoreNamespaceFlags               = "If this is set to true, any Flags (Terraform Flags, Terraform Array Flags, Pulumi Flags, Pulumi Array Flags) that have been set on Namespace level will not be used on this specific Module."
@@ -970,6 +991,7 @@ const (
 	ModuleUpdateDto_DriftCheckEnabled                  = "Setting this to true will periodically trigger an Apply job to check for drift in the deployed infrastructure. Setting this will override any default value set on the Module's parent Namespace."
 	ModuleUpdateDto_DriftCheckIntervalMinutes          = "The number of minutes between drift checks. If not set, the system default (24 hours) is used. Note that irrespective of what is set here, these those will not be fired more regularly than the minimum internal as defined by your subscription tier. Setting this will override any default value set on the Module's parent Namespace."
 	ModuleUpdateDto_Engine                             = "Determines which binary will be used during deployment. Must be one of 'OpenTofu', 'Terraform' or 'Pulumi'. Setting this to 'OpenTofu' will use `tofu`. Setting it to 'Terraform' will use `terraform`. Setting this to 'Pulumi' will use `pulumi`. Setting this will override any default value set on the Module's parent Namespace."
+	ModuleUpdateDto_Hold                               = "On create only: hold the new Module out of deployment for a client still configuring it (the provider, during an apply), which keeps the hold alive with heartbeats. Unset, the Module is not held. Never returned."
 	ModuleUpdateDto_Id                                 = "Unique ID of the Module."
 	ModuleUpdateDto_IgnoreNamespaceExtraFiles          = "If this is set to true, any Extra Files that have been set on Namespace level will not be used on this specific Module."
 	ModuleUpdateDto_IgnoreNamespaceFlags               = "If this is set to true, any Flags (Terraform Flags, Terraform Array Flags, Pulumi Flags, Pulumi Array Flags) that have been set on Namespace level will not be used on this specific Module."
