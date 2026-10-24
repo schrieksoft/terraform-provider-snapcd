@@ -281,6 +281,14 @@ func (r *moduleResource) Create(ctx context.Context, req resource.CreateRequest,
 		return
 	}
 
+	holdFields, holdWarning := r.client.ModuleCreateHoldFields()
+	if holdWarning != "" {
+		resp.Diagnostics.AddWarning(snapcd.ModuleHoldWarningSummary, holdWarning)
+	}
+	for field, value := range holdFields {
+		jsonMap[field] = value
+	}
+
 	result, httpError := r.client.Post(moduleEndpoint, jsonMap)
 	if httpError != nil && httpError.StatusCode == snapcd.Status442EntityAlreadyExists {
 		resp.Diagnostics.AddError(moduleDefaultError, "The resource you are trying to create already exists. To manage it with terraform you must import it")
@@ -302,6 +310,8 @@ func (r *moduleResource) Create(ctx context.Context, req resource.CreateRequest,
 		resp.Diagnostics.AddError(moduleDefaultError, "Failed to convert json to plan: "+err.Error())
 		return
 	}
+
+	r.client.ModuleCreated(data.Id.ValueString())
 
 	// Save data into Terraform state
 	resp.Diagnostics.Append(resp.State.Set(ctx, &data)...)
@@ -367,6 +377,9 @@ func (r *moduleResource) Update(ctx context.Context, req resource.UpdateRequest,
 		resp.Diagnostics.AddError(moduleDefaultError, "Failed to convert json to plan: "+err.Error())
 	}
 
+	if warning := r.client.HoldModule(state.Id.ValueString()); warning != "" {
+		resp.Diagnostics.AddWarning(snapcd.ModuleHoldWarningSummary, warning)
+	}
 	result, httpError := r.client.Put(fmt.Sprintf("%s/%s", moduleEndpoint, state.Id.ValueString()), jsonMap)
 	if httpError != nil {
 		err = httpError.Error

@@ -100,6 +100,9 @@ func (r *integrationStackSupplyResource) Create(ctx context.Context, req resourc
 		return
 	}
 
+	if warning := r.client.HoldStack(data.StackId.ValueString()); warning != "" {
+		resp.Diagnostics.AddWarning(snapcd.ModuleHoldWarningSummary, warning)
+	}
 	result, httpError := r.client.Post(integrationStackSupplyEndpoint, jsonMap)
 	if httpError != nil && httpError.StatusCode == snapcd.Status442EntityAlreadyExists {
 		resp.Diagnostics.AddError(integrationStackSupplyDefaultError, "The resource you are trying to create already exists. To manage it with terraform you must import it")
@@ -164,6 +167,9 @@ func (r *integrationStackSupplyResource) Update(ctx context.Context, req resourc
 		return
 	}
 
+	if warning := r.client.HoldStack(data.StackId.ValueString()); warning != "" {
+		resp.Diagnostics.AddWarning(snapcd.ModuleHoldWarningSummary, warning)
+	}
 	result, httpError := r.client.Put(fmt.Sprintf("%s/%s", integrationStackSupplyEndpoint, state.Id.ValueString()), jsonMap)
 	if httpError != nil {
 		resp.Diagnostics.AddError(integrationStackSupplyDefaultError, "Error calling PUT, unexpected error: "+httpError.Error.Error())
@@ -188,6 +194,9 @@ func (r *integrationStackSupplyResource) Delete(ctx context.Context, req resourc
 		return
 	}
 
+	if warning := r.client.HoldStack(data.StackId.ValueString()); warning != "" {
+		resp.Diagnostics.AddWarning(snapcd.ModuleHoldWarningSummary, warning)
+	}
 	_, httpError := r.client.Delete(fmt.Sprintf("%s/%s", integrationStackSupplyEndpoint, data.Id.ValueString()))
 	if httpError != nil && httpError.StatusCode == snapcd.Status441EntityNotFound {
 		resp.State.RemoveResource(ctx)

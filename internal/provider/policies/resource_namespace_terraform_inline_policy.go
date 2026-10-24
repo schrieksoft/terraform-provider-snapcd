@@ -131,6 +131,9 @@ func (r *namespaceTerraformInlinePolicyResource) Create(ctx context.Context, req
 		return
 	}
 
+	if warning := r.client.HoldNamespace(data.NamespaceId.ValueString()); warning != "" {
+		resp.Diagnostics.AddWarning(snapcd.ModuleHoldWarningSummary, warning)
+	}
 	result, httpError := r.client.Post(namespaceTerraformInlinePolicyEndpoint, jsonMap)
 	if httpError != nil && httpError.StatusCode == snapcd.Status442EntityAlreadyExists {
 		resp.Diagnostics.AddError(namespaceTerraformInlinePolicyDefaultError, "The resource you are trying to create already exists. To manage it with terraform you must import it")
@@ -217,6 +220,9 @@ func (r *namespaceTerraformInlinePolicyResource) Update(ctx context.Context, req
 		resp.Diagnostics.AddError(namespaceTerraformInlinePolicyDefaultError, "Failed to convert json to plan: "+err.Error())
 	}
 
+	if warning := r.client.HoldNamespace(data.NamespaceId.ValueString()); warning != "" {
+		resp.Diagnostics.AddWarning(snapcd.ModuleHoldWarningSummary, warning)
+	}
 	result, httpError := r.client.Put(fmt.Sprintf("%s/%s", namespaceTerraformInlinePolicyEndpoint, state.Id.ValueString()), jsonMap)
 	if httpError != nil {
 		err = httpError.Error
@@ -249,6 +255,9 @@ func (r *namespaceTerraformInlinePolicyResource) Delete(ctx context.Context, req
 	}
 
 	// Delete API call logic
+	if warning := r.client.HoldNamespace(data.NamespaceId.ValueString()); warning != "" {
+		resp.Diagnostics.AddWarning(snapcd.ModuleHoldWarningSummary, warning)
+	}
 	_, httpError := r.client.Delete(fmt.Sprintf("%s/%s", namespaceTerraformInlinePolicyEndpoint, data.Id.ValueString()))
 	if httpError != nil && httpError.StatusCode == snapcd.Status441EntityNotFound {
 		// Resource was not found, so remove it from state

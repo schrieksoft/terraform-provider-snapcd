@@ -32,6 +32,7 @@ type Client struct {
 	InsecureSkipVerify         bool
 	HealthCheckIntervalSeconds int
 	HealthCheckTimeoutSeconds  int
+	holder                     *moduleHolder
 }
 
 var (
@@ -42,7 +43,7 @@ var (
 )
 
 // Initialize bearer token once and reuse
-func CreateClient(url string, organizationId string, insecure_skip_verify bool, healthCheckIntervalSeconds int, healthCheckTimeoutSeconds int, accessToken string, clientId string, clientSecret string) (*Client, error) {
+func CreateClient(url string, organizationId string, insecure_skip_verify bool, healthCheckIntervalSeconds int, healthCheckTimeoutSeconds int, accessToken string, clientId string, clientSecret string, moduleHold ModuleHoldSettings) (*Client, error) {
 
 	if accessToken == "" {
 		tokenResp, err := getAccessToken(url, organizationId, clientId, clientSecret, insecure_skip_verify)
@@ -60,6 +61,7 @@ func CreateClient(url string, organizationId string, insecure_skip_verify bool, 
 		HealthCheckTimeoutSeconds:  healthCheckTimeoutSeconds,
 		AccessToken:                accessToken,
 	}
+	client.holder = newModuleHolder(client, moduleHold)
 
 	// Start the background health check loop
 	healthCheckOnce.Do(func() {
