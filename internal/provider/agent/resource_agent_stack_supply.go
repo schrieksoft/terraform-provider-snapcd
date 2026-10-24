@@ -103,6 +103,9 @@ func (r *agentStackSupplyResource) Create(ctx context.Context, req resource.Crea
 		return
 	}
 
+	if warning := r.client.HoldStack(data.StackId.ValueString()); warning != "" {
+		resp.Diagnostics.AddWarning(snapcd.ModuleHoldWarningSummary, warning)
+	}
 	result, httpError := r.client.Post(agentStackSupplyEndpoint, jsonMap)
 	if httpError != nil && httpError.StatusCode == snapcd.Status442EntityAlreadyExists {
 		resp.Diagnostics.AddError(agentStackSupplyDefaultError, "The resource you are trying to create already exists. To manage it with terraform you must import it")
@@ -179,6 +182,9 @@ func (r *agentStackSupplyResource) Update(ctx context.Context, req resource.Upda
 		resp.Diagnostics.AddError(agentStackSupplyDefaultError, "Failed to convert json to plan: "+err.Error())
 	}
 
+	if warning := r.client.HoldStack(data.StackId.ValueString()); warning != "" {
+		resp.Diagnostics.AddWarning(snapcd.ModuleHoldWarningSummary, warning)
+	}
 	result, httpError := r.client.Put(fmt.Sprintf("%s/%s", agentStackSupplyEndpoint, state.Id.ValueString()), jsonMap)
 	if httpError != nil {
 		err = httpError.Error
@@ -208,6 +214,9 @@ func (r *agentStackSupplyResource) Delete(ctx context.Context, req resource.Dele
 		return
 	}
 
+	if warning := r.client.HoldStack(data.StackId.ValueString()); warning != "" {
+		resp.Diagnostics.AddWarning(snapcd.ModuleHoldWarningSummary, warning)
+	}
 	_, httpError := r.client.Delete(fmt.Sprintf("%s/%s", agentStackSupplyEndpoint, data.Id.ValueString()))
 	if httpError != nil && httpError.StatusCode == snapcd.Status441EntityNotFound {
 		resp.State.RemoveResource(ctx)

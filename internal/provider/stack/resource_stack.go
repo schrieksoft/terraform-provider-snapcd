@@ -199,6 +199,9 @@ func (r *stackResource) Update(ctx context.Context, req resource.UpdateRequest, 
 		resp.Diagnostics.AddError(stackDefaultError, "Failed to convert json to plan: "+err.Error())
 	}
 
+	if warning := r.client.HoldStack(state.Id.ValueString()); warning != "" {
+		resp.Diagnostics.AddWarning(snapcd.ModuleHoldWarningSummary, warning)
+	}
 	result, httpError := r.client.Put(fmt.Sprintf("%s/%s", stackEndpoint, state.Id.ValueString()), jsonMap)
 	if httpError != nil {
 		err = httpError.Error

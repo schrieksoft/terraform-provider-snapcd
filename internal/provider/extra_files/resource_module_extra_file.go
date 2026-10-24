@@ -118,6 +118,9 @@ func (r *moduleExtraFileResource) Create(ctx context.Context, req resource.Creat
 		return
 	}
 
+	if warning := r.client.HoldModule(data.ModuleId.ValueString()); warning != "" {
+		resp.Diagnostics.AddWarning(snapcd.ModuleHoldWarningSummary, warning)
+	}
 	result, httpError := r.client.Post(moduleExtraFileEndpoint, jsonMap)
 	if httpError != nil && httpError.StatusCode == snapcd.Status442EntityAlreadyExists {
 		resp.Diagnostics.AddError(moduleExtraFileDefaultError, "The resource you are trying to create already exists. To manage it with terraform you must import it")
@@ -204,6 +207,9 @@ func (r *moduleExtraFileResource) Update(ctx context.Context, req resource.Updat
 		resp.Diagnostics.AddError(moduleExtraFileDefaultError, "Failed to convert json to plan: "+err.Error())
 	}
 
+	if warning := r.client.HoldModule(data.ModuleId.ValueString()); warning != "" {
+		resp.Diagnostics.AddWarning(snapcd.ModuleHoldWarningSummary, warning)
+	}
 	result, httpError := r.client.Put(fmt.Sprintf("%s/%s", moduleExtraFileEndpoint, state.Id.ValueString()), jsonMap)
 	if httpError != nil {
 		err = httpError.Error
@@ -236,6 +242,9 @@ func (r *moduleExtraFileResource) Delete(ctx context.Context, req resource.Delet
 	}
 
 	// Delete API call logic
+	if warning := r.client.HoldModule(data.ModuleId.ValueString()); warning != "" {
+		resp.Diagnostics.AddWarning(snapcd.ModuleHoldWarningSummary, warning)
+	}
 	_, httpError := r.client.Delete(fmt.Sprintf("%s/%s", moduleExtraFileEndpoint, data.Id.ValueString()))
 	if httpError != nil && httpError.StatusCode == snapcd.Status441EntityNotFound {
 		// Resource was not found, so remove it from state

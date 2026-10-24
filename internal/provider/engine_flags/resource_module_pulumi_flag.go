@@ -117,6 +117,9 @@ func (r *modulePulumiFlagResource) Create(ctx context.Context, req resource.Crea
 		return
 	}
 
+	if warning := r.client.HoldModule(data.ModuleId.ValueString()); warning != "" {
+		resp.Diagnostics.AddWarning(snapcd.ModuleHoldWarningSummary, warning)
+	}
 	result, httpError := r.client.Post(modulePulumiFlagEndpoint, jsonMap)
 	if httpError != nil && httpError.StatusCode == snapcd.Status442EntityAlreadyExists {
 		resp.Diagnostics.AddError(modulePulumiFlagDefaultError, "The resource you are trying to create already exists. To manage it with terraform you must import it")
@@ -192,6 +195,9 @@ func (r *modulePulumiFlagResource) Update(ctx context.Context, req resource.Upda
 		return
 	}
 
+	if warning := r.client.HoldModule(data.ModuleId.ValueString()); warning != "" {
+		resp.Diagnostics.AddWarning(snapcd.ModuleHoldWarningSummary, warning)
+	}
 	result, httpError := r.client.Put(fmt.Sprintf("%s/%s", modulePulumiFlagEndpoint, state.Id.ValueString()), jsonMap)
 	if httpError != nil {
 		err = httpError.Error
@@ -221,6 +227,9 @@ func (r *modulePulumiFlagResource) Delete(ctx context.Context, req resource.Dele
 		return
 	}
 
+	if warning := r.client.HoldModule(data.ModuleId.ValueString()); warning != "" {
+		resp.Diagnostics.AddWarning(snapcd.ModuleHoldWarningSummary, warning)
+	}
 	_, httpError := r.client.Delete(fmt.Sprintf("%s/%s", modulePulumiFlagEndpoint, data.Id.ValueString()))
 	if httpError != nil && httpError.StatusCode == snapcd.Status441EntityNotFound {
 		resp.State.RemoveResource(ctx)

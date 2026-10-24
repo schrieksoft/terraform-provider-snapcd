@@ -32,6 +32,7 @@ type Client struct {
 	InsecureSkipVerify         bool
 	HealthCheckIntervalSeconds int
 	HealthCheckTimeoutSeconds  int
+	holder                     *moduleHolder
 }
 
 var (
@@ -42,7 +43,7 @@ var (
 )
 
 // Initialize bearer token once and reuse
-func CreateClient(url string, organizationId string, insecure_skip_verify bool, healthCheckIntervalSeconds int, healthCheckTimeoutSeconds int, accessToken string, clientId string, clientSecret string) (*Client, error) {
+func CreateClient(url string, organizationId string, insecure_skip_verify bool, healthCheckIntervalSeconds int, healthCheckTimeoutSeconds int, accessToken string, clientId string, clientSecret string, moduleHold ModuleHoldSettings) (*Client, error) {
 
 	if accessToken == "" {
 		tokenResp, err := getAccessToken(url, organizationId, clientId, clientSecret, insecure_skip_verify)
@@ -60,6 +61,7 @@ func CreateClient(url string, organizationId string, insecure_skip_verify bool, 
 		HealthCheckTimeoutSeconds:  healthCheckTimeoutSeconds,
 		AccessToken:                accessToken,
 	}
+	client.holder = newModuleHolder(client, moduleHold)
 
 	// Start the background health check loop
 	healthCheckOnce.Do(func() {
@@ -186,6 +188,10 @@ func (client *Client) makeRequest(method string, path string, body []byte) (map[
 	}
 
 Request:
+	return client.doRequest(method, path, body, 120*time.Second)
+}
+
+func (client *Client) doRequest(method string, path string, body []byte, timeout time.Duration) (map[string]interface{}, *HttpError) {
 	req, err := http.NewRequest(method, client.Url+path, bytes.NewBuffer(body))
 	if err != nil {
 		return nil, &HttpError{StatusCode: Status441EntityNotFound, Error: errors.New("Status441EntityNotFound")}
@@ -197,7 +203,7 @@ Request:
 	tr := &http.Transport{
 		TLSClientConfig: &tls.Config{InsecureSkipVerify: client.InsecureSkipVerify},
 	}
-	httpClient := &http.Client{Timeout: 120 * time.Second, Transport: tr}
+	httpClient := &http.Client{Timeout: timeout, Transport: tr}
 
 	response, err := httpClient.Do(req)
 	if err != nil {

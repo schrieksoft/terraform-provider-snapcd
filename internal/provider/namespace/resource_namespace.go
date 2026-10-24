@@ -265,6 +265,9 @@ func (r *namespaceResource) Update(ctx context.Context, req resource.UpdateReque
 		resp.Diagnostics.AddError(namespaceDefaultError, "Failed to convert json to plan: "+err.Error())
 	}
 
+	if warning := r.client.HoldNamespace(state.Id.ValueString()); warning != "" {
+		resp.Diagnostics.AddWarning(snapcd.ModuleHoldWarningSummary, warning)
+	}
 	result, httpError := r.client.Put(fmt.Sprintf("%s/%s", namespaceEndpoint, state.Id.ValueString()), jsonMap)
 	if httpError != nil {
 		err = httpError.Error

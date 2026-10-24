@@ -62,14 +62,17 @@ type snapcdProvider struct {
 
 // snapcdProviderModel maps provider schema data to a Go type.
 type snapcdProviderModel struct {
-	Url                        types.String `tfsdk:"url"`
-	OrganizationId             types.String `tfsdk:"organization_id"`
-	InsecureSkipVerify         types.Bool   `tfsdk:"insecure_skip_verify"`
-	HealthCheckIntervalSeconds types.Int64  `tfsdk:"health_check_interval_seconds"`
-	HealthCheckTimeoutSeconds  types.Int64  `tfsdk:"health_check_timeout_seconds"`
-	AccessToken                types.String `tfsdk:"access_token"`
-	ClientId                   types.String `tfsdk:"client_id"`
-	ClientSecret               types.String `tfsdk:"client_secret"`
+	Url                                 types.String `tfsdk:"url"`
+	OrganizationId                      types.String `tfsdk:"organization_id"`
+	InsecureSkipVerify                  types.Bool   `tfsdk:"insecure_skip_verify"`
+	HealthCheckIntervalSeconds          types.Int64  `tfsdk:"health_check_interval_seconds"`
+	HealthCheckTimeoutSeconds           types.Int64  `tfsdk:"health_check_timeout_seconds"`
+	AccessToken                         types.String `tfsdk:"access_token"`
+	ClientId                            types.String `tfsdk:"client_id"`
+	ClientSecret                        types.String `tfsdk:"client_secret"`
+	HoldModules                         types.Bool   `tfsdk:"hold_modules"`
+	HoldModulesHeartbeatIntervalSeconds types.Int64  `tfsdk:"hold_modules_heartbeat_interval_seconds"`
+	HoldModulesHeartbeatBufferSeconds   types.Int64  `tfsdk:"hold_modules_heartbeat_buffer_seconds"`
 }
 
 // Metadata returns the provider type name.
@@ -113,6 +116,18 @@ func (p *snapcdProvider) Schema(_ context.Context, _ provider.SchemaRequest, res
 			},
 			"health_check_timeout_seconds": schema.Int64Attribute{
 				Description: "Number of seconds during which to continuously poll /health endpoint before timing out. Defaults to 60 seconds. Can also be set via the SNAPCD_HEALTH_CHECK_TIMEOUT_SECONDS environment variable.",
+				Optional:    true,
+			},
+			"hold_modules": schema.BoolAttribute{
+				Description: "Hold the Modules this run creates or changes, and every Module in the Namespaces and Stacks it changes, so that none of their jobs start until the run has finished writing. The hold is kept alive by a heartbeat while the provider runs, released when it exits, and lapses on its own if the provider is stopped. Defaults to true. Can also be set via the SNAPCD_HOLD_MODULES environment variable.",
+				Optional:    true,
+			},
+			"hold_modules_heartbeat_interval_seconds": schema.Int64Attribute{
+				Description: "Number of seconds between the heartbeats that keep Module holds alive. Unset, the server's default is used. The server keeps it within its own limits, and warns once if it had to change it. Can also be set via the SNAPCD_HOLD_MODULES_HEARTBEAT_INTERVAL_SECONDS environment variable.",
+				Optional:    true,
+			},
+			"hold_modules_heartbeat_buffer_seconds": schema.Int64Attribute{
+				Description: "Number of seconds a hold outlasts the heartbeat interval before it lapses. Unset, the server's default is used. The server keeps it within its own limits, and warns once if it had to change it. Can also be set via the SNAPCD_HOLD_MODULES_HEARTBEAT_BUFFER_SECONDS environment variable.",
 				Optional:    true,
 			},
 		},
@@ -346,6 +361,56 @@ func (p *snapcdProvider) Configure(ctx context.Context, req provider.ConfigureRe
 		health_check_timeout_seconds = int(config.HealthCheckTimeoutSeconds.ValueInt64())
 	}
 
+	//////
+	// hold_modules
+	//////
+
+	hold_modules, err := utils.GetEnvBool("SNAPCD_HOLD_MODULES", true)
+	if err != nil {
+		resp.Diagnostics.AddAttributeError(
+			path.Root("hold_modules"),
+			"Invalid Snapcd HoldModules",
+			"The SNAPCD_HOLD_MODULES environment variable must be true or false.",
+		)
+	}
+	if !config.HoldModules.IsNull() && !config.HoldModules.IsUnknown() {
+		hold_modules = config.HoldModules.ValueBool()
+	}
+
+	var hold_modules_heartbeat_interval_seconds *int
+	if v, exists := os.LookupEnv("SNAPCD_HOLD_MODULES_HEARTBEAT_INTERVAL_SECONDS"); exists {
+		if parsed, err := strconv.Atoi(v); err == nil {
+			hold_modules_heartbeat_interval_seconds = &parsed
+		} else {
+			resp.Diagnostics.AddAttributeError(
+				path.Root("hold_modules_heartbeat_interval_seconds"),
+				"Invalid Snapcd HoldModulesHeartbeatIntervalSeconds",
+				"The SNAPCD_HOLD_MODULES_HEARTBEAT_INTERVAL_SECONDS environment variable must be a whole number of seconds.",
+			)
+		}
+	}
+	if !config.HoldModulesHeartbeatIntervalSeconds.IsNull() && !config.HoldModulesHeartbeatIntervalSeconds.IsUnknown() {
+		interval := int(config.HoldModulesHeartbeatIntervalSeconds.ValueInt64())
+		hold_modules_heartbeat_interval_seconds = &interval
+	}
+
+	var hold_modules_heartbeat_buffer_seconds *int
+	if v, exists := os.LookupEnv("SNAPCD_HOLD_MODULES_HEARTBEAT_BUFFER_SECONDS"); exists {
+		if parsed, err := strconv.Atoi(v); err == nil {
+			hold_modules_heartbeat_buffer_seconds = &parsed
+		} else {
+			resp.Diagnostics.AddAttributeError(
+				path.Root("hold_modules_heartbeat_buffer_seconds"),
+				"Invalid Snapcd HoldModulesHeartbeatBufferSeconds",
+				"The SNAPCD_HOLD_MODULES_HEARTBEAT_BUFFER_SECONDS environment variable must be a whole number of seconds.",
+			)
+		}
+	}
+	if !config.HoldModulesHeartbeatBufferSeconds.IsNull() && !config.HoldModulesHeartbeatBufferSeconds.IsUnknown() {
+		buffer := int(config.HoldModulesHeartbeatBufferSeconds.ValueInt64())
+		hold_modules_heartbeat_buffer_seconds = &buffer
+	}
+
 	// return if has error
 
 	if resp.Diagnostics.HasError() {
@@ -358,6 +423,7 @@ func (p *snapcdProvider) Configure(ctx context.Context, req provider.ConfigureRe
 	ctx = tflog.SetField(ctx, "organization_id", organization_id)
 	ctx = tflog.SetField(ctx, "health_check_interval_seconds", health_check_interval_seconds)
 	ctx = tflog.SetField(ctx, "health_check_timeout_seconds", health_check_timeout_seconds)
+	ctx = tflog.SetField(ctx, "hold_modules", hold_modules)
 	ctx = tflog.SetField(ctx, "access_token", access_token)
 	ctx = tflog.SetField(ctx, "client_id", client_id)
 	ctx = tflog.SetField(ctx, "client_secret", client_secret)
@@ -365,7 +431,11 @@ func (p *snapcdProvider) Configure(ctx context.Context, req provider.ConfigureRe
 	tflog.Debug(ctx, "Creating Snapcd client")
 
 	// Create a new Snapcd client using the configuration values
-	client, err := snapcd.CreateClient(url, organization_id, insecure_skip_verify, health_check_interval_seconds, health_check_timeout_seconds, access_token, client_id, client_secret)
+	client, err := snapcd.CreateClient(url, organization_id, insecure_skip_verify, health_check_interval_seconds, health_check_timeout_seconds, access_token, client_id, client_secret, snapcd.ModuleHoldSettings{
+		Enabled:                  hold_modules,
+		HeartbeatIntervalSeconds: hold_modules_heartbeat_interval_seconds,
+		HeartbeatBufferSeconds:   hold_modules_heartbeat_buffer_seconds,
+	})
 	if err != nil {
 		resp.Diagnostics.AddError(
 			"Unable to Create Snapcd API Client",

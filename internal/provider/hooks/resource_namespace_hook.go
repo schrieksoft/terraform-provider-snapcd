@@ -117,6 +117,9 @@ func (r *namespaceHookResource) Create(ctx context.Context, req resource.CreateR
 		return
 	}
 
+	if warning := r.client.HoldNamespace(data.NamespaceId.ValueString()); warning != "" {
+		resp.Diagnostics.AddWarning(snapcd.ModuleHoldWarningSummary, warning)
+	}
 	result, httpError := r.client.Post(namespaceHookEndpoint, jsonMap)
 	if httpError != nil && httpError.StatusCode == snapcd.Status442EntityAlreadyExists {
 		resp.Diagnostics.AddError(namespaceHookDefaultError, "The resource you are trying to create already exists. To manage it with terraform you must import it")
@@ -192,6 +195,9 @@ func (r *namespaceHookResource) Update(ctx context.Context, req resource.UpdateR
 		return
 	}
 
+	if warning := r.client.HoldNamespace(data.NamespaceId.ValueString()); warning != "" {
+		resp.Diagnostics.AddWarning(snapcd.ModuleHoldWarningSummary, warning)
+	}
 	result, httpError := r.client.Put(fmt.Sprintf("%s/%s", namespaceHookEndpoint, state.Id.ValueString()), jsonMap)
 	if httpError != nil {
 		err = httpError.Error
@@ -221,6 +227,9 @@ func (r *namespaceHookResource) Delete(ctx context.Context, req resource.DeleteR
 		return
 	}
 
+	if warning := r.client.HoldNamespace(data.NamespaceId.ValueString()); warning != "" {
+		resp.Diagnostics.AddWarning(snapcd.ModuleHoldWarningSummary, warning)
+	}
 	_, httpError := r.client.Delete(fmt.Sprintf("%s/%s", namespaceHookEndpoint, data.Id.ValueString()))
 	if httpError != nil && httpError.StatusCode == snapcd.Status441EntityNotFound {
 		resp.State.RemoveResource(ctx)
