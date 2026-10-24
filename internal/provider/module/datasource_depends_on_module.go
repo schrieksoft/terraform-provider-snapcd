@@ -2,8 +2,10 @@ package module
 
 import (
 	"terraform-provider-snapcd/internal/provider/openapidocs"
+	"terraform-provider-snapcd/internal/validators"
 
 	"fmt"
+	"net/url"
 
 	"context"
 
@@ -13,6 +15,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
+	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 
 	"github.com/hashicorp/terraform-plugin-framework/types"
 )
@@ -57,6 +60,9 @@ func (d *dependsOnModuleDataSource) Schema(ctx context.Context, req datasource.S
 			"id": schema.StringAttribute{
 				Required:    true,
 				Description: openapidocs.DependsOnModuleMetadataReadDto_Id,
+				Validators: []validator.String{
+					validators.NotBlank(),
+				},
 			},
 			"module_id": schema.StringAttribute{
 				Computed:    true,
@@ -79,7 +85,7 @@ func (d *dependsOnModuleDataSource) Read(ctx context.Context, req datasource.Rea
 		return
 	}
 
-	result, httpError := d.client.Get(fmt.Sprintf("%s/Metadata/%s", dependsOnModuleEndpoint, data.Id.ValueString()))
+	result, httpError := d.client.Get(fmt.Sprintf("%s/Metadata/%s", dependsOnModuleEndpoint, url.PathEscape(data.Id.ValueString())))
 	var err error
 	if httpError != nil {
 		err = httpError.Error

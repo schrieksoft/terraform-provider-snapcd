@@ -2,8 +2,10 @@ package policies
 
 import (
 	"terraform-provider-snapcd/internal/provider/openapidocs"
+	"terraform-provider-snapcd/internal/validators"
 
 	"fmt"
+	"net/url"
 
 	"context"
 
@@ -13,6 +15,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
+	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 
 	"github.com/hashicorp/terraform-plugin-framework/types"
 )
@@ -61,10 +64,16 @@ func (d *moduleTerraformLocalPolicyDataSource) Schema(ctx context.Context, req d
 			"module_id": schema.StringAttribute{
 				Required:    true,
 				Description: openapidocs.ModuleTerraformLocalPolicyMetadataReadDto_ModuleId,
+				Validators: []validator.String{
+					validators.NotBlank(),
+				},
 			},
 			"name": schema.StringAttribute{
 				Required:    true,
 				Description: openapidocs.ModuleTerraformLocalPolicyMetadataReadDto_Name,
+				Validators: []validator.String{
+					validators.NotBlank(),
+				},
 			},
 		},
 	}
@@ -79,7 +88,7 @@ func (d *moduleTerraformLocalPolicyDataSource) Read(ctx context.Context, req dat
 		return
 	}
 
-	result, httpError := d.client.Get(fmt.Sprintf("%s/Metadata/%s/%s", moduleTerraformLocalPolicyEndpoint, data.ModuleId.ValueString(), data.Name.ValueString()))
+	result, httpError := d.client.Get(fmt.Sprintf("%s/Metadata/%s/%s", moduleTerraformLocalPolicyEndpoint, url.PathEscape(data.ModuleId.ValueString()), url.PathEscape(data.Name.ValueString())))
 	var err error
 	if httpError != nil {
 		err = httpError.Error

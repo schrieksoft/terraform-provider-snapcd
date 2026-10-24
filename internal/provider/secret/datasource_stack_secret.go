@@ -2,8 +2,10 @@ package secret
 
 import (
 	"terraform-provider-snapcd/internal/provider/openapidocs"
+	"terraform-provider-snapcd/internal/validators"
 
 	"fmt"
+	"net/url"
 
 	"context"
 
@@ -14,6 +16,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types"
 
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
+	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 )
 
 var stackSecretDefaultError = fmt.Sprintf("snapcd_stack_secret error")
@@ -70,6 +73,9 @@ func (d *stackSecretDataSource) Schema(ctx context.Context, req datasource.Schem
 			"name": schema.StringAttribute{
 				Required:    true,
 				Description: openapidocs.StackSecretMetadataReadDto_Name,
+				Validators: []validator.String{
+					validators.NotBlank(),
+				},
 			},
 			"stack_id": schema.StringAttribute{
 				Required:    true,
@@ -88,7 +94,7 @@ func (d *stackSecretDataSource) Read(ctx context.Context, req datasource.ReadReq
 		return
 	}
 
-	result, httpError := d.client.Get(fmt.Sprintf("%s/Metadata/ByName/%s", stackSecretEndpoint, data.Name.ValueString()))
+	result, httpError := d.client.Get(fmt.Sprintf("%s/Metadata/ByName/%s", stackSecretEndpoint, url.PathEscape(data.Name.ValueString())))
 	var err error
 	if httpError != nil {
 		err = httpError.Error

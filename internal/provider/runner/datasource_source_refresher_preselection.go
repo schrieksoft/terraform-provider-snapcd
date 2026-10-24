@@ -2,8 +2,10 @@ package runner
 
 import (
 	"terraform-provider-snapcd/internal/provider/openapidocs"
+	"terraform-provider-snapcd/internal/validators"
 
 	"fmt"
+	"net/url"
 
 	"context"
 
@@ -13,6 +15,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
+	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 
 	"github.com/hashicorp/terraform-plugin-framework/types"
 )
@@ -61,6 +64,9 @@ func (d *sourceRefresherPreselectionDataSource) Schema(ctx context.Context, req 
 			"source_url": schema.StringAttribute{
 				Required:    true,
 				Description: openapidocs.SourceRefresherPreselectionReadDto_SourceUrl,
+				Validators: []validator.String{
+					validators.NotBlank(),
+				},
 			},
 			"runner_id": schema.StringAttribute{
 				Computed:    true,
@@ -79,7 +85,7 @@ func (d *sourceRefresherPreselectionDataSource) Read(ctx context.Context, req da
 		return
 	}
 
-	result, httpError := d.client.Get(fmt.Sprintf("%s/Metadata/BySourceUrl/%s", sourceRefresherPreselectionEndpoint, data.SourceUrl.ValueString()))
+	result, httpError := d.client.Get(fmt.Sprintf("%s/Metadata/BySourceUrl/%s", sourceRefresherPreselectionEndpoint, url.PathEscape(data.SourceUrl.ValueString())))
 	var err error
 	if httpError != nil {
 		err = httpError.Error

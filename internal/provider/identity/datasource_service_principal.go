@@ -2,8 +2,10 @@ package identity
 
 import (
 	"terraform-provider-snapcd/internal/provider/openapidocs"
+	"terraform-provider-snapcd/internal/validators"
 
 	"fmt"
+	"net/url"
 
 	"context"
 
@@ -14,6 +16,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types"
 
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
+	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 )
 
 var servicePrincipalDefaultError = fmt.Sprintf("snapcd_service_principal error")
@@ -73,6 +76,9 @@ func (d *servicePrincipalDataSource) Schema(ctx context.Context, req datasource.
 			"client_id": schema.StringAttribute{
 				Required:    true,
 				Description: openapidocs.ServicePrincipalMetadataReadDto_ClientId,
+				Validators: []validator.String{
+					validators.NotBlank(),
+				},
 			},
 			"display_name": schema.StringAttribute{
 				Computed:    true,
@@ -91,7 +97,7 @@ func (d *servicePrincipalDataSource) Read(ctx context.Context, req datasource.Re
 		return
 	}
 
-	result, httpError := d.client.Get(fmt.Sprintf("%s/Metadata/ByClientId/%s", servicePrincipalEndpoint, data.ClientId.ValueString()))
+	result, httpError := d.client.Get(fmt.Sprintf("%s/Metadata/ByClientId/%s", servicePrincipalEndpoint, url.PathEscape(data.ClientId.ValueString())))
 	var err error
 	if httpError != nil {
 		err = httpError.Error
