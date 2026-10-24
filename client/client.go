@@ -188,10 +188,6 @@ func (client *Client) makeRequest(method string, path string, body []byte) (map[
 	}
 
 Request:
-	return client.doRequest(method, path, body, 120*time.Second)
-}
-
-func (client *Client) doRequest(method string, path string, body []byte, timeout time.Duration) (map[string]interface{}, *HttpError) {
 	req, err := http.NewRequest(method, client.Url+path, bytes.NewBuffer(body))
 	if err != nil {
 		return nil, &HttpError{StatusCode: Status441EntityNotFound, Error: errors.New("Status441EntityNotFound")}
@@ -203,7 +199,7 @@ func (client *Client) doRequest(method string, path string, body []byte, timeout
 	tr := &http.Transport{
 		TLSClientConfig: &tls.Config{InsecureSkipVerify: client.InsecureSkipVerify},
 	}
-	httpClient := &http.Client{Timeout: timeout, Transport: tr}
+	httpClient := &http.Client{Timeout: 120 * time.Second, Transport: tr}
 
 	response, err := httpClient.Do(req)
 	if err != nil {

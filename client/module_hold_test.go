@@ -41,10 +41,6 @@ func (s *holdServer) handler(w http.ResponseWriter, r *http.Request) {
 		_, _ = w.Write([]byte(text))
 		return
 	}
-	if strings.HasSuffix(r.URL.Path, "/release") {
-		w.WriteHeader(http.StatusNoContent)
-		return
-	}
 	_ = json.NewEncoder(w).Encode(map[string]interface{}{"effectiveHeartbeatIntervalSeconds": effective, "effectiveExpirySeconds": 20, "warning": warning, "notHeldModuleIds": []string{}})
 }
 
@@ -86,7 +82,7 @@ func newHoldTestClient(t *testing.T, settings ModuleHoldSettings) (*Client, *hol
 	client := &Client{Url: srv.URL, OrganizationId: "org", AccessToken: "token"}
 	client.holder = newModuleHolder(client, settings)
 	t.Cleanup(func() {
-		client.holder.release(time.Second)
+		client.holder.stopHeartbeat()
 		srv.Close()
 	})
 	return client, server
@@ -182,7 +178,7 @@ func TestHoldingDisabledSendsNothing(t *testing.T) {
 		t.Fatalf("expected no create fields, got %v", fields)
 	}
 	time.Sleep(1500 * time.Millisecond)
-	client.holder.release(time.Second)
+	client.holder.stopHeartbeat()
 
 	if n := len(server.callsTo("")); n != 0 {
 		t.Fatalf("expected no requests, got %d", n)
@@ -200,7 +196,7 @@ func TestCreateFieldsCarryTheIntervalAndBufferInTheHoldObject(t *testing.T) {
 	}
 }
 
-func TestACreatedModuleIsKeptHeldByTheHeartbeatAndReleasedAtTheEnd(t *testing.T) {
+func TestACreatedModuleIsKeptHeldByTheHeartbeatUntilItStops(t *testing.T) {
 	client, server := newHoldTestClient(t, enabled(1))
 
 	client.ModuleCreated("a")
@@ -217,16 +213,14 @@ func TestACreatedModuleIsKeptHeldByTheHeartbeatAndReleasedAtTheEnd(t *testing.T)
 		t.Fatalf("expected heartbeat for [a], got %v", ids)
 	}
 
-	client.holder.release(time.Second)
-	releases := server.callsTo("/ModuleHold/release")
-	if len(releases) != 1 || len(moduleIds(releases[0])) != 1 {
-		t.Fatalf("expected one release for [a], got %v", releases)
-	}
-
+	client.holder.stopHeartbeat()
 	after := len(server.callsTo("/heartbeat"))
 	time.Sleep(1500 * time.Millisecond)
 	if n := len(server.callsTo("/heartbeat")); n != after {
-		t.Fatalf("heartbeats continued after release")
+		t.Fatalf("heartbeats continued after the loop stopped")
+	}
+	if n := len(server.callsTo("/release")); n != 0 {
+		t.Fatalf("expected holds to be left to lapse, got %d release calls", n)
 	}
 }
 
@@ -335,12 +329,6 @@ func TestOneHeartbeatCarriesModulesNamespacesAndStacks(t *testing.T) {
 	last := calls[2]
 	if m, n, s := idsIn(last, "ModuleIds"), idsIn(last, "NamespaceIds"), idsIn(last, "StackIds"); len(m) != 1 || len(n) != 1 || len(s) != 1 {
 		t.Fatalf("expected the last heartbeat to carry all three, got modules %v namespaces %v stacks %v", m, n, s)
-	}
-
-	client.holder.release(time.Second)
-	release := server.callsTo("/release")[0]
-	if len(idsIn(release, "ModuleIds")) != 1 || len(idsIn(release, "NamespaceIds")) != 1 || len(idsIn(release, "StackIds")) != 1 {
-		t.Fatalf("expected the release to carry all three, got %v", release.Body)
 	}
 }
 

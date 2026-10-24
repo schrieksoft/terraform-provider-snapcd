@@ -6,11 +6,9 @@ import (
 	"context"
 	"flag"
 	"log"
-	"time"
 
 	"github.com/hashicorp/terraform-plugin-framework/providerserver"
 
-	snapcd "terraform-provider-snapcd/client"
 	"terraform-provider-snapcd/internal/provider"
 )
 
@@ -35,9 +33,6 @@ func main() {
 	}
 
 	err := providerserver.Serve(context.Background(), provider.New(version), opts)
-
-	// go-plugin kills the process about two seconds after asking it to stop.
-	snapcd.ReleaseModuleHolds(1500 * time.Millisecond)
 
 	if err != nil {
 		log.Fatal(err.Error())

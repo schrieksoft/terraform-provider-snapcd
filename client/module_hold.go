@@ -2,9 +2,7 @@ package client
 
 import (
 	"encoding/json"
-	"fmt"
 	"log"
-	"net/http"
 	"sort"
 	"sync"
 	"time"
@@ -59,16 +57,8 @@ type moduleHolder struct {
 	stopped     bool
 }
 
-var (
-	holdersMu sync.Mutex
-	holders   []*moduleHolder
-)
-
 func newModuleHolder(client *Client, settings ModuleHoldSettings) *moduleHolder {
 	h := &moduleHolder{client: client, settings: settings, entries: map[holdTarget]*heldEntry{}, interval: fallbackInterval(settings), stop: make(chan struct{})}
-	holdersMu.Lock()
-	holders = append(holders, h)
-	holdersMu.Unlock()
 	return h
 }
 
@@ -305,48 +295,13 @@ func (h *moduleHolder) heartbeat(adding *holdTarget, negotiate bool) *HttpError 
 	return nil
 }
 
-// ReleaseModuleHolds stops every heartbeat and releases the modules this process holds.
-func ReleaseModuleHolds(timeout time.Duration) {
-	holdersMu.Lock()
-	current := append([]*moduleHolder(nil), holders...)
-	holdersMu.Unlock()
-
-	var wg sync.WaitGroup
-	for _, h := range current {
-		wg.Add(1)
-		go func(h *moduleHolder) {
-			defer wg.Done()
-			h.release(timeout)
-		}(h)
-	}
-	wg.Wait()
-}
-
-func (h *moduleHolder) release(timeout time.Duration) {
+// stopHeartbeat ends the heartbeat loop; the holds then lapse at their expiry.
+func (h *moduleHolder) stopHeartbeat() {
 	h.mu.Lock()
+	defer h.mu.Unlock()
 	if h.stopped {
-		h.mu.Unlock()
 		return
 	}
 	h.stopped = true
 	close(h.stop)
-	h.mu.Unlock()
-
-	h.heartbeatMu.Lock()
-	defer h.heartbeatMu.Unlock()
-
-	ids := h.heldIds(nil)
-	if len(ids) == 0 {
-		return
-	}
-
-	body, err := json.Marshal(withAllLists(map[string]interface{}{}, ids))
-	if err != nil {
-		return
-	}
-	if _, httpError := h.client.doRequest(http.MethodPost, h.client.BuildEndpoint(moduleHoldEndpoint+"/release"), body, timeout); httpError != nil {
-		log.Printf("[WARN] Could not release module holds, they lapse at their expiry instead: %v", httpError.Error)
-		return
-	}
-	log.Printf("[DEBUG] Released holds on %s", fmt.Sprint(ids))
 }

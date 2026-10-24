@@ -119,7 +119,7 @@ func (p *snapcdProvider) Schema(_ context.Context, _ provider.SchemaRequest, res
 				Optional:    true,
 			},
 			"hold_modules": schema.BoolAttribute{
-				Description: "Hold the Modules this run creates or changes, and every Module in the Namespaces and Stacks it changes, so that none of their jobs start until the run has finished writing. The hold is kept alive by a heartbeat while the provider runs, released when it exits, and lapses on its own if the provider is stopped. Defaults to true. Can also be set via the SNAPCD_HOLD_MODULES environment variable.",
+				Description: "Hold the Modules this run creates or changes, and every Module in the Namespaces and Stacks it changes, so that none of their jobs start until the run has finished writing. The hold is kept alive by a heartbeat while the provider runs and lapses on its own shortly after it exits, so parallel applies touching the same Modules keep it alive together. Defaults to true. Can also be set via the SNAPCD_HOLD_MODULES environment variable.",
 				Optional:    true,
 			},
 			"hold_modules_heartbeat_interval_seconds": schema.Int64Attribute{
