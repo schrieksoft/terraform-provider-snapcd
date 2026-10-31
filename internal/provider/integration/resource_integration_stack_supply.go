@@ -133,6 +133,7 @@ func (r *integrationStackSupplyResource) Read(ctx context.Context, req resource.
 
 	result, httpError := r.client.Get(fmt.Sprintf("%s/%s", integrationStackSupplyEndpoint, data.Id.ValueString()))
 	if httpError != nil && httpError.StatusCode == snapcd.Status441EntityNotFound {
+		utils.ExternallyDeleted(ctx, &resp.Diagnostics, "snapcd_integration_stack_supply", data.Id.ValueString())
 		resp.State.RemoveResource(ctx)
 		return
 	}

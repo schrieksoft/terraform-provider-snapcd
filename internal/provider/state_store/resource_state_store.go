@@ -131,6 +131,7 @@ func (r *stateStoreResource) Read(ctx context.Context, req resource.ReadRequest,
 
 	result, httpError := r.client.Get(fmt.Sprintf("%s/%s", stateStoreEndpoint, data.Id.ValueString()))
 	if httpError != nil && httpError.StatusCode == snapcd.Status441EntityNotFound {
+		utils.ExternallyDeleted(ctx, &resp.Diagnostics, "snapcd_state_store", data.Id.ValueString())
 		resp.State.RemoveResource(ctx)
 		return
 	}

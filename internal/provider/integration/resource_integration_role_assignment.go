@@ -124,6 +124,7 @@ func (r *integrationRoleAssignmentResource) Read(ctx context.Context, req resour
 	}
 	result, httpError := r.client.Get(fmt.Sprintf("%s/%s", roleAssignmentEndpoint, data.Id.ValueString()))
 	if httpError != nil && httpError.StatusCode == snapcd.Status441EntityNotFound {
+		utils.ExternallyDeleted(ctx, &resp.Diagnostics, "snapcd_integration_role_assignment", data.Id.ValueString())
 		resp.State.RemoveResource(ctx)
 		return
 	}

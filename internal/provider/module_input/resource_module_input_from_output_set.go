@@ -166,7 +166,7 @@ func (r *moduleInputFromOutputSetResource) Read(ctx context.Context, req resourc
 	// Read API call logic
 	result, httpError := r.client.Get(fmt.Sprintf("%s/%s", moduleInputFromOutputSetEndpoint, data.Id.ValueString()))
 	if httpError != nil && httpError.StatusCode == snapcd.Status441EntityNotFound {
-		// Resource was not found, so remove it from state
+		utils.ExternallyDeleted(ctx, &resp.Diagnostics, "snapcd_module_input_from_output_set", data.Id.ValueString())
 		resp.State.RemoveResource(ctx)
 		return
 	}

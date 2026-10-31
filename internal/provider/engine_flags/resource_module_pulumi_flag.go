@@ -155,6 +155,7 @@ func (r *modulePulumiFlagResource) Read(ctx context.Context, req resource.ReadRe
 
 	result, httpError := r.client.Get(fmt.Sprintf("%s/%s", modulePulumiFlagEndpoint, data.Id.ValueString()))
 	if httpError != nil && httpError.StatusCode == snapcd.Status441EntityNotFound {
+		utils.ExternallyDeleted(ctx, &resp.Diagnostics, "snapcd_module_pulumi_flag", data.Id.ValueString())
 		resp.State.RemoveResource(ctx)
 		return
 	}

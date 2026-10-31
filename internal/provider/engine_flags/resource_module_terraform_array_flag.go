@@ -155,6 +155,7 @@ func (r *moduleTerraformArrayFlagResource) Read(ctx context.Context, req resourc
 
 	result, httpError := r.client.Get(fmt.Sprintf("%s/%s", moduleTerraformArrayFlagEndpoint, data.Id.ValueString()))
 	if httpError != nil && httpError.StatusCode == snapcd.Status441EntityNotFound {
+		utils.ExternallyDeleted(ctx, &resp.Diagnostics, "snapcd_module_terraform_array_flag", data.Id.ValueString())
 		resp.State.RemoveResource(ctx)
 		return
 	}

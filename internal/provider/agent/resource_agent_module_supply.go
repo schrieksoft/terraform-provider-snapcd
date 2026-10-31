@@ -142,6 +142,7 @@ func (r *agentModuleSupplyResource) Read(ctx context.Context, req resource.ReadR
 
 	result, httpError := r.client.Get(fmt.Sprintf("%s/%s", agentModuleSupplyEndpoint, data.Id.ValueString()))
 	if httpError != nil && httpError.StatusCode == snapcd.Status441EntityNotFound {
+		utils.ExternallyDeleted(ctx, &resp.Diagnostics, "snapcd_agent_module_supply", data.Id.ValueString())
 		resp.State.RemoveResource(ctx)
 		return
 	}

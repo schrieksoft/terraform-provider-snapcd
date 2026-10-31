@@ -175,7 +175,7 @@ func (r *moduleInputFromLiteralResource) Read(ctx context.Context, req resource.
 	// Read API call logic
 	result, httpError := r.client.Get(fmt.Sprintf("%s/%s", moduleInputFromLiteralEndpoint, data.Id.ValueString()))
 	if httpError != nil && httpError.StatusCode == snapcd.Status441EntityNotFound {
-		// Resource was not found, so remove it from state
+		utils.ExternallyDeleted(ctx, &resp.Diagnostics, "snapcd_module_input_from_literal", data.Id.ValueString())
 		resp.State.RemoveResource(ctx)
 		return
 	}

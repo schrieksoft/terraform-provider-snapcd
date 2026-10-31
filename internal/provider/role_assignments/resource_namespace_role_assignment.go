@@ -163,7 +163,7 @@ func (r *namespaceRoleAssignmentResource) Read(ctx context.Context, req resource
 	// Read API call logic
 	result, httpError := r.client.Get(fmt.Sprintf("%s/%s", namespaceRoleAssignmentEndpoint, data.Id.ValueString()))
 	if httpError != nil && httpError.StatusCode == snapcd.Status441EntityNotFound {
-		// Resource was not found, so remove it from state
+		utils.ExternallyDeleted(ctx, &resp.Diagnostics, "snapcd_namespace_role_assignment", data.Id.ValueString())
 		resp.State.RemoveResource(ctx)
 		return
 	}

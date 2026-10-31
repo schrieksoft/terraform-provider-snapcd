@@ -150,6 +150,7 @@ func (r *organizationMissionResource) Read(ctx context.Context, req resource.Rea
 
 	result, httpError := r.client.Get(fmt.Sprintf("%s/%s", organizationMissionEndpoint, data.Id.ValueString()))
 	if httpError != nil && httpError.StatusCode == snapcd.Status441EntityNotFound {
+		utils.ExternallyDeleted(ctx, &resp.Diagnostics, "snapcd_organization_mission", data.Id.ValueString())
 		resp.State.RemoveResource(ctx)
 		return
 	}

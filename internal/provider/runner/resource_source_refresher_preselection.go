@@ -150,7 +150,7 @@ func (r *sourceRefresherPreselectionResource) Read(ctx context.Context, req reso
 	// Read API call logic
 	result, httpError := r.client.Get(fmt.Sprintf("%s/%s", sourceRefresherPreselectionEndpoint, data.Id.ValueString()))
 	if httpError != nil && httpError.StatusCode == snapcd.Status441EntityNotFound {
-		// Resource was not found, so remove it from state
+		utils.ExternallyDeleted(ctx, &resp.Diagnostics, "snapcd_source_refresher_preselection", data.Id.ValueString())
 		resp.State.RemoveResource(ctx)
 		return
 	}

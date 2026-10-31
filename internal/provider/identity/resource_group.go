@@ -144,7 +144,7 @@ func (r *groupResource) Read(ctx context.Context, req resource.ReadRequest, resp
 	// Read API call logic
 	result, httpError := r.client.Get(fmt.Sprintf("%s/%s", groupEndpoint, data.Id.ValueString()))
 	if httpError != nil && httpError.StatusCode == snapcd.Status441EntityNotFound {
-		// Resource was not found, so remove it from state
+		utils.ExternallyDeleted(ctx, &resp.Diagnostics, "snapcd_group", data.Id.ValueString())
 		resp.State.RemoveResource(ctx)
 		return
 	}

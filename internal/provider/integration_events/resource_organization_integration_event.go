@@ -151,6 +151,7 @@ func (r *organizationIntegrationEventResource) Read(ctx context.Context, req res
 
 	result, httpError := r.client.Get(fmt.Sprintf("%s/%s", organizationIntegrationEventEndpoint, data.Id.ValueString()))
 	if httpError != nil && httpError.StatusCode == snapcd.Status441EntityNotFound {
+		utils.ExternallyDeleted(ctx, &resp.Diagnostics, "snapcd_organization_integration_event", data.Id.ValueString())
 		resp.State.RemoveResource(ctx)
 		return
 	}

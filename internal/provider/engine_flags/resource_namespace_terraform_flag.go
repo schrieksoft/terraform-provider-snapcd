@@ -155,6 +155,7 @@ func (r *namespaceTerraformFlagResource) Read(ctx context.Context, req resource.
 
 	result, httpError := r.client.Get(fmt.Sprintf("%s/%s", namespaceTerraformFlagEndpoint, data.Id.ValueString()))
 	if httpError != nil && httpError.StatusCode == snapcd.Status441EntityNotFound {
+		utils.ExternallyDeleted(ctx, &resp.Diagnostics, "snapcd_namespace_terraform_flag", data.Id.ValueString())
 		resp.State.RemoveResource(ctx)
 		return
 	}

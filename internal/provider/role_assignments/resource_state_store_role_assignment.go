@@ -154,6 +154,7 @@ func (r *stateStoreRoleAssignmentResource) Read(ctx context.Context, req resourc
 
 	result, httpError := r.client.Get(fmt.Sprintf("%s/%s", stateStoreRoleAssignmentEndpoint, data.Id.ValueString()))
 	if httpError != nil && httpError.StatusCode == snapcd.Status441EntityNotFound {
+		utils.ExternallyDeleted(ctx, &resp.Diagnostics, "snapcd_state_store_role_assignment", data.Id.ValueString())
 		resp.State.RemoveResource(ctx)
 		return
 	}

@@ -147,7 +147,7 @@ func (r *moduleAdditionalTriggerPathResource) Read(ctx context.Context, req reso
 	// Read API call logic
 	result, httpError := r.client.Get(fmt.Sprintf("%s/%s", moduleAdditionalTriggerPathEndpoint, data.Id.ValueString()))
 	if httpError != nil && httpError.StatusCode == snapcd.Status441EntityNotFound {
-		// Resource was not found, so remove it from state
+		utils.ExternallyDeleted(ctx, &resp.Diagnostics, "snapcd_module_additional_trigger_path", data.Id.ValueString())
 		resp.State.RemoveResource(ctx)
 		return
 	}
