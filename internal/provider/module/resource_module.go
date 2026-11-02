@@ -72,6 +72,7 @@ type moduleModel struct {
 	SourceSubdirectory                 types.String `tfsdk:"source_subdirectory"`
 	SourceType                         types.String `tfsdk:"source_type"`
 	SourceRevisionType                 types.String `tfsdk:"source_revision_type"`
+	OutputSetDownstreamRestriction     types.String `tfsdk:"output_set_downstream_restriction"`
 	RunnerInstanceName                 types.String `tfsdk:"runner_instance_name"`
 	Engine                             types.String `tfsdk:"engine"`
 	TriggerOnDefinitionChanged         types.Bool   `tfsdk:"trigger_on_definition_changed"`
@@ -142,6 +143,13 @@ func (r *moduleResource) Schema(ctx context.Context, req resource.SchemaRequest,
 				},
 				Default:     stringdefault.StaticString("Default"),
 				Description: openapidocs.ModuleCreateDto_SourceRevisionType,
+			},
+			"output_set_downstream_restriction": schema.StringAttribute{
+				Optional: true,
+				Validators: []validator.String{
+					stringvalidator.OneOf(openapidocs.OutputSetDownstreamRestrictionValues...),
+				},
+				Description: openapidocs.ModuleCreateDto_OutputSetDownstreamRestriction,
 			},
 			"source_subdirectory": schema.StringAttribute{
 				Optional:    true,

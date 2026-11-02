@@ -37,6 +37,7 @@ resource "snapcd_module" "this" {
   trigger_on_source_changed_notification = false
   apply_approval_threshold               = 1
   state_migration_approval_threshold     = 1
+  output_set_downstream_restriction      = "SensitiveOnly"
 }
 `)
 
@@ -63,6 +64,7 @@ resource "snapcd_module" "this" {
   trigger_on_source_changed_notification = false
   apply_approval_threshold               = 2
   state_migration_approval_threshold     = 2
+  output_set_downstream_restriction      = "All"
 }
 `)
 

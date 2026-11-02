@@ -48,6 +48,8 @@ var NamespaceTriggerBehaviourValues = []string{"DoNotTrigger", "TriggerAllImmedi
 
 var OrganizationRoleValues = []string{"Owner", "Contributor", "Reader", "StackCreator", "IdentityAccessManager", "IdentityAccessMetadataReader", "JobManager", "SourceChangeNotifier", "SubscriptionManager", "StackContributor", "StackReader", "StackMetadataReader", "RunnerCreator", "RunnerContributor", "RunnerReader", "AgentCreator", "AgentContributor", "AgentReader", "SourceRefresherPreselectionCreator", "SourceRefresherPreselectionContributor", "SourceRefresherPreselectionReader", "IntegrationCreator", "IntegrationContributor", "IntegrationReader", "StateStoreCreator", "StateStoreContributor", "StateStoreReader"}
 
+var OutputSetDownstreamRestrictionValues = []string{"All", "SensitiveOnly"}
+
 var PolicyEvaluateOnValues = []string{"ApplyAndDestroy", "ApplyOnly", "DestroyOnly"}
 
 var PrincipalDiscriminatorValues = []string{"User", "ServicePrincipal"}
