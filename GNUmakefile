@@ -20,7 +20,7 @@ generate:
 #                      versions.env, or pass VERSION=1.9.0)
 #   make sync-local  — copy from a local snapcd checkout, for previewing changes that
 #                      have not been released yet
-SNAPCD_REPO ?= ../../../applications/snapcd
+SNAPCD_REPO ?= ../../applications/snapcd
 
 sync:
 	@scripts/fetch-openapi-spec.sh $(VERSION)

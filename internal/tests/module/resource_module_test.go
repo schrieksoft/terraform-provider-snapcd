@@ -33,6 +33,7 @@ func TestAccResourceModule_CreateUpdate(t *testing.T) {
 					resource.TestCheckResourceAttrSet("snapcd_module.this", "id"),
 					resource.TestCheckResourceAttr("snapcd_module.this", "apply_approval_threshold", "1"),
 					resource.TestCheckResourceAttr("snapcd_module.this", "state_migration_approval_threshold", "1"),
+					resource.TestCheckResourceAttr("snapcd_module.this", "output_set_downstream_restriction", "SensitiveOnly"),
 				),
 			},
 			{
@@ -41,6 +42,7 @@ func TestAccResourceModule_CreateUpdate(t *testing.T) {
 					resource.TestCheckResourceAttrSet("snapcd_module.this", "id"),
 					resource.TestCheckResourceAttr("snapcd_module.this", "apply_approval_threshold", "2"),
 					resource.TestCheckResourceAttr("snapcd_module.this", "state_migration_approval_threshold", "2"),
+					resource.TestCheckResourceAttr("snapcd_module.this", "output_set_downstream_restriction", "All"),
 				),
 			},
 		},

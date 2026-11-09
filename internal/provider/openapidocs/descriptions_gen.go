@@ -298,6 +298,7 @@ const (
 	ModuleCreateDto_IgnoreNamespaceHooks               = "If this is set to true, any Hooks set on Namespace level will not be used on this specific Module."
 	ModuleCreateDto_Name                               = "Name of the Module. Must be unique in combination with `namespace_id`."
 	ModuleCreateDto_NamespaceId                        = "ID of the Module's parent Namespace."
+	ModuleCreateDto_OutputSetDownstreamRestriction     = "Withholds this Module's Outputs from downstream Modules unless they are explicitly supplied. Leave unset to let any Module in the Stack read them. 'All' withholds every Output; 'SensitiveOnly' withholds only the secret ones. Must be one of 'All', 'SensitiveOnly'."
 	ModuleCreateDto_RunnerId                           = "ID of the Runner that will receive the instructions when triggering a deployment on this Module."
 	ModuleCreateDto_RunnerInstanceName                 = "Name a specific runner instance to select (should unique identify the the instance). Use this if you have enabled multiple instances on your runner, but want all jobs for this Module to go to a specific instance."
 	ModuleCreateDto_SourceRevision                     = "Remote revision (e.g. version number, branch, commit or tag) where the source module code is found."
@@ -620,6 +621,24 @@ const (
 	ModuleMissionUpdateDto_ModuleId    = "ID of the Module this Mission is scoped to."
 	ModuleMissionUpdateDto_SidecarName = "Optional named-sidecar override sent to the agent at dispatch. When unset (null), the agent invokes its only registered sidecar; the run fails if the agent has zero or multiple sidecars and no name was supplied."
 
+	// ModuleOutputDownstreamRestrictionCreateDto
+	ModuleOutputDownstreamRestrictionCreateDto_ModuleId   = "ID of the Module that produces the Output being restricted."
+	ModuleOutputDownstreamRestrictionCreateDto_OutputName = "Name of the Output to withhold from downstream Modules unless it is explicitly supplied to them. Must be unique in combination with `module_id`."
+
+	// ModuleOutputDownstreamRestrictionMetadataReadDto
+	ModuleOutputDownstreamRestrictionMetadataReadDto_Id       = "Unique ID of the Module Output Downstream Restriction."
+	ModuleOutputDownstreamRestrictionMetadataReadDto_ModuleId = "Module Id of the Module Output Downstream Restriction."
+
+	// ModuleOutputDownstreamRestrictionReadDto
+	ModuleOutputDownstreamRestrictionReadDto_Id         = "Unique ID of the Module Output Downstream Restriction."
+	ModuleOutputDownstreamRestrictionReadDto_ModuleId   = "ID of the Module that produces the Output being restricted."
+	ModuleOutputDownstreamRestrictionReadDto_OutputName = "Name of the Output to withhold from downstream Modules unless it is explicitly supplied to them. Must be unique in combination with `module_id`."
+
+	// ModuleOutputDownstreamRestrictionUpdateDto
+	ModuleOutputDownstreamRestrictionUpdateDto_Id         = "Unique ID of the Module Output Downstream Restriction."
+	ModuleOutputDownstreamRestrictionUpdateDto_ModuleId   = "ID of the Module that produces the Output being restricted."
+	ModuleOutputDownstreamRestrictionUpdateDto_OutputName = "Name of the Output to withhold from downstream Modules unless it is explicitly supplied to them. Must be unique in combination with `module_id`."
+
 	// ModulePauseDto
 	ModulePauseDto_ModuleId    = "Unique ID of the Module."
 	ModulePauseDto_PauseReason = "Operator-supplied explanation for the pause, when one was given."
@@ -787,6 +806,7 @@ const (
 	ModuleReadDto_IgnoreNamespaceHooks               = "If this is set to true, any Hooks set on Namespace level will not be used on this specific Module."
 	ModuleReadDto_Name                               = "Name of the Module. Must be unique in combination with `namespace_id`."
 	ModuleReadDto_NamespaceId                        = "ID of the Module's parent Namespace."
+	ModuleReadDto_OutputSetDownstreamRestriction     = "Withholds this Module's Outputs from downstream Modules unless they are explicitly supplied. Leave unset to let any Module in the Stack read them. 'All' withholds every Output; 'SensitiveOnly' withholds only the secret ones. Must be one of 'All', 'SensitiveOnly'."
 	ModuleReadDto_RunnerId                           = "ID of the Runner that will receive the instructions when triggering a deployment on this Module."
 	ModuleReadDto_RunnerInstanceName                 = "Name a specific runner instance to select (should unique identify the the instance). Use this if you have enabled multiple instances on your runner, but want all jobs for this Module to go to a specific instance."
 	ModuleReadDto_SourceRevision                     = "Remote revision (e.g. version number, branch, commit or tag) where the source module code is found."
@@ -998,6 +1018,7 @@ const (
 	ModuleUpdateDto_IgnoreNamespaceHooks               = "If this is set to true, any Hooks set on Namespace level will not be used on this specific Module."
 	ModuleUpdateDto_Name                               = "Name of the Module. Must be unique in combination with `namespace_id`."
 	ModuleUpdateDto_NamespaceId                        = "ID of the Module's parent Namespace."
+	ModuleUpdateDto_OutputSetDownstreamRestriction     = "Withholds this Module's Outputs from downstream Modules unless they are explicitly supplied. Leave unset to let any Module in the Stack read them. 'All' withholds every Output; 'SensitiveOnly' withholds only the secret ones. Must be one of 'All', 'SensitiveOnly'."
 	ModuleUpdateDto_RunnerId                           = "ID of the Runner that will receive the instructions when triggering a deployment on this Module."
 	ModuleUpdateDto_RunnerInstanceName                 = "Name a specific runner instance to select (should unique identify the the instance). Use this if you have enabled multiple instances on your runner, but want all jobs for this Module to go to a specific instance."
 	ModuleUpdateDto_SourceRevision                     = "Remote revision (e.g. version number, branch, commit or tag) where the source module code is found."
@@ -1630,6 +1651,84 @@ const (
 	OrganizationRoleAssignmentUpdateDto_PrincipalDiscriminator = "Type of Principal that the `principal_id` identifies. Must be one of 'User', 'ServicePrincipal' and 'Group'"
 	OrganizationRoleAssignmentUpdateDto_PrincipalId            = "ID of the Principal to which the role is assigned."
 	OrganizationRoleAssignmentUpdateDto_RoleName               = "Name of the Role that is assigned. Must be one of 'Owner', 'Contributor', 'Reader', 'StackCreator', 'IdentityAccessManager', 'IdentityAccessMetadataReader', 'JobManager', 'SourceChangeNotifier', 'SubscriptionManager', 'StackContributor', 'StackReader', 'StackMetadataReader', 'RunnerCreator', 'RunnerContributor', 'RunnerReader', 'AgentCreator', 'AgentContributor', 'AgentReader', 'SourceRefresherPreselectionCreator', 'SourceRefresherPreselectionContributor', 'SourceRefresherPreselectionReader', 'IntegrationCreator', 'IntegrationContributor', 'IntegrationReader', 'StateStoreCreator', 'StateStoreContributor', 'StateStoreReader'."
+
+	// OutputModuleSupplyCreateDto
+	OutputModuleSupplyCreateDto_ConsumingModuleId = "ID of the Module the Output is supplied to. Must be unique in combination with `module_id` and `output_name`."
+	OutputModuleSupplyCreateDto_ModuleId          = "ID of the Module that produces the Output."
+	OutputModuleSupplyCreateDto_OutputName        = "Name of the Output being supplied."
+
+	// OutputModuleSupplyMetadataReadDto
+	OutputModuleSupplyMetadataReadDto_Id       = "Unique ID of the OutputModuleSupply."
+	OutputModuleSupplyMetadataReadDto_ModuleId = "Module Id of the OutputModuleSupply."
+
+	// OutputModuleSupplyReadDto
+	OutputModuleSupplyReadDto_ConsumingModuleId = "ID of the Module the Output is supplied to. Must be unique in combination with `module_id` and `output_name`."
+	OutputModuleSupplyReadDto_Id                = "Unique ID of the OutputModuleSupply."
+	OutputModuleSupplyReadDto_ModuleId          = "ID of the Module that produces the Output."
+	OutputModuleSupplyReadDto_OutputName        = "Name of the Output being supplied."
+
+	// OutputModuleSupplyUpdateDto
+	OutputModuleSupplyUpdateDto_ConsumingModuleId = "ID of the Module the Output is supplied to. Must be unique in combination with `module_id` and `output_name`."
+	OutputModuleSupplyUpdateDto_Id                = "Unique ID of the OutputModuleSupply."
+	OutputModuleSupplyUpdateDto_ModuleId          = "ID of the Module that produces the Output."
+	OutputModuleSupplyUpdateDto_OutputName        = "Name of the Output being supplied."
+
+	// OutputNamespaceSupplyCreateDto
+	OutputNamespaceSupplyCreateDto_ConsumingNamespaceId = "ID of the Namespace the Output is supplied to, reaching every Module in it. Must be unique in combination with `module_id` and `output_name`."
+	OutputNamespaceSupplyCreateDto_ModuleId             = "ID of the Module that produces the Output."
+	OutputNamespaceSupplyCreateDto_OutputName           = "Name of the Output being supplied."
+
+	// OutputNamespaceSupplyMetadataReadDto
+	OutputNamespaceSupplyMetadataReadDto_Id       = "Unique ID of the OutputNamespaceSupply."
+	OutputNamespaceSupplyMetadataReadDto_ModuleId = "Module Id of the OutputNamespaceSupply."
+
+	// OutputNamespaceSupplyReadDto
+	OutputNamespaceSupplyReadDto_ConsumingNamespaceId = "ID of the Namespace the Output is supplied to, reaching every Module in it. Must be unique in combination with `module_id` and `output_name`."
+	OutputNamespaceSupplyReadDto_Id                   = "Unique ID of the OutputNamespaceSupply."
+	OutputNamespaceSupplyReadDto_ModuleId             = "ID of the Module that produces the Output."
+	OutputNamespaceSupplyReadDto_OutputName           = "Name of the Output being supplied."
+
+	// OutputNamespaceSupplyUpdateDto
+	OutputNamespaceSupplyUpdateDto_ConsumingNamespaceId = "ID of the Namespace the Output is supplied to, reaching every Module in it. Must be unique in combination with `module_id` and `output_name`."
+	OutputNamespaceSupplyUpdateDto_Id                   = "Unique ID of the OutputNamespaceSupply."
+	OutputNamespaceSupplyUpdateDto_ModuleId             = "ID of the Module that produces the Output."
+	OutputNamespaceSupplyUpdateDto_OutputName           = "Name of the Output being supplied."
+
+	// OutputSetModuleSupplyCreateDto
+	OutputSetModuleSupplyCreateDto_ConsumingModuleId = "ID of the Module the Output Set is supplied to. Must be unique in combination with `module_id`."
+	OutputSetModuleSupplyCreateDto_ModuleId          = "ID of the Module whose Output Set is supplied."
+
+	// OutputSetModuleSupplyMetadataReadDto
+	OutputSetModuleSupplyMetadataReadDto_Id       = "Unique ID of the OutputSetModuleSupply."
+	OutputSetModuleSupplyMetadataReadDto_ModuleId = "Module Id of the OutputSetModuleSupply."
+
+	// OutputSetModuleSupplyReadDto
+	OutputSetModuleSupplyReadDto_ConsumingModuleId = "ID of the Module the Output Set is supplied to. Must be unique in combination with `module_id`."
+	OutputSetModuleSupplyReadDto_Id                = "Unique ID of the OutputSetModuleSupply."
+	OutputSetModuleSupplyReadDto_ModuleId          = "ID of the Module whose Output Set is supplied."
+
+	// OutputSetModuleSupplyUpdateDto
+	OutputSetModuleSupplyUpdateDto_ConsumingModuleId = "ID of the Module the Output Set is supplied to. Must be unique in combination with `module_id`."
+	OutputSetModuleSupplyUpdateDto_Id                = "Unique ID of the OutputSetModuleSupply."
+	OutputSetModuleSupplyUpdateDto_ModuleId          = "ID of the Module whose Output Set is supplied."
+
+	// OutputSetNamespaceSupplyCreateDto
+	OutputSetNamespaceSupplyCreateDto_ConsumingNamespaceId = "ID of the Namespace the Output Set is supplied to, reaching every Module in it. Must be unique in combination with `module_id`."
+	OutputSetNamespaceSupplyCreateDto_ModuleId             = "ID of the Module whose Output Set is supplied."
+
+	// OutputSetNamespaceSupplyMetadataReadDto
+	OutputSetNamespaceSupplyMetadataReadDto_Id       = "Unique ID of the OutputSetNamespaceSupply."
+	OutputSetNamespaceSupplyMetadataReadDto_ModuleId = "Module Id of the OutputSetNamespaceSupply."
+
+	// OutputSetNamespaceSupplyReadDto
+	OutputSetNamespaceSupplyReadDto_ConsumingNamespaceId = "ID of the Namespace the Output Set is supplied to, reaching every Module in it. Must be unique in combination with `module_id`."
+	OutputSetNamespaceSupplyReadDto_Id                   = "Unique ID of the OutputSetNamespaceSupply."
+	OutputSetNamespaceSupplyReadDto_ModuleId             = "ID of the Module whose Output Set is supplied."
+
+	// OutputSetNamespaceSupplyUpdateDto
+	OutputSetNamespaceSupplyUpdateDto_ConsumingNamespaceId = "ID of the Namespace the Output Set is supplied to, reaching every Module in it. Must be unique in combination with `module_id`."
+	OutputSetNamespaceSupplyUpdateDto_Id                   = "Unique ID of the OutputSetNamespaceSupply."
+	OutputSetNamespaceSupplyUpdateDto_ModuleId             = "ID of the Module whose Output Set is supplied."
 
 	// RunnerCreateDto
 	RunnerCreateDto_AllowMultipleInstances = "Indicates whether or not the Runner is disabled"

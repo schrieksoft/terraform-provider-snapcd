@@ -18,6 +18,7 @@ import (
 	"terraform-provider-snapcd/internal/provider/missions"
 	"terraform-provider-snapcd/internal/provider/module"
 	"terraform-provider-snapcd/internal/provider/module_input"
+	"terraform-provider-snapcd/internal/provider/output"
 	"terraform-provider-snapcd/internal/provider/namespace"
 	"terraform-provider-snapcd/internal/provider/namespace_input"
 	"terraform-provider-snapcd/internal/provider/policies"
@@ -529,6 +530,12 @@ func (p *snapcdProvider) Resources(_ context.Context) []func() resource.Resource
 		module_input.ModuleInputFromOutputResource,
 		module_input.ModuleInputFromOutputSetResource,
 		module_input.ModuleInputFromSecretResource,
+
+		output.ModuleOutputDownstreamRestrictionResource,
+		output.OutputSetModuleSupplyResource,
+		output.OutputSetNamespaceSupplyResource,
+		output.OutputModuleSupplyResource,
+		output.OutputNamespaceSupplyResource,
 
 		namespace_input.NamespaceInputFromLiteralResource,
 		namespace_input.NamespaceInputFromDefinitionResource,
