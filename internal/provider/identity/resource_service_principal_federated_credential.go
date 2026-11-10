@@ -9,6 +9,7 @@ import (
 	"context"
 
 	"github.com/hashicorp/terraform-plugin-framework/resource"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/booldefault"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
@@ -120,7 +121,9 @@ The Server must be able to reach the issuer to fetch its signing keys. For a Kub
 			},
 			"is_disabled": schema.BoolAttribute{
 				Optional:    true,
+				Computed:    true,
 				Description: openapidocs.ServicePrincipalFederatedCredentialCreateDto_IsDisabled,
+				Default:     booldefault.StaticBool(false),
 			},
 		},
 	}

@@ -8,7 +8,10 @@ import (
 
 	"context"
 
+	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/booldefault"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/listdefault"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
@@ -95,12 +98,16 @@ A secret can still be set in the Dashboard for a Service Principal that is not m
 			},
 			"is_disabled": schema.BoolAttribute{
 				Optional:    true,
+				Computed:    true,
 				Description: openapidocs.ServicePrincipalCreateDto_IsDisabled,
+				Default:     booldefault.StaticBool(false),
 			},
 			"scopes": schema.ListAttribute{
 				Optional:    true,
+				Computed:    true,
 				ElementType: types.StringType,
 				Description: openapidocs.ServicePrincipalCreateDto_Scopes,
+				Default:     listdefault.StaticValue(types.ListValueMust(types.StringType, []attr.Value{types.StringValue("snapcd_scope")})),
 			},
 		},
 	}
