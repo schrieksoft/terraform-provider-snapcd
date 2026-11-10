@@ -53,7 +53,6 @@ resource "snapcd_service_principal_federated_credential" "runner_cluster" {
 
 ### Read-Only
 
-- `display_name` (String) Display name of the Service Principal.
 - `id` (String) Unique ID of the Service Principal.
 
 ## Import

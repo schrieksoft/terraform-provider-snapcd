@@ -60,11 +60,10 @@ func (r *servicePrincipalResource) Metadata(ctx context.Context, req resource.Me
 }
 
 type servicePrincipalResourceModel struct {
-	Id          types.String `tfsdk:"id"`
-	ClientId    types.String `tfsdk:"client_id"`
-	DisplayName types.String `tfsdk:"display_name"`
-	IsDisabled  types.Bool   `tfsdk:"is_disabled"`
-	Scopes      types.List   `tfsdk:"scopes"`
+	Id         types.String `tfsdk:"id"`
+	ClientId   types.String `tfsdk:"client_id"`
+	IsDisabled types.Bool   `tfsdk:"is_disabled"`
+	Scopes     types.List   `tfsdk:"scopes"`
 }
 
 func (r *servicePrincipalResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
@@ -92,10 +91,6 @@ A secret can still be set in the Dashboard for a Service Principal that is not m
 					stringplanmodifier.RequiresReplace(),
 				},
 			},
-			"display_name": schema.StringAttribute{
-				Computed:    true,
-				Description: openapidocs.ServicePrincipalMetadataReadDto_DisplayName,
-			},
 			"is_disabled": schema.BoolAttribute{
 				Optional:    true,
 				Computed:    true,
@@ -122,7 +117,7 @@ func (r *servicePrincipalResource) Create(ctx context.Context, req resource.Crea
 		return
 	}
 
-	jsonMap, err := utils.PlanToJson(data, []string{"id", "displayname"})
+	jsonMap, err := utils.PlanToJson(data, []string{"id"})
 	if err != nil {
 		resp.Diagnostics.AddError(servicePrincipalResourceDefaultError, "Failed to convert plan to json: "+err.Error())
 		return
@@ -202,7 +197,7 @@ func (r *servicePrincipalResource) Update(ctx context.Context, req resource.Upda
 		return
 	}
 
-	jsonMap, err := utils.PlanToJson(data, []string{"id", "displayname"})
+	jsonMap, err := utils.PlanToJson(data, []string{"id"})
 	if err != nil {
 		resp.Diagnostics.AddError(servicePrincipalResourceDefaultError, "Failed to convert plan to json: "+err.Error())
 		return
