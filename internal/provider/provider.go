@@ -18,9 +18,9 @@ import (
 	"terraform-provider-snapcd/internal/provider/missions"
 	"terraform-provider-snapcd/internal/provider/module"
 	"terraform-provider-snapcd/internal/provider/module_input"
-	"terraform-provider-snapcd/internal/provider/output"
 	"terraform-provider-snapcd/internal/provider/namespace"
 	"terraform-provider-snapcd/internal/provider/namespace_input"
+	"terraform-provider-snapcd/internal/provider/output"
 	"terraform-provider-snapcd/internal/provider/policies"
 	"terraform-provider-snapcd/internal/provider/role_assignments"
 	"terraform-provider-snapcd/internal/provider/runner"
@@ -521,6 +521,8 @@ func (p *snapcdProvider) Resources(_ context.Context) []func() resource.Resource
 		runner.SourceRefresherPreselectionResource,
 		module.DependsOnModuleResource,
 
+		identity.ServicePrincipalResource,
+		identity.ServicePrincipalFederatedCredentialResource,
 		identity.GroupResource,
 		identity.GroupMemberResource,
 
