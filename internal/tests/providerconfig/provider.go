@@ -41,6 +41,28 @@ provider "snapcd" {
 `, url, insecureSkipVerify, clientID, clientSecret, organizationID)
 }
 
+// FederatedProviderConfig authenticates with a federated token file instead of a client secret.
+// The default client is the debug Service Principal whose Federated Credential trusts the
+// Server itself as issuer.
+func FederatedProviderConfig(tokenFile string) string {
+	url := getEnvOrDefault("SNAPCD_URL", "https://localhost:20002")
+	insecureSkipVerify := getEnvOrDefault("SNAPCD_INSECURE_SKIP_VERIFY", "true")
+	clientID := getEnvOrDefault("SNAPCD_FEDERATED_CLIENT_ID", "debugFederatedRunner")
+	organizationID := getEnvOrDefault("SNAPCD_ORGANIZATION_ID", "10000000-0000-0000-0000-000000000000")
+
+	return fmt.Sprintf(`
+provider "snapcd" {
+	url                           = %q
+	insecure_skip_verify          = %s
+	health_check_interval_seconds = 5
+	health_check_timeout_seconds  = 20
+	client_id                     = %q
+	federated_token_file          = %q
+	organization_id               = %q
+}
+`, url, insecureSkipVerify, clientID, tokenFile, organizationID)
+}
+
 var (
 	TestAccProtoV6ProviderFactories = map[string]func() (tfprotov6.ProviderServer, error){
 		"snapcd": providerserver.NewProtocol6WithError(provider.New("test")()),

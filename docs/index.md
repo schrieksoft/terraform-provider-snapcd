@@ -39,9 +39,10 @@ provider "snapcd" {
 
 ### Optional
 
-- `access_token` (String) Access token for the SnapCd API. Either this or 'client_id'/'client_secret' must be set. Can also be set via the SNAPCD_ACCESS_TOKEN environment variable.
+- `access_token` (String) Access token for the SnapCd API. Either this, or 'client_id' with 'client_secret' or 'federated_token_file', must be set. Can also be set via the SNAPCD_ACCESS_TOKEN environment variable.
 - `client_id` (String) Client ID for a Service Principal to authenticate API calls with. Either this or 'access_token' must be set. Can also be set via the SNAPCD_CLIENT_ID environment variable.
 - `client_secret` (String) Client Secret for a Service Principal to authenticate API calls with. Either this or 'access_token' must be set. Can also be set via the SNAPCD_CLIENT_SECRET environment variable.
+- `federated_token_file` (String) Path to a file holding a token that matches a Federated Credential of the Service Principal named by 'client_id', for example a projected Kubernetes ServiceAccount token. Used when 'client_secret' is not set. Can also be set via the SNAPCD_FEDERATED_TOKEN_FILE environment variable.
 - `health_check_interval_seconds` (Number) Number of seconds to wait inbetween polling the /health endpoint of the API. Defaults to 10 seconds. Can also be set via the SNAPCD_HEALTH_CHECK_INTERVAL_SECONDS environment variable.
 - `health_check_timeout_seconds` (Number) Number of seconds during which to continuously poll /health endpoint before timing out. Defaults to 60 seconds. Can also be set via the SNAPCD_HEALTH_CHECK_TIMEOUT_SECONDS environment variable.
 - `hold_modules` (Boolean) Hold the Modules this run creates or changes, and every Module in the Namespaces and Stacks it changes, so that none of their jobs start until the run has finished writing. The hold is kept alive by a heartbeat while the provider runs and lapses on its own shortly after it exits, so parallel applies touching the same Modules keep it alive together. Defaults to true. Can also be set via the SNAPCD_HOLD_MODULES environment variable.

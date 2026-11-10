@@ -10,7 +10,9 @@ import (
 	"io"
 	"net/http"
 	"net/url"
+	"os"
 	"strconv"
+	"strings"
 	"sync"
 	"time"
 )
@@ -43,12 +45,16 @@ var (
 )
 
 // Initialize bearer token once and reuse
-func CreateClient(url string, organizationId string, insecure_skip_verify bool, healthCheckIntervalSeconds int, healthCheckTimeoutSeconds int, accessToken string, clientId string, clientSecret string, moduleHold ModuleHoldSettings) (*Client, error) {
+func CreateClient(url string, organizationId string, insecure_skip_verify bool, healthCheckIntervalSeconds int, healthCheckTimeoutSeconds int, accessToken string, clientId string, clientSecret string, federatedTokenFile string, moduleHold ModuleHoldSettings) (*Client, error) {
 
 	if accessToken == "" {
-		tokenResp, err := getAccessToken(url, organizationId, clientId, clientSecret, insecure_skip_verify)
+		credential, err := clientCredential(clientSecret, federatedTokenFile)
 		if err != nil {
-			return nil, fmt.Errorf("failed to get access token: %v", err.Error)
+			return nil, err
+		}
+		tokenResp, httpErr := getAccessToken(url, organizationId, clientId, credential, insecure_skip_verify)
+		if httpErr != nil {
+			return nil, fmt.Errorf("failed to get access token: %v", httpErr.Error)
 		}
 		accessToken = tokenResp.AccessToken
 	}
@@ -77,7 +83,31 @@ type TokenResponse struct {
 	ExpiresIn   int    `json:"expires_in"`
 }
 
-func getAccessToken(serverUrl string, organinzationId string, clientId string, clientSecret string, insecureSkipVerify bool) (*TokenResponse, *HttpError) {
+// clientCredential returns the form fields that prove the Service Principal's identity: the
+// client secret when one is set, otherwise a federated token. The file is read at call time
+// because the platform that issues the token replaces it as it expires.
+func clientCredential(clientSecret string, federatedTokenFile string) (url.Values, error) {
+	data := url.Values{}
+	if clientSecret != "" || federatedTokenFile == "" {
+		data.Set("client_secret", clientSecret)
+		return data, nil
+	}
+
+	content, err := os.ReadFile(federatedTokenFile)
+	if err != nil {
+		return nil, fmt.Errorf("failed to read federated token file %s: %v", federatedTokenFile, err)
+	}
+	assertion := strings.TrimSpace(string(content))
+	if assertion == "" {
+		return nil, fmt.Errorf("federated token file %s is empty", federatedTokenFile)
+	}
+
+	data.Set("snapcd_federated_assertion", assertion)
+	data.Set("snapcd_federated_assertion_type", "urn:ietf:params:oauth:client-assertion-type:jwt-bearer")
+	return data, nil
+}
+
+func getAccessToken(serverUrl string, organinzationId string, clientId string, credential url.Values, insecureSkipVerify bool) (*TokenResponse, *HttpError) {
 	tokenURL := fmt.Sprintf("%s/connect/token", serverUrl)
 
 	// Prepare form data
@@ -85,7 +115,9 @@ func getAccessToken(serverUrl string, organinzationId string, clientId string, c
 	data.Set("grant_type", "client_credentials")
 	data.Set("scope", "snapcd_scope")
 	data.Set("client_id", organinzationId+":"+clientId)
-	data.Set("client_secret", clientSecret)
+	for key, values := range credential {
+		data[key] = values
+	}
 
 	// Create an HTTP client with a timeout and TLS configuration
 	tr := &http.Transport{

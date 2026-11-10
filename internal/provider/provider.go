@@ -71,6 +71,7 @@ type snapcdProviderModel struct {
 	AccessToken                         types.String `tfsdk:"access_token"`
 	ClientId                            types.String `tfsdk:"client_id"`
 	ClientSecret                        types.String `tfsdk:"client_secret"`
+	FederatedTokenFile                  types.String `tfsdk:"federated_token_file"`
 	HoldModules                         types.Bool   `tfsdk:"hold_modules"`
 	HoldModulesHeartbeatIntervalSeconds types.Int64  `tfsdk:"hold_modules_heartbeat_interval_seconds"`
 	HoldModulesHeartbeatBufferSeconds   types.Int64  `tfsdk:"hold_modules_heartbeat_buffer_seconds"`
@@ -96,7 +97,7 @@ func (p *snapcdProvider) Schema(_ context.Context, _ provider.SchemaRequest, res
 				Optional:    true,
 			},
 			"access_token": schema.StringAttribute{
-				Description: "Access token for the SnapCd API. Either this or 'client_id'/'client_secret' must be set. Can also be set via the SNAPCD_ACCESS_TOKEN environment variable.",
+				Description: "Access token for the SnapCd API. Either this, or 'client_id' with 'client_secret' or 'federated_token_file', must be set. Can also be set via the SNAPCD_ACCESS_TOKEN environment variable.",
 				Optional:    true,
 			},
 			"client_id": schema.StringAttribute{
@@ -105,6 +106,10 @@ func (p *snapcdProvider) Schema(_ context.Context, _ provider.SchemaRequest, res
 			},
 			"client_secret": schema.StringAttribute{
 				Description: "Client Secret for a Service Principal to authenticate API calls with. Either this or 'access_token' must be set. Can also be set via the SNAPCD_CLIENT_SECRET environment variable.",
+				Optional:    true,
+			},
+			"federated_token_file": schema.StringAttribute{
+				Description: "Path to a file holding a token that matches a Federated Credential of the Service Principal named by 'client_id', for example a projected Kubernetes ServiceAccount token. Used when 'client_secret' is not set. Can also be set via the SNAPCD_FEDERATED_TOKEN_FILE environment variable.",
 				Optional:    true,
 			},
 			"insecure_skip_verify": schema.BoolAttribute{
@@ -276,15 +281,34 @@ func (p *snapcdProvider) Configure(ctx context.Context, req provider.ConfigureRe
 	}
 
 	//////
+	// federated_token_file
+	//////
+
+	if config.FederatedTokenFile.IsUnknown() {
+		resp.Diagnostics.AddAttributeError(
+			path.Root("federated_token_file"),
+			"Unknown Snapcd FederatedTokenFile",
+			"The provider cannot create the Snapcd API client as there is an unknown configuration value for the Snapcd FederatedTokenFile. "+
+				"Either target apply the source of the value first, set the value statically in the configuration, or use the SNAPCD_FEDERATED_TOKEN_FILE environment variable.",
+		)
+	}
+
+	federated_token_file := os.Getenv("SNAPCD_FEDERATED_TOKEN_FILE")
+
+	if !config.FederatedTokenFile.IsNull() {
+		federated_token_file = config.FederatedTokenFile.ValueString()
+	}
+
+	//////
 	// null checks
 	//////
 
-	if access_token == "" && (client_id == "" || client_secret == "") {
+	if access_token == "" && (client_id == "" || (client_secret == "" && federated_token_file == "")) {
 		resp.Diagnostics.AddAttributeError(
 			path.Root("access_token"),
 			"Missing Snapcd API authentication credentials",
-			"The provider cannot create the Snapcd API client as there is a missing or empty value for both access_token and client_id / client_secret."+
-				"Either of these must be set statically in the configuration, or using SNAPCD_ACCESS_TOKEN, or the combination of SNAPCD_CLIENT_ID/SNAPCD_CLIENT_SECRET. If either is already set, ensure the value is not empty.",
+			"The provider cannot create the Snapcd API client as there is a missing or empty value for both access_token and client_id with client_secret or federated_token_file. "+
+				"Either of these must be set statically in the configuration, or using SNAPCD_ACCESS_TOKEN, or SNAPCD_CLIENT_ID with SNAPCD_CLIENT_SECRET or SNAPCD_FEDERATED_TOKEN_FILE. If either is already set, ensure the value is not empty.",
 		)
 	}
 
@@ -428,11 +452,12 @@ func (p *snapcdProvider) Configure(ctx context.Context, req provider.ConfigureRe
 	ctx = tflog.SetField(ctx, "access_token", access_token)
 	ctx = tflog.SetField(ctx, "client_id", client_id)
 	ctx = tflog.SetField(ctx, "client_secret", client_secret)
+	ctx = tflog.SetField(ctx, "federated_token_file", federated_token_file)
 
 	tflog.Debug(ctx, "Creating Snapcd client")
 
 	// Create a new Snapcd client using the configuration values
-	client, err := snapcd.CreateClient(url, organization_id, insecure_skip_verify, health_check_interval_seconds, health_check_timeout_seconds, access_token, client_id, client_secret, snapcd.ModuleHoldSettings{
+	client, err := snapcd.CreateClient(url, organization_id, insecure_skip_verify, health_check_interval_seconds, health_check_timeout_seconds, access_token, client_id, client_secret, federated_token_file, snapcd.ModuleHoldSettings{
 		Enabled:                  hold_modules,
 		HeartbeatIntervalSeconds: hold_modules_heartbeat_interval_seconds,
 		HeartbeatBufferSeconds:   hold_modules_heartbeat_buffer_seconds,
