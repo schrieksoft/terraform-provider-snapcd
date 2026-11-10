@@ -1836,6 +1836,37 @@ const (
 	ServicePrincipalCreateDto_IsDisabled   = "Indicates whether the Service Principal is disabled."
 	ServicePrincipalCreateDto_Scopes       = "OAuth scopes granted to tokens issued for this Service Principal. Defaults to `snapcd_scope`."
 
+	// ServicePrincipalFederatedCredentialCreateDto
+	ServicePrincipalFederatedCredentialCreateDto_Audience           = "Audience (`aud`) the presented token must carry. Normally `snapcd`."
+	ServicePrincipalFederatedCredentialCreateDto_IsDisabled         = "Indicates whether the Federated Credential is disabled. A disabled credential is not accepted."
+	ServicePrincipalFederatedCredentialCreateDto_Issuer             = "Issuer the presented token must come from, and where its signing keys are published. An absolute https URL, for example a Kubernetes cluster's OIDC issuer."
+	ServicePrincipalFederatedCredentialCreateDto_Name               = "Name of the Federated Credential. Must be unique within the Service Principal."
+	ServicePrincipalFederatedCredentialCreateDto_ServicePrincipalId = "ID of the Service Principal this credential authenticates as."
+	ServicePrincipalFederatedCredentialCreateDto_Subject            = "Subject (`sub`) the presented token must carry. For a Kubernetes ServiceAccount this is `system:serviceaccount:{namespace}:{name}`."
+
+	// ServicePrincipalFederatedCredentialMetadataReadDto
+	ServicePrincipalFederatedCredentialMetadataReadDto_Id                 = "Unique ID of the Federated Credential."
+	ServicePrincipalFederatedCredentialMetadataReadDto_Name               = "Name of the Federated Credential."
+	ServicePrincipalFederatedCredentialMetadataReadDto_ServicePrincipalId = "ID of the Service Principal this credential authenticates as."
+
+	// ServicePrincipalFederatedCredentialReadDto
+	ServicePrincipalFederatedCredentialReadDto_Audience           = "Audience (`aud`) the presented token must carry. Normally `snapcd`."
+	ServicePrincipalFederatedCredentialReadDto_Id                 = "Unique ID of the Federated Credential."
+	ServicePrincipalFederatedCredentialReadDto_IsDisabled         = "Indicates whether the Federated Credential is disabled. A disabled credential is not accepted."
+	ServicePrincipalFederatedCredentialReadDto_Issuer             = "Issuer the presented token must come from, and where its signing keys are published. An absolute https URL, for example a Kubernetes cluster's OIDC issuer."
+	ServicePrincipalFederatedCredentialReadDto_Name               = "Name of the Federated Credential. Must be unique within the Service Principal."
+	ServicePrincipalFederatedCredentialReadDto_ServicePrincipalId = "ID of the Service Principal this credential authenticates as."
+	ServicePrincipalFederatedCredentialReadDto_Subject            = "Subject (`sub`) the presented token must carry. For a Kubernetes ServiceAccount this is `system:serviceaccount:{namespace}:{name}`."
+
+	// ServicePrincipalFederatedCredentialUpdateDto
+	ServicePrincipalFederatedCredentialUpdateDto_Audience           = "Audience (`aud`) the presented token must carry. Normally `snapcd`."
+	ServicePrincipalFederatedCredentialUpdateDto_Id                 = "Unique ID of the Federated Credential."
+	ServicePrincipalFederatedCredentialUpdateDto_IsDisabled         = "Indicates whether the Federated Credential is disabled. A disabled credential is not accepted."
+	ServicePrincipalFederatedCredentialUpdateDto_Issuer             = "Issuer the presented token must come from, and where its signing keys are published. An absolute https URL, for example a Kubernetes cluster's OIDC issuer."
+	ServicePrincipalFederatedCredentialUpdateDto_Name               = "Name of the Federated Credential. Must be unique within the Service Principal."
+	ServicePrincipalFederatedCredentialUpdateDto_ServicePrincipalId = "ID of the Service Principal this credential authenticates as."
+	ServicePrincipalFederatedCredentialUpdateDto_Subject            = "Subject (`sub`) the presented token must carry. For a Kubernetes ServiceAccount this is `system:serviceaccount:{namespace}:{name}`."
+
 	// ServicePrincipalMetadataReadDto
 	ServicePrincipalMetadataReadDto_ClientId    = "Client ID of the Service Principal, without the organization prefix it is stored with."
 	ServicePrincipalMetadataReadDto_DisplayName = "Display name of the Service Principal."
@@ -1849,11 +1880,12 @@ const (
 	ServicePrincipalReadDto_Scopes       = "OAuth scopes granted to tokens issued for this Service Principal. Defaults to `snapcd_scope`."
 
 	// ServicePrincipalUpdateDto
-	ServicePrincipalUpdateDto_ClientId     = "Client Id of the Service Principal. This value must be unique."
-	ServicePrincipalUpdateDto_ClientSecret = "Client Secret credential. Write-only: supplied on create or update, never returned on reads."
-	ServicePrincipalUpdateDto_Id           = "Unique ID of the Service Principal."
-	ServicePrincipalUpdateDto_IsDisabled   = "Indicates whether the Service Principal is disabled."
-	ServicePrincipalUpdateDto_Scopes       = "OAuth scopes granted to tokens issued for this Service Principal. Defaults to `snapcd_scope`."
+	ServicePrincipalUpdateDto_ClientId           = "Client Id of the Service Principal. This value must be unique."
+	ServicePrincipalUpdateDto_ClientSecret       = "Client Secret credential. Write-only: supplied on create or update, never returned on reads."
+	ServicePrincipalUpdateDto_Id                 = "Unique ID of the Service Principal."
+	ServicePrincipalUpdateDto_IsDisabled         = "Indicates whether the Service Principal is disabled."
+	ServicePrincipalUpdateDto_RemoveClientSecret = "When true, clears the stored Client Secret, leaving the Service Principal able to authenticate only through a Federated Credential. An empty `client_secret` on its own leaves the stored secret in place, so removal has to be asked for."
+	ServicePrincipalUpdateDto_Scopes             = "OAuth scopes granted to tokens issued for this Service Principal. Defaults to `snapcd_scope`."
 
 	// SourceChangedDto
 	SourceChangedDto_SourceRevision = "Revision (branch, tag or commit) that changed."

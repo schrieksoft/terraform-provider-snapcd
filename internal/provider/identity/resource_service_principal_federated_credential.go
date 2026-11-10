@@ -24,9 +24,6 @@ var servicePrincipalFederatedCredentialDefaultError = "snapcd_service_principal_
 
 var servicePrincipalFederatedCredentialEndpoint = "/ServicePrincipalFederatedCredential"
 
-// Attribute descriptions are inline rather than from openapidocs: the generated constants come
-// from the vendored OpenAPI document, which carries this entity only once the server release
-// that adds it is pinned in versions.env. Replace them with the constants after `make sync`.
 var _ resource.Resource = (*servicePrincipalFederatedCredentialResource)(nil)
 
 func ServicePrincipalFederatedCredentialResource() resource.Resource {
@@ -77,53 +74,53 @@ func (r *servicePrincipalFederatedCredentialResource) Schema(ctx context.Context
 
 A workload presenting a token from the given issuer, carrying the given subject and audience, authenticates as the Service Principal. No client secret is involved, so nothing secret appears in this configuration or in Terraform state.
 
-The Server must be able to reach the issuer to fetch its signing keys. For a Kubernetes ServiceAccount the subject is ` + "`system:serviceaccount:{namespace}:{name}`" + `.` + "\n\n## Required permissions\n\n" + openapidocs.ResourcePermissions["ServicePrincipal"],
+The Server must be able to reach the issuer to fetch its signing keys. For a Kubernetes ServiceAccount the subject is ` + "`system:serviceaccount:{namespace}:{name}`" + `.` + "\n\n## Required permissions\n\n" + openapidocs.ResourcePermissions["ServicePrincipalFederatedCredential"],
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Computed: true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
 				},
-				Description: "Unique ID of the Federated Credential.",
+				Description: openapidocs.ServicePrincipalFederatedCredentialReadDto_Id,
 			},
 			"service_principal_id": schema.StringAttribute{
 				Required:    true,
-				Description: "ID of the Service Principal this credential authenticates as.",
+				Description: openapidocs.ServicePrincipalFederatedCredentialCreateDto_ServicePrincipalId,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.RequiresReplace(),
 				},
 			},
 			"name": schema.StringAttribute{
 				Required:    true,
-				Description: "Name of the Federated Credential. Must be unique within the Service Principal.",
+				Description: openapidocs.ServicePrincipalFederatedCredentialCreateDto_Name,
 				Validators: []validator.String{
 					validators.NotBlank(),
 				},
 			},
 			"issuer": schema.StringAttribute{
 				Required:    true,
-				Description: "Issuer the presented token must come from, and where its signing keys are published. An absolute https URL, for example a Kubernetes cluster's OIDC issuer.",
+				Description: openapidocs.ServicePrincipalFederatedCredentialCreateDto_Issuer,
 				Validators: []validator.String{
 					validators.NotBlank(),
 				},
 			},
 			"subject": schema.StringAttribute{
 				Required:    true,
-				Description: "Subject (`sub`) the presented token must carry. For a Kubernetes ServiceAccount this is `system:serviceaccount:{namespace}:{name}`.",
+				Description: openapidocs.ServicePrincipalFederatedCredentialCreateDto_Subject,
 				Validators: []validator.String{
 					validators.NotBlank(),
 				},
 			},
 			"audience": schema.StringAttribute{
 				Required:    true,
-				Description: "Audience (`aud`) the presented token must carry. Normally `snapcd`.",
+				Description: openapidocs.ServicePrincipalFederatedCredentialCreateDto_Audience,
 				Validators: []validator.String{
 					validators.NotBlank(),
 				},
 			},
 			"is_disabled": schema.BoolAttribute{
 				Optional:    true,
-				Description: "Indicates whether the Federated Credential is disabled. A disabled credential is not accepted.",
+				Description: openapidocs.ServicePrincipalFederatedCredentialCreateDto_IsDisabled,
 			},
 		},
 	}
