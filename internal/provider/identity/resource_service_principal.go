@@ -252,6 +252,11 @@ func (r *servicePrincipalResource) Delete(ctx context.Context, req resource.Dele
 func (r *servicePrincipalResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
 	var data servicePrincipalResourceModel
 
+	// The metadata endpoint returns neither scopes nor is_disabled, so they are set to typed
+	// nulls here. A zero-value types.List carries no element type and the state rejects it.
+	data.Scopes = types.ListNull(types.StringType)
+	data.IsDisabled = types.BoolNull()
+
 	result, httpError := r.client.Get(fmt.Sprintf("%s/Metadata/%s", servicePrincipalEndpoint, req.ID))
 	var err error
 	if httpError != nil {
