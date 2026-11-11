@@ -4,8 +4,10 @@ package provider
 
 import (
 	"context"
+	"fmt"
 	"os"
 	"strconv"
+	"strings"
 
 	snapcd "terraform-provider-snapcd/client"
 	"terraform-provider-snapcd/internal/provider/agent"
@@ -86,7 +88,7 @@ func (p *snapcdProvider) Metadata(_ context.Context, _ provider.MetadataRequest,
 // Schema defines the provider-level schema for configuration data.
 func (p *snapcdProvider) Schema(_ context.Context, _ provider.SchemaRequest, resp *provider.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		Description: "Interact with snapcd.",
+		Description: "Interact with snapcd.\n\nThe provider authenticates with the first of these that is set, in the configuration or the environment: `access_token`; `client_id` with `client_secret`; `client_id` with `federated_token_file`. When none is set, it asks the snapcd CLI for the signed-in user's token, as the azurerm provider asks the Azure CLI. Run `snapcd login` first. The Server URL, the organization and `insecure_skip_verify` then also come from the CLI context, unless they are set. `SNAPCD_CLI_CONTEXT` picks a context other than the current one, and `SNAPCD_CLI_PATH` names the CLI binary when it is not `snapcd` on the PATH.",
 		Attributes: map[string]schema.Attribute{
 			"url": schema.StringAttribute{
 				Description: "URL where the Snapcd API is served. Defaults to https://snapcd.io. Can also be set via the SNAPCD_URL environment variable.",
@@ -165,6 +167,7 @@ func (p *snapcdProvider) Configure(ctx context.Context, req provider.ConfigureRe
 	}
 
 	insecure_skip_verify := false
+	insecure_skip_verify_set := !config.InsecureSkipVerify.IsNull() || os.Getenv("SNAPCD_INSECURE_SKIP_VERIFY") != ""
 	if !config.InsecureSkipVerify.IsNull() {
 		insecure_skip_verify = config.InsecureSkipVerify.ValueBool()
 	} else {
@@ -185,6 +188,7 @@ func (p *snapcdProvider) Configure(ctx context.Context, req provider.ConfigureRe
 	}
 
 	url := "https://snapcd.io"
+	url_set := !config.Url.IsNull() || os.Getenv("SNAPCD_URL") != ""
 
 	if envUrl := os.Getenv("SNAPCD_URL"); envUrl != "" {
 		url = envUrl
@@ -211,16 +215,6 @@ func (p *snapcdProvider) Configure(ctx context.Context, req provider.ConfigureRe
 
 	if !config.OrganizationId.IsNull() {
 		organization_id = config.OrganizationId.ValueString()
-	}
-
-	if organization_id == "" {
-		resp.Diagnostics.AddAttributeError(
-			path.Root("organization_id"),
-			"Missing Snapcd Organization ID",
-			"The provider cannot create the Snapcd API client as there is a missing or empty value for the Snapcd Organization ID. "+
-				"Set the organization_id value in the configuration or use the SNAPCD_ORGANIZATION_ID environment variable. "+
-				"If either is already set, ensure the value is not empty.",
-		)
 	}
 
 	//////
@@ -303,12 +297,57 @@ func (p *snapcdProvider) Configure(ctx context.Context, req provider.ConfigureRe
 	// null checks
 	//////
 
-	if access_token == "" && (client_id == "" || (client_secret == "" && federated_token_file == "")) {
+	if access_token == "" && client_id != "" && client_secret == "" && federated_token_file == "" {
 		resp.Diagnostics.AddAttributeError(
-			path.Root("access_token"),
+			path.Root("client_id"),
 			"Missing Snapcd API authentication credentials",
-			"The provider cannot create the Snapcd API client as there is a missing or empty value for both access_token and client_id with client_secret or federated_token_file. "+
-				"Either of these must be set statically in the configuration, or using SNAPCD_ACCESS_TOKEN, or SNAPCD_CLIENT_ID with SNAPCD_CLIENT_SECRET or SNAPCD_FEDERATED_TOKEN_FILE. If either is already set, ensure the value is not empty.",
+			"The provider cannot create the Snapcd API client as client_id is set without client_secret or federated_token_file. "+
+				"Set one of them in the configuration, or use SNAPCD_CLIENT_SECRET or SNAPCD_FEDERATED_TOKEN_FILE. If either is already set, ensure the value is not empty.",
+		)
+	}
+
+	//////
+	// snapcd CLI: used when no credentials are configured, as the azurerm provider uses the Azure CLI
+	//////
+
+	var cli_token *snapcd.CliToken
+	cli_failed := false
+	if access_token == "" && client_id == "" {
+		token, err := snapcd.GetCliToken(ctx)
+		if err != nil {
+			cli_failed = true
+			resp.Diagnostics.AddAttributeError(
+				path.Root("access_token"),
+				"Missing Snapcd API authentication credentials",
+				"The provider cannot create the Snapcd API client: "+err.Error(),
+			)
+		} else {
+			cli_token = token
+			if !url_set {
+				url = token.Url
+			} else if strings.TrimSuffix(url, "/") != strings.TrimSuffix(token.Url, "/") {
+				resp.Diagnostics.AddAttributeWarning(
+					path.Root("url"),
+					"Snapcd URL differs from the snapcd CLI context",
+					fmt.Sprintf("The provider calls %s with a token the snapcd CLI issued for %s. Switch the CLI context, or remove url from the configuration.", url, token.Url),
+				)
+			}
+			if organization_id == "" {
+				organization_id = token.OrganizationId
+			}
+			if !insecure_skip_verify_set {
+				insecure_skip_verify = token.InsecureSkipVerify
+			}
+		}
+	}
+
+	if organization_id == "" && !cli_failed {
+		resp.Diagnostics.AddAttributeError(
+			path.Root("organization_id"),
+			"Missing Snapcd Organization ID",
+			"The provider cannot create the Snapcd API client as there is a missing or empty value for the Snapcd Organization ID. "+
+				"Set the organization_id value in the configuration or use the SNAPCD_ORGANIZATION_ID environment variable. "+
+				"If either is already set, ensure the value is not empty.",
 		)
 	}
 
@@ -457,7 +496,7 @@ func (p *snapcdProvider) Configure(ctx context.Context, req provider.ConfigureRe
 	tflog.Debug(ctx, "Creating Snapcd client")
 
 	// Create a new Snapcd client using the configuration values
-	client, err := snapcd.CreateClient(url, organization_id, insecure_skip_verify, health_check_interval_seconds, health_check_timeout_seconds, access_token, client_id, client_secret, federated_token_file, snapcd.ModuleHoldSettings{
+	client, err := snapcd.CreateClient(url, organization_id, insecure_skip_verify, health_check_interval_seconds, health_check_timeout_seconds, access_token, client_id, client_secret, federated_token_file, cli_token, snapcd.ModuleHoldSettings{
 		Enabled:                  hold_modules,
 		HeartbeatIntervalSeconds: hold_modules_heartbeat_interval_seconds,
 		HeartbeatBufferSeconds:   hold_modules_heartbeat_buffer_seconds,
