@@ -17,6 +17,7 @@ on:
       - '.prettierrc'
       - 'tools/**'
       - 'helper.py'
+      - 'scripts/release-notes.sh'
       - 'README.md'
       - 'LICENSE'
 
@@ -30,7 +31,27 @@ permissions:
   contents: write
 
 jobs:
+  # `+norelease` is ours, not GitVersion's: none of the `+semver:` directives means "do not
+  # publish". It is read from the merge commit, which carries the PR description.
+  norelease:
+    runs-on: ubuntu-24.04
+    outputs:
+      skip: ${{ steps.check.outputs.skip }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check for +norelease
+        id: check
+        run: |
+          if git log -1 --format=%B | grep -qiE '\+norelease\b'; then
+            echo "Commit carries +norelease: this commit will not publish a release."
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "skip=false" >> "$GITHUB_OUTPUT"
+          fi
+
   goreleaser:
+    needs: norelease
+    if: needs.norelease.outputs.skip != 'true'
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
@@ -86,3 +107,17 @@ jobs:
           # GitHub sets the GITHUB_TOKEN secret automatically.
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GPG_FINGERPRINT: ${{ steps.import_gpg.outputs.fingerprint }}
+
+      - name: Release notes
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # GoReleaser creates the release with no body. The notes come from the
+          # <!-- release-notes --> block in the PR description, which is also the merge
+          # commit's message; without a block, the commit subject is the note.
+          ./scripts/release-notes.sh > "$RUNNER_TEMP/release-notes.md"
+          echo "--- release notes ---"
+          cat "$RUNNER_TEMP/release-notes.md"
+          gh release edit "v${{ steps.gitversion.outputs.SemVer }}" \
+            --repo "$GITHUB_REPOSITORY" \
+            --notes-file "$RUNNER_TEMP/release-notes.md"
