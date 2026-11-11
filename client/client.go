@@ -35,6 +35,7 @@ type Client struct {
 	HealthCheckIntervalSeconds int
 	HealthCheckTimeoutSeconds  int
 	holder                     *moduleHolder
+	cli                        *cliTokenSource
 }
 
 var (
@@ -45,7 +46,11 @@ var (
 )
 
 // Initialize bearer token once and reuse
-func CreateClient(url string, organizationId string, insecure_skip_verify bool, healthCheckIntervalSeconds int, healthCheckTimeoutSeconds int, accessToken string, clientId string, clientSecret string, federatedTokenFile string, moduleHold ModuleHoldSettings) (*Client, error) {
+func CreateClient(url string, organizationId string, insecure_skip_verify bool, healthCheckIntervalSeconds int, healthCheckTimeoutSeconds int, accessToken string, clientId string, clientSecret string, federatedTokenFile string, cliToken *CliToken, moduleHold ModuleHoldSettings) (*Client, error) {
+
+	if cliToken != nil {
+		accessToken = cliToken.AccessToken
+	}
 
 	if accessToken == "" {
 		credential, err := clientCredential(clientSecret, federatedTokenFile)
@@ -66,6 +71,9 @@ func CreateClient(url string, organizationId string, insecure_skip_verify bool, 
 		HealthCheckIntervalSeconds: healthCheckIntervalSeconds,
 		HealthCheckTimeoutSeconds:  healthCheckTimeoutSeconds,
 		AccessToken:                accessToken,
+	}
+	if cliToken != nil {
+		client.cli = newCliTokenSource(cliToken)
 	}
 	client.holder = newModuleHolder(client, moduleHold)
 
@@ -225,7 +233,11 @@ Request:
 		return nil, &HttpError{StatusCode: Status441EntityNotFound, Error: errors.New("Status441EntityNotFound")}
 	}
 
-	req.Header.Set("Authorization", "Bearer "+client.AccessToken)
+	token, tokenErr := client.bearerToken()
+	if tokenErr != nil {
+		return nil, &HttpError{StatusCode: 0, Error: tokenErr}
+	}
+	req.Header.Set("Authorization", "Bearer "+token)
 	req.Header.Set("Content-Type", "application/json")
 
 	tr := &http.Transport{

@@ -18,3 +18,8 @@ provider "snapcd" {
 #   access_token    = var.access_token
 #   organization_id = var.organization_id
 # }
+
+# Or, signed in with the snapcd CLI (`snapcd login`), with no credentials at all. The Server URL
+# and the organization come from the CLI context:
+#
+# provider "snapcd" {}
